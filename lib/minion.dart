@@ -64,8 +64,17 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           MaterialButton(
-            onPressed: () {
-              print("TODO give me a name me minion" );
+
+            onPressed: () async {
+              print("TODO give me group info" );
+              WifiP2PGroupInfo? info = await _flutterP2pConnectionPlugin.groupInfo();
+
+              const snackBar = SnackBar(
+                content: Text('Yay! A SnackBar!'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+              print(info.toString());
             },
             child: Text("Minion mode"),
           ),
