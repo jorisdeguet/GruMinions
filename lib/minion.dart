@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
+import 'package:mac_address/mac_address.dart';
+//import 'package:get_mac_address/get_mac_address.dart';
 
 class MinionPage extends StatefulWidget {
   MyHomePage(){}
@@ -18,6 +20,8 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
 
   StreamSubscription<WifiP2PInfo>? _streamWifiInfo;
   StreamSubscription<List<DiscoveredPeers>>? _streamPeers;
+
+  String _macAddress = "";
 
   @override
   void initState() {
@@ -52,6 +56,13 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     _streamPeers = _flutterP2pConnectionPlugin.streamPeers().listen((event) {
       // Handle discovered peers
     });
+    try {
+      _macAddress = await GetMac.macAddress ?? 'Unknown mac address';
+      print("MAC address is " + _macAddress);
+    } on PlatformException {
+      _macAddress = 'Failed to get Device MAC Address.';
+    }
+    setState(() {});
   }
 
 
@@ -87,9 +98,12 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
           //   },
           //   child: Text("Minion mode"),
           // ),
-          Text(
-            'yo Minion',
-            style: Theme.of(context).textTheme.headlineMedium,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Minion @ ' + _macAddress,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
           ),
         ],
       ),
