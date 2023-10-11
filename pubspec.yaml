@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_p2p_connection: ^2.0.1
   flutter_blue_plus: ^1.16.3
+  loading_indicator: ^3.1.1
 
 dev_dependencies:
   flutter_test:

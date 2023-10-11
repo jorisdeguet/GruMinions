@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:vieux_pixels/boss.dart';
@@ -15,9 +14,9 @@ class MyHomePage extends StatefulWidget {
 
 // https://pub.dev/packages/flutter_p2p_connection
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   void initState() {
+    super.initState();
     FlutterP2pConnection().checkStoragePermission();
     FlutterP2pConnection().askStoragePermission();
     FlutterP2pConnection().checkLocationPermission();
@@ -30,7 +29,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -51,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  BossPage()),
+                  MaterialPageRoute(builder: (context) => BossPage()),
                 );
               },
               child: Text("Boss mode"),
@@ -60,12 +58,11 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  MinionPage()),
+                  MaterialPageRoute(builder: (context) => MinionPage()),
                 );
               },
               child: Text("Minion mode"),
             ),
-
           ],
         ),
       ),
