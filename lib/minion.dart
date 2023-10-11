@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 
 class MinionPage extends StatefulWidget {
+  const MinionPage({super.key});
+
   @override
   State<MinionPage> createState() => _MinionPageState();
 }
@@ -13,7 +15,7 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver {
   final _flutterP2pConnectionPlugin = FlutterP2pConnection();
 
   // les autres appareils
-  List<DiscoveredPeers> peers = [];
+  DiscoveredPeers? boss;
 
   WifiP2PInfo? wifiP2PInfo;
 
@@ -50,11 +52,22 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver {
     await _flutterP2pConnectionPlugin.initialize();
     await _flutterP2pConnectionPlugin.register();
     _flutterP2pConnectionPlugin.discover();
-    _streamPeers = _flutterP2pConnectionPlugin.streamPeers().listen((event) {
-      this.peers = event;
-      print(event);
-      setState(() {});
-      print(peers);
+    _streamPeers = _flutterP2pConnectionPlugin
+        .streamPeers()
+        .listen((List<DiscoveredPeers> event) {
+      if (event.isEmpty) {
+        boss = null;
+      } else {
+        boss = event.firstWhere((DiscoveredPeers peer) => peer.isGroupOwner);
+        if (boss != null) {
+          print(boss);
+          _flutterP2pConnectionPlugin.connect(boss!.deviceAddress).then((value) {
+            print(value);
+            setState(() {});
+            connectToSocket();
+          });
+        }
+      }
     });
 
     _streamWifiInfo = _flutterP2pConnectionPlugin
@@ -87,7 +100,9 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver {
           ),
           Expanded(
             child: ListView(
-              children: this.peers.map(convert).toList(),
+              children: [
+                if (boss != null) convert(boss!),
+              ],
             ),
           ),
           Expanded(
@@ -104,20 +119,12 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver {
   }
 
   Widget convert(DiscoveredPeers e) {
-    return Container(
-      // color: Colors.red,
-      // height: 50,
-      // width: 50,
-      child: ListTile(
-        title: Text(e.deviceAddress),
-        subtitle: Text(e.deviceName + e.isGroupOwner.toString()),
-        leading: MaterialButton(
-          onPressed: () async {
-            var s = await _flutterP2pConnectionPlugin.connect(e.deviceAddress);
-            print(s);
-          },
-          child: Text("CONNECT"),
-        ),
+    return ListTile(
+      title: Text(e.deviceAddress),
+      subtitle: Text(e.deviceName + e.isGroupOwner.toString()),
+      leading: MaterialButton(
+        onPressed: () async {},
+        child: Text("CONNECT"),
       ),
     );
   }
@@ -133,7 +140,7 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver {
         // delete incomplete transfered file
         deleteOnError: true,
         // on connected to socket
-        onConnect: (address) {
+        onConnect: (String address) {
           SnackBar snackBar = const SnackBar(
             content: Text('Connecté à Gru'),
           );

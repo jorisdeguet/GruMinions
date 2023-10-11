@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:vieux_pixels/home.dart';
 
 void main() {
+  FlutterP2pConnection().checkStoragePermission();
+  FlutterP2pConnection().askStoragePermission();
+  FlutterP2pConnection().checkLocationPermission();
+  FlutterP2pConnection().askLocationPermission();
+  FlutterP2pConnection().checkLocationEnabled();
+  FlutterP2pConnection().enableLocationServices();
+  FlutterP2pConnection().checkWifiEnabled();
+  FlutterP2pConnection().enableWifiServices();
   runApp(const MyApp());
 }
 

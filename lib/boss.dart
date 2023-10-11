@@ -5,7 +5,7 @@ import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
 class BossPage extends StatefulWidget {
-  MyHomePage() {}
+  const BossPage({super.key});
 
   @override
   State<BossPage> createState() => _BossPageState();
@@ -231,7 +231,7 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver {
         receiveString: (req) async {
           print(req);
           SnackBar snackBar = SnackBar(
-            content: Text('message  ' + req.toString()),
+            content: Text('message  $req'),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);

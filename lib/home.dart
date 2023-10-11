@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:vieux_pixels/boss.dart';
 import 'package:vieux_pixels/minion.dart';
 
@@ -14,19 +13,6 @@ class MyHomePage extends StatefulWidget {
 
 // https://pub.dev/packages/flutter_p2p_connection
 class _MyHomePageState extends State<MyHomePage> {
-  @override
-  void initState() {
-    super.initState();
-    FlutterP2pConnection().checkStoragePermission();
-    FlutterP2pConnection().askStoragePermission();
-    FlutterP2pConnection().checkLocationPermission();
-    FlutterP2pConnection().askLocationPermission();
-    FlutterP2pConnection().checkLocationEnabled();
-    FlutterP2pConnection().enableLocationServices();
-    FlutterP2pConnection().checkWifiEnabled();
-    FlutterP2pConnection().enableWifiServices();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
