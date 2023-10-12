@@ -20,7 +20,17 @@ class MinionPage extends StatefulWidget {
   State<MinionPage> createState() => _MinionPageState();
 }
 
+
+enum MinionMode { config, mirror, tapelelapin }
+
+
+// https://stackoverflow.com/questions/10968951/wi-fi-direct-and-normal-wi-fi-different-mac
+
 class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
+
+  MinionMode mode = MinionMode.config;
+  String rabAdress = "";
+
 
   FlutterSoundPlayer _myPlayer = FlutterSoundPlayer();
   FlutterSoundRecorder _myRecorder = FlutterSoundRecorder();
@@ -41,8 +51,7 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
   String _macAddress = "";
 
   Color backgroundColor = Colors.white;
-
-  bool searchingForGru = true;
+  int padding = 10;
 
   bool connectedToGru = false;
 
@@ -52,17 +61,13 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     WidgetsBinding.instance.addObserver(this);
     _init();
-
-
     // camera shit
-
     _controller = CameraController(
       // Get a specific camera from the list of available cameras.
       widget.camera,
       // Define the resolution to use.
       ResolutionPreset.medium,
     );
-
     // Next, initialize the controller. This returns a Future.
     _initializeControllerFuture = _controller.initialize();
   }
@@ -121,90 +126,127 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: mainBody(),
     );
   }
 
   Widget mainBody(){
-    if (connectedToGru) {
-      return Container(
-        width: double.infinity,
-        color: backgroundColor,
-        child: GestureDetector(
-          onTap: () {
-            _flutterP2pConnectionPlugin.sendStringToSocket("Hi " +_macAddress);
-          },
-          child: Column(
+    switch (mode) {
+      case MinionMode.config:
+        {
+          return Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // Spacer(),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: frontCameraPreview(),
+              Spacer(),
+              MaterialButton(
+                onPressed: () async {
+                  print("TODO give me group info" );
+                  WifiP2PGroupInfo? info = await _flutterP2pConnectionPlugin.groupInfo();
+                  var snackBar = SnackBar(
+                    content: Text('Yay! A SnackBar! ' + (info==null? "no info":info!.toString()) ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  print(info.toString());
+                },
+                child: Text("Minion mode"),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Minion @ ' + _macAddress,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
-            ],
-          ),
-        ),
-      );
-    } else {
-      return Column(
-        //mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Spacer(),
-          MaterialButton(
-            onPressed: () async {
-              print("TODO give me group info" );
-              WifiP2PGroupInfo? info = await _flutterP2pConnectionPlugin.groupInfo();
-              var snackBar = SnackBar(
-                content: Text('Yay! A SnackBar! ' + (info==null? "no info":info!.toString()) ),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              print(info.toString());
-            },
-            child: Text("Minion mode"),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Minion @ ' + _macAddress,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Searching for Gru ... ' ,
-              style: Theme.of(context).textTheme.headlineMedium,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Searching for Gru ... ' ,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ) ,
+              Expanded(
+                child: ListView(
+                  children: this.peers.map(convert).toList(),
+                ),
+              )
+            ],
+          );
+        }
+      case MinionMode.tapelelapin:
+        {
+          String monAdresse = _macAddress.substring(2, 17).toUpperCase();
+          String rabAdresse = rabAdress.substring(2, 17).toUpperCase();
+          print("mon adresse = " + monAdresse + " adresse Lapin " + rabAdresse);
+          bool isMe = (monAdresse == rabAdresse);
+          return Column(
+            children: [
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  child: MaterialButton(
+                    color: isMe ? Colors.orange : Colors.blue,
+                    onPressed: () {
+                      //
+                      _flutterP2pConnectionPlugin.sendStringToSocket(_macAddress+"hit");
+                    },
+                    child: Text(isMe ? "Lapin" : "Taupe"),
+                  ),
+                ),
+              )
+            ],
+          );
+        }
+      case MinionMode.mirror:
+        {
+          return Container(
+            width: double.infinity,
+            color: backgroundColor,
+            child: GestureDetector(
+              onTap: () {
+                _flutterP2pConnectionPlugin.sendStringToSocket("Hi " +_macAddress);
+              },
+              onDoubleTap: () {
+                takePicture(_controller);
+              },
+              onLongPress: () {
+
+              },
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  // Spacer(),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(padding.toDouble()),
+                      child: frontCameraPreview(),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ) ,
-          Expanded(
-            child: ListView(
-              children: this.peers.map(convert).toList(),
-            ),
-          )
-        ],
-      );
+          );
+        }
+      default: {
+        return CircularProgressIndicator();
+      }
     }
   }
 
   FutureBuilder<void> frontCameraPreview() {
     return FutureBuilder<void>(
-                  future: _initializeControllerFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      // If the Future is complete, display the preview.
-                      return CameraPreview(_controller);
-                    } else {
-                      // Otherwise, display a loading indicator.
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                  },
-                );
+      future: _initializeControllerFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          // If the Future is complete, display the preview.
+          return CameraPreview(_controller);
+        } else {
+          // Otherwise, display a loading indicator.
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 
   Widget convert(DiscoveredPeers e) {
@@ -239,6 +281,7 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
           // TODO swith the whole interface mode
           print("connected to socket: $address");
           connectedToGru = true;
+          mode = MinionMode.mirror;
           setState(() {});
         },
         transferUpdate: (transfer) {
@@ -259,6 +302,7 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     }
     try {
       XFile file = await cameraController.takePicture();
+      print("Picture on " + _macAddress);
       return file;
     } on CameraException catch (e) {
       print('Error occured while taking picture: $e');
@@ -268,16 +312,31 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
 
   void minionHandleMessage( m) async {
     if (m == "popi") {
-      backgroundColor = Colors.redAccent;
+      backgroundColor = Colors.orange;
+      padding = 5;
     } else if (m == "pipo") {
+      padding = 50;
       final player = AudioPlayer();
       await player.play(AssetSource("non.mp3"));
+      var url = await AudioCache().load("non.mp3");
+      //url.
     } else if (m == "popo") {
       backgroundColor = Colors.brown;
+      padding = 10;
+
       SystemSound.play(SystemSoundType.click);
       SystemSound.play(SystemSoundType.click);
-      SystemSound.play(SystemSoundType.click);
-      SystemSound.play(SystemSoundType.click);
+    } else {
+      if (m.contains("rabbit")){
+        // on passe en mode tape le lapin
+        mode = MinionMode.tapelelapin;
+        rabAdress = m.split("rab")[0];
+        if (m.contains(_macAddress)) {
+          print("Je suis le lapin");
+        } else {
+          print("Je suis une taupe");
+        }
+      }
     }
     setState(() {});
     print(m);

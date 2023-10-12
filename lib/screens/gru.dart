@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,11 +30,17 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
 
   String _macAddress = "";
 
+  bool socketActive = false;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _init();
+    Timer(Duration(milliseconds: 2000), () {
+      // Si on est dans un groupe avec connection ça peut marcher
+      startSocket();
+    });
   }
 
   @override
@@ -86,44 +93,7 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Row(
-            children: [
-              Expanded(
-                child: MaterialButton(
-                  color: Colors.green,
-                  onPressed: () {
-                    _flutterP2pConnectionPlugin.createGroup();
-                  },
-                  child: Text("creer le groupe"),
-
-                ),
-              ),
-              Expanded(
-                child: MaterialButton(
-                  onPressed: () async {
-                    try {
-                      WifiP2PGroupInfo? info = await _flutterP2pConnectionPlugin.groupInfo();
-                      print(info!.groupNetworkName);
-                      print(info!.isGroupOwner);
-                      print(info!.passPhrase);
-                    }catch(e){
-                      print(e);
-                    }
-                  },
-                  child: Text("Groupe Info"),
-                ),
-              ),
-              Expanded(
-                child: MaterialButton(
-                  color: Colors.red,
-                  onPressed: () {
-                    _flutterP2pConnectionPlugin.removeGroup();
-                  },
-                  child: Text("Détruire le groupe"),
-                ),
-              ),
-            ],
-          ),
+          gestionGroupes(),
           Row(
             children: [
               Expanded(
@@ -177,6 +147,14 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
               ),
             ],
           ),
+          MaterialButton(
+            onPressed: (){
+              String rabbitAddress = wifiP2PInfo!.clients[Random().nextInt(wifiP2PInfo!.clients.length)].deviceAddress;
+              print("Lapin sera " + rabbitAddress);
+              _flutterP2pConnectionPlugin.sendStringToSocket(rabbitAddress + "rabbit");
+            },
+            child : Text("Tape le Lapin")
+          ),
           Row(
             children: [
               MaterialButton(
@@ -209,6 +187,47 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
     );
   }
 
+  Row gestionGroupes() {
+    return Row(
+          children: [
+            Expanded(
+              child: MaterialButton(
+                color: Colors.green,
+                onPressed: () {
+                  _flutterP2pConnectionPlugin.createGroup();
+                },
+                child: Text("creer le groupe"),
+
+              ),
+            ),
+            Expanded(
+              child: MaterialButton(
+                onPressed: () async {
+                  try {
+                    WifiP2PGroupInfo? info = await _flutterP2pConnectionPlugin.groupInfo();
+                    print(info!.groupNetworkName);
+                    print(info!.isGroupOwner);
+                    print(info!.passPhrase);
+                  }catch(e){
+                    print(e);
+                  }
+                },
+                child: Text("Groupe Info"),
+              ),
+            ),
+            Expanded(
+              child: MaterialButton(
+                color: Colors.red,
+                onPressed: () {
+                  _flutterP2pConnectionPlugin.removeGroup();
+                },
+                child: Text("Détruire le groupe"),
+              ),
+            ),
+          ],
+        );
+  }
+
   Future startSocket() async {
     if (wifiP2PInfo != null) {
       await _flutterP2pConnectionPlugin.startSocket(
@@ -221,6 +240,7 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
         deleteOnError: true,
         // handle connections to socket
         onConnect: (name, address) {
+          socketActive = true;
           print("$name connected to socket with address: $address");
         },
         // receive transfer updates for both sending and receiving.

@@ -35,6 +35,11 @@ Par contre repartir le socket à chaque fois
 
 Si le minion a lui même un groupe, on dirait qu'il ne peut pas se connecter au socket de Gru
 
+## Execution sur plusieurs appareils
+
+C'est plus rapide de déployer en exécutant "flutter run -d all" depuis le terminal.
+
+Pendant le dev, on peut faire hot reload sur tous en appuyant sur "r" dans le terminal
 
 
 ## Getting Started
