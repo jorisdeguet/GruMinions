@@ -6,14 +6,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:mac_address/mac_address.dart';
 
-class BossPage extends StatefulWidget {
-  BossPage();
+// TODO see how to detect if we have a socket working, if not create one
+// TODO test a message targeted to one single minion.
+
+class GruPage extends StatefulWidget {
+  const GruPage({super.key});
 
   @override
-  State<BossPage> createState() => _BossPageState();
+  State<GruPage> createState() => _GruPageState();
 }
 
-class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
+class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
 
   final _flutterP2pConnectionPlugin = FlutterP2pConnection();
 

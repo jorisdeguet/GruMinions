@@ -2,8 +2,9 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
-import 'package:vieux_pixels/boss.dart';
-import 'package:vieux_pixels/minion.dart';
+import 'package:vieux_pixels/screens/gru.dart';
+import 'package:vieux_pixels/screens/minion.dart';
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage();
@@ -53,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  BossPage()),
+                  MaterialPageRoute(builder: (context) =>  GruPage()),
                 );
               },
               child: Text("Gru mode", style: TextStyle(fontSize: 40),),

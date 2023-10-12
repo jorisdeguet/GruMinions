@@ -13,20 +13,30 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  # communication libraries
   flutter_p2p_connection: ^2.0.1
-  audioplayers: ^5.2.0
-#  flutter_blue_plus: ^1.16.3
   mac_address: ^1.0.0
+  # camera libraries
   camera: ^0.10.5+5
   path_provider: ^2.1.1
   path: ^1.8.3
-#  get_mac_address: ^0.0.2
+  # sound libraries
+  volume_controller: ^2.0.7
+  flutter_sound: ^9.2.13
+  audioplayers: ^5.2.0
+  #
+  json_annotation: ^4.8.0
+
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  json_serializable: ^6.7.1
+  build_runner: ^2.3.3
+
 
 flutter:
   uses-material-design: true

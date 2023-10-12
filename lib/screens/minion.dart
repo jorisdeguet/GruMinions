@@ -6,6 +6,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:mac_address/mac_address.dart';
 //import 'package:get_mac_address/get_mac_address.dart';
 
@@ -20,6 +21,9 @@ class MinionPage extends StatefulWidget {
 }
 
 class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
+
+  FlutterSoundPlayer _myPlayer = FlutterSoundPlayer();
+  FlutterSoundRecorder _myRecorder = FlutterSoundRecorder();
 
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
@@ -245,6 +249,20 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
         receiveString: minionHandleMessage,
       );
       return result;
+    }
+  }
+
+  Future<XFile?> takePicture(CameraController? cameraController) async {
+    if (cameraController!.value.isTakingPicture) {
+      // A capture is already pending, do nothing.
+      return null;
+    }
+    try {
+      XFile file = await cameraController.takePicture();
+      return file;
+    } on CameraException catch (e) {
+      print('Error occured while taking picture: $e');
+      return null;
     }
   }
 

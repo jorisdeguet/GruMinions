@@ -1,6 +1,25 @@
 # vieux_pixels
 
-fonctionnement:
+## Principe
+
+Le but est d'utiliser des vieilles tablettes pour faire un genre de mur interactif.
+
+Le mode de communication est WiFi Direct. 
+
+Une tablette principale agit comme contrôleur, on l'a appelé Gru.
+
+Les autres tablettes sont en mode travailleurs, pour nous les minions.
+
+Les tablettes peuvent s'identifier entre elles avec leurs adresses MAC.
+
+Le but est de faire des jeux / expériences avec les primitives suivantes:
+- les tablettes peuvent réagir au touché
+- les tablettes peuvent afficher le miroir de leur camera
+- prendre une photo
+- émettre un son
+- enregistrer un son
+
+## fonctionnement:
 1. creer un groupe sur A
 2. B decouvrir les pairs
 3. sur B demande connect vers A

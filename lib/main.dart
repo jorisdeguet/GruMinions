@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vieux_pixels/home.dart';
+import 'package:vieux_pixels/screens/home.dart';
+
 
 void main() {
   runApp(const MyApp());
