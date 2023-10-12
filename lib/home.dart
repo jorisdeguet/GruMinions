@@ -1,4 +1,5 @@
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:vieux_pixels/boss.dart';
@@ -13,8 +14,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  late CameraDescription frontCamera;
+
   @override
   void initState() {
+    initCamera();
   }
 
   @override
@@ -60,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  MinionPage()),
+                  MaterialPageRoute(builder: (context) =>  MinionPage(camera: frontCamera)),
                 );
               },
               child: Text("Minion mode"),
@@ -76,5 +80,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void initCamera() async {
+    final cameras = await availableCameras();
+    frontCamera = cameras.last;
   }
 }

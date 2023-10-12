@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
@@ -9,13 +10,19 @@ import 'package:mac_address/mac_address.dart';
 //import 'package:get_mac_address/get_mac_address.dart';
 
 class MinionPage extends StatefulWidget {
-  MyHomePage(){}
+
+  final CameraDescription camera;
+
+  const MinionPage({super.key, required this.camera});
 
   @override
   State<MinionPage> createState() => _MinionPageState();
 }
 
 class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
+
+  late CameraController _controller;
+  late Future<void> _initializeControllerFuture;
 
   WifiP2PInfo? wifiP2PInfo;
 
@@ -41,6 +48,19 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     WidgetsBinding.instance.addObserver(this);
     _init();
+
+
+    // camera shit
+
+    _controller = CameraController(
+      // Get a specific camera from the list of available cameras.
+      widget.camera,
+      // Define the resolution to use.
+      ResolutionPreset.medium,
+    );
+
+    // Next, initialize the controller. This returns a Future.
+    _initializeControllerFuture = _controller.initialize();
   }
 
   @override
@@ -60,6 +80,8 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
   }
 
   void _init() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
     await _flutterP2pConnectionPlugin.initialize();
     await _flutterP2pConnectionPlugin.register();
     await _flutterP2pConnectionPlugin.discover();
@@ -106,20 +128,22 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
       return Container(
         width: double.infinity,
         color: backgroundColor,
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Spacer(),
-            Expanded(
-              child: MaterialButton(
-                onPressed: () {
-                  _flutterP2pConnectionPlugin.sendStringToSocket("Hi " +_macAddress);
-                },
-                child: Text(""),
+        child: GestureDetector(
+          onTap: () {
+            _flutterP2pConnectionPlugin.sendStringToSocket("Hi " +_macAddress);
+          },
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              // Spacer(),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: frontCameraPreview(),
+                ),
               ),
-            ),
-            Spacer(),
-          ],
+            ],
+          ),
         ),
       );
     } else {
@@ -147,13 +171,13 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
             ),
           ),
 
-          searchingForGru ? Padding(
+          Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
               'Searching for Gru ... ' ,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-          ) : Text("Gru found"),
+          ) ,
           Expanded(
             child: ListView(
               children: this.peers.map(convert).toList(),
@@ -162,6 +186,21 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
         ],
       );
     }
+  }
+
+  FutureBuilder<void> frontCameraPreview() {
+    return FutureBuilder<void>(
+                  future: _initializeControllerFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      // If the Future is complete, display the preview.
+                      return CameraPreview(_controller);
+                    } else {
+                      // Otherwise, display a loading indicator.
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                );
   }
 
   Widget convert(DiscoveredPeers e) {
