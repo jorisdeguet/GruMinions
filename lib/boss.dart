@@ -2,7 +2,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
+import 'package:mac_address/mac_address.dart';
 
 class BossPage extends StatefulWidget {
   MyHomePage(){}
@@ -22,6 +24,8 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
 
   StreamSubscription<WifiP2PInfo>? _streamWifiInfo;
   StreamSubscription<List<DiscoveredPeers>>? _streamPeers;
+
+  String _macAddress = "";
 
   @override
   void initState() {
@@ -50,11 +54,6 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
     await _flutterP2pConnectionPlugin.initialize();
     await _flutterP2pConnectionPlugin.register();
     _streamWifiInfo = _flutterP2pConnectionPlugin.streamWifiP2PInfo().listen((event) {
-      // Handle changes in connection
-    });
-
-    _streamWifiInfo = _flutterP2pConnectionPlugin.streamWifiP2PInfo().listen((event) {
-      // Handle changes in connection
       setState(() {
         wifiP2PInfo = event;
         print(event);
@@ -66,8 +65,13 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
       setState(() {});
       print(peers);
     });
+    try {
+      _macAddress = await GetMac.macAddress ?? 'Unknown mac address';
+      print("MAC address is " + _macAddress);
+    } on PlatformException {
+      _macAddress = 'Failed to get Device MAC Address.';
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -75,26 +79,16 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text("Boss mode"),
+        title: Text("Gru mode " + _macAddress),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          MaterialButton(
-            onPressed: () {
-              print("TODO give me a name" );
-            },
-            child: Text("Boss mode"),
-
-
-            //_flutterP2pConnectionPlugin.createGroup();
-          ),
           Row(
             children: [
               Expanded(
                 child: MaterialButton(
+                  color: Colors.green,
                   onPressed: () {
                     _flutterP2pConnectionPlugin.createGroup();
                   },
@@ -104,63 +98,54 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
               ),
               Expanded(
                 child: MaterialButton(
+                  onPressed: () async {
+                    try {
+                      WifiP2PGroupInfo? info = await _flutterP2pConnectionPlugin.groupInfo();
+                      print(info!.groupNetworkName);
+                      print(info!.isGroupOwner);
+                      print(info!.passPhrase);
+                    }catch(e){
+                      print(e);
+                    }
+                  },
+                  child: Text("Groupe Info"),
+                ),
+              ),
+              Expanded(
+                child: MaterialButton(
+                  color: Colors.red,
                   onPressed: () {
                     _flutterP2pConnectionPlugin.removeGroup();
                   },
                   child: Text("Détruire le groupe"),
-
                 ),
               ),
             ],
           ),
 
-          MaterialButton(
-            onPressed: () async {
-              try {
-                var s = await _flutterP2pConnectionPlugin.connect(
-                    wifiP2PInfo!.groupOwnerAddress);
-                print(s);
-              }catch(e){
-                print(e);
-              }
-            },
-            child: Text("connecter au groupe"),
-
-          ),
+          // MaterialButton(
+          //   onPressed: () async {
+          //     try {
+          //       var s = await _flutterP2pConnectionPlugin.connect(
+          //           wifiP2PInfo!.groupOwnerAddress);
+          //       print(s);
+          //     }catch(e){
+          //       print(e);
+          //     }
+          //   },
+          //   child: Text("connecter au groupe"),
           //
-          MaterialButton(
-            onPressed: () async {
-              try {
-                WifiP2PGroupInfo? info = await _flutterP2pConnectionPlugin.groupInfo();
-                print(info!.groupNetworkName);
-                print(info!.isGroupOwner);
-                print(info!.passPhrase);
-              }catch(e){
-                print(e);
-              }
-            },
-            child: Text("Groupe Info"),
-
-          ),
-
+          // ),
 
           Row(
             children: [
               Expanded(
                 child: MaterialButton(
+                  color: Colors.cyan,
                   onPressed: () {
                     startSocket();
                   },
                   child: Text("HOST : start socket"),
-
-                ),
-              ),
-              Expanded(
-                child: MaterialButton(
-                  onPressed: () {
-                    connectToSocket();
-                  },
-                  child: Text("CLIENT : connect socket"),
 
                 ),
               ),
@@ -179,10 +164,7 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
               _flutterP2pConnectionPlugin.sendStringToSocket("pipo");
             },
             child: Text("Envoyer pipo"),
-
           ),
-
-
           Row(
             children: [
               MaterialButton(
@@ -197,11 +179,9 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
                   _flutterP2pConnectionPlugin.stopDiscovery();
                 },
                 child: Text("arreter la decouverte le groupe"),
-
               ),
             ],
           ),
-
           // MaterialButton(
           //   onPressed: () {
           //     Navigator.push(
@@ -232,7 +212,6 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
     );
   }
 
-
   Future startSocket() async {
     if (wifiP2PInfo != null) {
       await _flutterP2pConnectionPlugin.startSocket(
@@ -249,79 +228,33 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
         },
         // receive transfer updates for both sending and receiving.
         transferUpdate: (transfer) {
-          // transfer.count is the amount of bytes transfered
-          // transfer.total is the file size in bytes
-          // if transfer.receiving is true, you are receiving the file, else you're sending the file.
-          // call `transfer.cancelToken?.cancel()` to cancel transfer. This method is only applicable to receiving transfers.
           print(
               "ID: ${transfer.id}, FILENAME: ${transfer.filename}, PATH: ${transfer.path}, COUNT: ${transfer.count}, TOTAL: ${transfer.total}, COMPLETED: ${transfer.completed}, FAILED: ${transfer.failed}, RECEIVING: ${transfer.receiving}");
         },
         // handle string transfer from server
-        receiveString: (req) async {
-          print(req);
-          SnackBar snackBar = SnackBar(
-            content: Text('message  ' + req.toString()),
-          );
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
+        receiveString: handleMessage,
       );
     }
   }
 
-
-  Future connectToSocket() async {
-    if (wifiP2PInfo != null) {
-      await _flutterP2pConnectionPlugin.connectToSocket(
-        groupOwnerAddress: wifiP2PInfo!.groupOwnerAddress!,
-        // downloadPath is the directory where received file will be stored
-        downloadPath: "/storage/emulated/0/Download/",
-        // the max number of downloads at a time. Default is 2.
-        maxConcurrentDownloads: 2,
-        // delete incomplete transfered file
-        deleteOnError: true,
-        // on connected to socket
-        onConnect: (address) {
-          print("connected to socket: $address");
-        },
-        // receive transfer updates for both sending and receiving.
-        transferUpdate: (transfer) {
-          // transfer.count is the amount of bytes transfered
-          // transfer.total is the file size in bytes
-          // if transfer.receiving is true, you are receiving the file, else you're sending the file.
-          // call `transfer.cancelToken?.cancel()` to cancel transfer. This method is only applicable to receiving transfers.
-          print(
-              "ID: ${transfer.id}, FILENAME: ${transfer.filename}, PATH: ${transfer.path}, COUNT: ${transfer.count}, TOTAL: ${transfer.total}, COMPLETED: ${transfer.completed}, FAILED: ${transfer.failed}, RECEIVING: ${transfer.receiving}");
-        },
-        // handle string transfer from server
-        receiveString: (req) async {
-          print(req);
-          SnackBar snackBar = SnackBar(
-            content: Text('message  ' + req.toString()),
-          );
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
-      );
-    }
+  void handleMessage(req) async {
+    print(req);
+    SnackBar snackBar = SnackBar(
+      content: Text('message  ' + req.toString()),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   Widget convert(DiscoveredPeers e) {
-    return Container(
-      // color: Colors.red,
-      // height: 50,
-      // width: 50,
-      child: ListTile(
-        title:  Text(e.deviceAddress) ,
-        subtitle: Text(e.deviceName + e.isGroupOwner.toString()),
-        leading: MaterialButton(
-          onPressed: () async{
-            var s = await _flutterP2pConnectionPlugin.connect(e.deviceAddress);
-            print(s);
-
-          },
-          child: Text("CONNECT"),
-        ),
+    return ListTile(
+      title:  Text(e.deviceAddress + " " + e.primaryDeviceType) ,
+      subtitle: Text(e.deviceName + e.isGroupOwner.toString()),
+      leading: MaterialButton(
+        onPressed: () async {
+          var s = await _flutterP2pConnectionPlugin.connect(e.deviceAddress);
+          print(s);
+        },
+        child: Text("CONNECT"),
       ),
     );
   }

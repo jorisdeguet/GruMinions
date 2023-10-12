@@ -18,14 +18,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    FlutterP2pConnection().checkStoragePermission();
-    FlutterP2pConnection().askStoragePermission();
-    FlutterP2pConnection().checkLocationPermission();
-    FlutterP2pConnection().askLocationPermission();
-    FlutterP2pConnection().checkLocationEnabled();
-    FlutterP2pConnection().enableLocationServices();
-    FlutterP2pConnection().checkWifiEnabled();
-    FlutterP2pConnection().enableWifiServices();
   }
 
   @override
@@ -40,16 +32,34 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Spacer(),
             MaterialButton(
+              onPressed: () {
+                FlutterP2pConnection().checkStoragePermission();
+                FlutterP2pConnection().askStoragePermission();
+                FlutterP2pConnection().checkLocationPermission();
+                FlutterP2pConnection().askLocationPermission();
+                FlutterP2pConnection().checkLocationEnabled();
+                FlutterP2pConnection().enableLocationServices();
+                FlutterP2pConnection().checkWifiEnabled();
+                FlutterP2pConnection().enableWifiServices();
+              },
+              child: Text("Permissions"),
+            ),
+            Spacer(),
+            MaterialButton(
+              color: Colors.blue,
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) =>  BossPage()),
                 );
               },
-              child: Text("Boss mode"),
+              child: Text("Gru mode", style: TextStyle(fontSize: 40),),
             ),
+            Spacer(),
             MaterialButton(
+              color: Colors.yellow,
               onPressed: () {
                 Navigator.push(
                   context,
@@ -58,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Text("Minion mode"),
             ),
+            Spacer(),
 
           ],
         ),
