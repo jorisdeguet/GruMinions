@@ -32,6 +32,8 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
 
   bool searchingForGru = true;
 
+  bool connectedToGru = false;
+
   @override
   void initState() {
     super.initState();
@@ -94,63 +96,71 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Container(
+      body: mainBody(),
+    );
+  }
+
+  Widget mainBody(){
+    if (connectedToGru) {
+      return Container(
         width: double.infinity,
         color: backgroundColor,
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Spacer(),
-            MaterialButton(
-              onPressed: () async {
-                print("TODO give me group info" );
-                WifiP2PGroupInfo? info = await _flutterP2pConnectionPlugin.groupInfo();
-                var snackBar = SnackBar(
-                  content: Text('Yay! A SnackBar! ' + (info==null? "no info":info!.toString()) ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                print(info.toString());
-              },
-              child: Text("Minion mode"),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Minion @ ' + _macAddress,
-                style: Theme.of(context).textTheme.headlineMedium,
+            Expanded(
+              child: MaterialButton(
+                onPressed: () {
+                  _flutterP2pConnectionPlugin.sendStringToSocket("Hi " +_macAddress);
+                },
+                child: Text(""),
               ),
             ),
-
-            searchingForGru ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Searching for Gru ... ' ,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ) : Text("Gru found"),
-
-            searchingForGru ? Expanded(
-              child: ListView(
-                children: this.peers.map(convert).toList(),
-              ),
-            ):
-                MaterialButton(
-                  onPressed: () {
-                    _flutterP2pConnectionPlugin.sendStringToSocket("Hi " +_macAddress);
-                  },
-                  child: Text("Send popi"),
-                )
+            Spacer(),
           ],
         ),
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //
-      //   },
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+      );
+    } else {
+      return Column(
+        //mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Spacer(),
+          MaterialButton(
+            onPressed: () async {
+              print("TODO give me group info" );
+              WifiP2PGroupInfo? info = await _flutterP2pConnectionPlugin.groupInfo();
+              var snackBar = SnackBar(
+                content: Text('Yay! A SnackBar! ' + (info==null? "no info":info!.toString()) ),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              print(info.toString());
+            },
+            child: Text("Minion mode"),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Minion @ ' + _macAddress,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+          ),
+
+          searchingForGru ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Searching for Gru ... ' ,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+          ) : Text("Gru found"),
+          Expanded(
+            child: ListView(
+              children: this.peers.map(convert).toList(),
+            ),
+          )
+        ],
+      );
+    }
   }
 
   Widget convert(DiscoveredPeers e) {
@@ -163,16 +173,8 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
           var wifi_connect = await _flutterP2pConnectionPlugin.connect(
               e.deviceAddress);
           print(wifi_connect.toString());
-          //await _flutterP2pConnectionPlugin.stopDiscovery();
-          if (!wifi_connect) {
-            searchingForGru = true;
-            setState(() {});
-            return;
-          }
           await connectToSocket();
           //print(socket_connect.toString());
-          searchingForGru = false;
-          setState(() {});
           // if (!socket_connect){
           //   print("Gru needs a socket");
           //   searchingForGru = true;
@@ -201,6 +203,8 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
         onConnect: (address) {
           // TODO swith the whole interface mode
           print("connected to socket: $address");
+          connectedToGru = true;
+          setState(() {});
         },
         transferUpdate: (transfer) {
           print(
@@ -220,14 +224,15 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
       backgroundColor = Colors.yellow;
     } else if (m == "popo") {
       backgroundColor = Colors.brown;
+      SystemSound.play(SystemSoundType.click);
+      SystemSound.play(SystemSoundType.click);
+      SystemSound.play(SystemSoundType.click);
+      SystemSound.play(SystemSoundType.click);
     }
     setState(() {});
     print(m);
-    SnackBar snackBar = SnackBar(
-      content: Text('message  ' + m.toString()),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    SnackBar snackBar = SnackBar(content: Text('message  ' + m.toString()),);
+    //ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
 
