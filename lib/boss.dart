@@ -199,7 +199,8 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
             child: ListView(
               children: this.peers.map( convert).toList(),
             ),
-          )
+          ),
+          clients(),
         ],
       ),
     );
@@ -249,6 +250,25 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
         },
         child: Text("CONNECT"),
       ),
+    );
+  }
+
+  Widget clients() {
+    if (wifiP2PInfo == null) return Container();
+    for (Client c in wifiP2PInfo!.clients) {
+      print(c.deviceAddress);
+    }
+    return Expanded(
+      child: ListView(
+        children: wifiP2PInfo!.clients.map( convertClient).toList(),
+      ),
+    );
+  }
+
+  Widget convertClient(Client c){
+    return ListTile(
+      title: Text(" ew" + c.deviceName),
+      subtitle: Text(c.deviceAddress),
     );
   }
 }
