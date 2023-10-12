@@ -14,6 +14,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   flutter_p2p_connection: ^2.0.1
+  audioplayers: ^5.2.0
 #  flutter_blue_plus: ^1.16.3
   mac_address: ^1.0.0
 #  get_mac_address: ^0.0.2
@@ -26,3 +27,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/

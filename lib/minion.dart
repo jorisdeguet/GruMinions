@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
@@ -174,15 +175,6 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
               e.deviceAddress);
           print(wifi_connect.toString());
           await connectToSocket();
-          //print(socket_connect.toString());
-          // if (!socket_connect){
-          //   print("Gru needs a socket");
-          //   searchingForGru = true;
-          //   setState(() {});
-          // } else {
-          //   searchingForGru = false;
-          //   setState(() {});
-          // }
         },
         child: Text("CONNECTE"),
       ),
@@ -217,11 +209,12 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     }
   }
 
-  void minionHandleMessage( m) {
+  void minionHandleMessage( m) async {
     if (m == "popi") {
       backgroundColor = Colors.redAccent;
     } else if (m == "pipo") {
-      backgroundColor = Colors.yellow;
+      final player = AudioPlayer();
+      await player.play(AssetSource("non.mp3"));
     } else if (m == "popo") {
       backgroundColor = Colors.brown;
       SystemSound.play(SystemSoundType.click);
@@ -231,7 +224,7 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     }
     setState(() {});
     print(m);
-    SnackBar snackBar = SnackBar(content: Text('message  ' + m.toString()),);
+    //SnackBar snackBar = SnackBar(content: Text('message  ' + m.toString()),);
     //ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
