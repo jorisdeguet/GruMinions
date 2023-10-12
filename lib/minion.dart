@@ -28,6 +28,8 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
 
   String _macAddress = "";
 
+  Color backgroundColor = Colors.white;
+
   bool searchingForGru = true;
 
   @override
@@ -92,59 +94,54 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Column(
-        //mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Spacer(),
-          MaterialButton(
-            onPressed: () async {
-              print("TODO give me group info" );
-              WifiP2PGroupInfo? info = await _flutterP2pConnectionPlugin.groupInfo();
-              var snackBar = SnackBar(
-                content: Text('Yay! A SnackBar! ' + (info==null? "no info":info!.toString()) ),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              print(info.toString());
-            },
-            child: Text("Minion mode"),
-          ),
-          // MaterialButton(
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => const SecondRoute()),
-          //     );
-          //   },
-          //   child: Text("Minion mode"),
-          // ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Minion @ ' + _macAddress,
-              style: Theme.of(context).textTheme.headlineMedium,
+      body: Container(
+        width: double.infinity,
+        color: backgroundColor,
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Spacer(),
+            MaterialButton(
+              onPressed: () async {
+                print("TODO give me group info" );
+                WifiP2PGroupInfo? info = await _flutterP2pConnectionPlugin.groupInfo();
+                var snackBar = SnackBar(
+                  content: Text('Yay! A SnackBar! ' + (info==null? "no info":info!.toString()) ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                print(info.toString());
+              },
+              child: Text("Minion mode"),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Minion @ ' + _macAddress,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ),
 
-          searchingForGru ? Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Searching for Gru ... ' ,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ) : Text("Gru found"),
+            searchingForGru ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Searching for Gru ... ' ,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ) : Text("Gru found"),
 
-          searchingForGru ? Expanded(
-            child: ListView(
-              children: this.peers.map(convert).toList(),
-            ),
-          ):
-              MaterialButton(
-                onPressed: () {
-                  _flutterP2pConnectionPlugin.sendStringToSocket("Hi " +_macAddress);
-                },
-                child: Text("Send popi"),
-              )
-        ],
+            searchingForGru ? Expanded(
+              child: ListView(
+                children: this.peers.map(convert).toList(),
+              ),
+            ):
+                MaterialButton(
+                  onPressed: () {
+                    _flutterP2pConnectionPlugin.sendStringToSocket("Hi " +_macAddress);
+                  },
+                  child: Text("Send popi"),
+                )
+          ],
+        ),
       ),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {
@@ -202,29 +199,35 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
         deleteOnError: true,
         // on connected to socket
         onConnect: (address) {
+          // TODO swith the whole interface mode
           print("connected to socket: $address");
         },
-        // receive transfer updates for both sending and receiving.
         transferUpdate: (transfer) {
-          // transfer.count is the amount of bytes transfered
-          // transfer.total is the file size in bytes
-          // if transfer.receiving is true, you are receiving the file, else you're sending the file.
-          // call `transfer.cancelToken?.cancel()` to cancel transfer. This method is only applicable to receiving transfers.
           print(
               "ID: ${transfer.id}, FILENAME: ${transfer.filename}, PATH: ${transfer.path}, COUNT: ${transfer.count}, TOTAL: ${transfer.total}, COMPLETED: ${transfer.completed}, FAILED: ${transfer.failed}, RECEIVING: ${transfer.receiving}");
         },
         // handle string transfer from server
-        receiveString: (req) async {
-          print(req);
-          SnackBar snackBar = SnackBar(
-            content: Text('message  ' + req.toString()),
-          );
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
+        receiveString: minionHandleMessage,
       );
       return result;
     }
+  }
+
+  void minionHandleMessage( m) {
+    if (m == "popi") {
+      backgroundColor = Colors.redAccent;
+    } else if (m == "pipo") {
+      backgroundColor = Colors.yellow;
+    } else if (m == "popo") {
+      backgroundColor = Colors.brown;
+    }
+    setState(() {});
+    print(m);
+    SnackBar snackBar = SnackBar(
+      content: Text('message  ' + m.toString()),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
 

@@ -5,15 +5,12 @@ import 'package:vieux_pixels/boss.dart';
 import 'package:vieux_pixels/minion.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage();
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-// https://pub.dev/packages/flutter_p2p_connection
 class _MyHomePageState extends State<MyHomePage> {
 
   @override
@@ -26,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text("Accueil"),
       ),
       body: Center(
         child: Column(
@@ -77,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

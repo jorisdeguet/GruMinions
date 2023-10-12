@@ -7,7 +7,7 @@ import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:mac_address/mac_address.dart';
 
 class BossPage extends StatefulWidget {
-  MyHomePage(){}
+  BossPage();
 
   @override
   State<BossPage> createState() => _BossPageState();
@@ -17,7 +17,6 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
 
   final _flutterP2pConnectionPlugin = FlutterP2pConnection();
 
-  // les autres appareils
   List<DiscoveredPeers> peers = [];
 
   WifiP2PInfo? wifiP2PInfo;
@@ -122,21 +121,6 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
               ),
             ],
           ),
-
-          // MaterialButton(
-          //   onPressed: () async {
-          //     try {
-          //       var s = await _flutterP2pConnectionPlugin.connect(
-          //           wifiP2PInfo!.groupOwnerAddress);
-          //       print(s);
-          //     }catch(e){
-          //       print(e);
-          //     }
-          //   },
-          //   child: Text("connecter au groupe"),
-          //
-          // ),
-
           Row(
             children: [
               Expanded(
@@ -159,11 +143,36 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
               )
             ],
           ),
-          MaterialButton(
-            onPressed: () {
-              _flutterP2pConnectionPlugin.sendStringToSocket("pipo");
-            },
-            child: Text("Envoyer pipo"),
+          Row(
+            children: [
+              Expanded(
+                child: MaterialButton(
+                  color: Colors.indigo,
+                  onPressed: () {
+                    _flutterP2pConnectionPlugin.sendStringToSocket("pipo");
+                  },
+                  child: Text("Envoyer pipo"),
+                ),
+              ),
+              Expanded(
+                child: MaterialButton(
+                  color: Colors.indigoAccent,
+                  onPressed: () {
+                    _flutterP2pConnectionPlugin.sendStringToSocket("popi");
+                  },
+                  child: Text("Envoyer popi"),
+                ),
+              ),
+              Expanded(
+                child: MaterialButton(
+                  color: Colors.lightBlue,
+                  onPressed: () {
+                    _flutterP2pConnectionPlugin.sendStringToSocket("popo");
+                  },
+                  child: Text("Envoyer popo"),
+                ),
+              ),
+            ],
           ),
           Row(
             children: [
@@ -182,15 +191,6 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
               ),
             ],
           ),
-          // MaterialButton(
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => const SecondRoute()),
-          //     );
-          //   },
-          //   child: Text("Minion mode"),
-          // ),
           Text(
             'yo boss',
             style: Theme.of(context).textTheme.headlineMedium,
@@ -202,13 +202,6 @@ class _BossPageState extends State<BossPage> with WidgetsBindingObserver  {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
