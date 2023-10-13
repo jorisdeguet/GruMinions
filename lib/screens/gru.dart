@@ -2,6 +2,8 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
@@ -148,11 +150,7 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
             ],
           ),
           MaterialButton(
-            onPressed: (){
-              String rabbitAddress = wifiP2PInfo!.clients[Random().nextInt(wifiP2PInfo!.clients.length)].deviceAddress;
-              print("Lapin sera " + rabbitAddress);
-              _flutterP2pConnectionPlugin.sendStringToSocket(rabbitAddress + "rabbit");
-            },
+            onPressed: choisisUnLapin,
             child : Text("Tape le Lapin")
           ),
           Row(
@@ -255,6 +253,9 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
   }
 
   void handleMessage(req) async {
+    if (req.contains("hit")) {
+      choisisUnLapin();
+    }
     print(req);
     SnackBar snackBar = SnackBar(
       content: Text('message  ' + req.toString()),
@@ -292,6 +293,17 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
     return ListTile(
       title: Text(" ew" + c.deviceName),
       subtitle: Text(c.deviceAddress),
+    );
+  }
+
+  void choisisUnLapin() async {
+    String rabbitAddress = wifiP2PInfo!.clients[Random().nextInt(wifiP2PInfo!.clients.length)].deviceAddress;
+    print("Lapin sera " + rabbitAddress);
+    _flutterP2pConnectionPlugin.sendStringToSocket(rabbitAddress + "rabbit");
+    AssetsAudioPlayer.newPlayer().open(
+      Audio("assets/hello.mp3"),
+      autoStart: true,
+      showNotification: false,
     );
   }
 }

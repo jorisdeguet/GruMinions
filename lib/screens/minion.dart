@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -186,12 +187,16 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
                 child: Container(
                   width: double.infinity,
                   child: MaterialButton(
-                    color: isMe ? Colors.orange : Colors.blue,
+                    color: isMe ? Colors.white : Colors.white,
                     onPressed: () {
                       //
-                      _flutterP2pConnectionPlugin.sendStringToSocket(_macAddress+"hit");
+                      if (isMe) {
+                        _flutterP2pConnectionPlugin.sendStringToSocket(_macAddress+"hit");
+                      } else {
+                        _flutterP2pConnectionPlugin.sendStringToSocket(_macAddress+"miss");
+                      }
                     },
-                    child: Text(isMe ? "Lapin" : "Taupe"),
+                    child: isMe ? Image.asset("assets/rabbit.png") : Image.asset("assets/mole.jpg") ,
                   ),
                 ),
               )
@@ -316,9 +321,13 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
       padding = 5;
     } else if (m == "pipo") {
       padding = 50;
-      final player = AudioPlayer();
-      await player.play(AssetSource("non.mp3"));
-      var url = await AudioCache().load("non.mp3");
+      //url.
+    } else if (m.contains("miss")) {
+      AssetsAudioPlayer.newPlayer().open(
+        Audio("assets/non.mp3"),
+        autoStart: true,
+        showNotification: false,
+      );
       //url.
     } else if (m == "popo") {
       backgroundColor = Colors.brown;
