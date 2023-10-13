@@ -96,77 +96,110 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           gestionGroupes(),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: MaterialButton(
+                    color: Colors.cyan,
+                    onPressed: () {
+                      startSocket();
+                    },
+                    child: Text(
+                        "HOST : start socket",
+                        style: TextStyle(fontSize: this.socketActive?10:30),
+                    ),
+
+                  ),
+                ),
+                Expanded(
+                  child: wifiP2PInfo == null ? Container(height: 10, width: 10, color: Colors.red) :
+                  ListTile(
+                    leading: Text(wifiP2PInfo!.isGroupOwner.toString()),
+                    title: Text(wifiP2PInfo!.groupOwnerAddress.toString()),
+                    subtitle: Text(wifiP2PInfo!.clients.toString()),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: MaterialButton(
+                    color: Colors.indigo,
+                    onPressed: () {
+                      _flutterP2pConnectionPlugin.sendStringToSocket("pipo");
+                    },
+                    child: Text("Envoyer pipo"),
+                  ),
+                ),
+                Expanded(
+                  child: MaterialButton(
+                    color: Colors.indigoAccent,
+                    onPressed: () {
+                      _flutterP2pConnectionPlugin.sendStringToSocket("popi");
+                    },
+                    child: Text("Envoyer popi"),
+                  ),
+                ),
+                Expanded(
+                  child: MaterialButton(
+                    color: Colors.lightBlue,
+                    onPressed: () {
+                      _flutterP2pConnectionPlugin.sendStringToSocket("popo");
+                    },
+                    child: Text("Envoyer popo"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                MaterialButton(
+                  color: Colors.amber,
+                    onPressed: choisisUnLapin,
+                    child : Text("Tape le Lapin", style: TextStyle(fontSize: 25),)
+                ),
+                MaterialButton(
+                  color: Colors.amberAccent,
+                    onPressed: () {
+                      _flutterP2pConnectionPlugin.sendStringToSocket("miroir");
+                    },
+                    child : Text("Miroir", style: TextStyle(fontSize: 25),)
+                ),
+                MaterialButton(
+                    color: Colors.amberAccent,
+                    onPressed: () {
+                      _flutterP2pConnectionPlugin.sendStringToSocket("halloween");
+                    },
+                    child : Text("Halloween!!", style: TextStyle(fontSize: 25),)
+                )
+              ],
+            ),
+          ),
           Row(
             children: [
               Expanded(
                 child: MaterialButton(
-                  color: Colors.cyan,
                   onPressed: () {
-                    startSocket();
+                    _flutterP2pConnectionPlugin.discover();
                   },
-                  child: Text("HOST : start socket"),
+                  child: Text("decouvrir les pairs"),
 
                 ),
               ),
               Expanded(
-                child: wifiP2PInfo == null ? Container(height: 10, width: 10, color: Colors.red) :
-                ListTile(
-                  leading: Text(wifiP2PInfo!.isGroupOwner.toString()),
-                  title: Text(wifiP2PInfo!.groupOwnerAddress.toString()),
-                  subtitle: Text(wifiP2PInfo!.clients.toString()),
-                ),
-              )
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
                 child: MaterialButton(
-                  color: Colors.indigo,
                   onPressed: () {
-                    _flutterP2pConnectionPlugin.sendStringToSocket("pipo");
+                    _flutterP2pConnectionPlugin.stopDiscovery();
                   },
-                  child: Text("Envoyer pipo"),
+                  child: Text("arreter la decouverte le groupe"),
                 ),
-              ),
-              Expanded(
-                child: MaterialButton(
-                  color: Colors.indigoAccent,
-                  onPressed: () {
-                    _flutterP2pConnectionPlugin.sendStringToSocket("popi");
-                  },
-                  child: Text("Envoyer popi"),
-                ),
-              ),
-              Expanded(
-                child: MaterialButton(
-                  color: Colors.lightBlue,
-                  onPressed: () {
-                    _flutterP2pConnectionPlugin.sendStringToSocket("popo");
-                  },
-                  child: Text("Envoyer popo"),
-                ),
-              ),
-            ],
-          ),
-          MaterialButton(
-            onPressed: choisisUnLapin,
-            child : Text("Tape le Lapin")
-          ),
-          Row(
-            children: [
-              MaterialButton(
-                onPressed: () {
-                  _flutterP2pConnectionPlugin.discover();
-                },
-                child: Text("decouvrir les pairs"),
-
-              ),
-              MaterialButton(
-                onPressed: () {
-                  _flutterP2pConnectionPlugin.stopDiscovery();
-                },
-                child: Text("arreter la decouverte le groupe"),
               ),
             ],
           ),
@@ -239,6 +272,7 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
         // handle connections to socket
         onConnect: (name, address) {
           socketActive = true;
+          setState(() {});
           print("$name connected to socket with address: $address");
         },
         // receive transfer updates for both sending and receiving.
@@ -257,10 +291,10 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
       choisisUnLapin();
     }
     print(req);
-    SnackBar snackBar = SnackBar(
-      content: Text('message  ' + req.toString()),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    // SnackBar snackBar = SnackBar(
+    //   content: Text('message  ' + req.toString()),
+    // );
+    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   Widget convert(DiscoveredPeers e) {
@@ -296,14 +330,15 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
     );
   }
 
+  String adresseDuLapin = "";
+
   void choisisUnLapin() async {
-    String rabbitAddress = wifiP2PInfo!.clients[Random().nextInt(wifiP2PInfo!.clients.length)].deviceAddress;
-    print("Lapin sera " + rabbitAddress);
-    _flutterP2pConnectionPlugin.sendStringToSocket(rabbitAddress + "rabbit");
-    AssetsAudioPlayer.newPlayer().open(
-      Audio("assets/hello.mp3"),
-      autoStart: true,
-      showNotification: false,
-    );
+    String nouvelleAdresse = wifiP2PInfo!.clients[Random().nextInt(wifiP2PInfo!.clients.length)].deviceAddress;
+    do {
+      nouvelleAdresse = wifiP2PInfo!.clients[Random().nextInt(wifiP2PInfo!.clients.length)].deviceAddress;
+    } while(adresseDuLapin == nouvelleAdresse);
+    adresseDuLapin = nouvelleAdresse;
+    print("Lapin sera " + adresseDuLapin);
+    _flutterP2pConnectionPlugin.sendStringToSocket(adresseDuLapin + "rabbit");
   }
 }

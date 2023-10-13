@@ -2,8 +2,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
-import 'package:vieux_pixels/screens/gru.dart';
-import 'package:vieux_pixels/screens/minion.dart';
+import 'package:gru_minions/screens/gru.dart';
+import 'package:gru_minions/screens/minion.dart';
 
 
 class MyHomePage extends StatefulWidget {

@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:mac_address/mac_address.dart';
+import 'package:gru_minions/utils.dart';
 //import 'package:get_mac_address/get_mac_address.dart';
 
 class MinionPage extends StatefulWidget {
@@ -322,13 +323,11 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     } else if (m == "pipo") {
       padding = 50;
       //url.
+    } else if (m == "miroir") {
+      mode = MinionMode.mirror;
+      setState(() {});
     } else if (m.contains("miss")) {
-      AssetsAudioPlayer.newPlayer().open(
-        Audio("assets/non.mp3"),
-        autoStart: true,
-        showNotification: false,
-      );
-      //url.
+      playSound("assets/non.mp3");
     } else if (m == "popo") {
       backgroundColor = Colors.brown;
       padding = 10;

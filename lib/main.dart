@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vieux_pixels/screens/home.dart';
+import 'package:gru_minions/screens/home.dart';
 
 
 void main() {

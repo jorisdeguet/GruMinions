@@ -31,6 +31,13 @@ Une fois connecté au groupe tu restes connectés,
 
 Par contre repartir le socket à chaque fois
 
+## Prép des tablettes
+
+Pour chaque tablette on veut:
+1. activer le mode développeur, Setting > about > taper 10 fois sur le build number
+2. dans les options dév avectiver USB debugging et l'option stay awake
+3. dans les options display, déselectionner adaptive brightness, mettre luminosité au max et mettre la veille à 30 minutes
+
 ## Problèmes déjà rencontrés
 
 Si le minion a lui même un groupe, on dirait qu'il ne peut pas se connecter au socket de Gru
