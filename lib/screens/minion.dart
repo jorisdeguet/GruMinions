@@ -28,6 +28,9 @@ enum MinionMode { config, mirror, tapelelapin }
 
 // https://stackoverflow.com/questions/10968951/wi-fi-direct-and-normal-wi-fi-different-mac
 
+// halloween mode, change image every 3 to 5 seconds. if touched all tablets play mouahahaha and reset their timers
+//
+
 class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
 
   MinionMode mode = MinionMode.config;
