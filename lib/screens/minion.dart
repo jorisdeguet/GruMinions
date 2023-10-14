@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -8,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:gru_minions/modes/halloween.dart';
+import 'package:gru_minions/modes/piano.dart';
 import 'package:mac_address/mac_address.dart';
 import 'package:gru_minions/utils.dart';
 //import 'package:get_mac_address/get_mac_address.dart';
@@ -23,7 +26,7 @@ class MinionPage extends StatefulWidget {
 }
 
 
-enum MinionMode { config, mirror, tapelelapin }
+enum MinionMode { config, mirror, tapelelapin, Halloween, piano }
 
 
 // https://stackoverflow.com/questions/10968951/wi-fi-direct-and-normal-wi-fi-different-mac
@@ -59,6 +62,8 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
   int padding = 10;
 
   bool connectedToGru = false;
+
+
 
   @override
   void initState() {
@@ -138,6 +143,17 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
 
   Widget mainBody(){
     switch (mode) {
+      case MinionMode.piano: {
+        return getPiano(Random().nextInt(5));
+      }
+      case MinionMode.Halloween: {
+        return GestureDetector(
+              onTap: () {
+                print("coucou");
+              },
+              child: Image.asset(getImageRandom())
+          );
+      }
       case MinionMode.config:
         {
           return Column(
@@ -322,9 +338,18 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
   void minionHandleMessage( m) async {
     if (m == "popi") {
       backgroundColor = Colors.orange;
-      padding = 5;
+      padding = 0;
     } else if (m == "pipo") {
-      padding = 50;
+      padding = 10;
+      //url.
+    } else if (m == "piano") {
+      mode = MinionMode.piano;
+      setState(() {});
+      //url.
+    } else if (m == "halloween") {
+      playSound("assets/halloween/mouahaha.m4a");
+      mode = MinionMode.Halloween;
+      startHalloween();
       //url.
     } else if (m == "miroir") {
       mode = MinionMode.mirror;
@@ -333,9 +358,7 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
       playSound("assets/non.mp3");
     } else if (m == "popo") {
       backgroundColor = Colors.brown;
-      padding = 10;
-
-      SystemSound.play(SystemSoundType.click);
+      padding = 0;
       SystemSound.play(SystemSoundType.click);
     } else {
       if (m.contains("rabbit")){
@@ -353,6 +376,15 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     print(m);
     //SnackBar snackBar = SnackBar(content: Text('message  ' + m.toString()),);
     //ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void startHalloween() {
+    int delay = Random().nextInt(5000) + 1000;
+    Timer(Duration(milliseconds: delay), () {
+      // TODO change image
+      print("TODO changer image sur " + _macAddress);
+      setState(() {});
+    });
   }
 }
 

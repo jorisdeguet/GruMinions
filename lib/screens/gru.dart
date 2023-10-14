@@ -7,6 +7,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
+import 'package:gru_minions/utils.dart';
 import 'package:mac_address/mac_address.dart';
 
 // TODO see how to detect if we have a socket working, if not create one
@@ -173,8 +174,18 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
                     child : Text("Miroir", style: TextStyle(fontSize: 25),)
                 ),
                 MaterialButton(
+                    color: Colors.purple,
+                    onPressed: () {
+                      _flutterP2pConnectionPlugin.sendStringToSocket("piano");
+                    },
+                    child : Text("Piano", style: TextStyle(fontSize: 25),)
+                ),
+                MaterialButton(
                     color: Colors.amberAccent,
                     onPressed: () {
+                      // playSound("assets/halloween/cri.m4a");
+                      playSound("assets/halloween/mouahaha.m4a");
+                      playSound("assets/halloween/tonnerre.mp3");
                       _flutterP2pConnectionPlugin.sendStringToSocket("halloween");
                     },
                     child : Text("Halloween!!", style: TextStyle(fontSize: 25),)
