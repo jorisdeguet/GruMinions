@@ -63,7 +63,9 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
 
   bool connectedToGru = false;
 
-
+  late HalloweenMode halloween = HalloweenMode(onTap: (String soundFile) {
+    _flutterP2pConnectionPlugin.sendStringToSocket(soundFile);
+  },);
 
   @override
   void initState() {
@@ -151,15 +153,7 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
           DeviceOrientation.landscapeLeft,
           DeviceOrientation.landscapeRight,
         ]);
-        return Center(
-          child: GestureDetector(
-                onTap: () {
-                  print("coucou");
-                  playSound("assets/halloween/cri.m4a");
-                },
-                child: Image.asset(getImageRandom())
-            ),
-        );
+        return halloween;
       }
       case MinionMode.config:
         {
@@ -327,6 +321,7 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     }
   }
 
+  // TODO test and see if we can share with other minions
   Future<XFile?> takePicture(CameraController? cameraController) async {
     if (cameraController!.value.isTakingPicture) {
       // A capture is already pending, do nothing.
@@ -349,7 +344,10 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     } else if (m == "pipo") {
       padding = 10;
       //url.
-    } else if (m == "piano") {
+    } else if (m.contains("m4a")) {
+      playSound(m);
+      //url.
+    }  if (m == "piano") {
       mode = MinionMode.piano;
       setState(() {});
       //url.
