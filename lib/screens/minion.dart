@@ -144,15 +144,22 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
   Widget mainBody(){
     switch (mode) {
       case MinionMode.piano: {
-        return getPiano(Random().nextInt(5));
+        return getPiano(Random().nextInt(5)+1);
       }
       case MinionMode.Halloween: {
-        return GestureDetector(
-              onTap: () {
-                print("coucou");
-              },
-              child: Image.asset(getImageRandom())
-          );
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeLeft,
+          DeviceOrientation.landscapeRight,
+        ]);
+        return Center(
+          child: GestureDetector(
+                onTap: () {
+                  print("coucou");
+                  playSound("assets/halloween/cri.m4a");
+                },
+                child: Image.asset(getImageRandom())
+            ),
+        );
       }
       case MinionMode.config:
         {
