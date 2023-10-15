@@ -354,7 +354,6 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     } else if (m == "halloween") {
       playSound("assets/halloween/mouahaha.m4a");
       mode = MinionMode.Halloween;
-      startHalloween();
       //url.
     } else if (m == "miroir") {
       mode = MinionMode.mirror;
@@ -383,13 +382,5 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
     //ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  void startHalloween() {
-    int delay = Random().nextInt(5000) + 1000;
-    Timer(Duration(milliseconds: delay), () {
-      // TODO change image
-      print("TODO changer image sur " + _macAddress);
-      setState(() {});
-    });
-  }
 }
 

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -31,13 +32,17 @@ class HalState extends State<HalloweenMode> {
   ];
 
   String getImageRandom() {
-    Random r = Random();
-    image = images[r.nextInt(images.length)];
+    image = images[Random().nextInt(images.length)];
     return image;
   }
 
   void playMouaha() {
     playSound("assets/halloween/mouahaha.m4a");
+  }
+
+  @override
+  void initState(){
+    timeStep();
   }
 
   @override
@@ -51,6 +56,15 @@ class HalState extends State<HalloweenMode> {
           child: Image.asset(getImageRandom())
       ),
     );
+  }
+
+  void timeStep() {
+    int delay = Random().nextInt(5000) + 1000;
+    Timer(Duration(milliseconds: delay), () {
+      image = images[Random().nextInt(images.length)];
+      setState(() {});
+      timeStep();
+    });
   }
 
 }
