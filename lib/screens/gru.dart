@@ -185,7 +185,7 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
                     onPressed: () {
                       // playSound("assets/halloween/cri.m4a");
                       playSound("assets/halloween/mouahaha.m4a");
-                      playSound("assets/halloween/tonnerre.mp3");
+                      playSound("assets/halloween/tonnerre.m4a");
                       _flutterP2pConnectionPlugin.sendStringToSocket("halloween");
                     },
                     child : Text("Halloween!!", style: TextStyle(fontSize: 25),)
