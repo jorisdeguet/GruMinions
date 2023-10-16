@@ -21,7 +21,10 @@ class HalState extends State<HalloweenMode> {
   List<String> images = [
     "assets/halloween/crane.png",
     "assets/halloween/halloween.jpg",
-    "assets/halloween/pumpkin.jpg"
+    "assets/halloween/pumpkin.jpg",
+    "assets/halloween/cat.jpeg",
+    "assets/halloween/ghost.webp",
+    "assets/halloween/bat.png",
   ];
 
   late String image = images[0];
