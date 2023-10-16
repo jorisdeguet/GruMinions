@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gru_minions/utils.dart';
+import 'package:invert_colors/invert_colors.dart';
 
 class HalloweenMode extends StatefulWidget{
 
@@ -54,7 +55,9 @@ class HalState extends State<HalloweenMode> {
             playSound(sound);
             widget.onTap(sound);
           },
-          child: Image.asset(getImageRandom())
+          child: Random().nextBool()
+            ? Image.asset(getImageRandom())
+            : InvertColors(child: Image.asset(getImageRandom()),)
       ),
     );
   }
