@@ -51,6 +51,7 @@ class HalState extends State<HalloweenMode> {
       child: GestureDetector(
           onTap: () {
             String sound = sounds[Random().nextInt(sounds.length)];
+            playSound(sound);
             widget.onTap(sound);
           },
           child: Image.asset(getImageRandom())
