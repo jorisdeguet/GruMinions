@@ -38,6 +38,7 @@ dependencies:
   flutter_p2p_connection: ^2.0.1
   flutter_blue_plus: ^1.16.3
   loading_indicator: ^3.1.1
+  get: ^4.6.6
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
-import 'package:vieux_pixels/home.dart';
+import 'package:get/get.dart';
+import 'package:vieux_pixels/page/home_page.dart';
 
 void main() {
+  runApp(const MainApp());
   FlutterP2pConnection().checkStoragePermission();
   FlutterP2pConnection().askStoragePermission();
   FlutterP2pConnection().checkLocationPermission();
@@ -11,24 +13,28 @@ void main() {
   FlutterP2pConnection().enableLocationServices();
   FlutterP2pConnection().checkWifiEnabled();
   FlutterP2pConnection().enableWifiServices();
-  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MainApp extends StatefulWidget {
+  const MainApp({
+    Key? key,
+  }) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MainApp> createState() => _MainState();
+}
+
+class _MainState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return GetMaterialApp(
+      title: 'GruMinions',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(),
     );
   }
 }
