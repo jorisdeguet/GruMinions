@@ -4,9 +4,16 @@ import 'dart:math';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
+import 'package:gru_minions/modes/base-mode.dart';
+import 'package:gru_minions/modes/halloween.dart';
+import 'package:gru_minions/modes/miroir.dart';
+import 'package:gru_minions/modes/piano.dart';
+import 'package:gru_minions/modes/tapelelapin.dart';
+import 'package:gru_minions/screens/minion.dart';
 import 'package:gru_minions/utils.dart';
 import 'package:mac_address/mac_address.dart';
 
@@ -34,6 +41,32 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
   String _macAddress = "";
 
   bool socketActive = false;
+
+  // TODO toute la gestion du mode est en fait la même pour Gru et Minion,
+
+  late List<GruMinionMode> modes = [
+    HalMode(sendToOthers: sendMessageToAll),
+    PianoMode(sendToOthers: sendMessageToAll),
+    Miroir.forGru(sendToOthers: sendMessageToAll),
+    TapeLeLapin(sendToOthers: sendMessageToAll),
+  ];
+
+  late GruMinionMode currentMode = modes[0];
+
+  void changeMode(String m) {
+    for (GruMinionMode mode in modes) {
+      if (m == mode.name()) {
+        currentMode = mode;
+      }
+    }
+    _flutterP2pConnectionPlugin.sendStringToSocket(m);
+    setState(() {});
+  }
+
+  void sendMessageToAll(String m){
+    _flutterP2pConnectionPlugin.sendStringToSocket(m);
+  }
+
 
   @override
   void initState() {
@@ -98,61 +131,8 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
         children: <Widget>[
           gestionGroupes(),
           gestionSocket(),
-          // Expanded(
-          //   child: Row(
-          //     children: [
-          //       Expanded(
-          //         child: MaterialButton(
-          //           color: Colors.indigo,
-          //           onPressed: () {
-          //             _flutterP2pConnectionPlugin.sendStringToSocket("pipo");
-          //           },
-          //           child: Text("Envoyer pipo"),
-          //         ),
-          //       ),
-          //       Expanded(
-          //         child: MaterialButton(
-          //           color: Colors.indigoAccent,
-          //           onPressed: () {
-          //             _flutterP2pConnectionPlugin.sendStringToSocket("popi");
-          //           },
-          //           child: Text("Envoyer popi"),
-          //         ),
-          //       ),
-          //       Expanded(
-          //         child: MaterialButton(
-          //           color: Colors.lightBlue,
-          //           onPressed: () {
-          //             _flutterP2pConnectionPlugin.sendStringToSocket("popo");
-          //           },
-          //           child: Text("Envoyer popo"),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           gestionDesModes(),
-          Row(
-            children: [
-              Expanded(
-                child: MaterialButton(
-                  onPressed: () {
-                    _flutterP2pConnectionPlugin.discover();
-                  },
-                  child: Text("decouvrir les pairs"),
-
-                ),
-              ),
-              Expanded(
-                child: MaterialButton(
-                  onPressed: () {
-                    _flutterP2pConnectionPlugin.stopDiscovery();
-                  },
-                  child: Text("arreter la decouverte le groupe"),
-                ),
-              ),
-            ],
-          ),
+          gestionDesPairs(),
           Text(
             'yo boss',
             style: Theme.of(context).textTheme.headlineMedium,
@@ -168,6 +148,30 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
     );
   }
 
+  Row gestionDesPairs() {
+    return Row(
+          children: [
+            Expanded(
+              child: MaterialButton(
+                onPressed: () {
+                  _flutterP2pConnectionPlugin.discover();
+                },
+                child: Text("decouvrir les pairs"),
+
+              ),
+            ),
+            Expanded(
+              child: MaterialButton(
+                onPressed: () {
+                  _flutterP2pConnectionPlugin.stopDiscovery();
+                },
+                child: Text("arreter la decouverte le groupe"),
+              ),
+            ),
+          ],
+        );
+  }
+
   Expanded gestionDesModes() {
     return Expanded(
           child: Row(
@@ -175,20 +179,23 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
             children: [
               MaterialButton(
                 color: Colors.amber,
-                  onPressed: choisisUnLapin,
+                  onPressed: () {
+                    changeMode("tapelelapin");
+                    choisisUnLapin();
+                  },
                   child : Text("Tape le Lapin", style: TextStyle(fontSize: 25),)
               ),
               MaterialButton(
                 color: Colors.amberAccent,
                   onPressed: () {
-                    _flutterP2pConnectionPlugin.sendStringToSocket("miroir");
+                    changeMode("miroir");
                   },
                   child : Text("Miroir", style: TextStyle(fontSize: 25),)
               ),
               MaterialButton(
                   color: Colors.purple,
                   onPressed: () {
-                    _flutterP2pConnectionPlugin.sendStringToSocket("piano");
+                    changeMode("piano");
                   },
                   child : Text("Piano", style: TextStyle(fontSize: 25),)
               ),
@@ -198,7 +205,7 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
                     // playSound("assets/halloween/cri.m4a");
                     playSound("assets/halloween/mouahaha.m4a");
                     playSound("assets/halloween/tonnerre.m4a");
-                    _flutterP2pConnectionPlugin.sendStringToSocket("halloween");
+                    changeMode("halloween");
                   },
                   child : Text("Halloween!!", style: TextStyle(fontSize: 25),)
               )
@@ -315,11 +322,8 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
     if (req.contains("hit")) {
       choisisUnLapin();
     }
+    currentMode.handleMessageAsGru(req);
     print("Gru received :::" + req);
-    // SnackBar snackBar = SnackBar(
-    //   content: Text('message  ' + req.toString()),
-    // );
-    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   Widget convert(DiscoveredPeers e) {

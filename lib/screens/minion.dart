@@ -55,7 +55,7 @@ class _MinionPageState extends State<MinionPage> with WidgetsBindingObserver  {
   late List<GruMinionMode> modes = [
     HalMode(sendToOthers: sendMessageToAll),
     PianoMode(sendToOthers: sendMessageToAll),
-    Miroir(camera: widget.camera,sendToOthers: sendMessageToAll),
+    Miroir.forMinion(camera: widget.camera,sendToOthers: sendMessageToAll),
     TapeLeLapin(sendToOthers: sendMessageToAll),
   ];
 

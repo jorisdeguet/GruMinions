@@ -8,12 +8,17 @@ class Miroir extends GruMinionMode {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
-  final CameraDescription camera;
+  CameraDescription? camera;
 
-  Miroir({required this.camera, required super.sendToOthers}){
+  Miroir.forGru({required super.sendToOthers}){
+    // Next, initialize the controller. This returns a Future.
+    //_initializeControllerFuture = _controller.initialize();
+  }
+
+  Miroir.forMinion({required this.camera, required super.sendToOthers}){
     _controller = CameraController(
       // Get a specific camera from the list of available cameras.
-      camera,
+      camera!,
       // Define the resolution to use.
       ResolutionPreset.medium,
     );
@@ -23,12 +28,12 @@ class Miroir extends GruMinionMode {
 
   @override
   void handleMessageAsGru(String s) {
-    // TODO: implement handleMessageAsGru
+    print("Gru in miror mode " + s);
   }
 
   @override
   void handleMessageAsMinion(String s) {
-    // TODO: implement handleMessageAsMinion
+    print("Minion in miror mode " + s);
   }
 
   @override
