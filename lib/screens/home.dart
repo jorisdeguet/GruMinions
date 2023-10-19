@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:gru_minions/screens/gru.dart';
 import 'package:gru_minions/screens/minion.dart';
+import 'package:gru_minions/utils.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -37,14 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: MaterialButton(
                 onPressed: () {
-                  FlutterP2pConnection().checkStoragePermission();
-                  FlutterP2pConnection().askStoragePermission();
-                  FlutterP2pConnection().checkLocationPermission();
-                  FlutterP2pConnection().askLocationPermission();
-                  FlutterP2pConnection().checkLocationEnabled();
-                  FlutterP2pConnection().enableLocationServices();
-                  FlutterP2pConnection().checkWifiEnabled();
-                  FlutterP2pConnection().enableWifiServices();
+                  askPermissions();
                 },
                 child: Text("Permissions"),
               ),

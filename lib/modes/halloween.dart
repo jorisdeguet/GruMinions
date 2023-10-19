@@ -2,21 +2,54 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/utils.dart';
 import 'package:invert_colors/invert_colors.dart';
 
-class HalloweenMode extends StatefulWidget{
+class HalMode extends GruMinionMode {
 
-  final Function onTap;
 
-  const HalloweenMode({super.key, required this.onTap});
+  GlobalKey<BaseState> _key = GlobalKey();
+  HalMode({required super.sendToOthers});
+
+  @override
+  void handleMessageAsGru(String s) {
+    // TODO: implement handleMessageAsGru
+  }
+
+  @override
+  void handleMessageAsMinion(String s) {
+    // TODO: implement handleMessageAsMinion
+    _key.currentState?.handleMessageAsMinion(s);
+  }
+
+  @override
+  Widget minionWidget(BuildContext context) {
+    return HalloweenMode(
+      key: _key,
+        sendToOthers: sendToOthers
+    );
+  }
+
+  @override
+  String name() {
+    return "halloween";
+  }
+
+}
+
+
+class HalloweenMode extends BaseMode{
+
+  const HalloweenMode({super.key, required super.sendToOthers});
 
   @override
   State<StatefulWidget> createState()  => HalState();
 
 }
 
-class HalState extends State<HalloweenMode> {
+class HalState extends BaseState<HalloweenMode> {
 
   List<String> images = [
     "assets/halloween/crane.png",
@@ -46,17 +79,22 @@ class HalState extends State<HalloweenMode> {
 
   @override
   void initState(){
+    playMouaha();
     timeStep();
   }
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     return Center(
       child: GestureDetector(
           onTap: () {
             String sound = sounds[Random().nextInt(sounds.length)];
+            widget.sendToOthers(sound);
             playSound(sound);
-            widget.onTap(sound);
           },
           child: Random().nextBool()
             ? Image.asset(getImageRandom())
@@ -72,6 +110,19 @@ class HalState extends State<HalloweenMode> {
       setState(() {});
       timeStep();
     });
+  }
+
+  @override
+  void handleMessageAsGru(String s) {
+    print("Coucou as Gru");
+  }
+
+  @override
+  void handleMessageAsMinion(String s) {
+    if (s.contains("m4a")) {
+      playSound(s);
+    }
+    print("Coucou as Minion");
   }
 
 }

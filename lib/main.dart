@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/screens/home.dart';
 
-
+// To disable support for one platfrom
+// https://docs.flutter.dev/platform-integration/desktop
+// flutter config --no-enable-ios
 void main() {
   runApp(const MyApp());
 }
