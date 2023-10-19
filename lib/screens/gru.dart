@@ -358,6 +358,7 @@ class _GruPageState extends State<GruPage> with WidgetsBindingObserver  {
   String adresseDuLapin = "";
 
   void choisisUnLapin() async {
+    _flutterP2pConnectionPlugin.sendStringToSocket("tapelelapin");
     String nouvelleAdresse = wifiP2PInfo!.clients[Random().nextInt(wifiP2PInfo!.clients.length)].deviceAddress;
     do {
       nouvelleAdresse = wifiP2PInfo!.clients[Random().nextInt(wifiP2PInfo!.clients.length)].deviceAddress;
