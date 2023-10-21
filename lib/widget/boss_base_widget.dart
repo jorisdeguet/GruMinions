@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vieux_pixels/service/boss_service.dart';
-import 'package:vieux_pixels/service/boss_status.dart';
+import 'package:gru_minions/service/boss_service.dart';
+import 'package:gru_minions/service/boss_status.dart';
 
 abstract class BossBaseWidgetState<T extends StatefulWidget> extends State<T> {
-  late BossService bossService;
+  late GruService bossService;
 
   Widget content(BuildContext context);
 

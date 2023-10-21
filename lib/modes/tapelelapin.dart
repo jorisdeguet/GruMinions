@@ -1,27 +1,46 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
+import 'package:get/get.dart';
 import 'package:gru_minions/modes/base-mode.dart';
-import 'package:gru_minions/utils.dart';
+import 'package:gru_minions/service/boss_service.dart';
+import 'package:gru_minions/service/utils.dart';
 import 'package:mac_address/mac_address.dart';
 
 class TapeLeLapin extends GruMinionMode {
 
   String rabAdress = "";
 
+  var adresseDuLapin = "";
+
   TapeLeLapin({required super.sendToOthers});
 
   @override
   void handleMessageAsGru(String m) {
     // TODO: implement handleMessageAsGru move the Gru code out of gru.dart
+    if (m.contains("hit")){
+      choisisUnLapin();
+    }
+  }
+
+  bool suisLeLapin() {
+    print(macAddress() + " " + rabAdress);
+    String monAdresse = macAddress().substring(2, 17).toUpperCase();
+    String rabAdresse = rabAdress.substring(2, 17).toUpperCase();
+    print("mon adresse = " + monAdresse + " adresse Lapin " + rabAdresse);
+    return monAdresse == rabAdresse;
   }
 
   @override
   void handleMessageAsMinion(String m) {
+    print("Tapelelapin minion ::: " + m + " rab  :::: " + rabAdress);
     if (m.contains("rabbit")){
       // on passe en mode tape le lapin
       // mode = MinionMode.tapelelapin;
       rabAdress = m.split("rab")[0];
-      if (m.contains(macAddress())) {
+      if (suisLeLapin()) {
         print("Je suis le lapin");
       } else {
         print("Je suis une taupe");
@@ -35,11 +54,7 @@ class TapeLeLapin extends GruMinionMode {
 
   @override
   Widget minionWidget(BuildContext context) {
-    // TODO: implement minionWidget
-    String monAdresse = macAddress().substring(2, 17).toUpperCase();
-    String rabAdresse = rabAdress.substring(2, 17).toUpperCase();
-    print("mon adresse = " + monAdresse + " adresse Lapin " + rabAdresse);
-    bool isMe = (monAdresse == rabAdresse);
+    bool isMe = suisLeLapin();
     return Column(
       children: [
         Expanded(
@@ -66,6 +81,23 @@ class TapeLeLapin extends GruMinionMode {
   @override
   String name() => "tapelelapin";
 
+  @override
+  void init() {
+    choisisUnLapin();
+  }
+
+  void choisisUnLapin() async {
+    print("Appel a choisisUnLapin");
+    GruService service = Get.find<GruService>();
+    List<Client> clients = service.info!.clients;
+    String nouvelleAdresse = clients[Random().nextInt(clients.length)].deviceAddress;
+    do {
+      nouvelleAdresse = clients[Random().nextInt(clients.length)].deviceAddress;
+    } while(adresseDuLapin == nouvelleAdresse);
+    adresseDuLapin = nouvelleAdresse;
+    print("Gru Lapin sera " + adresseDuLapin);
+    this.sendToOthers(adresseDuLapin + "rabbit");
+  }
 
 
 }

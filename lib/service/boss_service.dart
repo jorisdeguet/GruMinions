@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
-import 'package:vieux_pixels/service/base_network_service.dart';
-import 'package:vieux_pixels/service/boss_status.dart';
+import 'package:gru_minions/service/base_network_service.dart';
+import 'package:gru_minions/service/boss_status.dart';
 
-class BossService extends BaseNetworkService {
+class GruService extends BaseNetworkService {
   Rx<BossStatus> bossStatus = BossStatus.none.obs;
   Rx<String> onReceive = ''.obs;
 
@@ -14,7 +14,9 @@ class BossService extends BaseNetworkService {
 
   StreamSubscription<WifiP2PInfo>? _wifiP2PInfoStream;
 
-  BossService() {
+  WifiP2PInfo? info;
+
+  GruService() {
     init();
   }
 
@@ -27,6 +29,7 @@ class BossService extends BaseNetworkService {
     await p2p.removeGroup();
 
     _wifiP2PInfoStream = p2p.streamWifiP2PInfo().listen((WifiP2PInfo event) {
+      info = event;
       if (!_groupCreated && event.groupFormed) {
         _groupCreated = true;
         _creatingGroup = false;
@@ -60,7 +63,7 @@ class BossService extends BaseNetworkService {
         },
         // handle string transfer from server
         receiveString: (dynamic message) async {
-          print(message);
+          print("Gru got message " + message);
           onReceive.value = message;
         },
       );

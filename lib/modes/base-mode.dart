@@ -32,11 +32,16 @@ abstract class GruMinionMode {
 
   GruMinionMode({required this.sendToOthers}){
     initMac();
+    init();
   }
+
+
 
   void initMac() async {
     _macAddress = await GetMac.macAddress ?? 'Unknown mac address';
   }
+
+  void init();
 
   String macAddress() => _macAddress;
 

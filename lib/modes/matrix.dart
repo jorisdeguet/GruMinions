@@ -32,4 +32,7 @@ class MatrixMode extends GruMinionMode {
     throw UnimplementedError();
   }
 
+  @override
+  void init() {}
+
 }

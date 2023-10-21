@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:gru_minions/screens/gru.dart';
 import 'package:gru_minions/screens/minion.dart';
-import 'package:gru_minions/utils.dart';
+import 'package:gru_minions/service/utils.dart';
 
 
 class MyHomePage extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:vieux_pixels/service/minion_status.dart';
+import 'package:gru_minions/service/minion_status.dart';
 
 import '../service/minion_service.dart';
 
@@ -27,11 +27,11 @@ abstract class MinionBaseWidgetState<T extends StatefulWidget> extends State<T> 
           case MinionStatus.initializing:
             return _loading(subText: 'Initialisation...');
           case MinionStatus.searchingBoss:
-            return _loading(subText: 'Recherche de boss...');
+            return _loading(subText: 'Recherche de Gru...');
           case MinionStatus.connectingBoss:
-            return _loading(subText: 'Connection à boss...');
+            return _loading(subText: 'Connection à Gru...');
           case MinionStatus.connectingSocket:
-            return _loading(subText: 'Connection au socket de boss...');
+            return _loading(subText: 'Connection au socket de Gru...');
           case MinionStatus.active:
             return content(context);
           default:

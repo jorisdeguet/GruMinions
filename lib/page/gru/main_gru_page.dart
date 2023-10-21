@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vieux_pixels/page/boss/apps/boss_test_app_page.dart';
-import 'package:vieux_pixels/service/boss_service.dart';
+import 'package:gru_minions/page/gru/apps/gru_app_page.dart';
+import 'package:gru_minions/service/boss_service.dart';
 
 import '../../widget/boss_base_widget.dart';
 
-class MainBossPage extends StatefulWidget {
-  const MainBossPage({super.key});
+class MainGruPage extends StatefulWidget {
+  const MainGruPage({super.key});
 
   @override
-  State<MainBossPage> createState() => _MainBossPageState();
+  State<MainGruPage> createState() => _MainBossPageState();
 }
 
-class _MainBossPageState extends BossBaseWidgetState<MainBossPage> {
+class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
 
   @override
   void initState() {
-    Get.put(BossService());
+    Get.put(GruService());
     super.initState();
   }
 
@@ -39,7 +39,7 @@ class _MainBossPageState extends BossBaseWidgetState<MainBossPage> {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const BossTestAppPage()),
+          MaterialPageRoute(builder: (context) => const GruTestAppPage()),
         );
       },
       child: const Text("Test game"),

@@ -3,18 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
-import 'package:vieux_pixels/service/base_network_service.dart';
+import 'package:gru_minions/service/base_network_service.dart';
 
 import 'minion_status.dart';
 
 class MinionService extends BaseNetworkService {
+
   Rx<MinionStatus> minionStatus = MinionStatus.none.obs;
+  Rx<String> onReceive = ''.obs;
 
   bool _connectingToBoss = false;
   bool _connectingToBossSocket = false;
   bool _connected = false;
 
   List<DiscoveredPeers> _peers = [];
+
+
 
   StreamSubscription<List<DiscoveredPeers>>? _peerStream;
   StreamSubscription<WifiP2PInfo>? _wifiP2PInfoStream;
@@ -90,8 +94,9 @@ class MinionService extends BaseNetworkService {
           print(
               "ID: ${transfer.id}, FILENAME: ${transfer.filename}, PATH: ${transfer.path}, COUNT: ${transfer.count}, TOTAL: ${transfer.total}, COMPLETED: ${transfer.completed}, FAILED: ${transfer.failed}, RECEIVING: ${transfer.receiving}");
         },
-        receiveString: (req) async {
-          print('message  ' + req.toString());
+        receiveString: (message) async {
+          print('Minion got message  ' + message.toString());
+          onReceive.value = message;
         },
       );
     }
