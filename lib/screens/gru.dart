@@ -2,9 +2,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
@@ -13,8 +10,7 @@ import 'package:gru_minions/modes/halloween.dart';
 import 'package:gru_minions/modes/miroir.dart';
 import 'package:gru_minions/modes/piano.dart';
 import 'package:gru_minions/modes/tapelelapin.dart';
-import 'package:gru_minions/screens/minion.dart';
-import 'package:gru_minions/utils.dart';
+import 'package:gru_minions/service/utils.dart';
 import 'package:mac_address/mac_address.dart';
 
 // TODO see how to detect if we have a socket working, if not create one

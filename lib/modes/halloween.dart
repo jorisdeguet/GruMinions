@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gru_minions/modes/base-mode.dart';
-import 'package:gru_minions/utils.dart';
+import 'package:gru_minions/service/utils.dart';
 import 'package:invert_colors/invert_colors.dart';
 
 class HalMode extends GruMinionMode {
@@ -35,6 +35,14 @@ class HalMode extends GruMinionMode {
   @override
   String name() {
     return "halloween";
+  }
+
+  @override
+  void initGru() {}
+
+  @override
+  void initMinion() {
+    // TODO: implement initMinion
   }
 
 }

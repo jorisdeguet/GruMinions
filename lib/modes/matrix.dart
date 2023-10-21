@@ -32,4 +32,12 @@ class MatrixMode extends GruMinionMode {
     throw UnimplementedError();
   }
 
+  @override
+  void initGru() {}
+
+  @override
+  void initMinion() {
+    // TODO: implement initMinion
+  }
+
 }

@@ -6,7 +6,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/base-mode.dart';
-import 'package:gru_minions/utils.dart';
+import 'package:gru_minions/service/utils.dart';
 
 class PianoMode extends GruMinionMode {
   PianoMode({required super.sendToOthers});
@@ -28,6 +28,12 @@ class PianoMode extends GruMinionMode {
 
   @override
   String name() => "piano";
+
+  @override
+  void initGru() {}
+
+  @override
+  void initMinion() {}
 
 }
 

@@ -15,15 +15,8 @@ class Miroir extends GruMinionMode {
     //_initializeControllerFuture = _controller.initialize();
   }
 
-  Miroir.forMinion({required this.camera, required super.sendToOthers}){
-    _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
-      camera!,
-      // Define the resolution to use.
-      ResolutionPreset.medium,
-    );
-    // Next, initialize the controller. This returns a Future.
-    _initializeControllerFuture = _controller.initialize();
+  Miroir.forMinion({required super.sendToOthers}){
+
   }
 
   @override
@@ -80,6 +73,30 @@ class Miroir extends GruMinionMode {
         }
       },
     );
+  }
+
+  @override
+  void initGru() {
+    // TODO: implement init
+  }
+
+  @override
+  void initMinion() {
+    _initCamera();
+    // TODO: implement initMinion
+  }
+
+  void _initCamera() async {
+    final cameras = await availableCameras();
+    camera = cameras.last;
+    _controller = CameraController(
+      // Get a specific camera from the list of available cameras.
+      camera!,
+      // Define the resolution to use.
+      ResolutionPreset.medium,
+    );
+    // Next, initialize the controller. This returns a Future.
+    _initializeControllerFuture = _controller.initialize();
   }
 
 
