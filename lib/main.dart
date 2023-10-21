@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/page/home_page.dart';
-import 'package:gru_minions/screens/home.dart';
 
 void main() {
   runApp(const MyApp());
