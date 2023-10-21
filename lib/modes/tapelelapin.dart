@@ -82,7 +82,7 @@ class TapeLeLapin extends GruMinionMode {
   String name() => "tapelelapin";
 
   @override
-  void init() {
+  void initGru() {
     choisisUnLapin();
   }
 
@@ -97,6 +97,11 @@ class TapeLeLapin extends GruMinionMode {
     adresseDuLapin = nouvelleAdresse;
     print("Gru Lapin sera " + adresseDuLapin);
     this.sendToOthers(adresseDuLapin + "rabbit");
+  }
+
+  @override
+  void initMinion() {
+    // TODO: implement initMinion
   }
 
 

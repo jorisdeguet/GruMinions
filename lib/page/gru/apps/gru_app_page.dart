@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/modes/halloween.dart';
+import 'package:gru_minions/modes/miroir.dart';
 import 'package:gru_minions/modes/piano.dart';
 import 'package:gru_minions/modes/tapelelapin.dart';
 import 'package:gru_minions/service/boss_service.dart';
@@ -22,7 +23,7 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
   late List<GruMinionMode> modes = [
     HalMode(sendToOthers: send),
     PianoMode(sendToOthers: send),
-    //Miroir.forGru(sendToOthers: sendMessageToAll),
+    Miroir.forGru(sendToOthers: send),
     TapeLeLapin(sendToOthers: send),
   ];
 
@@ -33,7 +34,7 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
     for (GruMinionMode mode in modes)
       if (m == mode.name()) currentMode = mode;
     send(m);
-    currentMode.init();
+    currentMode.initGru();
     setState(() {});
   }
 

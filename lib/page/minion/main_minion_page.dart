@@ -22,7 +22,7 @@ class _MainMinionPageState extends MinionBaseWidgetState<MainMinionPage> {
   late List<GruMinionMode> modes = [
     HalMode(sendToOthers: send),
     PianoMode(sendToOthers: send),
-    //Miroir.forMinion(camera: widget.camera,sendToOthers: send), // TODO handle camera for this mode
+    Miroir.forGru(sendToOthers: send),
     TapeLeLapin(sendToOthers: send),
   ];
 
@@ -54,6 +54,7 @@ class _MainMinionPageState extends MinionBaseWidgetState<MainMinionPage> {
       if (m == mode.name()) {
         print("Minion mode changed to " + m);
         currentMode = mode;
+        currentMode.initMinion();
       }
     }
     setState(() {});

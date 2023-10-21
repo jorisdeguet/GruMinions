@@ -30,9 +30,10 @@ class PianoMode extends GruMinionMode {
   String name() => "piano";
 
   @override
-  void init() {
-    // TODO: implement init
-  }
+  void initGru() {}
+
+  @override
+  void initMinion() {}
 
 }
 

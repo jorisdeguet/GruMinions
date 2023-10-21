@@ -38,7 +38,12 @@ class HalMode extends GruMinionMode {
   }
 
   @override
-  void init() {}
+  void initGru() {}
+
+  @override
+  void initMinion() {
+    // TODO: implement initMinion
+  }
 
 }
 

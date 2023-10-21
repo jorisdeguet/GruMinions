@@ -38,21 +38,24 @@ class MinionService extends BaseNetworkService {
     await p2p.discover();
 
     _peerStream = p2p.streamPeers().listen((List<DiscoveredPeers> event) {
-      minionStatus.value = MinionStatus.searchingBoss;
-      _peers = event;
-      Iterable<DiscoveredPeers> bosses =
-          event.where((DiscoveredPeers peer) => peer.isGroupOwner);
-      if (bosses.length > 1) {
-        print('Plusieurs boss trouvés');
-      } else if (bosses.length == 1 && !_connectingToBoss) {
-        DiscoveredPeers boss = bosses.first;
-        print(boss);
-        _connectingToBoss = true;
-        minionStatus.value = MinionStatus.connectingBoss;
-        p2p.connect(boss.deviceAddress).then((bool value) {
-          print(value);
-          // connectToSocket();
-        });
+      // TODO on ne veut pas forcément passer dans ce mode non?
+      if (minionStatus.value != MinionStatus.active) {
+        minionStatus.value = MinionStatus.searchingBoss;
+        _peers = event;
+        Iterable<DiscoveredPeers> bosses =
+        event.where((DiscoveredPeers peer) => peer.isGroupOwner);
+        if (bosses.length > 1) {
+          print('Plusieurs boss trouvés');
+        } else if (bosses.length == 1 && !_connectingToBoss) {
+          DiscoveredPeers boss = bosses.first;
+          print(boss);
+          _connectingToBoss = true;
+          minionStatus.value = MinionStatus.connectingBoss;
+          p2p.connect(boss.deviceAddress).then((bool value) {
+            print(value);
+            // connectToSocket();
+          });
+        }
       }
     });
 
