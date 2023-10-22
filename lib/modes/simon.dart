@@ -15,35 +15,12 @@ import 'package:gru_minions/service/boss_service.dart';
 import 'package:gru_minions/service/utils.dart';
 
 class Beep {
-  String note = "";
-  int duration = 1000;
-  String color = "y";
   String address = "";
-
 
   Beep.atRandom(List<Client> clients){
     address = clients[Random().nextInt(clients.length)].deviceAddress;
-    color = colors()[Random().nextInt(colors().length)];
-    note = notes()[Random().nextInt(notes().length)];
   }
 
-  List<String> notes(){
-    return [
-      "assets/piano/A3.mp3",
-      "assets/piano/B3.mp3",
-      "assets/piano/C3.mp3",
-      "assets/piano/D3.mp3",
-    ];
-  }
-
-  List<String> colors(){
-    return [
-      "y",
-      "g",
-      "b",
-      "r",
-    ];
-  }
 }
 
 enum SimonStatus { showing, playing }
@@ -54,7 +31,10 @@ class SimonMode extends GruMinionMode {
   List<Beep> gruSequence = [];
   int gruIndex = 0;
 
-  Color minionColor = Colors.black;
+  int minionType = Random().nextInt(4);
+  late Color minionColor = colors()[minionType];
+  late String minionNote = notes()[minionType];
+  double minionPadding = 0;
 
   SimonMode({required super.sendToOthers});
 
@@ -75,12 +55,17 @@ class SimonMode extends GruMinionMode {
           gruIndex++;
           if (gruIndex == this.gruSequence.length) {
             print("Win");
-            gruIndex = 0;
+            // gruIndex = 0;
             // TODO play sound
+            //playSound("assets/halloween/tonnerre.m4a");
             // TODO ajouter un a la seuqnece
+            addOneToSequence();
           }
         } else {
+          playSound("assets/non.mp3");
           gruIndex = 0;
+          this.gruSequence.clear();
+          addOneToSequence();
           // foirade
           // jouer un son
           // repartir la sequence
@@ -103,17 +88,19 @@ class SimonMode extends GruMinionMode {
       String adresse = s.split("@")[0];
       String color = s.split("@")[1];
       if (estMonAdresse(adresse)){
-        minionColor = color=="y"?Colors.yellow:color=="b"?Colors.blue:color=="g"?Colors.green:Colors.red;
-        String note = color=="y"?"A3":color=="b"?"B3":color=="g"?"C3":"D3";
-        playSound("assets/piano/"+note+".mp3");
+        minionPadding = 80;
+
+        playSound(minionNote);
       } else {
-        minionColor = Colors.white;
+        //minionColor = Colors.white;
+        minionPadding = 0;
       }
     }
 
 
     if (s == "off") {
-      minionColor = Colors.white;
+      //minionColor = Colors.white;
+      minionPadding = 0;
     }
   }
 
@@ -124,21 +111,23 @@ class SimonMode extends GruMinionMode {
 
   @override
   void initMinion() {
-    // TODO: implement initMinion
+    minionColor = colors()[minionType];
+    minionNote = notes()[minionType];
   }
 
   @override
   Widget minionWidget(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        sendToOthers(macAddress()+"touch");
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
+    return Padding(
+      padding: EdgeInsets.all(this.minionPadding),
+      child: GestureDetector(
+          onTap: () {
+            playSound(minionNote);
+            sendToOthers(macAddress()+"touch");
+          },
+          child: Container(
             color: minionColor,
+          ),
         ),
-      ),
     );
   }
 
@@ -179,11 +168,30 @@ class SimonMode extends GruMinionMode {
   void playSequence() async {
     gruStatus = SimonStatus.showing;
     for (Beep beep in this.gruSequence) {
-      sendToOthers(beep.address+"@"+beep.color.toString());
+      sendToOthers(beep.address+"@gna");
       await Future.delayed(Duration(milliseconds: 1000));
     }
     sendToOthers("off");
     gruStatus = SimonStatus.playing;
+  }
+
+
+  List<String> notes(){
+    return [
+      "assets/piano/A3.mp3",
+      "assets/piano/B3.mp3",
+      "assets/piano/C3.mp3",
+      "assets/piano/D3.mp3",
+    ];
+  }
+
+  List<Color> colors(){
+    return [
+      Colors.yellow,
+      Colors.blueAccent,
+      Colors.greenAccent,
+      Colors.red,
+    ];
   }
 
 }
