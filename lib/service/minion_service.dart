@@ -98,7 +98,7 @@ class MinionService extends BaseNetworkService {
               "ID: ${transfer.id}, FILENAME: ${transfer.filename}, PATH: ${transfer.path}, COUNT: ${transfer.count}, TOTAL: ${transfer.total}, COMPLETED: ${transfer.completed}, FAILED: ${transfer.failed}, RECEIVING: ${transfer.receiving}");
         },
         receiveString: (message) async {
-          print('Minion got message  ' + message.toString());
+          //print('Minion got message  ' + message.toString());
           onReceive.value = message;
         },
       );

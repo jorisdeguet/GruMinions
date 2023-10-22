@@ -31,34 +31,37 @@ abstract class GruMinionMode {
   String _macAddress = "no mac";
 
   GruMinionMode({required this.sendToOthers}){
-    initMac();
-    initGru();
+    _initMac();
   }
 
-
-
-  void initMac() async {
+  void _initMac() async {
     _macAddress = await GetMac.macAddress ?? 'Unknown mac address';
   }
 
-  void initGru();
-
-  void initMinion();
-
   String macAddress() => _macAddress;
 
-  // will provide the appropriate widget
-  Widget minionWidget(BuildContext context);
+  bool estMemeAdresse(String a, String b){
+    // du au fait que les adresses MAC en Wifi direct ne sont pas exactement celle de Wifi
+    String aa = a.substring(2, 17).toUpperCase();
+    String bb = b.substring(2, 17).toUpperCase();
+    return aa == bb;
+  }
+
+  bool estMonAdresse(String autre) {
+    return estMemeAdresse(autre, macAddress());
+  }
+
+  // ABSTRACT METHODES POUR DEFINIR LE MODE
 
   // gives the unique name of this mode
   String name();
-
+  void initGru();
+  void initMinion();
+  // will provide the appropriate widget
+  Widget minionWidget(BuildContext context);
+  Widget gruWidget();
   // provides the method to call when receiving the message for minions
   void handleMessageAsMinion(String s);
-
   // same for Gru
   void handleMessageAsGru(String s);
-
-  Widget gruWidget();
-
 }

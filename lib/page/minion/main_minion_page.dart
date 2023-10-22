@@ -65,5 +65,6 @@ class _MainMinionPageState extends MinionBaseWidgetState<MainMinionPage> {
     print("Minion Widget got :::: " + m);
     changeMode(m);
     currentMode.handleMessageAsMinion(m);
+    setState(() {});
   }
 }

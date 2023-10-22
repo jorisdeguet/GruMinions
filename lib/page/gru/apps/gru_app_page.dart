@@ -22,7 +22,7 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
 
 
   late List<GruMinionMode> modes = listOfModes(send);
-  late GruMinionMode currentMode = modes[0];
+  late GruMinionMode currentMode;
 
 
   void changeMode(String m) {
@@ -40,6 +40,7 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
     Get.find<GruService>().onReceive.stream.forEach((element) {
       receive(element);
     });
+    changeMode(modes[0].name());
   }
 
   @override
@@ -79,7 +80,7 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
   }
 
   void receive(String m) {
-    print("Gru widget geot  ::: " + m);
+    print("Gru widget got  ::: " + m);
     currentMode.handleMessageAsGru(m);
   }
 

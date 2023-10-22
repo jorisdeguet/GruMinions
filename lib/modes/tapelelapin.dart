@@ -17,18 +17,13 @@ class TapeLeLapin extends GruMinionMode {
 
   @override
   void handleMessageAsGru(String m) {
-    // TODO: implement handleMessageAsGru move the Gru code out of gru.dart
     if (m.contains("hit")){
       choisisUnLapin();
     }
   }
 
   bool suisLeLapin() {
-    print(macAddress() + " " + rabAdress);
-    String monAdresse = macAddress().substring(2, 17).toUpperCase();
-    String rabAdresse = rabAdress.substring(2, 17).toUpperCase();
-    print("mon adresse = " + monAdresse + " adresse Lapin " + rabAdresse);
-    return monAdresse == rabAdresse;
+    return estMonAdresse(rabAdress);
   }
 
   @override

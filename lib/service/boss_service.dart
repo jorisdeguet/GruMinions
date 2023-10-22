@@ -63,7 +63,7 @@ class GruService extends BaseNetworkService {
         },
         // handle string transfer from server
         receiveString: (dynamic message) async {
-          print("Gru got message " + message);
+          //print("Gru got message " + message);
           onReceive.value = message;
         },
       );
