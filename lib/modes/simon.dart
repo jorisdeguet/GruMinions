@@ -4,6 +4,7 @@
 
 
 
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -14,24 +15,19 @@ import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/service/boss_service.dart';
 import 'package:gru_minions/service/utils.dart';
 
-class Beep {
-  String address = "";
 
-  Beep.atRandom(List<Client> clients){
-    address = clients[Random().nextInt(clients.length)].deviceAddress;
-  }
-
-}
 
 enum SimonStatus { showing, playing }
 
 class SimonMode extends GruMinionMode {
 
+  Random rand = Random();
+
   SimonStatus gruStatus = SimonStatus.showing;
-  List<Beep> gruSequence = [];
+  List<String> gruSequence = [];
   int gruIndex = 0;
 
-  int minionType = Random().nextInt(4);
+  late int minionType = rand.nextInt(4);
   late Color minionColor = colors()[minionType];
   late String minionNote = notes()[minionType];
   double minionPadding = 0;
@@ -45,12 +41,16 @@ class SimonMode extends GruMinionMode {
     if (gruStatus == SimonStatus.showing) {
       // ignore
       // if a touch happens while I play the sequence do not do nothing
+      if (s == "doneShowing") {
+        gruStatus = SimonStatus.playing;
+        print("Gru status is playing");
+      }
     } else if(gruStatus == SimonStatus.playing) {
-      print("Gru got touch " + s);
+      print("Gru got touch playing  " + s);
       if (s.contains("touch")) {
         String adresse = s.split("touch")[0];
         print("Someone touched" + adresse);
-        if (estMemeAdresse(adresse, this.gruSequence[gruIndex].address)) {
+        if (estMemeAdresse(adresse, this.gruSequence[gruIndex])) {
           print("OK");
           gruIndex++;
           if (gruIndex == this.gruSequence.length) {
@@ -58,7 +58,7 @@ class SimonMode extends GruMinionMode {
             // gruIndex = 0;
             // TODO play sound
             //playSound("assets/halloween/tonnerre.m4a");
-            // TODO ajouter un a la seuqnece
+            // TODO ajouter un a la sequence
             addOneToSequence();
           }
         } else {
@@ -71,35 +71,46 @@ class SimonMode extends GruMinionMode {
           // repartir la sequence
         }
       }
-
-      // voir ou on est dans la sequence
-      // if a touch happens at the right place in the sequence + 1
-
-      // if a touch happens at the wrong one reset and shout error
-
     }
-    //this.sendToOthers("no");
+  }
 
+  String atRandom(List<Client> clients){
+    return clients[rand.nextInt(clients.length)].deviceAddress;
   }
 
   @override
   void handleMessageAsMinion(String s) {
-    if (s.contains("@")) {
-      String adresse = s.split("@")[0];
-      String color = s.split("@")[1];
-      if (estMonAdresse(adresse)){
-        minionPadding = 80;
-
-        playSound(minionNote);
-      } else {
-        //minionColor = Colors.white;
-        minionPadding = 0;
-      }
+    minionPadding = 0;
+    if (s.startsWith("|")) {
+      traiterSequence(s);
     }
-
-
     if (s == "off") {
       //minionColor = Colors.white;
+      minionPadding = 0;
+    }
+  }
+
+  void traiterSequence(String s) async {
+    List<String> pieces = s.split("|").sublist(1);
+    print("Minion pieces " + pieces.toString());
+    String adresse = pieces[0];
+    if (estMonAdresse(adresse)){
+      minionPadding = 80;
+      // je dois jouer ma note n fois
+      while(pieces.length > 0 && estMonAdresse(pieces[0])){
+        print("Je joue ma note " + pieces.toString());
+        playSound(minionNote);
+        await Future.delayed(Duration(milliseconds: 1000));
+        pieces = pieces.sublist(1);
+      }
+      if (pieces.length > 1){
+        String reste = "|" + pieces.join("|");
+        print(s + " = " + adresse + " + " +reste);
+        sendToOthers(reste);
+      } else{
+        sendToOthers("doneShowing");
+      }
+    } else {
       minionPadding = 0;
     }
   }
@@ -137,7 +148,12 @@ class SimonMode extends GruMinionMode {
   void addOneToSequence(){
     GruService service = Get.find<GruService>();
     List<Client> clients = service.info!.clients;
-    this.gruSequence.add(Beep.atRandom(clients));
+    print("--------------------------------------------------");
+    for (Client s in clients) {
+      print(" client " + s.deviceAddress);
+    }
+    print("--------------------------------------------------");
+    this.gruSequence.add(atRandom(clients));
     playSequence();
   }
 
@@ -145,7 +161,8 @@ class SimonMode extends GruMinionMode {
   Widget gruWidget() {
     return Column(
       children: [
-        Text("TODO SIMON"),
+        Text("SIMON " + gruSequence.toString()),
+        Spacer(),
         MaterialButton(
           color: Colors.green,
           onPressed: () {
@@ -153,6 +170,7 @@ class SimonMode extends GruMinionMode {
           },
           child: Text("test"),
         ),
+        Spacer(),
         MaterialButton(
           color: Colors.red,
           onPressed: () {
@@ -167,12 +185,15 @@ class SimonMode extends GruMinionMode {
 
   void playSequence() async {
     gruStatus = SimonStatus.showing;
-    for (Beep beep in this.gruSequence) {
-      sendToOthers(beep.address+"@gna");
-      await Future.delayed(Duration(milliseconds: 1000));
-    }
-    sendToOthers("off");
-    gruStatus = SimonStatus.playing;
+    String message = this.gruSequence.fold("", (previousValue, element) => previousValue+"|"+element);
+    print(message);
+    sendToOthers(message);
+    // for (Beep beep in this.gruSequence) {
+    //   sendToOthers(beep.address+"@gna");
+    //   await Future.delayed(Duration(milliseconds: 1000));
+    // }
+    // sendToOthers("off");
+    // gruStatus = SimonStatus.playing;
   }
 
 
@@ -192,6 +213,18 @@ class SimonMode extends GruMinionMode {
       Colors.greenAccent,
       Colors.red,
     ];
+  }
+
+  void playNoteAndPassToTheNext(String reste) async{
+    // TODO TANT QUE C'EST MOI NE PAS ENVOYER DE MESSAGE, ATTENDRE ET REJOUER LA NOTE
+
+    playSound(minionNote);
+    minionPadding = 80;
+    Timer(Duration(milliseconds: 1000), () {
+      print("Minion sends the rest of the sequence " + reste);
+      sendToOthers(reste);
+    });
+
   }
 
 }

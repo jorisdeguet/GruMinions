@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/base-mode.dart';
-import 'package:gru_minions/modes/halloween.dart';
 import 'package:gru_minions/modes/list_of_modes.dart';
-import 'package:gru_minions/modes/miroir.dart';
-import 'package:gru_minions/modes/piano.dart';
-import 'package:gru_minions/modes/tapelelapin.dart';
 import 'package:gru_minions/service/boss_service.dart';
-import 'package:gru_minions/service/utils.dart';
 import 'package:gru_minions/widget/boss_base_widget.dart';
-import 'package:path/path.dart';
+
 
 class GruTestAppPage extends StatefulWidget {
   const GruTestAppPage({super.key});
@@ -80,8 +75,9 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
   }
 
   void receive(String m) {
-    print("Gru widget got  ::: " + m);
+    //print("Gru widget got  ::: " + m);
     currentMode.handleMessageAsGru(m);
+    setState(() {});
   }
 
   Widget buttonForMode(GruMinionMode e) {
