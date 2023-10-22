@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/modes/halloween.dart';
+import 'package:gru_minions/modes/list_of_modes.dart';
 import 'package:gru_minions/modes/miroir.dart';
 import 'package:gru_minions/modes/piano.dart';
 import 'package:gru_minions/modes/tapelelapin.dart';
@@ -20,13 +21,7 @@ class GruTestAppPage extends StatefulWidget {
 class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
 
 
-  late List<GruMinionMode> modes = [
-    HalMode(sendToOthers: send),
-    PianoMode(sendToOthers: send),
-    Miroir.forGru(sendToOthers: send),
-    TapeLeLapin(sendToOthers: send),
-  ];
-
+  late List<GruMinionMode> modes = listOfModes(send);
   late GruMinionMode currentMode = modes[0];
 
 
@@ -64,6 +59,7 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
               child: Text("pipo"),
           ),
           gestionDesModes(),
+          Expanded(child: currentMode.gruWidget()),
         ],
       ),
     );
@@ -73,40 +69,7 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
     return Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          MaterialButton(
-              color: Colors.amber,
-              onPressed: () {
-                changeMode("tapelelapin");
-                //choisisUnLapin();         // TODO envoyer une des adresses au hasard comment avoir les MACs
-              },
-              child : Text("Tape le Lapin", style: TextStyle(fontSize: 25),)
-          ),
-          MaterialButton(
-              color: Colors.amberAccent,
-              onPressed: () {
-                changeMode("miroir");
-              },
-              child : Text("Miroir", style: TextStyle(fontSize: 25),)
-          ),
-          MaterialButton(
-              color: Colors.purple,
-              onPressed: () {
-                changeMode("piano");
-              },
-              child : Text("Piano", style: TextStyle(fontSize: 25),)
-          ),
-          MaterialButton(
-              color: Colors.amberAccent,
-              onPressed: () {
-                // playSound("assets/halloween/cri.m4a");
-                playSound("assets/halloween/mouahaha.m4a");
-                playSound("assets/halloween/tonnerre.m4a");
-                changeMode("halloween");
-              },
-              child : Text("Halloween!!", style: TextStyle(fontSize: 25),)
-          )
-        ],
+        children: this.modes.map( buttonForMode).toList(),
       ),
     );
   }
@@ -118,5 +81,15 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
   void receive(String m) {
     print("Gru widget geot  ::: " + m);
     currentMode.handleMessageAsGru(m);
+  }
+
+  Widget buttonForMode(GruMinionMode e) {
+    return MaterialButton(
+        color: Colors.amber,
+        onPressed: () {
+          changeMode(e.name());
+        },
+        child : Text(e.name(), style: TextStyle(fontSize: 25),)
+    );
   }
 }

@@ -99,6 +99,11 @@ class Miroir extends GruMinionMode {
     _initializeControllerFuture = _controller.initialize();
   }
 
+  @override
+  Widget gruWidget() {
+    return new Text("Miroir console TODO");
+  }
+
 
 // // TODO test and see if we can share with other minions
 // Future<XFile?> takePicture(CameraController? cameraController) async {

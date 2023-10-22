@@ -35,6 +35,11 @@ class PianoMode extends GruMinionMode {
   @override
   void initMinion() {}
 
+  @override
+  Widget gruWidget() {
+    return Text("TODO");
+  }
+
 }
 
 Widget getPiano(int octave) {

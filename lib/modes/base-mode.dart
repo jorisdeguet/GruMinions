@@ -59,4 +59,6 @@ abstract class GruMinionMode {
   // same for Gru
   void handleMessageAsGru(String s);
 
+  Widget gruWidget();
+
 }

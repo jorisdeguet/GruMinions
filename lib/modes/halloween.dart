@@ -42,7 +42,14 @@ class HalMode extends GruMinionMode {
 
   @override
   void initMinion() {
-    // TODO: implement initMinion
+    //playSound("assets/halloween/cri.m4a");
+    //playSound("assets/halloween/mouahaha.m4a");
+    playSound("assets/halloween/tonnerre.m4a");
+  }
+
+  @override
+  Widget gruWidget() {
+    return new Text("Halloween console TODO");
   }
 
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/modes/halloween.dart';
+import 'package:gru_minions/modes/list_of_modes.dart';
 import 'package:gru_minions/modes/miroir.dart';
 import 'package:gru_minions/modes/piano.dart';
 import 'package:gru_minions/modes/tapelelapin.dart';
@@ -19,12 +20,7 @@ class MainMinionPage extends StatefulWidget {
 class _MainMinionPageState extends MinionBaseWidgetState<MainMinionPage> {
 
 
-  late List<GruMinionMode> modes = [
-    HalMode(sendToOthers: send),
-    PianoMode(sendToOthers: send),
-    Miroir.forGru(sendToOthers: send),
-    TapeLeLapin(sendToOthers: send),
-  ];
+  late List<GruMinionMode> modes = listOfModes(send);
 
   late GruMinionMode currentMode = modes[0];
 

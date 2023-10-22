@@ -40,4 +40,10 @@ class MatrixMode extends GruMinionMode {
     // TODO: implement initMinion
   }
 
+  @override
+  Widget gruWidget() {
+    // TODO: implement gruWidget
+    throw UnimplementedError();
+  }
+
 }

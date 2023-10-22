@@ -1,13 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/service/boss_service.dart';
 import 'package:gru_minions/service/utils.dart';
-import 'package:mac_address/mac_address.dart';
 
 class TapeLeLapin extends GruMinionMode {
 
@@ -37,14 +35,7 @@ class TapeLeLapin extends GruMinionMode {
   void handleMessageAsMinion(String m) {
     print("Tapelelapin minion ::: " + m + " rab  :::: " + rabAdress);
     if (m.contains("rabbit")){
-      // on passe en mode tape le lapin
-      // mode = MinionMode.tapelelapin;
       rabAdress = m.split("rab")[0];
-      if (suisLeLapin()) {
-        print("Je suis le lapin");
-      } else {
-        print("Je suis une taupe");
-      }
       return;
     }
     if (m.contains("miss")) {
@@ -100,8 +91,11 @@ class TapeLeLapin extends GruMinionMode {
   }
 
   @override
-  void initMinion() {
-    // TODO: implement initMinion
+  void initMinion() {}
+
+  @override
+  Widget gruWidget() {
+    return Container(color: Colors.blueAccent);
   }
 
 
