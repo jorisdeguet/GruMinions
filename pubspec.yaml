@@ -33,8 +33,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^2.0.0
+  # potential use of complex messages inside a mode??
   json_serializable: ^6.7.1
   build_runner: ^2.3.3
 
@@ -45,3 +45,4 @@ flutter:
     - assets/
     - assets/piano/
     - assets/halloween/
+    - assets/flame/

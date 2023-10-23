@@ -1,6 +1,7 @@
 
 
 import 'package:gru_minions/modes/base-mode.dart';
+import 'package:gru_minions/modes/flame.dart';
 import 'package:gru_minions/modes/halloween.dart';
 import 'package:gru_minions/modes/miroir.dart';
 import 'package:gru_minions/modes/piano.dart';
@@ -14,5 +15,6 @@ List<GruMinionMode> listOfModes(Function send) {
     HalMode(sendToOthers: send),
     TapeLeLapin(sendToOthers: send),
     SimonMode(sendToOthers: send),
+    FlameMode(sendToOthers: send),
   ];
 }
