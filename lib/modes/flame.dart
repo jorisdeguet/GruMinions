@@ -10,7 +10,7 @@ class FlameMode extends GruMinionMode {
 
   @override
   Widget gruWidget() {
-    return Text("TODO");
+    return MainGamePage();
   }
 
   @override
