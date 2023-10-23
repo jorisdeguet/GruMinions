@@ -25,10 +25,4 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
   Widget content(BuildContext context) {
     return GruTestAppPage();
   }
-
-  Widget _games() {
-    return GruTestAppPage();
-  }
-
-
 }
