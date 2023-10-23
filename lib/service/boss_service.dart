@@ -7,6 +7,8 @@ import 'package:gru_minions/service/boss_status.dart';
 
 class GruService extends BaseNetworkService {
   Rx<BossStatus> bossStatus = BossStatus.none.obs;
+
+  // TODO Bug, ne s'active que si on change la valeur mais pas si on reçoit 2 fois le même message
   Rx<String> onReceive = ''.obs;
 
   bool _creatingGroup = false;
@@ -63,8 +65,10 @@ class GruService extends BaseNetworkService {
         },
         // handle string transfer from server
         receiveString: (dynamic message) async {
-          //print("Gru got message " + message);
-          onReceive.value = message;
+          print("Gru got message " + message);
+          // onReceive.value = message;
+          onReceive.trigger(message);
+          // onReceive.call(message);
         },
       );
       bossStatus.value = BossStatus.active;

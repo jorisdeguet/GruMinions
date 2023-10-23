@@ -100,6 +100,7 @@ class MinionService extends BaseNetworkService {
         receiveString: (message) async {
           //print('Minion got message  ' + message.toString());
           onReceive.value = message;
+          // onReceive.trigger(message);
         },
       );
     }

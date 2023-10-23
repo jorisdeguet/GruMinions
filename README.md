@@ -48,6 +48,7 @@ C'est plus rapide de déployer en exécutant "flutter run -d all" depuis le term
 
 Pendant le dev, on peut faire hot reload sur tous en appuyant sur "r" dans le terminal
 
+IL FAUT QUITTER L'APP SUR LES TABLETTES AVANT DE ROULER SINON ON A DES ERREURS DE DESINSTALLATION
 
 ## Getting Started
 

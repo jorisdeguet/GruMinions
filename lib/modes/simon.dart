@@ -49,26 +49,26 @@ class SimonMode extends GruMinionMode {
       if (s.contains("touch")) {
         String adresse = s.split("touch")[0];
         print("Someone touched" + adresse);
-        if (estMemeAdresse(adresse, this.gruSequence[gruIndex])) {
-          print("OK");
-          gruIndex++;
-          if (gruIndex == this.gruSequence.length) {
-            print("Win");
-            // gruIndex = 0;
-            // TODO play sound
-            //playSound("assets/halloween/tonnerre.m4a");
-            // TODO ajouter un a la sequence
-            addOneToSequence();
-          }
-        } else {
-          playSound("assets/non.mp3");
-          gruIndex = 0;
-          this.gruSequence.clear();
-          //addOneToSequence();
-          // foirade
-          // jouer un son
-          // repartir la sequence
-        }
+        // if (estMemeAdresse(adresse, this.gruSequence[gruIndex])) {
+        //   print("OK");
+        //   gruIndex++;
+        //   if (gruIndex == this.gruSequence.length) {
+        //     print("Win");
+        //     // gruIndex = 0;
+        //     // TODO play sound
+        //     //playSound("assets/halloween/tonnerre.m4a");
+        //     // TODO ajouter un a la sequence
+        //     addOneToSequence();
+        //   }
+        // } else {
+        //   playSound("assets/non.mp3");
+        //   gruIndex = 0;
+        //   this.gruSequence.clear();
+        //   //addOneToSequence();
+        //   // foirade
+        //   // jouer un son
+        //   // repartir la sequence
+        // }
       }
     }
   }
@@ -131,8 +131,10 @@ class SimonMode extends GruMinionMode {
       padding: EdgeInsets.all(this.minionPadding),
       child: GestureDetector(
           onTap: () {
+            print("Minion tap note ");
             playSound(minionNote);
             sendToOthers(macAddress()+"touch");
+            print("Minion tap note has sent to others ");
           },
           child: Container(
             color: minionColor,

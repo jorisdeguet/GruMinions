@@ -15,6 +15,9 @@ class GruTestAppPage extends StatefulWidget {
 
 class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
 
+  bool messagesDebug = true;
+
+  List<String> messages = [];
 
   late List<GruMinionMode> modes = listOfModes(send);
   late GruMinionMode currentMode;
@@ -32,7 +35,13 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
   void initState() {
     //Get.put(BossService());
     super.initState();
-    Get.find<GruService>().onReceive.stream.forEach((element) {
+    GruService service = Get.find<GruService>();
+    service.onReceive.stream.forEach((element) {
+      print("Gru stream " + element);
+
+    });
+    service.onReceive.listen((element) {
+      print("Gru listen " + element);
       receive(element);
     });
     changeMode(modes[0].name());
@@ -47,14 +56,15 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
       ),
       body: Column(
         children: [
-          Text('Test App Page current mode ' + currentMode.name()),
-          MaterialButton(
-              onPressed: () {
-                send("pipo");
-              },
-              child: Text("pipo"),
+          Expanded(
+            flex: 1,
+            child: Row(
+              children: [
+                gestionDesModes(),
+                messagesDebug?messagesList():Container(),
+              ],
+            ),
           ),
-          gestionDesModes(),
           Expanded(child: currentMode.gruWidget()),
         ],
       ),
@@ -63,7 +73,7 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
 
   Expanded gestionDesModes() {
     return Expanded(
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: this.modes.map( buttonForMode).toList(),
       ),
@@ -71,12 +81,22 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
   }
 
   void send(String m) {
+    messages.insert(0,"Gru - " + m);
     Get.find<GruService>().p2p.sendStringToSocket(m);
+
+    setState(() {});
   }
 
   void receive(String m) {
-    //print("Gru widget got  ::: " + m);
-    currentMode.handleMessageAsGru(m);
+    // Any exception on handling the message would stop the refresh
+    try{
+      messages.insert(0,"Minion - " + m);
+      //print("Gru widget got  ::: " + m);
+      currentMode.handleMessageAsGru(m);
+    } catch (e) {
+      print("Minion got exception while handling message " + m);
+      e.printError();
+    }
     setState(() {});
   }
 
@@ -87,6 +107,28 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
           changeMode(e.name());
         },
         child : Text(e.name(), style: TextStyle(fontSize: 25),)
+    );
+  }
+
+  Widget messagesList() {
+    return Expanded(
+      child: Column(
+        children: [
+          MaterialButton(
+            color: Colors.red,
+            onPressed: () {
+              this.messages.clear();
+              setState(() {});
+            },
+            child: Text("Effacer"),
+          ),
+          Expanded(
+            child: ListView(
+              children: messages.map(  (e) => Text(e)   ).toList(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
