@@ -8,7 +8,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/base-mode.dart';
@@ -65,7 +64,7 @@ class SimonMode extends GruMinionMode {
           playSound("assets/non.mp3");
           gruIndex = 0;
           this.gruSequence.clear();
-          addOneToSequence();
+          //addOneToSequence();
           // foirade
           // jouer un son
           // repartir la sequence
@@ -166,6 +165,7 @@ class SimonMode extends GruMinionMode {
         MaterialButton(
           color: Colors.green,
           onPressed: () {
+            gruIndex = 0;
             addOneToSequence();
           },
           child: Text("test"),

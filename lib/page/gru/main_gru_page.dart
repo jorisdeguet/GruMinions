@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/page/gru/apps/gru_app_page.dart';
 import 'package:gru_minions/service/boss_service.dart';
+import 'package:gru_minions/widget/boss_base_widget.dart';
 
-import '../../widget/boss_base_widget.dart';
+
 
 class MainGruPage extends StatefulWidget {
   const MainGruPage({super.key});
@@ -22,28 +23,11 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
 
   @override
   Widget content(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _games(),
-          ],
-        ),
-      ),
-    );
+    return GruTestAppPage();
   }
 
   Widget _games() {
-    return MaterialButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const GruTestAppPage()),
-        );
-      },
-      child: const Text("Test game"),
-    );
+    return GruTestAppPage();
   }
 
 

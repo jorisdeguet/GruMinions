@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 // dart run build_runner build
 part 'message.g.dart';
 
