@@ -9,14 +9,11 @@ class Miroir extends GruMinionMode {
 
   CameraDescription? camera;
 
-  Miroir.forGru({required super.sendToOthers}){
+  Miroir({required super.sendToOthers}){
     // Next, initialize the controller. This returns a Future.
     //_initializeControllerFuture = _controller.initialize();
   }
 
-  Miroir.forMinion({required super.sendToOthers}){
-
-  }
 
   @override
   void handleMessageAsGru(String s) {
