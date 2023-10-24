@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart' as ml;
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -30,24 +31,24 @@ class MatrixMode extends GruMinionMode {
   @override
   Widget minionWidget(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         QrImageView(
           data: macAddress()+"T",
           version: QrVersions.auto,
-          size: 400.0,
+          //size: 400.0,
         ),
-        Spacer(),
-        Row(
-          children: [
-            Spacer(),
-            QrImageView(
-              data: macAddress(),
-              version: QrVersions.auto,
-              size: 400.0,
-            ),
-          ],
-        ),
+        // Spacer(),
+        // Row(
+        //   children: [
+        //     Spacer(),
+        //     QrImageView(
+        //       data: macAddress(),
+        //       version: QrVersions.auto,
+        //       size: 400.0,
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }
@@ -70,16 +71,39 @@ class MatrixMode extends GruMinionMode {
   @override
   Widget gruWidget() {
     return MobileScanner(
-      // fit: BoxFit.contain,
+      fit: BoxFit.contain,
       onDetect: (capture) {
         final List<Barcode> barcodes = capture.barcodes;
         final Uint8List? image = capture.image;
         sendToOthers(barcodes.length.toString() + "  found ");
+        // TODO if same number of codes as minions, we have everyone
+
         for (final barcode in barcodes) {
-          debugPrint('Barcode found! ${barcode.rawValue} ');
+          print('============================ Barcode found! ${barcode.rawValue} ' + barcode.corners.toString());
+          for (Offset off  in barcode.corners!) {
+            print(barcode.rawValue! + " @ " + off.dx.toString() + ":" + off.dy.toString() + "     ");
+          }
         }
+        //processWithML(image);
       },
     );
   }
+
+  // void processWithML(ml.InputImage image) async {
+  //   // From ML kit
+  //   final List<ml.BarcodeFormat> formats = [ml.BarcodeFormat.all];
+  //   final barcodeScanner = ml.BarcodeScanner(formats: formats);
+  //   final List<ml.Barcode> barcodes = await barcodeScanner.processImage(image);
+  //
+  //   for (ml.Barcode barcode in barcodes) {
+  //     final ml.BarcodeType type = barcode.type;
+  //     final Rect boundingBox = barcode.boundingBox;
+  //     final String? displayValue = barcode.displayValue;
+  //     final String? rawValue = barcode.rawValue;
+  //
+  //     // See API reference for complete list of supported types
+  //     print(rawValue);
+  //   }
+  // }
 
 }

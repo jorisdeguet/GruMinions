@@ -102,11 +102,11 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
 
   Widget buttonForMode(GruMinionMode e) {
     return MaterialButton(
-        color: Colors.amber,
+        color: Colors.greenAccent,
         onPressed: () {
           changeMode(e.name());
         },
-        child : Text(e.name(), style: TextStyle(fontSize: 25),)
+        child : Text(e.name(), style: TextStyle(fontSize: 15),)
     );
   }
 
