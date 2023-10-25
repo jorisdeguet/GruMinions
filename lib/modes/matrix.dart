@@ -30,26 +30,30 @@ class MatrixMode extends GruMinionMode {
 
   @override
   Widget minionWidget(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        QrImageView(
-          data: macAddress()+"T",
-          version: QrVersions.auto,
-          //size: 400.0,
-        ),
-        // Spacer(),
-        // Row(
-        //   children: [
-        //     Spacer(),
-        //     QrImageView(
-        //       data: macAddress(),
-        //       version: QrVersions.auto,
-        //       size: 400.0,
-        //     ),
-        //   ],
-        // ),
-      ],
+    return Container(
+      color: Colors.black,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          QrImageView(
+            data: macAddress(),
+            version: QrVersions.auto,
+              backgroundColor: Colors.blueGrey,
+            //size: 400.0,
+          ),
+          // Spacer(),
+          // Row(
+          //   children: [
+          //     Spacer(),
+          //     QrImageView(
+          //       data: macAddress(),
+          //       version: QrVersions.auto,
+          //       size: 400.0,
+          //     ),
+          //   ],
+          // ),
+        ],
+      ),
     );
   }
 
