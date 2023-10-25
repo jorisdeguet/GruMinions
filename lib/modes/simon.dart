@@ -56,6 +56,12 @@ class SimonMode extends GruMinionMode {
           gruIndex++;
           if (gruIndex == this.gruSequence.length) {
             print("Win");
+            playSound("assets/halloween/mouahaha.m4a");
+            Timer(Duration(milliseconds: 3000),  () {
+              print("AAAAAAAAAAAAAAADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD ONE");
+              this.gruIndex = 0;
+              addOneToSequence();
+            });
             // gruIndex = 0;
             // TODO play sound
             //playSound("assets/halloween/tonnerre.m4a");
@@ -85,6 +91,14 @@ class SimonMode extends GruMinionMode {
     if (s.startsWith("{")) {
       traiterSequence(s);
     }
+    if (s.contains(":::")){
+      String adresse = s.split(":::")[0];
+      if (estMonAdresse(adresse)) {
+        minionType = int.parse(s.split(":::")[1]);
+        minionColor = colors()[minionType];
+        minionNote = notes()[minionType];
+      }
+    }
     if (s == "off") {
       //minionColor = Colors.white;
       minionPadding = 0;
@@ -101,7 +115,7 @@ class SimonMode extends GruMinionMode {
       while(sequence.sequence.length > 0 && estMonAdresse(sequence.sequence[0])){
         print("Je joue ma note " + sequence.sequence.toString());
         playSound(minionNote);
-        await Future.delayed(Duration(milliseconds: 1000));
+        await Future.delayed(Duration(milliseconds: 400));
         sequence.sequence = sequence.sequence.sublist(1);
       }
       if (sequence.sequence.length > 0){
@@ -116,6 +130,16 @@ class SimonMode extends GruMinionMode {
 
   @override
   void initGru() {
+    GruService service = Get.find<GruService>();
+    List<Client> clients = service.info!.clients;
+    print("--------------------------------------------------");
+
+    int type = 0;
+    for (Client s in clients) {
+      print(" client " + s.deviceAddress);
+      sendToOthers(s.deviceAddress+":::"+type.toString());
+      type++;
+    }
     addOneToSequence();
   }
 
@@ -219,7 +243,7 @@ class SimonMode extends GruMinionMode {
 
     playSound(minionNote);
     minionPadding = 80;
-    Timer(Duration(milliseconds: 1000), () {
+    Timer(Duration(milliseconds: 400), () {
       print("Minion sends the rest of the sequence " + reste);
       sendToOthers(reste);
     });
