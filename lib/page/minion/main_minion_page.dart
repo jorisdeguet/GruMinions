@@ -63,7 +63,7 @@ class _MainMinionPageState extends MinionBaseWidgetState<MainMinionPage> {
       changeMode(m);
       currentMode.handleMessageAsMinion(m);
     } catch (e) {
-      print("Minion got exception while handling message " + m);
+      print("Minion got exception while handling message " + m + "  " +e.toString());
       e.printError();
     }
     setState(() {});
