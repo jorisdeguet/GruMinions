@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:gru_minions/modes/base-mode.dart';
+import 'package:gru_minions/modes/flame/gru_game_page.dart';
+import 'package:gru_minions/modes/flame/helpers/direction.dart';
 import 'package:gru_minions/modes/flame/main_game_page.dart';
 
 
@@ -8,9 +10,11 @@ import 'package:gru_minions/modes/flame/main_game_page.dart';
 class FlameMode extends GruMinionMode {
   FlameMode({required super.sendToOthers});
 
+  late Function setMinionDirection;
+
   @override
   Widget gruWidget() {
-    return MainGamePage();
+    return GruGamePage(send: sendToOthers,);
   }
 
   @override
@@ -20,7 +24,9 @@ class FlameMode extends GruMinionMode {
 
   @override
   void handleMessageAsMinion(String s) {
-
+    // change the direction for Minion game
+    Direction d = Direction.values.firstWhere((e) => e.name == s);
+    print("Good  " + d.toString());
   }
 
   @override

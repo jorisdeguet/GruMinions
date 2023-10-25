@@ -17,6 +17,7 @@ class Player extends SpriteAnimationComponent with HasGameRef {
   Player()
       : super(
     size: Vector2(42.0, 55.0),
+    position: Vector2(10, 10),
   );
 
   @override

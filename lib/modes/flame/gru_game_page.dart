@@ -1,21 +1,20 @@
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flame/palette.dart';
-import 'package:flame/game.dart';
-import 'helpers/joypad.dart';
+import 'package:gru_minions/modes/flame/helpers/joypad.dart';
 
-import 'game.dart';
+class GruGamePage extends StatefulWidget {
 
-class MainGamePage extends StatefulWidget {
+  final Function send;
 
-  const MainGamePage({super.key});
+  const GruGamePage({super.key, required this.send});
+
+  // GruGamePage({Key? key}) : super(key: key);
 
   @override
-  MainGameState createState() => MainGameState();
+  GruGamePageState createState() => GruGamePageState();
 }
 
-class MainGameState extends State<MainGamePage> {
-  MainGame game = MainGame();
+class GruGamePageState extends State<GruGamePage> {
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +22,15 @@ class MainGameState extends State<MainGamePage> {
         backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
         body: Stack(
           children: [
-            GameWidget(game: game),
+            //GameWidget(game: game),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
                 child:
-                Joypad(onDirectionChanged: game.onJoyPad1DirectionChanged),
+                Joypad(onDirectionChanged: (e) {
+
+                }),
               ),
             ),
             Align(
@@ -37,7 +38,11 @@ class MainGameState extends State<MainGamePage> {
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
                 child:
-                Joypad(onDirectionChanged: game.onJoyPad2DirectionChanged),
+                Joypad(
+                    onDirectionChanged: (direction){
+                      widget.send(direction.toString());
+                    }
+                ),
               ),
             )
           ],

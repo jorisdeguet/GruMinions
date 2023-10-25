@@ -14,10 +14,13 @@ class MainGame extends FlameGame with KeyboardEvents {
 
   final Player _player = Player();
 
+  final Player _player2 = Player();
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
     add(_player);
+    add(_player2);
   }
 
   @override
@@ -44,7 +47,10 @@ class MainGame extends FlameGame with KeyboardEvents {
     return super.onKeyEvent(event, keysPressed);
   }
 
-  void onJoyPadDirectionChanged(Direction direction) {
+  void onJoyPad1DirectionChanged(Direction direction) {
     _player.direction = direction;
+  }
+  void onJoyPad2DirectionChanged(Direction direction) {
+    _player2.direction = direction;
   }
 }
