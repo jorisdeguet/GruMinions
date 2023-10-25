@@ -42,6 +42,14 @@ Pour chaque tablette on veut:
 
 Si le minion a lui même un groupe, on dirait qu'il ne peut pas se connecter au socket de Gru
 
+### Une tablette ne voit pas Gru
+1. fermer l'appli
+2. désactiver le Wifi
+3. activer le Wifi
+4. repartir l'appli
+
+Il semble que désactiver le wifi supprime complètement un éventuel groupe.
+
 ## Execution sur plusieurs appareils
 
 C'est plus rapide de déployer en exécutant "flutter run -d all" depuis le terminal.
