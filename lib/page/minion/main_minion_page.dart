@@ -25,7 +25,7 @@ class _MainMinionPageState extends MinionBaseWidgetState<MainMinionPage> {
   void initState() {
     Get.put(MinionService());
     super.initState();
-    Get.find<MinionService>().onReceive.stream.forEach((element) {
+    Get.find<MinionService>().onReceive.listen((element) {
       receive(element);
     });
   }

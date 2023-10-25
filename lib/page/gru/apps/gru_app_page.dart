@@ -36,12 +36,8 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
     //Get.put(BossService());
     super.initState();
     GruService service = Get.find<GruService>();
-    service.onReceive.stream.forEach((element) {
-      print("Gru stream " + element);
-
-    });
     service.onReceive.listen((element) {
-      print("Gru listen " + element);
+      //print("Gru listen " + element);
       receive(element);
     });
     changeMode(modes[0].name());

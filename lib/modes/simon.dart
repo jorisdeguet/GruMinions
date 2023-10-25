@@ -50,27 +50,27 @@ class SimonMode extends GruMinionMode {
       print("Gru got touch playing  " + s);
       if (s.contains("touch")) {
         String adresse = s.split("touch")[0];
-        print("Someone touched" + adresse);
-        // if (estMemeAdresse(adresse, this.gruSequence[gruIndex])) {
-        //   print("OK");
-        //   gruIndex++;
-        //   if (gruIndex == this.gruSequence.length) {
-        //     print("Win");
-        //     // gruIndex = 0;
-        //     // TODO play sound
-        //     //playSound("assets/halloween/tonnerre.m4a");
-        //     // TODO ajouter un a la sequence
-        //     addOneToSequence();
-        //   }
-        // } else {
-        //   playSound("assets/non.mp3");
-        //   gruIndex = 0;
-        //   this.gruSequence.clear();
-        //   //addOneToSequence();
-        //   // foirade
-        //   // jouer un son
-        //   // repartir la sequence
-        // }
+        print("Gru Someone touched" + adresse + " gruIndex " + gruIndex.toString());
+        if (gruIndex < this.gruSequence.length && estMemeAdresse(adresse, this.gruSequence[gruIndex])) {
+          print("Gru OK for note" + gruIndex.toString());
+          gruIndex++;
+          if (gruIndex == this.gruSequence.length) {
+            print("Win");
+            // gruIndex = 0;
+            // TODO play sound
+            //playSound("assets/halloween/tonnerre.m4a");
+            // TODO ajouter un a la sequence
+            //addOneToSequence();
+          }
+        } else {
+          playSound("assets/non.mp3");
+          gruIndex = 0;
+          this.gruSequence.clear();
+          //addOneToSequence();
+          // foirade
+          // jouer un son
+          // repartir la sequence
+        }
       }
     }
   }
@@ -104,7 +104,7 @@ class SimonMode extends GruMinionMode {
         await Future.delayed(Duration(milliseconds: 1000));
         sequence.sequence = sequence.sequence.sublist(1);
       }
-      if (sequence.sequence.length > 1){
+      if (sequence.sequence.length > 0){
         sendToOthers(jsonEncode(sequence.toJson()));
       } else{
         sendToOthers("doneShowing");
