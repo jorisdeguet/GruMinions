@@ -16,6 +16,8 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class MatrixMode extends GruMinionMode {
+  int numberOfMinions = 4; // TODO have a selector in widget
+
   MatrixMode({required super.sendToOthers});
 
   @override
@@ -41,17 +43,6 @@ class MatrixMode extends GruMinionMode {
               backgroundColor: Colors.blueGrey,
             //size: 400.0,
           ),
-          // Spacer(),
-          // Row(
-          //   children: [
-          //     Spacer(),
-          //     QrImageView(
-          //       data: macAddress(),
-          //       version: QrVersions.auto,
-          //       size: 400.0,
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );
@@ -74,22 +65,31 @@ class MatrixMode extends GruMinionMode {
 
   @override
   Widget gruWidget() {
-    return MobileScanner(
-      fit: BoxFit.contain,
-      onDetect: (capture) {
-        final List<Barcode> barcodes = capture.barcodes;
-        final Uint8List? image = capture.image;
-        sendToOthers(barcodes.length.toString() + "  found ");
-        // TODO if same number of codes as minions, we have everyone
+    return Row(
+      children: [
+        Expanded(
+          child: MobileScanner(
+            fit: BoxFit.contain,
+            onDetect: (capture) {
+              final List<Barcode> barcodes = capture.barcodes;
+              final Uint8List? image = capture.image;
 
-        for (final barcode in barcodes) {
-          print('============================ Barcode found! ${barcode.rawValue} ' + barcode.corners.toString());
-          for (Offset off  in barcode.corners!) {
-            print(barcode.rawValue! + " @ " + off.dx.toString() + ":" + off.dy.toString() + "     ");
-          }
-        }
-        //processWithML(image);
-      },
+              // TODO if same number of codes as minions, we have everyone
+              if (barcodes.length == numberOfMinions){
+                sendToOthers(barcodes.length.toString() + "  found ");
+                for (final barcode in barcodes) {
+                  print('============================ Barcode found! ${barcode.rawValue} ' + barcode.corners.toString());
+                  for (Offset off  in barcode.corners!) {
+                    print(barcode.rawValue! + " @ " + off.dx.toString() + ":" + off.dy.toString() + "     ");
+                  }
+                }
+              }
+
+              //processWithML(image);
+            },
+          ),
+        ),
+      ],
     );
   }
 

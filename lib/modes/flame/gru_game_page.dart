@@ -23,16 +23,7 @@ class GruGamePageState extends State<GruGamePage> {
         body: Stack(
           children: [
             //GameWidget(game: game),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child:
-                Joypad(onDirectionChanged: (e) {
 
-                }),
-              ),
-            ),
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(

@@ -5,11 +5,13 @@
 
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
+import 'package:gru_minions/comm/message.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/service/boss_service.dart';
 import 'package:gru_minions/service/utils.dart';
@@ -80,7 +82,7 @@ class SimonMode extends GruMinionMode {
   @override
   void handleMessageAsMinion(String s) {
     minionPadding = 0;
-    if (s.startsWith("|")) {
+    if (s.startsWith("{")) {
       traiterSequence(s);
     }
     if (s == "off") {
@@ -90,22 +92,20 @@ class SimonMode extends GruMinionMode {
   }
 
   void traiterSequence(String s) async {
-    List<String> pieces = s.split("|").sublist(1);
-    print("Minion pieces " + pieces.toString());
-    String adresse = pieces[0];
+    SimonSequence sequence = SimonSequence.fromJson(jsonDecode(s));
+    print("Minion pieces " + sequence.toString());
+    String adresse = sequence.sequence[0];
     if (estMonAdresse(adresse)){
       minionPadding = 80;
       // je dois jouer ma note n fois
-      while(pieces.length > 0 && estMonAdresse(pieces[0])){
-        print("Je joue ma note " + pieces.toString());
+      while(sequence.sequence.length > 0 && estMonAdresse(sequence.sequence[0])){
+        print("Je joue ma note " + sequence.sequence.toString());
         playSound(minionNote);
         await Future.delayed(Duration(milliseconds: 1000));
-        pieces = pieces.sublist(1);
+        sequence.sequence = sequence.sequence.sublist(1);
       }
-      if (pieces.length > 1){
-        String reste = "|" + pieces.join("|");
-        print(s + " = " + adresse + " + " +reste);
-        sendToOthers(reste);
+      if (sequence.sequence.length > 1){
+        sendToOthers(jsonEncode(sequence.toJson()));
       } else{
         sendToOthers("doneShowing");
       }
@@ -187,15 +187,12 @@ class SimonMode extends GruMinionMode {
 
   void playSequence() async {
     gruStatus = SimonStatus.showing;
-    String message = this.gruSequence.fold("", (previousValue, element) => previousValue+"|"+element);
-    print(message);
-    sendToOthers(message);
-    // for (Beep beep in this.gruSequence) {
-    //   sendToOthers(beep.address+"@gna");
-    //   await Future.delayed(Duration(milliseconds: 1000));
-    // }
-    // sendToOthers("off");
-    // gruStatus = SimonStatus.playing;
+    SimonSequence message = SimonSequence();
+    message.sequence = this.gruSequence;
+
+    String messageString = jsonEncode(message.toJson());
+    print(messageString);
+    sendToOthers(messageString);
   }
 
 

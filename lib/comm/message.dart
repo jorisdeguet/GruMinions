@@ -21,3 +21,17 @@ class Person {
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
   Map<String, dynamic> toJson() => _$PersonToJson(this);
 }
+
+
+
+@JsonSerializable()
+class SimonSequence {
+
+  // soit toute le monde soit l'adresse MAC de la tablette visée.
+  List<String> sequence = [];
+
+  SimonSequence();
+
+  factory SimonSequence.fromJson(Map<String, dynamic> json) => _$SimonSequenceFromJson(json);
+  Map<String, dynamic> toJson() => _$SimonSequenceToJson(this);
+}

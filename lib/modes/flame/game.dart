@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:gru_minions/modes/flame.dart';
 
 import 'helpers/direction.dart';
 import 'components/player.dart';
@@ -12,9 +13,11 @@ class MainGame extends FlameGame with KeyboardEvents {
   @override
   final images = Images(prefix: 'assets/flame/');
 
-  final Player _player = Player();
+  final Player _player = Player(Vector2(100,100));
 
-  final Player _player2 = Player();
+  final Player _player2 = Player(Vector2(100,200));
+
+  MainGame();
 
   @override
   Future<void> onLoad() async {

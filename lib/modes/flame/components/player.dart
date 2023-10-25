@@ -14,10 +14,10 @@ class Player extends SpriteAnimationComponent with HasGameRef {
 
   Direction direction = Direction.none;
 
-  Player()
+  Player(Vector2 p)
       : super(
     size: Vector2(42.0, 55.0),
-    position: Vector2(10, 10),
+    position: p,
   );
 
   @override

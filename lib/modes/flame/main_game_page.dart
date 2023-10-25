@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flame/palette.dart';
 import 'package:flame/game.dart';
 import 'helpers/joypad.dart';
 
@@ -8,14 +6,16 @@ import 'game.dart';
 
 class MainGamePage extends StatefulWidget {
 
-  const MainGamePage({super.key});
+  final MainGame game;
+
+  MainGamePage({super.key, required this.game});
 
   @override
   MainGameState createState() => MainGameState();
 }
 
 class MainGameState extends State<MainGamePage> {
-  MainGame game = MainGame();
+  late MainGame game = widget.game;
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +32,14 @@ class MainGameState extends State<MainGamePage> {
                 Joypad(onDirectionChanged: game.onJoyPad1DirectionChanged),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child:
-                Joypad(onDirectionChanged: game.onJoyPad2DirectionChanged),
-              ),
-            )
+            // Align(
+            //   alignment: Alignment.bottomLeft,
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(32.0),
+            //     child:
+            //     Joypad(onDirectionChanged: game.onJoyPad2DirectionChanged),
+            //   ),
+            // )
           ],
         )
     );
