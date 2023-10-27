@@ -69,8 +69,8 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
 
   Expanded gestionDesModes() {
     return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: ListView(
+        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: this.modes.map( buttonForMode).toList(),
       ),
     );
