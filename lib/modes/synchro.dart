@@ -5,16 +5,24 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 
 class SyncMode extends GruMinionMode {
+
+  List<double> minionDeltaMillis = [];
+
   SyncMode({required super.sendToOthers});
 
   @override
   void handleMessageAsGru(String s) {
-
+    // nothing
   }
 
   @override
   void handleMessageAsMinion(String s) {
-    // TODO: implement handleMessageAsMinion
+    if (s.contains("bip")){
+      DateTime local = DateTime.now();
+      String time = s.split("bip")[1];
+      DateTime gruTime = DateTime.parse(time);
+      print("MINION GOT    " + gruTime.toString() + "  @  " + local.toString());
+    }
   }
 
   @override
@@ -29,8 +37,14 @@ class SyncMode extends GruMinionMode {
 
   @override
   Widget minionWidget(BuildContext context) {
-    // TODO: implement minionWidget
-    throw UnimplementedError();
+    return Center(
+      child: Column(
+        children: [
+          Text(minionAverageDelta().toString()),
+          Text(DateTime.now().toIso8601String()),
+        ],
+      ),
+    );
   }
 
   @override
@@ -39,7 +53,7 @@ class SyncMode extends GruMinionMode {
         children : [
           MaterialButton(
             onPressed: () {
-              this.sendToOthers("playAt" );
+              send30Bips();
             },
             child: Text("send 30 synchros beeps"),
           ),
@@ -55,11 +69,31 @@ class SyncMode extends GruMinionMode {
             },
             child: Text("play sound directly"),
           ),
+          Text(minionAverageDelta().toString()),
+          Text(minionLastDelta().toString()),
         ]
     );
   }
 
   @override
   String name() => "sync";
+
+  void send30Bips() async {
+    for (int i in List.generate(30, (i) => i)) {
+      sendToOthers("bip"+DateTime.now().toIso8601String());
+      await Future.delayed(const Duration(seconds: 1));
+    }
+    print("done");
+  }
+
+  double minionLastDelta() {
+    if (minionDeltaMillis.length == 0 ) return -666;
+    return minionDeltaMillis.last;
+  }
+
+  double minionAverageDelta() {
+    if (minionDeltaMillis.length == 0 ) return -666;
+    return minionDeltaMillis.reduce((a, b) => a + b) / minionDeltaMillis.length;
+  }
 
 }
