@@ -17,7 +17,7 @@ dependencies:
     #path: ../flutter_p2p_connection
     git:
       url: https://github.com/jorisdeguet/flutter_p2p_connection.git
-      ref: main # branch name
+      ref: main
   mac_address: ^1.0.0
   # camera libraries
   camera: ^0.10.5+5
