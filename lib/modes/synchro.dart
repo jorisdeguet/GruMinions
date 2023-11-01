@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 class SyncMode extends GruMinionMode {
 
-  List<double> minionDeltaMillis = [];
+  List<int> minionDeltaMillis = [];
 
   DateFormat dtf = DateFormat('hh:mm:ssS');
 
@@ -30,8 +30,14 @@ class SyncMode extends GruMinionMode {
       print("MINION GOT    " + gruTime.toString() + "  @  " + local.toString());
 
       Duration diff = local.difference(gruTime);
-      minionDeltaMillis.add(diff.inMilliseconds.toDouble());
+      minionDeltaMillis.add(diff.inMilliseconds);
     }
+  }
+
+  DateTime minionCorrectedTime(){
+    DateTime local = DateTime.now();
+    DateTime corrected = local.subtract(Duration(milliseconds: minionAverageDelta().toInt()));
+    return corrected;
   }
 
   @override
@@ -46,12 +52,14 @@ class SyncMode extends GruMinionMode {
 
   @override
   Widget minionWidget(BuildContext context) {
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(minionAverageDelta().toString()),
-          Text(minionLastDelta().toString()),
+          Text(minionAverageDelta().toString(), style: TextStyle(fontSize: 20), ),
+          Text(minionLastDelta().toString(), style: TextStyle(fontSize: 25), ),
+          Text(dtf.format(minionCorrectedTime()), style: TextStyle(fontSize: 35), ),
           Text(dtf.format(DateTime.now()), style: TextStyle(fontSize: 45),),
         ],
       ),
@@ -98,14 +106,14 @@ class SyncMode extends GruMinionMode {
     sendToOthers("stop");
   }
 
-  double minionLastDelta() {
+  int minionLastDelta() {
     if (minionDeltaMillis.length == 0 ) return -666;
     return minionDeltaMillis.last;
   }
 
   double minionAverageDelta() {
     if (minionDeltaMillis.length == 0 ) return -666;
-    return minionDeltaMillis.reduce((a, b) => a + b) / minionDeltaMillis.length;
+    return minionDeltaMillis.reduce((a, b) => a + b) * 1.0 / minionDeltaMillis.length;
   }
 
 }
