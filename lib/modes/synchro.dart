@@ -9,7 +9,7 @@ class SyncMode extends GruMinionMode {
 
   List<double> minionDeltaMillis = [];
 
-  DateFormat dtf = DateFormat('mm:ssS');
+  DateFormat dtf = DateFormat('hh:mm:ssS');
 
   SyncMode({required super.sendToOthers});
 
@@ -51,7 +51,8 @@ class SyncMode extends GruMinionMode {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(minionAverageDelta().toString()),
-          Text(dtf.format(DateTime.now()), style: TextStyle(fontSize: 25),),
+          Text(minionLastDelta().toString()),
+          Text(dtf.format(DateTime.now()), style: TextStyle(fontSize: 45),),
         ],
       ),
     );

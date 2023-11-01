@@ -13,7 +13,11 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   # communication libraries
-  flutter_p2p_connection: ^2.0.1
+  flutter_p2p_connection: #^2.0.2
+    #path: ../flutter_p2p_connection
+    git:
+      url: https://github.com/jorisdeguet/flutter_p2p_connection.git
+      ref: main # branch name
   mac_address: ^1.0.0
   # camera libraries
   camera: ^0.10.5+5
