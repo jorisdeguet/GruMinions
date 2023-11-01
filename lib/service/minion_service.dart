@@ -7,6 +7,9 @@ import 'package:gru_minions/service/base_network_service.dart';
 
 import 'minion_status.dart';
 
+// Quand on a un reasoncode= 2 c'est https://developer.android.com/reference/android/net/wifi/p2p/WifiP2pManager#BUSY
+// https://developer.android.com/reference/android/net/wifi/p2p/WifiP2pManager.ActionListener#onFailure(int)
+
 class MinionService extends BaseNetworkService {
 
   Rx<MinionStatus> minionStatus = MinionStatus.none.obs;
@@ -33,9 +36,15 @@ class MinionService extends BaseNetworkService {
     await Future.delayed(const Duration(seconds: 3));
     await p2p.initialize();
     await p2p.register();
-
-    await p2p.removeGroup();
+    await Future.delayed(const Duration(seconds: 1));
+    // see if a group exists
+    var groupInfo = await p2p.groupInfo();
+    print("Minion init got group info " + groupInfo.toString() + " ");
+    if (groupInfo != null) {
+      await p2p.removeGroup();
+    }
     await p2p.discover();
+
 
     _peerStream = p2p.streamPeers().listen((List<DiscoveredPeers> event) {
       // TODO on ne veut pas forcément passer dans ce mode non?
@@ -45,7 +54,10 @@ class MinionService extends BaseNetworkService {
         Iterable<DiscoveredPeers> bosses =
         event.where((DiscoveredPeers peer) => peer.isGroupOwner);
         if (bosses.length > 1) {
-          print('Plusieurs boss trouvés');
+          print('===================================== Plusieurs boss trouvés');
+          for (var b in bosses) {
+            print(b.deviceAddress);
+          }
         } else if (bosses.length == 1 && !_connectingToBoss) {
           DiscoveredPeers boss = bosses.first;
           print(boss);
@@ -84,13 +96,13 @@ class MinionService extends BaseNetworkService {
           print(info);
           DiscoveredPeers boss =
               _peers.firstWhere((DiscoveredPeers peer) => peer.isGroupOwner);
-          Get.snackbar(
-            boss.deviceName,
-            'Connecté',
-            colorText: Colors.white,
-            backgroundColor: Colors.lightBlue,
-            icon: const Icon(Icons.phone_android),
-          );
+          // Get.snackbar(
+          //   boss.deviceName,
+          //   'Connecté',
+          //   colorText: Colors.white,
+          //   backgroundColor: Colors.lightBlue,
+          //   icon: const Icon(Icons.phone_android),
+          // );
           print('Connecté à Gru');
         },
         transferUpdate: (transfer) {

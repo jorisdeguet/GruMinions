@@ -8,7 +8,6 @@ import 'package:gru_minions/service/boss_status.dart';
 class GruService extends BaseNetworkService {
   Rx<BossStatus> bossStatus = BossStatus.none.obs;
 
-  // TODO Bug, ne s'active que si on change la valeur mais pas si on reçoit 2 fois le même message
   Rx<String> onReceive = ''.obs;
 
   bool _creatingGroup = false;
@@ -28,7 +27,10 @@ class GruService extends BaseNetworkService {
     await p2p.initialize();
     await p2p.register();
 
-    await p2p.removeGroup();
+    var groupInfo = await p2p.groupInfo();
+    if (groupInfo != null) {
+      await p2p.removeGroup();
+    }
 
     _wifiP2PInfoStream = p2p.streamWifiP2PInfo().listen((WifiP2PInfo event) {
       info = event;
