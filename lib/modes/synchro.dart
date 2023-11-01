@@ -3,10 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:gru_minions/modes/base-mode.dart';
+import 'package:intl/intl.dart';
 
 class SyncMode extends GruMinionMode {
 
   List<double> minionDeltaMillis = [];
+
+  DateFormat dtf = DateFormat('mm:ssS');
 
   SyncMode({required super.sendToOthers});
 
@@ -17,11 +20,17 @@ class SyncMode extends GruMinionMode {
 
   @override
   void handleMessageAsMinion(String s) {
+    if (s.contains("start")) {
+      minionDeltaMillis.clear();
+    }
     if (s.contains("bip")){
       DateTime local = DateTime.now();
       String time = s.split("bip")[1];
       DateTime gruTime = DateTime.parse(time);
       print("MINION GOT    " + gruTime.toString() + "  @  " + local.toString());
+
+      Duration diff = local.difference(gruTime);
+      minionDeltaMillis.add(diff.inMilliseconds.toDouble());
     }
   }
 
@@ -39,9 +48,10 @@ class SyncMode extends GruMinionMode {
   Widget minionWidget(BuildContext context) {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(minionAverageDelta().toString()),
-          Text(DateTime.now().toIso8601String()),
+          Text(dtf.format(DateTime.now()), style: TextStyle(fontSize: 25),),
         ],
       ),
     );
@@ -79,11 +89,12 @@ class SyncMode extends GruMinionMode {
   String name() => "sync";
 
   void send30Bips() async {
+    sendToOthers("start");
     for (int i in List.generate(30, (i) => i)) {
       sendToOthers("bip"+DateTime.now().toIso8601String());
       await Future.delayed(const Duration(seconds: 1));
     }
-    print("done");
+    sendToOthers("stop");
   }
 
   double minionLastDelta() {

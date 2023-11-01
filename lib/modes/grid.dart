@@ -30,8 +30,7 @@ class GridMode extends GruMinionMode {
 
   @override
   Widget minionWidget(BuildContext context) {
-    // TODO: implement minionWidget
-    throw UnimplementedError();
+    return Text("TODO");
   }
 
   @override
