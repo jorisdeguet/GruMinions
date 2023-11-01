@@ -18,13 +18,13 @@ import 'package:gru_minions/service/utils.dart';
 
 
 
-enum SimonStatus { showing, playing }
+enum SimonStatus { showing, playing, waiting }
 
 class SimonMode extends GruMinionMode {
 
   Random rand = Random();
 
-  SimonStatus gruStatus = SimonStatus.showing;
+  SimonStatus gruStatus = SimonStatus.waiting;
   List<String> gruSequence = [];
   int gruIndex = 0;
 
@@ -46,6 +46,12 @@ class SimonMode extends GruMinionMode {
         gruStatus = SimonStatus.playing;
         print("Gru status is playing");
       }
+    } else if (gruStatus == SimonStatus.waiting) {
+      // any touch and we show
+      // if a touch happens while I play the sequence do not do nothing
+      gruStatus = SimonStatus.showing;
+      addOneToSequence();
+
     } else if(gruStatus == SimonStatus.playing) {
       print("Gru got touch playing  " + s);
       if (s.contains("touch")) {
@@ -70,6 +76,7 @@ class SimonMode extends GruMinionMode {
           }
         } else {
           playSound("assets/non.mp3");
+          gruStatus = SimonStatus.waiting;
           gruIndex = 0;
           this.gruSequence.clear();
           //addOneToSequence();
@@ -140,7 +147,8 @@ class SimonMode extends GruMinionMode {
       sendToOthers(s.deviceAddress+":::"+type.toString());
       type++;
     }
-    addOneToSequence();
+    gruStatus = SimonStatus.waiting;
+
   }
 
   @override
