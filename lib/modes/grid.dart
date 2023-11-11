@@ -7,16 +7,28 @@ import 'package:gru_minions/modes/base-mode.dart';
 class GridMode extends GruMinionMode {
   GridMode({required super.sendToOthers});
 
+  int gruRow = 0;
+  int gruColumn = 0;
+  int minionRow = 0;
+  int minionColumn = 0;
 
 
   @override
   void handleMessageAsGru(String s) {
-
+    if (s.contains("|")) {
+      String adresse = s.split("|")[0];
+      print("Gru got answer for " + adresse + " " + gruRow.toString() + " " + gruColumn.toString());
+      gruColumn++;
+      this.sendToOthers("select:"+gruRow.toString()+":"+gruColumn.toString() );
+    }
   }
 
   @override
   void handleMessageAsMinion(String s) {
-    // TODO: implement handleMessageAsMinion
+    if (s.startsWith("select")){
+      minionRow = int.parse(s.split(":")[1]);
+      minionColumn = int.parse(s.split(":")[2]);
+    }
   }
 
   @override
@@ -30,7 +42,18 @@ class GridMode extends GruMinionMode {
 
   @override
   Widget minionWidget(BuildContext context) {
-    return Text("TODO");
+    return Column(
+      children: [
+        Text("Row " + minionRow.toString()),
+        Text("Col " + minionColumn.toString()),
+        MaterialButton(
+          onPressed: (){
+            this.sendToOthers(macAddress()+"|"+minionRow.toString() + "|" + minionColumn.toString());
+          },
+          child: Text("Appuie si c'est celle là"),
+        ),
+      ],
+    );
   }
 
   @override
@@ -39,7 +62,9 @@ class GridMode extends GruMinionMode {
       children : [
         MaterialButton(
           onPressed: () {
-            this.sendToOthers("row" );
+            gruRow = 0;
+            gruColumn = 0;
+            this.sendToOthers("select:"+gruRow.toString()+":"+gruColumn.toString() );
           },
           child: Text("start sequence"),
         ),
@@ -51,7 +76,10 @@ class GridMode extends GruMinionMode {
         ),
         MaterialButton(
           onPressed: () {
-            print("ploucs");
+            print("next row");
+            gruRow++;
+            gruColumn = 0;
+            this.sendToOthers("select:"+gruRow.toString()+":"+gruColumn.toString() );
           },
           child: Text("Prout"),
         ),

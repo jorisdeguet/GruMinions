@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:gru_minions/modes/flame.dart';
 
 import 'helpers/direction.dart';
 import 'components/player.dart';
