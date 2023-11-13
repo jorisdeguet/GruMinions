@@ -69,7 +69,10 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
 
   Expanded gestionDesModes() {
     return Expanded(
-      child: ListView(
+      child: GridView.count(
+        crossAxisCount: 3,
+        mainAxisSpacing: 1,
+        crossAxisSpacing: 1,
         //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: this.modes.map( buttonForMode).toList(),
       ),
@@ -102,7 +105,10 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
         onPressed: () {
           changeMode(e.name());
         },
-        child : Text(e.name(), style: TextStyle(fontSize: 15),)
+        child : Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0),
+          child: Text(e.name(), style: TextStyle(fontSize: 15),),
+        )
     );
   }
 

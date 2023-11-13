@@ -55,6 +55,7 @@ class _MainMinionPageState extends MinionBaseWidgetState<MainMinionPage> {
 
   void send(String m) {
     Get.find<MinionService>().p2p.sendStringToSocket(m);
+    setState(() {});
   }
 
   void receive(String m) {
