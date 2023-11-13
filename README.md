@@ -50,6 +50,21 @@ Si le minion a lui même un groupe, on dirait qu'il ne peut pas se connecter au 
 
 Il semble que désactiver le wifi supprime complètement un éventuel groupe.
 
+### Ne trouve pas la librairie quand on repointe vers le repo git
+
+Il faut vider la cache de pub dans 
+- \AppData\Local\Pub\Cache
+- pubspeck.lock
+- build
+- .dart_tool
+
+### si plein d'erreurs quand flutter run -d all
+- ca peut être qu'un processus bloque la suppression du build
+  - essayer de supprimer le dossier build
+  - si ça marche pas, tuer toutes les taches java dans le task manager
+  - repartir Android Studio et réessayer
+- 
+
 ## Execution sur plusieurs appareils
 
 C'est plus rapide de déployer en exécutant "flutter run -d all" depuis le terminal.

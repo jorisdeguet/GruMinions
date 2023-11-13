@@ -33,7 +33,7 @@ class MinionService extends BaseNetworkService {
   void _init() async {
     minionStatus.value = MinionStatus.initializing;
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     await p2p.initialize();
     await p2p.register();
     await Future.delayed(const Duration(seconds: 1));
@@ -48,15 +48,18 @@ class MinionService extends BaseNetworkService {
 
     _peerStream = p2p.streamPeers().listen((List<DiscoveredPeers> event) {
       // TODO on ne veut pas forcément passer dans ce mode non?
+      debugPrint('Minion Service got peers' + _connected.toString() + " " + _connectingToBoss.toString());
       if (minionStatus.value != MinionStatus.active) {
         minionStatus.value = MinionStatus.searchingBoss;
         _peers = event;
+        debugPrint('Minion Service got peers' + _peers.toString());
         Iterable<DiscoveredPeers> bosses =
         event.where((DiscoveredPeers peer) => peer.isGroupOwner);
+        debugPrint('Minion Service got bosses' + bosses.toString());
         if (bosses.length > 1) {
-          print('===================================== Plusieurs boss trouvés');
+          debugPrint('Minion Service ===================================== Too many bosses');
           for (var b in bosses) {
-            print(b.deviceAddress);
+            debugPrint('Minion Service ' + b.deviceAddress);
           }
         } else if (bosses.length == 1 && !_connectingToBoss) {
           DiscoveredPeers boss = bosses.first;
@@ -96,14 +99,7 @@ class MinionService extends BaseNetworkService {
           print(info);
           DiscoveredPeers boss =
               _peers.firstWhere((DiscoveredPeers peer) => peer.isGroupOwner);
-          // Get.snackbar(
-          //   boss.deviceName,
-          //   'Connecté',
-          //   colorText: Colors.white,
-          //   backgroundColor: Colors.lightBlue,
-          //   icon: const Icon(Icons.phone_android),
-          // );
-          print('Connecté à Gru');
+          print('Minion Service connected to Gru');
         },
         transferUpdate: (transfer) {
           print(

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gru_minions/service/utils.dart';
 import 'package:mac_address/mac_address.dart';
 
 /**
@@ -39,13 +40,6 @@ abstract class GruMinionMode {
   }
 
   String macAddress() => _macAddress;
-
-  bool estMemeAdresse(String a, String b){
-    // du au fait que les adresses MAC en Wifi direct ne sont pas exactement celle de Wifi
-    String aa = a.substring(2, 17).toUpperCase();
-    String bb = b.substring(2, 17).toUpperCase();
-    return aa == bb;
-  }
 
   bool estMonAdresse(String autre) {
     return estMemeAdresse(autre, macAddress());

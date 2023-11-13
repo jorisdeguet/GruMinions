@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gru_minions/service/boss_service.dart';
-import 'package:gru_minions/service/boss_status.dart';
+import 'package:gru_minions/service/gru_service.dart';
+import 'package:gru_minions/service/gru_status.dart';
 
 abstract class BossBaseWidgetState<T extends StatefulWidget> extends State<T> {
   late GruService bossService;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/modes/list_of_modes.dart';
-import 'package:gru_minions/service/boss_service.dart';
+import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/widget/boss_base_widget.dart';
 
 
@@ -48,7 +48,7 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Gru mode " + currentMode.name()),
+        title: Text("Gru mode " + currentMode.name() + " @" + currentMode.macAddress()),
       ),
       body: Column(
         children: [

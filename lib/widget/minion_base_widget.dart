@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/service/minion_status.dart';
+import 'package:mac_address/mac_address.dart';
 
 import '../service/minion_service.dart';
 
@@ -11,11 +12,20 @@ abstract class MinionBaseWidgetState<T extends StatefulWidget> extends State<T> 
 
   Widget content(BuildContext context);
 
+
+  String _macAddress = "no mac";
+  void _initMac() async {
+    _macAddress = await GetMac.macAddress ?? 'Unknown mac address';
+  }
+  String macAddress() => _macAddress;
+
   @override
   void initState() {
     super.initState();
+    _initMac();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     minionService = Get.find();
+    _initMac();
   }
 
   @override
@@ -25,13 +35,13 @@ abstract class MinionBaseWidgetState<T extends StatefulWidget> extends State<T> 
       body: Obx(() {
         switch (minionService.minionStatus.value) {
           case MinionStatus.initializing:
-            return _loading(subText: 'Initialisation...');
+            return _loading(subText: macAddress() + ' Initialisation...');
           case MinionStatus.searchingBoss:
-            return _loading(subText: 'Recherche de Gru...');
+            return _loading(subText: macAddress() + ' Recherche de Gru...');
           case MinionStatus.connectingBoss:
-            return _loading(subText: 'Connection à Gru...');
+            return _loading(subText: macAddress() + ' Connection à Gru...');
           case MinionStatus.connectingSocket:
-            return _loading(subText: 'Connection au socket de Gru...');
+            return _loading(subText: macAddress() + ' Connection au socket de Gru...');
           case MinionStatus.active:
             return content(context);
           default:

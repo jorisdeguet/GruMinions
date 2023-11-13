@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/page/gru/main_gru_page.dart';
 import 'package:gru_minions/page/minion/main_minion_page.dart';
-import 'package:gru_minions/service/boss_service.dart';
+import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/service/minion_service.dart';
 import 'package:gru_minions/service/utils.dart';
 
@@ -87,11 +87,10 @@ class _HomePageState extends State<HomePage> {
         askPermissions();
       }, //This prop for beautiful expressions
       child: Text(
-          "Ask permissions"), // This child can be everything. I want to choose a beautiful Text Widget
+          "Ask permissions"),
       style: ElevatedButton.styleFrom(
         textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         minimumSize: Size(200, 100), //change size of this beautiful button
-        // We can change style of this beautiful elevated button thanks to style prop
         primary: Colors.blueGrey, // we can set primary color
         onPrimary: Colors.black, // change color of child prop
         onSurface: Colors.blue, // surface color
@@ -121,9 +120,9 @@ class _HomePageState extends State<HomePage> {
           MaterialPageRoute(
               builder: (context) => const MainGruPage()),
         ).then((value) => _resetServices());
-      }, //This prop for beautiful expressions
+      },
       child: Text(
-          "Mode Gru"), // This child can be everything. I want to choose a beautiful Text Widget
+          "Mode Gru"),
       style: ElevatedButton.styleFrom(
         textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         minimumSize: Size(200, 100), //change size of this beautiful button
@@ -132,8 +131,8 @@ class _HomePageState extends State<HomePage> {
         onPrimary: Colors.white, // change color of child prop
         onSurface: Colors.blue, // surface color
         shadowColor: Colors
-            .grey, //shadow prop is a very nice prop for every button or card widgets.
-        elevation: 5, // we can set elevation of this beautiful button
+            .grey,
+        elevation: 5,
         side: BorderSide(
             color: Colors.redAccent.shade400, //change border color
             width: 2, //change border width
@@ -141,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                 .solid), // change border side of this beautiful button
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
-              30), //change border radius of this beautiful button thanks to BorderRadius.circular function
+              30),
         ),
         tapTargetSize: MaterialTapTargetSize.padded,
       ),

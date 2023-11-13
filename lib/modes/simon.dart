@@ -13,7 +13,7 @@ import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/comm/message.dart';
 import 'package:gru_minions/modes/base-mode.dart';
-import 'package:gru_minions/service/boss_service.dart';
+import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/service/utils.dart';
 
 

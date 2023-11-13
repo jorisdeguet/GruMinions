@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/page/gru/apps/gru_app_page.dart';
-import 'package:gru_minions/service/boss_service.dart';
+import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/widget/boss_base_widget.dart';
 
 

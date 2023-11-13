@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
+import 'package:get/get.dart';
 import 'package:gru_minions/modes/base-mode.dart';
+import 'package:gru_minions/service/gru_service.dart';
 
 class GridMode extends GruMinionMode {
   GridMode({required super.sendToOthers});
@@ -11,6 +14,9 @@ class GridMode extends GruMinionMode {
   int gruColumn = 0;
   int minionRow = 0;
   int minionColumn = 0;
+  bool minionIsCalibrating = true;
+
+  Map<Client, (int row, int col)> griddy = Map();
 
 
   @override
@@ -18,6 +24,10 @@ class GridMode extends GruMinionMode {
     if (s.contains("|")) {
       String adresse = s.split("|")[0];
       print("Gru got answer for " + adresse + " " + gruRow.toString() + " " + gruColumn.toString());
+      // Add client to coordinates
+      //Client sender = Get.find<GruService>().info.clients.firstWhereOrNull((element) => element.deviceAddress);
+
+      // ask the new one
       gruColumn++;
       this.sendToOthers("select:"+gruRow.toString()+":"+gruColumn.toString() );
     }
@@ -34,23 +44,29 @@ class GridMode extends GruMinionMode {
   @override
   void initGru() {
     // TODO count client and determine square dims
-
   }
 
   @override
-  void initMinion() {}
+  void initMinion() {
+    minionIsCalibrating = true;
+  }
 
   @override
   Widget minionWidget(BuildContext context) {
+    if (!minionIsCalibrating) {
+      return Text("TODO cmpute showing grid");
+    }
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text("Row " + minionRow.toString()),
-        Text("Col " + minionColumn.toString()),
+        Text("Row " + minionRow.toString(), style: TextStyle(fontSize: 30),),
+        Text("Col " + minionColumn.toString(), style: TextStyle(fontSize: 30),),
         MaterialButton(
+          color: Colors.greenAccent,
           onPressed: (){
             this.sendToOthers(macAddress()+"|"+minionRow.toString() + "|" + minionColumn.toString());
           },
-          child: Text("Appuie si c'est celle là"),
+          child: Text("Appuie si c'est celle là", style: TextStyle(fontSize: 30), ),
         ),
       ],
     );
@@ -70,7 +86,7 @@ class GridMode extends GruMinionMode {
         ),
         MaterialButton(
           onPressed: () {
-            this.sendToOthers("reset" );
+            this.sendToOthers("finished" );
           },
           child: Text("reset positions"),
         ),
@@ -81,7 +97,7 @@ class GridMode extends GruMinionMode {
             gruColumn = 0;
             this.sendToOthers("select:"+gruRow.toString()+":"+gruColumn.toString() );
           },
-          child: Text("Prout"),
+          child: Text("Next row"),
         ),
       ]
     );
