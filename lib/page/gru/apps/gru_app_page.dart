@@ -90,7 +90,6 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
     // Any exception on handling the message would stop the refresh
     try{
       messages.insert(0,"Minion - " + m);
-      //print("Gru widget got  ::: " + m);
       currentMode.handleMessageAsGru(m);
     } catch (e) {
       print("Minion got exception while handling message " + m);

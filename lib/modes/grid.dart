@@ -113,7 +113,6 @@ class GridMode extends GruMinionMode {
 
   @override
   void initGru() {
-    // TODO count client and determine square dims
   }
 
   @override
@@ -200,6 +199,7 @@ class GridMode extends GruMinionMode {
         Expanded(
           child: Container(
             color: Colors.yellow,
+            child: Widget gridRepresentation(),
           ),
         ),
       ],
@@ -208,5 +208,9 @@ class GridMode extends GruMinionMode {
 
   @override
   String name() => "grid";
+
+  Widget gridRepresentation() {
+    
+  }
 
 }
