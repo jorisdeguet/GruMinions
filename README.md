@@ -19,17 +19,20 @@ Le but est de faire des jeux / expériences avec les primitives suivantes:
 - émettre un son
 - enregistrer un son
 
-## fonctionnement:
-1. creer un groupe sur A
-2. B decouvrir les pairs
-3. sur B demande connect vers A
-4. sur A Start Socket
-5. sur B Connect Socket
-6. sur A envoyer un message
+## Fonctionnement:
 
-Une fois connecté au groupe tu restes connectés,
-
-Par contre repartir le socket à chaque fois
+Le plus compliqué c'est de rouler l'application pour la première fois avec un nouveau Gru
+1. s'assurer que toutes tablettes ont oublié tous les Wifi (A VERIFIER)
+2. installer l'appli sur toutes les tablettes
+3. appuyer sur le bouton Ask permission sur toutes les tablettes, 
+  - verifier que Wifi on puis faire back
+  - verifier que location on puis faire back
+  - on devrait être sur l'appli, avec un dialogue ouvert approuver
+4. lancer la tablette Gru en mode gru
+5. un par un, prendre un minion et le lancer en mode minion
+  - il devrait apparaitre un dialogue sur Gru pour accepter la connection 
+  - si le minion ne se connecte pas au socket, revenir a accueil et repartir mode minion
+  - jusqu'à connecté
 
 ## Prép des tablettes
 
@@ -73,15 +76,3 @@ Pendant le dev, on peut faire hot reload sur tous en appuyant sur "r" dans le te
 
 IL FAUT QUITTER L'APP SUR LES TABLETTES AVANT DE ROULER SINON ON A DES ERREURS DE DESINSTALLATION
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

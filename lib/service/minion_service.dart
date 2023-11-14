@@ -10,6 +10,7 @@ import 'minion_status.dart';
 // Quand on a un reasoncode= 2 c'est https://developer.android.com/reference/android/net/wifi/p2p/WifiP2pManager#BUSY
 // https://developer.android.com/reference/android/net/wifi/p2p/WifiP2pManager.ActionListener#onFailure(int)
 
+// TODO show a trace of all actions during minion connection to be able to follow what happens on screen
 class MinionService extends BaseNetworkService {
 
   Rx<MinionStatus> minionStatus = MinionStatus.none.obs;
@@ -26,8 +27,15 @@ class MinionService extends BaseNetworkService {
   StreamSubscription<List<DiscoveredPeers>>? _peerStream;
   StreamSubscription<WifiP2PInfo>? _wifiP2PInfoStream;
 
+  List<String> logs = [];
+
   MinionService() {
     _init();
+  }
+
+  void _log(String message) {
+    debugPrint(message);
+    logs.add(message);
   }
 
   void _init() async {
@@ -39,36 +47,38 @@ class MinionService extends BaseNetworkService {
     await Future.delayed(const Duration(seconds: 1));
     // see if a group exists
     var groupInfo = await p2p.groupInfo();
-    print("Minion init got group info " + groupInfo.toString() + " ");
+    _log("Minion init got group info " + groupInfo.toString() + " ");
     if (groupInfo != null) {
-      await p2p.removeGroup();
+      _log("Minion init initiating existing group removal ");
+      bool removalOk = await p2p.removeGroup();
+      _log("Minion init delete existing group status " + removalOk.toString());
     }
-    await p2p.discover();
-
+    _log("Minion init initiating peers discovery ");
+    bool discoverOk = await p2p.discover();
+    _log("Minion init discovery status " + discoverOk.toString());
 
     _peerStream = p2p.streamPeers().listen((List<DiscoveredPeers> event) {
       // TODO on ne veut pas forcément passer dans ce mode non?
-      debugPrint('Minion Service got peers' + _connected.toString() + " " + _connectingToBoss.toString());
+      _log('Minion Service got peers' + _connected.toString() + " " + _connectingToBoss.toString());
       if (minionStatus.value != MinionStatus.active) {
         minionStatus.value = MinionStatus.searchingBoss;
         _peers = event;
-        debugPrint('Minion Service got peers' + _peers.toString());
+        _log('Minion Service got peers' + _peers.toString());
         Iterable<DiscoveredPeers> bosses =
         event.where((DiscoveredPeers peer) => peer.isGroupOwner);
-        debugPrint('Minion Service got bosses' + bosses.toString());
+        _log('Minion Service got Grus' + bosses.toString());
         if (bosses.length > 1) {
-          debugPrint('Minion Service ===================================== Too many bosses');
+          _log('Minion Service ===================================== Too many Grus');
           for (var b in bosses) {
-            debugPrint('Minion Service ' + b.deviceAddress);
+            _log('Minion Service ' + b.deviceAddress);
           }
         } else if (bosses.length == 1 && !_connectingToBoss) {
           DiscoveredPeers boss = bosses.first;
-          print(boss);
+          _log('Minion Service connecting to Gru ' + boss.deviceAddress.toString());
           _connectingToBoss = true;
           minionStatus.value = MinionStatus.connectingBoss;
           p2p.connect(boss.deviceAddress).then((bool value) {
-            print(value);
-            // connectToSocket();
+            _log('Minion Service connection is ' + value.toString());
           });
         }
       }
@@ -78,6 +88,7 @@ class MinionService extends BaseNetworkService {
       if (!_connected &&
           !_connectingToBossSocket &&
           event.groupOwnerAddress != "") {
+        _log('Minion Service connection to socket initiated');
         _connectingToBossSocket = true;
         connectToSocket(event);
       }
@@ -99,7 +110,7 @@ class MinionService extends BaseNetworkService {
           print(info);
           DiscoveredPeers boss =
               _peers.firstWhere((DiscoveredPeers peer) => peer.isGroupOwner);
-          print('Minion Service connected to Gru');
+          _log('Minion Service connected to Gru');
         },
         transferUpdate: (transfer) {
           print(

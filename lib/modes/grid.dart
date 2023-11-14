@@ -199,7 +199,7 @@ class GridMode extends GruMinionMode {
         Expanded(
           child: Container(
             color: Colors.yellow,
-            child: Widget gridRepresentation(),
+            child: gridRepresentation(),
           ),
         ),
       ],
@@ -210,7 +210,23 @@ class GridMode extends GruMinionMode {
   String name() => "grid";
 
   Widget gridRepresentation() {
-    
+    List<Widget> rows = [];
+    for (int r = 0 ; r < this.gruGrid.maxRow() ; r++) {
+      List<Widget> cells = [];
+      for (int c = 0 ; c < this.gruGrid.maxCol() ; c++) {
+        Client? client = gruGrid.griddy[(r,c)];
+        cells.add(
+            Expanded(
+              child: Text(
+                  r.toString() + " " + c.toString()+" : " +
+              (client == null ? "NOPE " : client!.deviceAddress)
+              ),
+            )
+        );
+      }
+      rows.add(Expanded(child: Row(children: cells,)));
+    }
+    return Column(children: rows,);
   }
 
 }

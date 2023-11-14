@@ -10,12 +10,15 @@ import '../service/minion_service.dart';
 abstract class MinionBaseWidgetState<T extends StatefulWidget> extends State<T> {
   late MinionService minionService;
 
+  List<String> logs = [];
+
   Widget content(BuildContext context);
 
 
   String _macAddress = "no mac";
   void _initMac() async {
     _macAddress = await GetMac.macAddress ?? 'Unknown mac address';
+    setState(() {});
   }
   String macAddress() => _macAddress;
 
@@ -25,7 +28,6 @@ abstract class MinionBaseWidgetState<T extends StatefulWidget> extends State<T> 
     _initMac();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     minionService = Get.find();
-    _initMac();
   }
 
   @override
@@ -65,7 +67,18 @@ abstract class MinionBaseWidgetState<T extends StatefulWidget> extends State<T> 
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(subText ?? 'Chargement...'),
-          )
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.lightGreenAccent,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView(
+                  children: minionService.logs.map((e) => Text(e)).toList(),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
