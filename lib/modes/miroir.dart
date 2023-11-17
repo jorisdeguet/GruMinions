@@ -30,18 +30,22 @@ class Miroir extends GruMinionMode {
   @override
   void handleMessageAsMinion(String s) {
     print("Minion in miror mode " + s);
+    if (s.contains("FILEPATH")) {
+      this.imagePath = s.split("@")[1];
+    }
   }
 
   @override
   Widget minionWidget(BuildContext context) {
-    // TODO: implement minionWidget
     return Scaffold(
       body: Stack(
           children: [
             Container(
               width: double.infinity,
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  await takePic();
+                  Get.find<MinionService>().p2p.sendFiletoSocket([this.imagePath]);
                   sendToOthers("Hi ");
                 },
                 onDoubleTap: () {
@@ -71,19 +75,23 @@ class Miroir extends GruMinionMode {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          try {
-            final XFile image = await _controller.takePicture();
-            print("Image " + image.path);
-            this.imagePath = image.path;
-            Get.find<MinionService>().p2p.sendFiletoSocket([this.imagePath]);
-          } catch (e) {
-            // If an error occurs, log the error to the console.
-            print(e);
-          }
+          await takePic();
+          Get.find<MinionService>().p2p.sendFiletoSocket([this.imagePath]);
         },
         child: const Icon(Icons.camera_alt),
       ),
     );
+  }
+
+  Future<void> takePic() async {
+    try {
+      final XFile image = await _controller.takePicture();
+      print("Image " + image.path);
+      this.imagePath = image.path;
+    } catch (e) {
+      // If an error occurs, log the error to the console.
+      print(e);
+    }
   }
 
   @override
@@ -122,7 +130,7 @@ class Miroir extends GruMinionMode {
       // Get a specific camera from the list of available cameras.
       camera!,
       // Define the resolution to use.
-      ResolutionPreset.high,
+      ResolutionPreset.medium,
     );
     // Next, initialize the controller. This returns a Future.
     _initializeControllerFuture = _controller.initialize();
@@ -133,20 +141,4 @@ class Miroir extends GruMinionMode {
     return new Text("Miroir console TODO");
   }
 
-
-// // TODO test and see if we can share with other minions
-// Future<XFile?> takePicture(CameraController? cameraController) async {
-//   if (cameraController!.value.isTakingPicture) {
-//     // A capture is already pending, do nothing.
-//     return null;
-//   }
-//   try {
-//     XFile file = await cameraController.takePicture();
-//     print("Picture on " + _macAddress);
-//     return file;
-//   } on CameraException catch (e) {
-//     print('Error occured while taking picture: $e');
-//     return null;
-//   }
-// }
 }

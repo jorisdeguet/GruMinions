@@ -113,14 +113,26 @@ class MinionService extends BaseNetworkService {
         onConnect: (String address) {
           _connected = true;
           minionStatus.value = MinionStatus.active;
-          print(info);
+          debugPrint("Minion Service  " + info.toString());
           DiscoveredPeers boss =
               _peers.firstWhere((DiscoveredPeers peer) => peer.isGroupOwner);
           _log('Minion Service connected to Gru');
         },
         transferUpdate: (transfer) {
-          print(
-              "ID: ${transfer.id}, FILENAME: ${transfer.filename}, PATH: ${transfer.path}, COUNT: ${transfer.count}, TOTAL: ${transfer.total}, COMPLETED: ${transfer.completed}, FAILED: ${transfer.failed}, RECEIVING: ${transfer.receiving}");
+          if (transfer.completed) {
+            onReceive.value = "FILEPATH@"+transfer.path;
+            debugPrint("Minion Service completed: ${transfer.filename}, PATH: ${transfer.path}");
+            //onReceiveFilePath.trigger(transfer.path);
+          }
+          // debugPrint(
+          //     "ID: ${transfer.id}, "
+          //         "FILENAME: ${transfer.filename}, "
+          //         "PATH: ${transfer.path}, "
+          //         "COUNT: ${transfer.count}, "
+          //         "TOTAL: ${transfer.total}, "
+          //         "COMPLETED: ${transfer.completed}, "
+          //         "FAILED: ${transfer.failed}, "
+          //         "RECEIVING: ${transfer.receiving}");
         },
         receiveString: (message) async {
           //print('Minion got message  ' + message.toString());
