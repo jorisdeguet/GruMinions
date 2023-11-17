@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
+import 'package:gru_minions/modes/grid.dart';
 import 'package:gru_minions/service/base_network_service.dart';
 import 'package:gru_minions/service/gru_status.dart';
 
@@ -16,6 +17,8 @@ class GruService extends BaseNetworkService {
   StreamSubscription<WifiP2PInfo>? _wifiP2PInfoStream;
 
   WifiP2PInfo? info;
+
+  GridState? grid = null;
 
   GruService() {
     init();

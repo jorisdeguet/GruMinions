@@ -190,6 +190,7 @@ class GridMode extends GruMinionMode {
             MaterialButton(
               onPressed: () {
                 this.sendToOthers("finished " );
+                Get.find<GruService>().grid = gruGrid;
                 // TODO save it in GruService ?
               },
               child: Text("Finished", style: TextStyle(fontSize: 30),),
@@ -217,9 +218,16 @@ class GridMode extends GruMinionMode {
         Client? client = gruGrid.griddy[(r,c)];
         cells.add(
             Expanded(
-              child: Text(
-                  r.toString() + " " + c.toString()+" : " +
-              (client == null ? "NOPE " : client!.deviceAddress)
+              child: MaterialButton(
+                onPressed: () {
+                  if (client != null) {
+                    sendToOthers("ping " + client!.deviceAddress.toString());
+                  }
+                },
+                child: Text(
+                    r.toString() + " " + c.toString()+" : " +
+                        (client == null ? "NOPE " : client!.deviceAddress)
+                ),
               ),
             )
         );
