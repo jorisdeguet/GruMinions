@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/grid.dart';
@@ -10,6 +11,7 @@ class GruService extends BaseNetworkService {
   Rx<BossStatus> bossStatus = BossStatus.none.obs;
 
   Rx<String> onReceive = ''.obs;
+  Rx<String> onReceiveFilePath = ''.obs;
 
   bool _creatingGroup = false;
   bool _groupCreated = false;
@@ -43,9 +45,9 @@ class GruService extends BaseNetworkService {
         _startBossSocket(event);
         List<String> foundClients =
             event.clients.map((Client e) => e.deviceName).toList();
-        print('Group created');
-        print('  ip : ${event.groupOwnerAddress}');
-        print('  clients : $foundClients');
+        debugPrint('GruService - Group created');
+        debugPrint('GruService   ip : ${event.groupOwnerAddress}');
+        debugPrint('GruService   clients : $foundClients');
       } else if (!_creatingGroup && !_groupCreated) {
         bossStatus.value = BossStatus.creatingGroup;
         _creatingGroup = true;
@@ -65,8 +67,19 @@ class GruService extends BaseNetworkService {
           print("$name connected to socket with address: $address");
         },
         transferUpdate: (transfer) {
-          print(
-              "ID: ${transfer.id}, FILENAME: ${transfer.filename}, PATH: ${transfer.path}, COUNT: ${transfer.count}, TOTAL: ${transfer.total}, COMPLETED: ${transfer.completed}, FAILED: ${transfer.failed}, RECEIVING: ${transfer.receiving}");
+          if (transfer.completed) {
+            debugPrint("completed: ${transfer.filename}, PATH: ${transfer.path}");
+            onReceiveFilePath.trigger(transfer.path);
+          }
+          debugPrint(
+              "ID: ${transfer.id}, "
+                  "FILENAME: ${transfer.filename}, "
+                  "PATH: ${transfer.path}, "
+                  "COUNT: ${transfer.count}, "
+                  "TOTAL: ${transfer.total}, "
+                  "COMPLETED: ${transfer.completed}, "
+                  "FAILED: ${transfer.failed}, "
+                  "RECEIVING: ${transfer.receiving}");
         },
         // handle string transfer from server
         receiveString: (dynamic message) async {
