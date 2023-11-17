@@ -58,23 +58,62 @@ abstract class MinionBaseWidgetState<T extends StatefulWidget> extends State<T> 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(
-              height: 100,
-              width: 100,
-              child: CircularProgressIndicator(
-                strokeWidth: 10,
-              )),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(subText ?? 'Chargement...'),
+          Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: const SizedBox(
+                                height: 80,
+                                width: 80,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 10,
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(subText ?? 'Chargement...'),
+                          ),
+                        ],
+                      )
+                  ),
+                  minionService.grus.length < 2 ? Container():
+                  Expanded(
+                      child: ListView(
+                        children : minionService.grus.map(
+                            (gru) {
+                              return ListTile(
+                                title: Text(gru.deviceName),
+                                subtitle: Text(gru.deviceAddress),
+                                trailing: ElevatedButton.icon(
+                                    onPressed: () {
+                                        minionService.initiateConnectionToGru(gru);
+                                    },
+                                    icon: Icon(Icons.wifi_find),
+                                    label: Text("connect")
+                                ),
+                              );
+                            }
+
+                        ).toList(),
+                      )
+                  )
+                ],
+              )
           ),
           Expanded(
+            flex:2,
             child: Container(
-              color: Colors.lightGreenAccent,
+              color: Colors.black,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView(
-                  children: minionService.logs.map((e) => Text(e)).toList(),
+                  children: minionService.logs.map(
+                          (e) => Text(e, style: TextStyle(color: Colors.white60),)
+                  ).toList(),
                 ),
               ),
             ),

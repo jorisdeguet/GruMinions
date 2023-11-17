@@ -21,7 +21,7 @@ class MinionService extends BaseNetworkService {
   bool _connected = false;
 
   List<DiscoveredPeers> _peers = [];
-
+  List<DiscoveredPeers> grus = [];
 
 
   StreamSubscription<List<DiscoveredPeers>>? _peerStream;
@@ -64,22 +64,19 @@ class MinionService extends BaseNetworkService {
         minionStatus.value = MinionStatus.searchingBoss;
         _peers = event;
         _log('Minion Service got peers' + _peers.toString());
-        Iterable<DiscoveredPeers> bosses =
-        event.where((DiscoveredPeers peer) => peer.isGroupOwner);
-        _log('Minion Service got Grus' + bosses.toString());
-        if (bosses.length > 1) {
+        grus =
+        event.where((DiscoveredPeers peer) => peer.isGroupOwner).toList();
+        _log('Minion Service got Grus' + grus.toString());
+        if (grus.length > 1) {
+          // TODO add a selector on the right with the grus to connect to
           _log('Minion Service ===================================== Too many Grus');
-          for (var b in bosses) {
-            _log('Minion Service ' + b.deviceAddress);
+          for (var g in grus) {
+            _log('Minion Service ' + g.deviceAddress);
           }
-        } else if (bosses.length == 1 && !_connectingToBoss) {
-          DiscoveredPeers boss = bosses.first;
-          _log('Minion Service connecting to Gru ' + boss.deviceAddress.toString());
-          _connectingToBoss = true;
-          minionStatus.value = MinionStatus.connectingBoss;
-          p2p.connect(boss.deviceAddress).then((bool value) {
-            _log('Minion Service connection is ' + value.toString());
-          });
+        } else if (grus.length == 1 && !_connectingToBoss) {
+          // Automatically connects as we do see a single Gru
+          DiscoveredPeers gru = grus.first;
+          initiateConnectionToGru(gru);
         }
       }
     });
@@ -92,6 +89,15 @@ class MinionService extends BaseNetworkService {
         _connectingToBossSocket = true;
         connectToSocket(event);
       }
+    });
+  }
+
+  void initiateConnectionToGru(DiscoveredPeers gru) {
+    _log('Minion Service connecting to Gru ' + gru.deviceAddress.toString());
+    _connectingToBoss = true;
+    minionStatus.value = MinionStatus.connectingBoss;
+    p2p.connect(gru.deviceAddress).then((bool value) {
+      _log('Minion Service connection is ' + value.toString());
     });
   }
 

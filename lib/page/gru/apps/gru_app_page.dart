@@ -73,7 +73,6 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
         crossAxisCount: 3,
         mainAxisSpacing: 1,
         crossAxisSpacing: 1,
-        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: this.modes.map( buttonForMode).toList(),
       ),
     );
@@ -82,7 +81,6 @@ class _BossTestAppPageState extends BossBaseWidgetState<GruTestAppPage> {
   void send(String m) {
     messages.insert(0,"Gru - " + m);
     Get.find<GruService>().p2p.sendStringToSocket(m);
-
     setState(() {});
   }
 
