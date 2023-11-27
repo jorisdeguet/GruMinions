@@ -11,7 +11,6 @@ class GruService extends BaseNetworkService {
   Rx<BossStatus> bossStatus = BossStatus.none.obs;
 
   Rx<String> onReceive = ''.obs;
-  Rx<String> onReceiveFilePath = ''.obs;
 
   bool _creatingGroup = false;
   bool _groupCreated = false;
@@ -69,7 +68,7 @@ class GruService extends BaseNetworkService {
         transferUpdate: (transfer) {
           if (transfer.completed) {
             debugPrint("completed: ${transfer.filename}, PATH: ${transfer.path}");
-            onReceiveFilePath.trigger(transfer.path);
+            onReceive.value = "FILEPATH@"+transfer.path;
           }
           debugPrint(
               "ID: ${transfer.id}, "

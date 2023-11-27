@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
@@ -10,7 +12,6 @@ import 'minion_status.dart';
 // Quand on a un reasoncode= 2 c'est https://developer.android.com/reference/android/net/wifi/p2p/WifiP2pManager#BUSY
 // https://developer.android.com/reference/android/net/wifi/p2p/WifiP2pManager.ActionListener#onFailure(int)
 
-// TODO show a trace of all actions during minion connection to be able to follow what happens on screen
 class MinionService extends BaseNetworkService {
 
   Rx<MinionStatus> minionStatus = MinionStatus.none.obs;
@@ -88,6 +89,7 @@ class MinionService extends BaseNetworkService {
         _log('Minion Service connection to socket initiated');
         _connectingToBossSocket = true;
         connectToSocket(event);
+        startUDPChannel();
       }
     });
   }
@@ -99,6 +101,31 @@ class MinionService extends BaseNetworkService {
     p2p.connect(gru.deviceAddress).then((bool value) {
       _log('Minion Service connection is ' + value.toString());
     });
+  }
+
+  Future<void> startUDPChannel() async {
+    _log('Minion Service Starting UDP ' );
+    String? ipAd = await p2p.getIPAddress();
+    _log("IP address for  " + ipAd.toString() + " @ " );
+    if (ipAd != null) {
+      String broadcast = ipAd!.split(".")[0]+"."+ipAd!.split(".")[1]+"."+ipAd!.split(".")[2]+".255";
+      _log("IP address for boradcast  " + broadcast );
+      var DESTINATION_ADDRESS = InternetAddress(broadcast);
+      RawDatagramSocket.bind(InternetAddress.anyIPv4, 8888).then((RawDatagramSocket udpSocket) {
+        udpSocket.broadcastEnabled = true;
+        _log("Binded on  ${udpSocket.address}");
+        udpSocket.listen((e) {
+          _log("receiving ${e}");
+          Datagram? dg = udpSocket.receive();
+          if (dg != null) {
+            _log("received ${dg.data}");
+          }
+        });
+        List<int> data = utf8.encode('TEST ' + ipAd);
+        _log(" sending data on UDP  " + broadcast );
+        udpSocket.send(data, DESTINATION_ADDRESS, 8888);
+      });
+    }
   }
 
   Future connectToSocket(WifiP2PInfo info) async {
@@ -122,7 +149,6 @@ class MinionService extends BaseNetworkService {
           if (transfer.completed) {
             onReceive.value = "FILEPATH@"+transfer.path;
             debugPrint("Minion Service completed: ${transfer.filename}, PATH: ${transfer.path}");
-            //onReceiveFilePath.trigger(transfer.path);
           }
           // debugPrint(
           //     "ID: ${transfer.id}, "
