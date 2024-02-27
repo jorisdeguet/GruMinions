@@ -109,7 +109,7 @@ class MinionService extends BaseNetworkService {
     _log("IP address for  $ipAd @ ");
     if (ipAd != null) {
       String broadcast =
-          "${ipAd!.split(".")[0]}.${ipAd!.split(".")[1]}.${ipAd!.split(".")[2]}.255";
+          "${ipAd.split(".")[0]}.${ipAd.split(".")[1]}.${ipAd.split(".")[2]}.255";
       _log("IP address for boradcast  $broadcast");
       var DESTINATION_ADDRESS = InternetAddress(broadcast);
       RawDatagramSocket.bind(InternetAddress.anyIPv4, 8888)
