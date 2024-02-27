@@ -23,7 +23,7 @@ class PianoMode extends GruMinionMode {
 
   @override
   Widget minionWidget(BuildContext context) {
-    return getPiano(Random().nextInt(5)+1);
+    return getPiano(Random().nextInt(5) + 1);
   }
 
   @override
@@ -48,7 +48,8 @@ class PianoMode extends GruMinionMode {
       "D": Colors.blue,
       "E": Colors.green,
       "F": Colors.purple,
-      "G": Colors.pink};
+      "G": Colors.pink
+    };
     List<Widget> notesWidgets = [];
     for (var note in notes.keys) {
       notesWidgets.add(Expanded(child: tapForNote(note, octave, notes[note]!)));
@@ -57,22 +58,20 @@ class PianoMode extends GruMinionMode {
       children: notesWidgets,
     );
   }
+
   Widget tapForNote(String note, int octave, Color color) {
-    String fileName = "assets/piano/"+note+octave.toString()+".mp3";
-    print("Piano for " + fileName);
+    String fileName = "assets/piano/$note$octave.mp3";
+    print("Piano for $fileName");
     return GestureDetector(
       child: Container(
         color: color,
       ),
       onTapDown: (e) {
-        String fileName = "assets/piano/"+note+octave.toString()+".mp3";
-        this.sendToOthers("played " + note);
-        print("Piano for " + fileName);
+        String fileName = "assets/piano/$note$octave.mp3";
+        sendToOthers("played $note");
+        print("Piano for $fileName");
         playSound(fileName);
       },
     );
   }
-
-
 }
-

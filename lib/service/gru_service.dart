@@ -19,7 +19,7 @@ class GruService extends BaseNetworkService {
 
   WifiP2PInfo? info;
 
-  GridState? grid = null;
+  GridState? grid;
 
   GruService() {
     init();
@@ -56,44 +56,43 @@ class GruService extends BaseNetworkService {
   }
 
   Future _startBossSocket(WifiP2PInfo info) async {
-      bossStatus.value = BossStatus.openingSocket;
-      await p2p.startSocket(
-        groupOwnerAddress: info.groupOwnerAddress,
-        downloadPath: "/storage/emulated/0/Download/",
-        maxConcurrentDownloads: 64,
-        deleteOnError: true,
-        onConnect: (String name, String address) {
-          print("$name connected to socket with address: $address");
-        },
-        transferUpdate: (transfer) {
-          if (transfer.completed) {
-            debugPrint("completed: ${transfer.filename}, PATH: ${transfer.path}");
-            onReceive.value = "FILEPATH@"+transfer.path;
-          }
-          debugPrint(
-              "ID: ${transfer.id}, "
-                  "FILENAME: ${transfer.filename}, "
-                  "PATH: ${transfer.path}, "
-                  "COUNT: ${transfer.count}, "
-                  "TOTAL: ${transfer.total}, "
-                  "COMPLETED: ${transfer.completed}, "
-                  "FAILED: ${transfer.failed}, "
-                  "RECEIVING: ${transfer.receiving}");
-        },
-        // handle string transfer from server
-        receiveString: (dynamic message) async {
-          print("Gru got message " + message);
-          // onReceive.value = message;
-          onReceive.trigger(message);
-          // onReceive.call(message);
-        },
-      );
-      bossStatus.value = BossStatus.active;
+    bossStatus.value = BossStatus.openingSocket;
+    await p2p.startSocket(
+      groupOwnerAddress: info.groupOwnerAddress,
+      downloadPath: "/storage/emulated/0/Download/",
+      maxConcurrentDownloads: 64,
+      deleteOnError: true,
+      onConnect: (String name, String address) {
+        print("$name connected to socket with address: $address");
+      },
+      transferUpdate: (transfer) {
+        if (transfer.completed) {
+          debugPrint("completed: ${transfer.filename}, PATH: ${transfer.path}");
+          onReceive.value = "FILEPATH@${transfer.path}";
+        }
+        debugPrint("ID: ${transfer.id}, "
+            "FILENAME: ${transfer.filename}, "
+            "PATH: ${transfer.path}, "
+            "COUNT: ${transfer.count}, "
+            "TOTAL: ${transfer.total}, "
+            "COMPLETED: ${transfer.completed}, "
+            "FAILED: ${transfer.failed}, "
+            "RECEIVING: ${transfer.receiving}");
+      },
+      // handle string transfer from server
+      receiveString: (dynamic message) async {
+        print("Gru got message $message");
+        // onReceive.value = message;
+        onReceive.trigger(message);
+        // onReceive.call(message);
+      },
+    );
+    bossStatus.value = BossStatus.active;
   }
 
   @override
   void dispose() {
-    if(_wifiP2PInfoStream != null) {
+    if (_wifiP2PInfoStream != null) {
       _wifiP2PInfoStream!.cancel();
     }
     super.dispose();

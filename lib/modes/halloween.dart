@@ -8,9 +8,8 @@ import 'package:gru_minions/service/utils.dart';
 import 'package:invert_colors/invert_colors.dart';
 
 class HalMode extends GruMinionMode {
+  final GlobalKey<BaseState> _key = GlobalKey();
 
-
-  GlobalKey<BaseState> _key = GlobalKey();
   HalMode({required super.sendToOthers});
 
   @override
@@ -26,10 +25,7 @@ class HalMode extends GruMinionMode {
 
   @override
   Widget minionWidget(BuildContext context) {
-    return HalloweenMode(
-      key: _key,
-        sendToOthers: sendToOthers
-    );
+    return HalloweenMode(key: _key, sendToOthers: sendToOthers);
   }
 
   @override
@@ -49,23 +45,18 @@ class HalMode extends GruMinionMode {
 
   @override
   Widget gruWidget() {
-    return new Text("Halloween console TODO");
+    return const Text("Halloween console TODO");
   }
-
 }
 
-
-class HalloweenMode extends BaseMode{
-
+class HalloweenMode extends BaseMode {
   const HalloweenMode({super.key, required super.sendToOthers});
 
   @override
-  State<StatefulWidget> createState()  => HalState();
-
+  State<StatefulWidget> createState() => HalState();
 }
 
 class HalState extends BaseState<HalloweenMode> {
-
   List<String> images = [
     "assets/halloween/crane.png",
     "assets/halloween/halloween.jpg",
@@ -93,7 +84,8 @@ class HalState extends BaseState<HalloweenMode> {
   }
 
   @override
-  void initState(){
+  void initState() {
+    super.initState();
     playMouaha();
     timeStep();
   }
@@ -112,9 +104,10 @@ class HalState extends BaseState<HalloweenMode> {
             playSound(sound);
           },
           child: Random().nextBool()
-            ? Image.asset(getImageRandom())
-            : InvertColors(child: Image.asset(getImageRandom()),)
-      ),
+              ? Image.asset(getImageRandom())
+              : InvertColors(
+                  child: Image.asset(getImageRandom()),
+                )),
     );
   }
 
@@ -139,5 +132,4 @@ class HalState extends BaseState<HalloweenMode> {
     }
     print("Coucou as Minion");
   }
-
 }

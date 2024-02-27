@@ -1,5 +1,3 @@
-
-
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/modes/flame.dart';
 import 'package:gru_minions/modes/grid.dart';

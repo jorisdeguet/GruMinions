@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/modes/flame/game.dart';
 import 'package:gru_minions/modes/flame/gru_game_page.dart';
@@ -10,19 +9,19 @@ import 'package:gru_minions/modes/flame/main_game_page.dart';
 class FlameMode extends GruMinionMode {
   FlameMode({required super.sendToOthers});
 
-  MainGame game = MainGame();
+  final MainGame _game = MainGame();
 
-  late Function setMinionDirection;
+  late Function _setMinionDirection;
 
   @override
   Widget gruWidget() {
-    return GruGamePage(send: sendToOthers,);
+    return GruGamePage(
+      send: sendToOthers,
+    );
   }
 
   @override
-  void handleMessageAsGru(String s) {
-
-  }
+  void handleMessageAsGru(String s) {}
 
   @override
   void handleMessageAsMinion(String s) {
@@ -30,26 +29,21 @@ class FlameMode extends GruMinionMode {
     print(s);
 
     Direction d = Direction.values.firstWhere((e) => s.contains(e.name));
-    print("Good  " + d.toString());
-    game.onJoyPad2DirectionChanged(d);
+    print("Good  $d");
+    _game.onJoyPad2DirectionChanged(d);
   }
 
   @override
-  void initGru() {
-
-  }
+  void initGru() {}
 
   @override
-  void initMinion() {
-
-  }
+  void initMinion() {}
 
   @override
   Widget minionWidget(BuildContext context) {
-    return MainGamePage(game : game);
+    return MainGamePage(game: _game);
   }
 
   @override
   String name() => "flame";
-
 }

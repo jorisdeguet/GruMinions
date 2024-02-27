@@ -1,20 +1,19 @@
 import 'package:flame/cache.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
-import 'helpers/direction.dart';
 import 'components/player.dart';
+import 'helpers/direction.dart';
 
 class MainGame extends FlameGame with KeyboardEvents {
-
   @override
   final images = Images(prefix: 'assets/flame/');
 
-  final Player _player = Player(Vector2(100,100));
+  final Player _player = Player(Vector2(100, 100));
 
-  final Player _player2 = Player(Vector2(100,200));
+  final Player _player2 = Player(Vector2(100, 200));
 
   MainGame();
 
@@ -26,7 +25,8 @@ class MainGame extends FlameGame with KeyboardEvents {
   }
 
   @override
-  KeyEventResult onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+  KeyEventResult onKeyEvent(
+      RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     final isKeyDown = event is RawKeyDownEvent;
     Direction? keyDirection = null;
 
@@ -52,6 +52,7 @@ class MainGame extends FlameGame with KeyboardEvents {
   void onJoyPad1DirectionChanged(Direction direction) {
     _player.direction = direction;
   }
+
   void onJoyPad2DirectionChanged(Direction direction) {
     _player2.direction = direction;
   }

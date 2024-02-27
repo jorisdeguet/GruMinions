@@ -13,7 +13,6 @@ import 'minion_status.dart';
 // https://developer.android.com/reference/android/net/wifi/p2p/WifiP2pManager.ActionListener#onFailure(int)
 
 class MinionService extends BaseNetworkService {
-
   Rx<MinionStatus> minionStatus = MinionStatus.none.obs;
   Rx<String> onReceive = ''.obs;
 
@@ -23,7 +22,6 @@ class MinionService extends BaseNetworkService {
 
   List<DiscoveredPeers> _peers = [];
   List<DiscoveredPeers> grus = [];
-
 
   StreamSubscription<List<DiscoveredPeers>>? _peerStream;
   StreamSubscription<WifiP2PInfo>? _wifiP2PInfoStream;
@@ -48,31 +46,33 @@ class MinionService extends BaseNetworkService {
     await Future.delayed(const Duration(seconds: 1));
     // see if a group exists
     var groupInfo = await p2p.groupInfo();
-    _log("Minion init got group info " + groupInfo.toString() + " ");
+    _log("Minion init got group info $groupInfo ");
     if (groupInfo != null) {
       _log("Minion init initiating existing group removal ");
       bool removalOk = await p2p.removeGroup();
-      _log("Minion init delete existing group status " + removalOk.toString());
+      _log("Minion init delete existing group status $removalOk");
     }
     _log("Minion init initiating peers discovery ");
     bool discoverOk = await p2p.discover();
-    _log("Minion init discovery status " + discoverOk.toString());
+    _log("Minion init discovery status $discoverOk");
 
     _peerStream = p2p.streamPeers().listen((List<DiscoveredPeers> event) {
       // TODO on ne veut pas forcément passer dans ce mode non?
-      _log('Minion Service got peers' + _connected.toString() + " " + _connectingToBoss.toString());
+      _log(
+          'Minion Service got peers ${_connected.toString()} ${_connectingToBoss.toString()}');
       if (minionStatus.value != MinionStatus.active) {
         minionStatus.value = MinionStatus.searchingBoss;
         _peers = event;
-        _log('Minion Service got peers' + _peers.toString());
+        _log('Minion Service got peers$_peers');
         grus =
-        event.where((DiscoveredPeers peer) => peer.isGroupOwner).toList();
-        _log('Minion Service got Grus' + grus.toString());
+            event.where((DiscoveredPeers peer) => peer.isGroupOwner).toList();
+        _log('Minion Service got Grus$grus');
         if (grus.length > 1) {
           // TODO add a selector on the right with the grus to connect to
-          _log('Minion Service ===================================== Too many Grus');
+          _log(
+              'Minion Service ===================================== Too many Grus');
           for (var g in grus) {
-            _log('Minion Service ' + g.deviceAddress);
+            _log('Minion Service ${g.deviceAddress}');
           }
         } else if (grus.length == 1 && !_connectingToBoss) {
           // Automatically connects as we do see a single Gru
@@ -89,29 +89,31 @@ class MinionService extends BaseNetworkService {
         _log('Minion Service connection to socket initiated');
         _connectingToBossSocket = true;
         connectToSocket(event);
-        startUDPChannel();
+        _startUDPChannel();
       }
     });
   }
 
   void initiateConnectionToGru(DiscoveredPeers gru) {
-    _log('Minion Service connecting to Gru ' + gru.deviceAddress.toString());
+    _log('Minion Service connecting to Gru ${gru.deviceAddress}');
     _connectingToBoss = true;
     minionStatus.value = MinionStatus.connectingBoss;
     p2p.connect(gru.deviceAddress).then((bool value) {
-      _log('Minion Service connection is ' + value.toString());
+      _log('Minion Service connection is $value');
     });
   }
 
-  Future<void> startUDPChannel() async {
-    _log('Minion Service Starting UDP ' );
+  Future<void> _startUDPChannel() async {
+    _log('Minion Service Starting UDP ');
     String? ipAd = await p2p.getIPAddress();
-    _log("IP address for  " + ipAd.toString() + " @ " );
+    _log("IP address for  $ipAd @ ");
     if (ipAd != null) {
-      String broadcast = ipAd!.split(".")[0]+"."+ipAd!.split(".")[1]+"."+ipAd!.split(".")[2]+".255";
-      _log("IP address for boradcast  " + broadcast );
+      String broadcast =
+          "${ipAd!.split(".")[0]}.${ipAd!.split(".")[1]}.${ipAd!.split(".")[2]}.255";
+      _log("IP address for boradcast  $broadcast");
       var DESTINATION_ADDRESS = InternetAddress(broadcast);
-      RawDatagramSocket.bind(InternetAddress.anyIPv4, 8888).then((RawDatagramSocket udpSocket) {
+      RawDatagramSocket.bind(InternetAddress.anyIPv4, 8888)
+          .then((RawDatagramSocket udpSocket) {
         udpSocket.broadcastEnabled = true;
         _log("Binded on  ${udpSocket.address}");
         udpSocket.listen((e) {
@@ -121,8 +123,8 @@ class MinionService extends BaseNetworkService {
             _log("received ${dg.data}");
           }
         });
-        List<int> data = utf8.encode('TEST ' + ipAd);
-        _log(" sending data on UDP  " + broadcast );
+        List<int> data = utf8.encode('TEST $ipAd');
+        _log(" sending data on UDP  $broadcast");
         udpSocket.send(data, DESTINATION_ADDRESS, 8888);
       });
     }
@@ -140,15 +142,16 @@ class MinionService extends BaseNetworkService {
         onConnect: (String address) {
           _connected = true;
           minionStatus.value = MinionStatus.active;
-          debugPrint("Minion Service  " + info.toString());
+          debugPrint("Minion Service  $info");
           DiscoveredPeers boss =
               _peers.firstWhere((DiscoveredPeers peer) => peer.isGroupOwner);
           _log('Minion Service connected to Gru');
         },
         transferUpdate: (transfer) {
           if (transfer.completed) {
-            onReceive.value = "FILEPATH@"+transfer.path;
-            debugPrint("Minion Service completed: ${transfer.filename}, PATH: ${transfer.path}");
+            onReceive.value = "FILEPATH@${transfer.path}";
+            debugPrint(
+                "Minion Service completed: ${transfer.filename}, PATH: ${transfer.path}");
           }
           // debugPrint(
           //     "ID: ${transfer.id}, "

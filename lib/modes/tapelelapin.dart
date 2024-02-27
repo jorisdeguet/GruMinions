@@ -8,16 +8,15 @@ import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/service/utils.dart';
 
 class TapeLeLapin extends GruMinionMode {
-
   String rabAdress = "";
 
-  var adresseDuLapin = "";
+  String adresseDuLapin = "";
 
   TapeLeLapin({required super.sendToOthers});
 
   @override
   void handleMessageAsGru(String m) {
-    if (m.contains("hit")){
+    if (m.contains("hit")) {
       choisisUnLapin();
     }
   }
@@ -27,13 +26,13 @@ class TapeLeLapin extends GruMinionMode {
   }
 
   @override
-  void handleMessageAsMinion(String m) {
-    print("Tapelelapin minion ::: " + m + " rab  :::: " + rabAdress);
-    if (m.contains("rabbit")){
-      rabAdress = m.split("rab")[0];
+  void handleMessageAsMinion(String s) {
+    print("Tapelelapin minion ::: $s rab  :::: $rabAdress");
+    if (s.contains("rabbit")) {
+      rabAdress = s.split("rab")[0];
       return;
     }
-    if (m.contains("miss")) {
+    if (s.contains("miss")) {
       playSound("assets/non.mp3");
     }
   }
@@ -44,19 +43,21 @@ class TapeLeLapin extends GruMinionMode {
     return Column(
       children: [
         Expanded(
-          child: Container(
+          child: SizedBox(
             width: double.infinity,
             child: MaterialButton(
               color: isMe ? Colors.white : Colors.white,
               onPressed: () {
                 //
                 if (isMe) {
-                  this.sendToOthers(macAddress()+"hit");
+                  sendToOthers("${macAddress()}hit");
                 } else {
-                  this.sendToOthers(macAddress()+"miss");
+                  sendToOthers("${macAddress()}miss");
                 }
               },
-              child: isMe ? Image.asset("assets/rabbit.png") : Image.asset("assets/mole.jpg") ,
+              child: isMe
+                  ? Image.asset("assets/rabbit.png")
+                  : Image.asset("assets/mole.jpg"),
             ),
           ),
         )
@@ -76,13 +77,14 @@ class TapeLeLapin extends GruMinionMode {
     print("Appel a choisisUnLapin");
     GruService service = Get.find<GruService>();
     List<Client> clients = service.info!.clients;
-    String nouvelleAdresse = clients[Random().nextInt(clients.length)].deviceAddress;
+    String nouvelleAdresse =
+        clients[Random().nextInt(clients.length)].deviceAddress;
     do {
       nouvelleAdresse = clients[Random().nextInt(clients.length)].deviceAddress;
-    } while(adresseDuLapin == nouvelleAdresse);
+    } while (adresseDuLapin == nouvelleAdresse);
     adresseDuLapin = nouvelleAdresse;
-    print("Gru Lapin sera " + adresseDuLapin);
-    this.sendToOthers(adresseDuLapin + "rabbit");
+    print("Gru Lapin sera $adresseDuLapin");
+    sendToOthers("${adresseDuLapin}rabbit");
   }
 
   @override
@@ -92,6 +94,4 @@ class TapeLeLapin extends GruMinionMode {
   Widget gruWidget() {
     return Container(color: Colors.blueAccent);
   }
-
-
 }

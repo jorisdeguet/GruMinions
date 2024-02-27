@@ -7,76 +7,68 @@ import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/service/minion_service.dart';
 
 class Miroir extends GruMinionMode {
-
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
-  
   CameraDescription? camera;
 
   String imagePath = "";
 
-  Miroir({required super.sendToOthers}){
+  Miroir({required super.sendToOthers}) {
     // Next, initialize the controller. This returns a Future.
     //_initializeControllerFuture = _controller.initialize();
   }
 
-
   @override
   void handleMessageAsGru(String s) {
-    print("Gru in miror mode " + s);
+    print("Gru in miror mode $s");
   }
 
   @override
   void handleMessageAsMinion(String s) {
-    print("Minion in miror mode " + s);
+    print("Minion in miror mode $s");
     if (s.contains("FILEPATH")) {
-      this.imagePath = s.split("@")[1];
+      imagePath = s.split("@")[1];
     }
   }
 
   @override
   Widget minionWidget(BuildContext context) {
     return Scaffold(
-      body: Stack(
-          children: [
-            Container(
-              width: double.infinity,
-              child: GestureDetector(
-                onTap: () async {
-                  await takePic();
-                  Get.find<MinionService>().p2p.sendFiletoSocket([this.imagePath]);
-                  sendToOthers("Hi ");
-                },
-                onDoubleTap: () {
-                  //takePicture(_controller);
-                },
-                onLongPress: () {
-
-                },
-                child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    // Spacer(),
-                    Expanded(
-                      child: frontCameraPreview(),
-                    ),
-                  ],
+      body: Stack(children: [
+        SizedBox(
+          width: double.infinity,
+          child: GestureDetector(
+            onTap: () async {
+              await takePic();
+              Get.find<MinionService>().p2p.sendFiletoSocket([imagePath]);
+              sendToOthers("Hi ");
+            },
+            onDoubleTap: () {
+              //takePicture(_controller);
+            },
+            onLongPress: () {},
+            child: Column(
+              children: <Widget>[
+                // Spacer(),
+                Expanded(
+                  child: frontCameraPreview(),
                 ),
-              ),
+              ],
             ),
-            Container(
-              width: 200,
-              height: 200,
-              color: Colors.blue,
-              child: imagePath == "" ? Container() : Image.file(File(this.imagePath)),
-            ),
-          ]
-      ),
+          ),
+        ),
+        Container(
+          width: 200,
+          height: 200,
+          color: Colors.blue,
+          child: imagePath == "" ? Container() : Image.file(File(imagePath)),
+        ),
+      ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await takePic();
-          Get.find<MinionService>().p2p.sendFiletoSocket([this.imagePath]);
+          Get.find<MinionService>().p2p.sendFiletoSocket([imagePath]);
         },
         child: const Icon(Icons.camera_alt),
       ),
@@ -86,10 +78,9 @@ class Miroir extends GruMinionMode {
   Future<void> takePic() async {
     try {
       final XFile image = await _controller.takePicture();
-      print("Image " + image.path);
-      this.imagePath = image.path;
+      print("Image ${image.path}");
+      imagePath = image.path;
     } catch (e) {
-      // If an error occurs, log the error to the console.
       print(e);
     }
   }
@@ -138,7 +129,6 @@ class Miroir extends GruMinionMode {
 
   @override
   Widget gruWidget() {
-    return new Text("Miroir console TODO");
+    return const Text("Miroir console TODO");
   }
-
 }

@@ -1,1 +1,9 @@
-enum MinionStatus { none, initializing, searchingBoss, connectingBoss, connectingSocket, tooManyBoss, active }
+enum MinionStatus {
+  none,
+  initializing,
+  searchingBoss,
+  connectingBoss,
+  connectingSocket,
+  tooManyBoss,
+  active
+}

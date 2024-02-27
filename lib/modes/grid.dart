@@ -1,8 +1,5 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/base-mode.dart';
@@ -10,74 +7,74 @@ import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/service/utils.dart';
 
 class GridState {
+  final Map<(int, int), Client> _griddy = {};
 
-  Map<(int,int), Client> griddy = Map();
-
-  void set(Client sender, int gruRow, int gruColumn) {
+  void _set(Client sender, int gruRow, int gruColumn) {
     var key = (gruRow, gruColumn);
-    griddy[key] = sender;
-    printGrid();
+    _griddy[key] = sender;
+    _printGrid();
   }
 
-  int maxRow() {
+  int _maxRow() {
     int result = 0;
-    for ((int, int) key in this.griddy.keys){
-      var ( row,  col) = key;
+    for ((int, int) key in _griddy.keys) {
+      var (row, _) = key;
       if (row > result) result = row;
     }
-    return result+1;
+    return result + 1;
   }
 
-  int maxCol() {
+  int _maxCol() {
     int result = 0;
-    for ((int, int) key in this.griddy.keys){
-      var ( row,  col) = key;
+    for ((int, int) key in _griddy.keys) {
+      var (_, col) = key;
       if (col > result) result = col;
     }
-    return result+1;
+    return result + 1;
   }
 
-  String printGrid() {
-    for ((int, int) key in this.griddy.keys) {
-      print(key.toString() + " " + this.griddy[key]!.deviceAddress!.toString());
+  String _printGrid() {
+    for ((int, int) key in _griddy.keys) {
+      print("$key ${_griddy[key]!.deviceAddress}");
     }
-    String res = "Grid is ==========================================================================";
-    for (var r = 0; r < this.maxRow() ; r++) {
+    String res =
+        "Grid is ==========================================================================";
+    for (var r = 0; r < _maxRow(); r++) {
       res += "\n";
-      for (var c = 0 ; c < this.maxCol() ; c++){
+      for (var c = 0; c < _maxCol(); c++) {
         res += "  ";
-        res += this.griddy.containsKey((r,c)) ? this.griddy[(r,c)]!.deviceAddress! : "Empty          ";
+        res += _griddy.containsKey((r, c))
+            ? _griddy[(r, c)]!.deviceAddress
+            : "Empty          ";
       }
     }
     return res;
   }
 
-  void reset() {
-    this.griddy.clear();
+  void _reset() {
+    _griddy.clear();
   }
-
 }
 
 class GridMode extends GruMinionMode {
   GridMode({required super.sendToOthers});
 
-  int gruRow = 0;
-  int gruColumn = 0;
-  int minionRow = 0;
-  int minionColumn = 0;
-  bool minionIsCalibrating = true;
+  int _gruRow = 0;
+  int _gruColumn = 0;
+  int _minionRow = 0;
+  int _minionColumn = 0;
+  bool _minionIsCalibrating = true;
 
-  List<DeviceOrientation> orientations = [
+  List<DeviceOrientation> _orientations = [
     DeviceOrientation.landscapeRight,
     DeviceOrientation.portraitUp,
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.portraitDown,
   ];
 
-  DeviceOrientation minionOrientation = DeviceOrientation.landscapeRight;
+  DeviceOrientation _minionOrientation = DeviceOrientation.landscapeRight;
 
-  GridState gruGrid = GridState();
-
+  final GridState _gruGrid = GridState();
 
   @override
   void handleMessageAsGru(String s) {
@@ -86,39 +83,38 @@ class GridMode extends GruMinionMode {
       //print("Gru got answer for " + adresse + " " + gruRow.toString() + " " + gruColumn.toString());
       // Add client to coordinates
       Client? sender = Get.find<GruService>().info!.clients.firstWhereOrNull(
-              (element) => estMemeAdresse(element.deviceAddress, adresse));
+          (element) => estMemeAdresse(element.deviceAddress, adresse));
       if (sender != null) {
         int r = int.parse(s.split("|")[1]);
         int c = int.parse(s.split("|")[2]);
 
         //debugPrint("Gru got client for position " + sender!.deviceAddress.toString());
-        gruGrid.set(sender, r, c);
-        print("Size is "+gruGrid.maxRow().toString() + " * "+gruGrid.maxCol().toString());
-        print(gruGrid.printGrid());
+        _gruGrid._set(sender, r, c);
+        print("Size is ${_gruGrid._maxRow()} * ${_gruGrid._maxCol()}");
+        print(_gruGrid._printGrid());
       }
 
       // ask the new one
-      gruColumn++;
-      this.sendToOthers("select:"+gruRow.toString()+":"+gruColumn.toString() );
+      _gruColumn++;
+      sendToOthers("select:$_gruRow:$_gruColumn");
     }
   }
 
   @override
   void handleMessageAsMinion(String s) {
-    if (s.startsWith("select")){
-      minionRow = int.parse(s.split(":")[1]);
-      minionColumn = int.parse(s.split(":")[2]);
+    if (s.startsWith("select")) {
+      _minionRow = int.parse(s.split(":")[1]);
+      _minionColumn = int.parse(s.split(":")[2]);
     }
   }
 
   @override
-  void initGru() {
-  }
+  void initGru() {}
 
   @override
   void initMinion() {
-    minionIsCalibrating = true;
-    orientations = [
+    _minionIsCalibrating = true;
+    _orientations = [
       DeviceOrientation.landscapeRight,
       DeviceOrientation.portraitUp,
       DeviceOrientation.landscapeLeft,
@@ -128,34 +124,47 @@ class GridMode extends GruMinionMode {
 
   @override
   Widget minionWidget(BuildContext context) {
-    SystemChrome.setPreferredOrientations([this.minionOrientation]);
-    if (!minionIsCalibrating) {
-      return Text("TODO cmpute showing grid");
+    SystemChrome.setPreferredOrientations([_minionOrientation]);
+    if (!_minionIsCalibrating) {
+      return const Text("TODO cmpute showing grid");
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text("Row " + minionRow.toString(), style: TextStyle(fontSize: 30),),
-        Text("Col " + minionColumn.toString(), style: TextStyle(fontSize: 30),),
-        MaterialButton(
-          color: Colors.greenAccent,
-          onPressed: (){
-            this.sendToOthers(macAddress()+"|"+minionRow.toString() + "|" + minionColumn.toString());
-          },
-          child: Text("Appuie si c'est celle là", style: TextStyle(fontSize: 30), ),
+        Text(
+          "Row $_minionRow",
+          style: const TextStyle(fontSize: 30),
+        ),
+        Text(
+          "Col $_minionColumn",
+          style: const TextStyle(fontSize: 30),
         ),
         MaterialButton(
           color: Colors.greenAccent,
-          onPressed: (){
-            debugPrint("-----------------------------------------------------------");
-            print(this.orientations.toString() + " for  " + this.minionOrientation.toString());
-            int index = this.orientations.indexOf(this.minionOrientation);
-            int next = (index+1) % this.orientations.length;
-            print("index is " + index.toString() + " > "+next.toString());
-            this.minionOrientation = this.orientations[next];
-            this.sendToOthers(macAddress() + "^^" + this.minionOrientation.toString());
+          onPressed: () {
+            sendToOthers("${macAddress()}|$_minionRow|$_minionColumn");
           },
-          child: Text("Change orientation", style: TextStyle(fontSize: 30), ),
+          child: const Text(
+            "Appuie si c'est celle là",
+            style: TextStyle(fontSize: 30),
+          ),
+        ),
+        MaterialButton(
+          color: Colors.greenAccent,
+          onPressed: () {
+            debugPrint(
+                "-----------------------------------------------------------");
+            print("$_orientations for  $_minionOrientation");
+            int index = _orientations.indexOf(_minionOrientation);
+            int next = (index + 1) % _orientations.length;
+            print("index is $index > $next");
+            _minionOrientation = _orientations[next];
+            sendToOthers("${macAddress()}^^$_minionOrientation");
+          },
+          child: const Text(
+            "Change orientation",
+            style: TextStyle(fontSize: 30),
+          ),
         ),
       ],
     );
@@ -165,42 +174,49 @@ class GridMode extends GruMinionMode {
   Widget gruWidget() {
     return Column(
       children: [
-        Row(
-          children : [
-            MaterialButton(
-              onPressed: () {
-                gruGrid.reset();
-                gruRow = 0;
-                gruColumn = 0;
-                this.sendToOthers("select:"+gruRow.toString()+":"+gruColumn.toString() );
-              },
-              child: Text("start sequence", style: TextStyle(fontSize: 30),),
+        Row(children: [
+          MaterialButton(
+            onPressed: () {
+              _gruGrid._reset();
+              _gruRow = 0;
+              _gruColumn = 0;
+              sendToOthers("select:$_gruRow:$_gruColumn");
+            },
+            child: const Text(
+              "start sequence",
+              style: TextStyle(fontSize: 30),
             ),
-            Spacer(),
-            MaterialButton(
-              onPressed: () {
-                print("next row");
-                gruRow++;
-                gruColumn = 0;
-                this.sendToOthers("select:"+gruRow.toString()+":"+gruColumn.toString() );
-              },
-              child: Text("Next row", style: TextStyle(fontSize: 30),),
+          ),
+          const Spacer(),
+          MaterialButton(
+            onPressed: () {
+              print("next row");
+              _gruRow++;
+              _gruColumn = 0;
+              sendToOthers("select:$_gruRow:$_gruColumn");
+            },
+            child: const Text(
+              "Next row",
+              style: TextStyle(fontSize: 30),
             ),
-            Spacer(),
-            MaterialButton(
-              onPressed: () {
-                this.sendToOthers("finished " );
-                Get.find<GruService>().grid = gruGrid;
-                // TODO save it in GruService ?
-              },
-              child: Text("Finished", style: TextStyle(fontSize: 30),),
+          ),
+          const Spacer(),
+          MaterialButton(
+            onPressed: () {
+              sendToOthers("finished ");
+              Get.find<GruService>().grid = _gruGrid;
+              // TODO save it in GruService ?
+            },
+            child: const Text(
+              "Finished",
+              style: TextStyle(fontSize: 30),
             ),
-          ]
-        ),
+          ),
+        ]),
         Expanded(
           child: Container(
             color: Colors.yellow,
-            child: gridRepresentation(),
+            child: _gridRepresentation(),
           ),
         ),
       ],
@@ -210,31 +226,31 @@ class GridMode extends GruMinionMode {
   @override
   String name() => "grid";
 
-  Widget gridRepresentation() {
+  Widget _gridRepresentation() {
     List<Widget> rows = [];
-    for (int r = 0 ; r < this.gruGrid.maxRow() ; r++) {
+    for (int r = 0; r < _gruGrid._maxRow(); r++) {
       List<Widget> cells = [];
-      for (int c = 0 ; c < this.gruGrid.maxCol() ; c++) {
-        Client? client = gruGrid.griddy[(r,c)];
-        cells.add(
-            Expanded(
-              child: MaterialButton(
-                onPressed: () {
-                  if (client != null) {
-                    sendToOthers("ping " + client!.deviceAddress.toString());
-                  }
-                },
-                child: Text(
-                    r.toString() + " " + c.toString()+" : " +
-                        (client == null ? "NOPE " : client!.deviceAddress)
-                ),
-              ),
-            )
-        );
+      for (int c = 0; c < _gruGrid._maxCol(); c++) {
+        Client? client = _gruGrid._griddy[(r, c)];
+        cells.add(Expanded(
+          child: MaterialButton(
+            onPressed: () {
+              if (client != null) {
+                sendToOthers("ping ${client.deviceAddress}");
+              }
+            },
+            child: Text(
+                "$r $c : ${client == null ? "NOPE " : client.deviceAddress}"),
+          ),
+        ));
       }
-      rows.add(Expanded(child: Row(children: cells,)));
+      rows.add(Expanded(
+          child: Row(
+        children: cells,
+      )));
     }
-    return Column(children: rows,);
+    return Column(
+      children: rows,
+    );
   }
-
 }

@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
-import '../helpers/direction.dart';
 import 'package:flame/sprite.dart';
+
+import '../helpers/direction.dart';
 
 class Player extends SpriteAnimationComponent with HasGameRef {
   final double _playerSpeed = 300.0;
@@ -16,9 +17,9 @@ class Player extends SpriteAnimationComponent with HasGameRef {
 
   Player(Vector2 p)
       : super(
-    size: Vector2(42.0, 55.0),
-    position: p,
-  );
+          size: Vector2(42.0, 55.0),
+          position: p,
+        );
 
   @override
   Future<void> onLoad() async {
@@ -29,26 +30,26 @@ class Player extends SpriteAnimationComponent with HasGameRef {
   @override
   void update(double delta) {
     super.update(delta);
-    movePlayer(delta);
+    _movePlayer(delta);
   }
 
-  void movePlayer(double delta) {
+  void _movePlayer(double delta) {
     switch (direction) {
       case Direction.up:
         animation = _runUpAnimation;
-        moveUp(delta);
+        _moveUp(delta);
         break;
       case Direction.down:
         animation = _runDownAnimation;
-        moveDown(delta);
+        _moveDown(delta);
         break;
       case Direction.left:
         animation = _runLeftAnimation;
-        moveLeft(delta);
+        _moveLeft(delta);
         break;
       case Direction.right:
         animation = _runRightAnimation;
-        moveRight(delta);
+        _moveRight(delta);
         break;
       case Direction.none:
         animation = _standingAnimation;
@@ -78,19 +79,19 @@ class Player extends SpriteAnimationComponent with HasGameRef {
         spriteSheet.createAnimation(row: 0, stepTime: _animationSpeed, to: 1);
   }
 
-  void moveUp(double delta) {
+  void _moveUp(double delta) {
     position.add(Vector2(0, delta * -_playerSpeed));
   }
 
-  void moveDown(double delta) {
+  void _moveDown(double delta) {
     position.add(Vector2(0, delta * _playerSpeed));
   }
 
-  void moveLeft(double delta) {
+  void _moveLeft(double delta) {
     position.add(Vector2(delta * -_playerSpeed, 0));
   }
 
-  void moveRight(double delta) {
+  void _moveRight(double delta) {
     position.add(Vector2(delta * _playerSpeed, 0));
   }
 }
