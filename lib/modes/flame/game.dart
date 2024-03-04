@@ -1,59 +1,48 @@
-import 'package:flame/cache.dart';
+import 'dart:async';
+
+import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 
+import 'components/level.dart';
 import 'components/player.dart';
-import 'helpers/direction.dart';
 
-class MainGame extends FlameGame with KeyboardEvents {
+class MainGame extends FlameGame with HasKeyboardHandlerComponents, DragCallbacks{
   @override
-  final images = Images(prefix: 'assets/flame/');
-
-  final Player _player = Player(Vector2(100, 100));
-
-  final Player _player2 = Player(Vector2(100, 200));
-
-  MainGame();
+  Color backgroundColor() => const Color(0xFF211F30);
+  Player player = Player(character: 'Ninja Frog');
+  late JoystickComponent joystick;
+  bool showJoyStick = false;
+  late final CameraComponent cam;
 
   @override
-  Future<void> onLoad() async {
-    super.onLoad();
-    add(_player);
-    add(_player2);
-  }
+  FutureOr<void> onLoad() async {
+    //Load all images into cache *can create some issues*
+    await images.loadAllImages();
 
-  @override
-  KeyEventResult onKeyEvent(
-      RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    final isKeyDown = event is RawKeyDownEvent;
-    Direction? keyDirection = null;
+    final worldLevel = Level(
+        levelName: 'Level-01.tmx',
+        player: player
+    );
 
-    if (event.logicalKey == LogicalKeyboardKey.keyA) {
-      keyDirection = Direction.left;
-    } else if (event.logicalKey == LogicalKeyboardKey.keyD) {
-      keyDirection = Direction.right;
-    } else if (event.logicalKey == LogicalKeyboardKey.keyW) {
-      keyDirection = Direction.up;
-    } else if (event.logicalKey == LogicalKeyboardKey.keyS) {
-      keyDirection = Direction.down;
+    cam = CameraComponent.withFixedResolution(world: worldLevel, width: 640, height: 360);
+    cam.viewfinder.anchor = Anchor.topLeft;
+
+    addAll([cam, worldLevel]);
+
+    if(showJoyStick){
+      addJoyStick();
     }
-
-    if (isKeyDown && keyDirection != null) {
-      _player.direction = keyDirection;
-    } else if (_player.direction == keyDirection) {
-      _player.direction = Direction.none;
-    }
-
-    return super.onKeyEvent(event, keysPressed);
+    return super.onLoad();
   }
 
-  void onJoyPad1DirectionChanged(Direction direction) {
-    _player.direction = direction;
-  }
-
-  void onJoyPad2DirectionChanged(Direction direction) {
-    _player2.direction = direction;
+  void addJoyStick() {
+    joystick = JoystickComponent(
+      knob: SpriteComponent.fromImage(images.fromCache('HUD/Knob.png')),
+      background: SpriteComponent.fromImage(images.fromCache('HUD/JoyStick.png')),
+      margin: const EdgeInsets.only(bottom : 32, left: 32),
+    );
+    add(joystick);
   }
 }

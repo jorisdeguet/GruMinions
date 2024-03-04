@@ -293,10 +293,18 @@ packages:
     dependency: "direct main"
     description:
       name: flame
-      sha256: b6bb76224fc29fd5eea25d66cda6e322e3678bdedc1f65956c6151326a6a798b
+      sha256: bb42a35fa5dabdea535daebe5b020e21a2fce8192b67b7e55cd30fed86d29f69
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.1"
+    version: "1.16.0"
+  flame_tiled:
+    dependency: "direct main"
+    description:
+      name: flame_tiled
+      sha256: "4b014957ba27e7bb230b1d111f593a9b733a28e9a542977bb57eb847572cf9e5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.19.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -862,6 +870,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
+  tiled:
+    dependency: transitive
+    description:
+      name: tiled
+      sha256: "988a57a07df280bb4a5d722c9e400b282d8d9a652b5a2afc8b68e1308bbf8222"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.2"
   timing:
     dependency: transitive
     description:
@@ -960,4 +976,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.2.0-0 <4.0.0"
-  flutter: ">=3.13.0"
+  flutter: ">=3.19.0"
