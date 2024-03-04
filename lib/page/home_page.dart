@@ -31,12 +31,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          const Image(
-            image: AssetImage('assets/images/Background/Wallpaper.png'),
-            fit: BoxFit.fill,
-            width: double.infinity,
-            height: double.infinity,
-          ),
+          // const Image(
+          //   image: AssetImage('assets/images/Background/Wallpaper.png'),
+          //   fit: BoxFit.fill,
+          //   width: double.infinity,
+          //   height: double.infinity,
+          // ),
           Center(
             child: Container(
               width: 400,

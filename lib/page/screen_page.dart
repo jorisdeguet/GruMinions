@@ -28,15 +28,15 @@ class _ScreenPageState extends MinionBaseWidgetState<ScreenPage> {
 
   @override
   Widget content(BuildContext context) {
-    return Stack(
+    return const Stack(
       children: [
-        const Image(
-          image: AssetImage('assets/images/Background/Wallpaper.png'),
-          fit: BoxFit.fill,
-          width: double.infinity,
-          height: double.infinity,
-        ),
-        const Center(
+        // const Image(
+        //   image: AssetImage('assets/images/Background/Wallpaper.png'),
+        //   fit: BoxFit.fill,
+        //   width: double.infinity,
+        //   height: double.infinity,
+        // ),
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -56,11 +56,6 @@ class _ScreenPageState extends MinionBaseWidgetState<ScreenPage> {
             ],
           ),
         ),
-        Positioned(
-            bottom: 10,
-            left: 10,
-            child: Text("@${_currentMode.macAddress()}")
-        )
       ],
     );
   }
