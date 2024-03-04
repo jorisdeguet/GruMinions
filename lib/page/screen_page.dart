@@ -5,14 +5,14 @@ import 'package:gru_minions/modes/list_of_modes.dart';
 import 'package:gru_minions/service/minion_service.dart';
 import 'package:gru_minions/widget/minion_base_widget.dart';
 
-class MainMinionPage extends StatefulWidget {
-  const MainMinionPage({super.key});
+class ScreenPage extends StatefulWidget {
+  const ScreenPage({super.key});
 
   @override
-  State<MainMinionPage> createState() => _MainMinionPageState();
+  State<ScreenPage> createState() => _ScreenPageState();
 }
 
-class _MainMinionPageState extends MinionBaseWidgetState<MainMinionPage> {
+class _ScreenPageState extends MinionBaseWidgetState<ScreenPage> {
   late final List<GruMinionMode> _modes = listOfModes(_send);
 
   late GruMinionMode _currentMode = _modes[0];
@@ -28,7 +28,41 @@ class _MainMinionPageState extends MinionBaseWidgetState<MainMinionPage> {
 
   @override
   Widget content(BuildContext context) {
-    return _mainBody();
+    return Stack(
+      children: [
+        const Image(
+          image: AssetImage('assets/images/Background/Wallpaper.png'),
+          fit: BoxFit.fill,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+        const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Game Title', style: TextStyle(fontSize: 30)),
+              Text('Slogan', style: TextStyle(fontSize: 20)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image(
+                      image: AssetImage('assets/images/Menu/Buttons/Play.png'),
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.fill
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+            bottom: 10,
+            left: 10,
+            child: Text("@${_currentMode.macAddress()}")
+        )
+      ],
+    );
   }
 
   Widget _mainBody() {

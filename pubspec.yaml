@@ -54,6 +54,7 @@ flutter:
   assets:
     - assets/
     - assets/images/Background/
+    - assets/images/Menu/Buttons/
     - assets/piano/
     - assets/halloween/
     - assets/flame/
