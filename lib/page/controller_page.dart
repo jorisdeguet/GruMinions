@@ -15,6 +15,7 @@ class ControllerPage extends StatefulWidget {
 
 class _MainBossPageState extends BossBaseWidgetState<ControllerPage> {
   final bool _messagesDebug = true;
+  late bool _isStarted = false;
 
   final List<String> _messages = [];
 
@@ -77,6 +78,10 @@ class _MainBossPageState extends BossBaseWidgetState<ControllerPage> {
             GestureDetector(
               onTap: () {
                 // Add your logic for jumping here
+                if(!_isStarted){
+                  changeMode('flame');
+                  _isStarted = true;
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 20.0),
