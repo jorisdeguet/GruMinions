@@ -61,6 +61,7 @@ class _MainBossPageState extends BossBaseWidgetState<ControllerPage> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.arrow_back),
+                    iconSize: 120,
                     onPressed: () {
                       // Add your logic for moving left here
                     },
@@ -68,6 +69,7 @@ class _MainBossPageState extends BossBaseWidgetState<ControllerPage> {
                   const SizedBox(width: 20), // Add some spacing between buttons
                   IconButton(
                     icon: const Icon(Icons.arrow_forward),
+                    iconSize: 120,
                     onPressed: () {
                       // Add your logic for moving right here
                     },
