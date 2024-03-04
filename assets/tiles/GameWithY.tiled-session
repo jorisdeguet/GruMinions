@@ -1,0 +1,53 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "Level-01.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "GameWithY.tmx": {
+            "scale": 1.5341,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 227.82087217260937,
+                "y": 218.3690763313995
+            }
+        },
+        "GameWithY.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Level-01.tmx": {
+            "scale": 1.5621,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 73.93892836566161,
+                "y": 41.61065232699572
+            }
+        }
+    },
+    "last.imagePath": "/Users/yadianbetancourt/Downloads/GameWithY/assets/images/Terrain",
+    "map.height": 23,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 40,
+    "openFiles": [
+        "GameWithY.tsx",
+        "Level-01.tmx"
+    ],
+    "project": "GameWithY.tiled-project",
+    "recentFiles": [
+        "GameWithY.tsx",
+        "Level-01.tmx",
+        "GameWithY.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
