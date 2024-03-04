@@ -36,6 +36,8 @@ class _HomePageState extends State<HomePage> {
             _permissionsButton(context),
             _gruButton(context),
             _minionButton(context),
+            // TODO: Add Screen option
+            _screenButton(context)
           ],
         ),
       ),
@@ -67,6 +69,35 @@ class _HomePageState extends State<HomePage> {
         tapTargetSize: MaterialTapTargetSize.padded,
       ),
       child: const Text("Mode Minion"),
+    );
+  }
+
+  Widget _screenButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          // TODO : Change MaterialPageRoute to MainScreenPage
+          MaterialPageRoute(builder: (context) => const MainMinionPage()),
+        ).then((value) => _resetServices());
+      },
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.yellow,
+        textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        disabledForegroundColor: Colors.blue.withOpacity(0.38),
+        disabledBackgroundColor: Colors.blue.withOpacity(0.12),
+        minimumSize: const Size(200, 100),
+        shadowColor: Colors.grey,
+        elevation: 5,
+        side: const BorderSide(
+            color: Colors.blueAccent, width: 2, style: BorderStyle.solid),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        tapTargetSize: MaterialTapTargetSize.padded,
+      ),
+      child: const Text("Mode Écran"),
     );
   }
 
