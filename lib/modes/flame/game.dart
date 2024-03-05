@@ -17,7 +17,7 @@ class MainGame extends FlameGame with HasKeyboardHandlerComponents, DragCallback
   Player player = Player(character: 'Ninja Frog');
   late JoystickComponent joystick;
   bool showControls = false;
-  bool playSounds = false;
+  //bool playSounds = false;
   double soundVolume = 1.0;
   late CameraComponent cam;
   List<String> levelNames = ['Level-01.tmx', "Level-01.tmx", "Level-01.tmx"];

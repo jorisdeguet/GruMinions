@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:gru_minions/modes/flame/game.dart';
 
 import '../custom_hitbox.dart';
@@ -38,7 +37,7 @@ class Fruit extends SpriteAnimationComponent with HasGameRef<MainGame>, Collisio
   Future<void> collidedWithPlayer() async {
     if(!collected){
       collected = true;
-      if(game.playSounds) FlameAudio.play('collect_fruit.wav', volume: game.soundVolume);
+      //if(game.playSounds) FlameAudio.play('collect_fruit.wav', volume: game.soundVolume);
 
       animation = SpriteAnimation.fromFrameData(
         game.images.fromCache('Items/Fruits/Collected.png'),

@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:gru_minions/modes/flame/game.dart';
 
 import '../player.dart';
@@ -123,7 +122,7 @@ class Chicken extends SpriteAnimationGroupComponent with HasGameRef<MainGame>, C
 
   void collidedWithPlayer() async {
     if(player.velocity.y > 0 && player.y + player.height > position.y){
-      if(game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
+      //if(game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
       gotHit = true;
       current = ChickenState.hit;
       player.velocity.y = -_bounceHeight;
