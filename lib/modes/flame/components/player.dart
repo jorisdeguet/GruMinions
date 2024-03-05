@@ -2,47 +2,61 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/services.dart';
-import 'package:gru_minions/modes/flame/components/player_hitbox.dart';
+import 'package:gru_minions/modes/flame/components/traps/saw.dart';
 import 'package:gru_minions/modes/flame/components/utils.dart';
+import 'package:gru_minions/modes/flame/game.dart';
 
-import '../game.dart';
+import 'custom_hitbox.dart';
+import 'items/checkpoint.dart';
 import 'collisions_block.dart';
+import 'enemies/chicken.dart';
+import 'items/fruit.dart';
 
-enum PlayerState { idle, running, jumping, falling }
+enum PlayerState { idle, running, jumping, falling, hit, appearing, disappearing }
 
 class Player extends SpriteAnimationGroupComponent
-    with HasGameRef<MainGame>, KeyboardHandler {
+    with HasGameRef<MainGame>, KeyboardHandler, CollisionCallbacks {
   Player({position ,this.character = 'Ninja Frog'}) : super(position: position);
   String character;
-
-  final double stepTime = 0.05;
 
   //Animations
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation runningAnimation;
   late final SpriteAnimation jumpingAnimation;
   late final SpriteAnimation fallingAnimation;
+  late final SpriteAnimation hitAnimation;
+  late final SpriteAnimation appearingAnimation;
+  late final SpriteAnimation disappearingAnimation;
 
   //Constants
   final double _gravity = 9.8;
-  final double _jumpForce = 460;
+  final double _jumpForce = 300;
   final double _terminalVelocity = 300;
+  final double stepTime = 0.05;
+
+  double fixedDeltaTime = 1 / 60;
+  double accumulatedTime = 100;
+  double directionX = 0;
+  double moveSpeed = 100;
 
   //States
   bool isOnGround = false;
   bool isHasJumped = false;
+  bool gotHit = false;
+  bool reachedCheckpoint = false;
 
-  double directionX = 0;
-  double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
+  Vector2 revivePosition = Vector2.zero();
   List<CollisionBlock> collisions = [];
-  PlayerHitbox hitbox = PlayerHitbox(offsetX: 10, offsetY: 4, width: 14, height: 28);
+  CustomHitbox hitbox = CustomHitbox(offsetX: 10, offsetY: 4, width: 14, height: 28);
 
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
-    debugMode = true;
+    //debugMode = true;
+    revivePosition = Vector2(position.x, position.y);
     add(RectangleHitbox(
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
       size: Vector2(hitbox.width, hitbox.height),
@@ -52,11 +66,17 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   void update(double dt) {
-    _updatePlayerState();
-    _updatePlayerMovement(dt);
-    _checkHorizontalCollisions();
-    _applyGravity(dt);
-    _checkVerticalCollisions();
+    accumulatedTime += dt;
+    while (accumulatedTime >= fixedDeltaTime) {
+      if(!gotHit && !reachedCheckpoint){
+        _updatePlayerState();
+        _updatePlayerMovement(fixedDeltaTime);
+        _checkHorizontalCollisions();
+        _applyGravity(fixedDeltaTime);
+        _checkVerticalCollisions();
+      }
+      accumulatedTime -= fixedDeltaTime;
+    }
     super.update(dt);
   }
 
@@ -74,11 +94,25 @@ class Player extends SpriteAnimationGroupComponent
     return super.onKeyEvent(event, keysPressed);
   }
 
+  @override
+  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if(!reachedCheckpoint){
+      if(other is Fruit) other.collidedWithPlayer();
+      if(other is Saw) _revive();
+      if(other is Checkpoint) _reachedCheckpoint();
+      if(other is Chicken) other.collidedWithPlayer();
+    }
+    super.onCollisionStart(intersectionPoints, other);
+  }
+
   void _loadAllAnimations() {
     idleAnimation = _spriteAnimation('Idle', 11);
     runningAnimation = _spriteAnimation('Run', 12);
     jumpingAnimation = _spriteAnimation('Jump', 1);
     fallingAnimation = _spriteAnimation('Fall', 1);
+    hitAnimation = _spriteAnimation('Hit', 7)..loop = false;
+    appearingAnimation = _specialSpriteAnimation('Appearing', 7);
+    disappearingAnimation = _specialSpriteAnimation('Disappearing', 7);
 
     //List of all animations
     animations = {
@@ -86,6 +120,9 @@ class Player extends SpriteAnimationGroupComponent
       PlayerState.running: runningAnimation,
       PlayerState.jumping: jumpingAnimation,
       PlayerState.falling: fallingAnimation,
+      PlayerState.hit: hitAnimation,
+      PlayerState.appearing: appearingAnimation,
+      PlayerState.disappearing: disappearingAnimation,
     };
 
     //Set default animation
@@ -99,6 +136,18 @@ class Player extends SpriteAnimationGroupComponent
         amount: amount,
         stepTime: stepTime,
         textureSize: Vector2.all(32),
+      ),
+    );
+  }
+
+  SpriteAnimation _specialSpriteAnimation(String state, int amount) {
+    return SpriteAnimation.fromFrameData(
+      game.images.fromCache('Main Characters/$state (96x96).png'),
+      SpriteAnimationData.sequenced(
+        amount: amount,
+        stepTime: stepTime,
+        textureSize: Vector2.all(96),
+        loop: false,
       ),
     );
   }
@@ -134,6 +183,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
+    if(game.playSounds) FlameAudio.play('jump.wav', volume: game.soundVolume);
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
     isOnGround = false;
@@ -157,12 +207,6 @@ class Player extends SpriteAnimationGroupComponent
         }
       }
     }
-  }
-
-  void _applyGravity(double dt) {
-    velocity.y += _gravity * dt * 100;
-    velocity.y = velocity.y.clamp(- _jumpForce, _terminalVelocity);
-    position.y += velocity.y * dt;
   }
 
   void _checkVerticalCollisions() {
@@ -193,5 +237,60 @@ class Player extends SpriteAnimationGroupComponent
         }
       }
     }
+  }
+
+  void _applyGravity(double dt) {
+    velocity.y += _gravity * dt * 100;
+    velocity.y = velocity.y.clamp(- _jumpForce, _terminalVelocity);
+    position.y += velocity.y * dt;
+  }
+
+  Future<void> _revive() async {
+    if(game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
+    gotHit = true;
+    current = PlayerState.hit;
+
+    await animationTicker?.completed;
+    animationTicker?.reset();
+
+    scale.x = 1;
+    position = revivePosition - Vector2.all(32);
+    current = PlayerState.appearing;
+
+    await animationTicker?.completed;
+    animationTicker?.reset();
+
+    velocity = Vector2.zero();
+    position = revivePosition;
+    _updatePlayerState();
+    Future.delayed(const Duration(milliseconds: 400), () => gotHit = false);
+  }
+
+  void _reachedCheckpoint() {
+    reachedCheckpoint = true;
+    if(game.playSounds) FlameAudio.play('disappear.wav', volume: game.soundVolume);
+    if(scale.x > 0) {
+      position = position - Vector2.all(32);
+    }
+    else if(scale.x < 0) {
+      position = position + Vector2(32, -32);
+    }
+    current = PlayerState.disappearing;
+
+    //await animationTicker?.completed();
+    //animationTicker?.reset();
+
+    const reachedCheckpointDuration = Duration(milliseconds: 350);
+    Future.delayed(reachedCheckpointDuration, () {
+      reachedCheckpoint = false;
+      position = Vector2.all(-640);
+
+      const waitToChangeDuration = Duration(seconds: 3);
+      Future.delayed(waitToChangeDuration, () => game.loadNextLevel());
+    });
+  }
+
+  void collidedWithEnemy() {
+    _revive();
   }
 }
