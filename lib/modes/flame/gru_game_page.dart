@@ -22,7 +22,7 @@ class GruGamePageState extends State<GruGamePage> {
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: Joypad(onDirectionChanged: (direction) {
-                  widget.send(direction.toString());
+                  widget.send('ControllerA,' + direction.toString());
                 }),
               ),
             )

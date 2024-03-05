@@ -6,8 +6,9 @@ import 'helpers/joypad.dart';
 
 class MainGamePage extends StatefulWidget {
   final MainGame game;
+  final Function send;
 
-  const MainGamePage({super.key, required this.game});
+  const MainGamePage({super.key, required this.game, required this.send});
 
   @override
   MainGameState createState() => MainGameState();
@@ -27,9 +28,13 @@ class MainGameState extends State<MainGamePage> {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
-                child:
-                    Joypad(onDirectionChanged: game.onJoyPad1DirectionChanged),
+                child: Joypad(
+                  onDirectionChanged: (direction) {
+                    game.onJoyPad2DirectionChanged(direction);
+                    widget.send('ControllerB,' + direction.toString());
+                  },
               ),
+            ),
             ),
           ],
         ));

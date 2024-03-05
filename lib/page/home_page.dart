@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/page/main_gru_page.dart';
 import 'package:gru_minions/page/main_minion_page.dart';
+import 'package:gru_minions/page/main_screen_page.dart';
 import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/service/minion_service.dart';
 import 'package:gru_minions/service/utils.dart';
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.push(
           context,
           // TODO : Change MaterialPageRoute to MainScreenPage
-          MaterialPageRoute(builder: (context) => const MainMinionPage()),
+          MaterialPageRoute(builder: (context) => const MainScreenPage()),
         ).then((value) => _resetServices());
       },
       style: ElevatedButton.styleFrom(

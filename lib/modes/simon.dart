@@ -108,6 +108,8 @@ class SimonMode extends GruMinionMode {
     }
   }
 
+  void handleMessageAsScreen(String s){}
+
   void _traiterSequence(String s) async {
     SimonSequence sequence = SimonSequence.fromJson(jsonDecode(s));
     print("Minion pieces $sequence");
@@ -154,7 +156,16 @@ class SimonMode extends GruMinionMode {
   }
 
   @override
+  Widget screenWidget(BuildContext context) {
+    return _minionWidget();
+  }
+
+  @override
   Widget minionWidget(BuildContext context) {
+    return _minionWidget();
+  }
+
+  Padding _minionWidget() {
     return Padding(
       padding: EdgeInsets.all(_minionPadding),
       child: GestureDetector(

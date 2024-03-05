@@ -49,10 +49,12 @@ class MainGame extends FlameGame with KeyboardEvents {
     return super.onKeyEvent(event, keysPressed);
   }
 
+  //Minion
   void onJoyPad1DirectionChanged(Direction direction) {
     _player.direction = direction;
   }
 
+  //Gru
   void onJoyPad2DirectionChanged(Direction direction) {
     _player2.direction = direction;
   }

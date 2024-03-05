@@ -32,8 +32,19 @@ class Miroir extends GruMinionMode {
     }
   }
 
+  void handleMessageAsScreen(String s){}
+
+  @override
+  Widget screenWidget(BuildContext context) {
+    return _minionWidget();
+  }
+
   @override
   Widget minionWidget(BuildContext context) {
+    return _minionWidget();
+  }
+
+  Scaffold _minionWidget() {
     return Scaffold(
       body: Stack(children: [
         SizedBox(

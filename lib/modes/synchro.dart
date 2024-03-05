@@ -30,6 +30,8 @@ class SyncMode extends GruMinionMode {
     }
   }
 
+  void handleMessageAsScreen(String s){}
+
   DateTime _minionCorrectedTime() {
     DateTime local = DateTime.now();
     DateTime corrected =
@@ -48,7 +50,16 @@ class SyncMode extends GruMinionMode {
   }
 
   @override
+  Widget screenWidget(BuildContext context) {
+    return _minionWidget();
+  }
+
+  @override
   Widget minionWidget(BuildContext context) {
+    return _minionWidget();
+  }
+
+  Center _minionWidget() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

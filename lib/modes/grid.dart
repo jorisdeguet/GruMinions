@@ -108,6 +108,8 @@ class GridMode extends GruMinionMode {
     }
   }
 
+  void handleMessageAsScreen(String s){}
+
   @override
   void initGru() {}
 
@@ -123,7 +125,16 @@ class GridMode extends GruMinionMode {
   }
 
   @override
+  Widget screenWidget(BuildContext context) {
+    return _minionWidget();
+  }
+
+  @override
   Widget minionWidget(BuildContext context) {
+    return _minionWidget();
+  }
+
+  Widget _minionWidget() {
     SystemChrome.setPreferredOrientations([_minionOrientation]);
     if (!_minionIsCalibrating) {
       return const Text("TODO cmpute showing grid");

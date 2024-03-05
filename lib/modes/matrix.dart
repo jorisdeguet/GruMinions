@@ -26,8 +26,19 @@ class MatrixMode extends GruMinionMode {
     // TODO: implement handleMessageAsMinion
   }
 
+  void handleMessageAsScreen(String s){}
+
+  @override
+  Widget screenWidget(BuildContext context) {
+    return _minionWidget();
+  }
+
   @override
   Widget minionWidget(BuildContext context) {
+    return _minionWidget();
+  }
+
+  Container _minionWidget() {
     return Container(
       color: Colors.black,
       child: Column(

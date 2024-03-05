@@ -23,6 +23,13 @@ class HalMode extends GruMinionMode {
     _key.currentState?.handleMessageAsMinion(s);
   }
 
+  void handleMessageAsScreen(String s){}
+
+  @override
+  Widget screenWidget(BuildContext context) {
+    return HalloweenMode(key: _key, sendToOthers: sendToOthers);
+  }
+
   @override
   Widget minionWidget(BuildContext context) {
     return HalloweenMode(key: _key, sendToOthers: sendToOthers);

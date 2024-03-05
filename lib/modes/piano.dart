@@ -21,6 +21,13 @@ class PianoMode extends GruMinionMode {
     print("Nothing to do");
   }
 
+  void handleMessageAsScreen(String s){}
+
+  @override
+  Widget screenWidget(BuildContext context) {
+    return getPiano(Random().nextInt(5) + 1);
+  }
+
   @override
   Widget minionWidget(BuildContext context) {
     return getPiano(Random().nextInt(5) + 1);

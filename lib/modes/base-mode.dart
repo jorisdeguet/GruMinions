@@ -53,10 +53,15 @@ abstract class GruMinionMode {
   // will provide the appropriate widget
   Widget minionWidget(BuildContext context);
 
+  Widget screenWidget(BuildContext context);
+
   Widget gruWidget();
+
 
   // provides the method to call when receiving the message for minions
   void handleMessageAsMinion(String s);
+
+  void handleMessageAsScreen(String s);
 
   // same for Gru
   void handleMessageAsGru(String s);
