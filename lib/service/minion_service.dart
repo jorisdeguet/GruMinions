@@ -111,13 +111,13 @@ class MinionService extends BaseNetworkService {
       String broadcast =
           "${ipAd.split(".")[0]}.${ipAd.split(".")[1]}.${ipAd.split(".")[2]}.255";
       _log("IP address for boradcast  $broadcast");
-      var DESTINATION_ADDRESS = InternetAddress(broadcast);
+      var destinationAddress = InternetAddress(broadcast);
       RawDatagramSocket.bind(InternetAddress.anyIPv4, 8888)
           .then((RawDatagramSocket udpSocket) {
         udpSocket.broadcastEnabled = true;
         _log("Binded on  ${udpSocket.address}");
         udpSocket.listen((e) {
-          _log("receiving ${e}");
+          _log("receiving $e");
           Datagram? dg = udpSocket.receive();
           if (dg != null) {
             _log("received ${dg.data}");
@@ -125,7 +125,7 @@ class MinionService extends BaseNetworkService {
         });
         List<int> data = utf8.encode('TEST $ipAd');
         _log(" sending data on UDP  $broadcast");
-        udpSocket.send(data, DESTINATION_ADDRESS, 8888);
+        udpSocket.send(data, destinationAddress, 8888);
       });
     }
   }

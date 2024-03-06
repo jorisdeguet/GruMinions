@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'direction.dart';
 
@@ -15,7 +13,6 @@ class JoyPad extends StatefulWidget {
 
 class JoyPadState extends State<JoyPad> {
   Direction direction = Direction.none;
-  Offset delta = Offset.zero;
 
   @override
   Widget build(BuildContext context) {

@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
           minimumSize: const Size(80, 80),
           shadowColor: Colors.grey,
           elevation: 5,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(2),

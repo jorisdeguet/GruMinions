@@ -37,7 +37,7 @@ class PianoMode extends GruMinionMode {
 
   @override
   Widget gruWidget() {
-    return Text("TODO");
+    return const Text("TODO");
   }
 
   Widget getPiano(int octave) {

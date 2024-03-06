@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:gru_minions/service/utils.dart';
 import 'package:mac_address/mac_address.dart';
 
-/**
- * Provide the widget for the minion mode
- * Handles the message
- */
+/// Provide the widget for the minion mode
+/// Handles the message
 
 // Maybe use https://pub.dev/packages/event_bus to easily send and receive message
 

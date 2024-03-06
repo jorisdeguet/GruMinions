@@ -2,7 +2,6 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 import 'game.dart';
-import 'helpers/joypad.dart';
 
 class Screen extends StatefulWidget {
   final MainGame game;
