@@ -30,7 +30,7 @@ class FlameMode extends GruMinionMode {
 
     Direction d = Direction.values.firstWhere((e) => s.contains(e.name));
     print("Good  $d");
-    //_game.onJoyPad2DirectionChanged(d);
+    _game.onJoyPad1DirectionChanged(d);
   }
 
   @override

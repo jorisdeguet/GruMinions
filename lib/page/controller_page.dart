@@ -15,7 +15,6 @@ class ControllerPage extends StatefulWidget {
 
 class _MainBossPageState extends BossBaseWidgetState<ControllerPage> {
   final bool _messagesDebug = true;
-  late bool _isStarted = false;
 
   final List<String> _messages = [];
 
@@ -50,56 +49,19 @@ class _MainBossPageState extends BossBaseWidgetState<ControllerPage> {
         title: Text(
             "Gru mode ${_currentMode.name()} @${_currentMode.macAddress()}"),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    iconSize: 120,
-                    onPressed: () {
-                      // Add your logic for moving left here
-                    },
-                  ),
-                  const SizedBox(width: 20), // Add some spacing between buttons
-                  IconButton(
-                    icon: const Icon(Icons.arrow_forward),
-                    iconSize: 120,
-                    onPressed: () {
-                      // Add your logic for moving right here
-                    },
-                  ),
-                ],
-              ),
-            ), // Add some spacing between buttons
-            GestureDetector(
-              onTap: () {
-                // Add your logic for jumping here
-                if(!_isStarted){
-                  changeMode('flame');
-                  _isStarted = true;
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: Container(
-                  width: 150,
-                  height: 150,
-                  decoration: const BoxDecoration(
-                    color: Colors.blue,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(child: Text('Jump', style: TextStyle(color: Colors.white))),
-                ),
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Row(
+              children: [
+                _gestionDesModes(),
+                _messagesDebug ? _messagesList() : Container(),
+              ],
             ),
-          ],
-        ),
+          ),
+          Expanded(child: _currentMode.gruWidget()),
+        ],
       ),
     );
   }
@@ -169,4 +131,3 @@ class _MainBossPageState extends BossBaseWidgetState<ControllerPage> {
     );
   }
 }
-

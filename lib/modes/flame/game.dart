@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'components/jump_button.dart';
 import 'components/level.dart';
 import 'components/player.dart';
+import 'helpers/direction.dart';
 
 class MainGame extends FlameGame with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection, TapCallbacks{
   @override
@@ -99,5 +100,19 @@ class MainGame extends FlameGame with HasKeyboardHandlerComponents, DragCallback
 
       addAll([cam, worldLevel]);
     });
+  }
+
+  void onJoyPad1DirectionChanged(Direction direction) {
+    switch (direction) {
+      case Direction.left:
+        player.directionX = -1;
+        break;
+      case Direction.right:
+        player.directionX = 1;
+        break;
+      default:
+        player.directionX = 0;
+        break;
+    }
   }
 }

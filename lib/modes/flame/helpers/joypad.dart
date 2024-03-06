@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:flame/components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gru_minions/modes/flame/game.dart';
 
 import 'direction.dart';
 
