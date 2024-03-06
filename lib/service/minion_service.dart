@@ -58,19 +58,16 @@ class MinionService extends BaseNetworkService {
 
     _peerStream = p2p.streamPeers().listen((List<DiscoveredPeers> event) {
       // TODO on ne veut pas forcément passer dans ce mode non?
-      _log(
-          'Minion Service got peers ${_connected.toString()} ${_connectingToBoss.toString()}');
+      _log('Minion Service got peers ${_connected.toString()} ${_connectingToBoss.toString()}');
       if (minionStatus.value != MinionStatus.active) {
         minionStatus.value = MinionStatus.searchingBoss;
         _peers = event;
         _log('Minion Service got peers$_peers');
-        grus =
-            event.where((DiscoveredPeers peer) => peer.isGroupOwner).toList();
+        grus = event.where((DiscoveredPeers peer) => peer.isGroupOwner).toList();
         _log('Minion Service got Grus$grus');
         if (grus.length > 1) {
           // TODO add a selector on the right with the grus to connect to
-          _log(
-              'Minion Service ===================================== Too many Grus');
+          _log('Minion Service ===================================== Too many Grus');
           for (var g in grus) {
             _log('Minion Service ${g.deviceAddress}');
           }

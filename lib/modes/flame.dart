@@ -3,8 +3,9 @@ import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/modes/flame/game.dart';
 import 'package:gru_minions/modes/flame/gru_game_page.dart';
 import 'package:gru_minions/modes/flame/helpers/direction.dart';
-import 'package:gru_minions/modes/flame/main_game_page.dart';
+import 'package:gru_minions/modes/flame/controller_a_game_page.dart';
 
+import 'flame/controller_b_game_page.dart';
 import 'flame/screen_game_page.dart';
 
 // taken from https://github.com/flame-games/player_move
@@ -48,12 +49,7 @@ class FlameMode extends GruMinionMode {
 
   @override
   void handleMessageAsScreen(String s) {
-    // change the direction for Minion game
-    print(s);
 
-    Direction d = Direction.values.firstWhere((e) => s.contains(e.name));
-    print("Good  $d");
-    _game.onJoyPad2DirectionChanged(d);
   }
 
   @override
@@ -64,7 +60,38 @@ class FlameMode extends GruMinionMode {
 
   @override
   Widget minionWidget(BuildContext context) {
-    return MainGamePage(game: _game,send: sendToOthers,);
+    return Scaffold(
+    appBar: AppBar(
+      title: Text('Select Option'),
+    ),
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ControllerAGamePage(send: sendToOthers),
+                ),
+              );
+            },
+            child: Text('Controller A'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ControllerBGamePage(send: sendToOthers),
+                ),
+              );
+            },
+            child: Text('Controller b'),
+          ),
+        ],
+      ),
+    ),
+    );
   }
 
   @override

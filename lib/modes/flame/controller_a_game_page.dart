@@ -4,18 +4,16 @@ import 'package:flutter/material.dart';
 import 'game.dart';
 import 'helpers/joypad.dart';
 
-class MainGamePage extends StatefulWidget {
-  final MainGame game;
+class ControllerAGamePage extends StatefulWidget {
   final Function send;
 
-  const MainGamePage({super.key, required this.game, required this.send});
+  const ControllerAGamePage({required this.send});
 
   @override
-  MainGameState createState() => MainGameState();
+  ControllerAGameState createState() => ControllerAGameState();
 }
 
-class MainGameState extends State<MainGamePage> {
-  late MainGame game = widget.game;
+class ControllerAGameState extends State<ControllerAGamePage> {
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +21,13 @@ class MainGameState extends State<MainGamePage> {
         backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
         body: Stack(
           children: [
-            GameWidget(game: game),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: Joypad(
                   onDirectionChanged: (direction) {
-                    game.onJoyPad2DirectionChanged(direction);
-                    widget.send('ControllerB,' + direction.toString());
+                    widget.send('ControllerA,' + direction.toString());
                   },
               ),
             ),
