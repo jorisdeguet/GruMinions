@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/widget/boss_base_widget.dart';
 
@@ -20,15 +21,6 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
 
   late final List<GruMinionMode> _modes = listOfModes(_send);
   late GruMinionMode _currentMode;
-
-  void changeMode(String m) {
-    for (GruMinionMode mode in _modes) {
-      if (m == mode.name()) _currentMode = mode;
-    }
-    _send(m);
-    _currentMode.initGru();
-    setState(() {});
-  }
 
   @override
   void initState() {
@@ -52,29 +44,55 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
       body: Column(
         children: [
           Expanded(
-            flex: 1,
-            child: Row(
-              children: [
-                _gestionDesModes(),
-                _messagesDebug ? _messagesList() : Container(),
-              ],
+            child: GridView.count(
+              crossAxisCount: 3,
+              mainAxisSpacing: 1,
+              crossAxisSpacing: 1,
+              children: _modes.map(_buttonForMode).toList(),
             ),
           ),
-          Expanded(child: _currentMode.gruWidget()),
         ],
       ),
     );
   }
 
-  Expanded _gestionDesModes() {
-    return Expanded(
-      child: GridView.count(
-        crossAxisCount: 3,
-        mainAxisSpacing: 1,
-        crossAxisSpacing: 1,
-        children: _modes.map(_buttonForMode).toList(),
+  Widget _buttonForMode(GruMinionMode e) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: MaterialButton(
+        color: Colors.grey,
+        onPressed: () {
+          changeMode(e.name());
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => _currentMode.gruWidget()
+              )
+          );
+        },
+        child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0),
+            child: Text(
+              e.name(),
+              style: GoogleFonts.pixelifySans(
+                textStyle: const TextStyle(
+                  fontSize: 60,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            )),
       ),
     );
+  }
+
+  void changeMode(String m) {
+    for (GruMinionMode mode in _modes) {
+      if (m == mode.name()) _currentMode = mode;
+    }
+    _send(m);
+    _currentMode.initGru();
+    setState(() {});
   }
 
   void _send(String m) {
@@ -92,42 +110,5 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
       e.printError();
     }
     setState(() {});
-  }
-
-  Widget _buttonForMode(GruMinionMode e) {
-    return MaterialButton(
-        color: Colors.greenAccent,
-        onPressed: () {
-          changeMode(e.name());
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0),
-          child: Text(
-            e.name(),
-            style: const TextStyle(fontSize: 15),
-          ),
-        ));
-  }
-
-  Widget _messagesList() {
-    return Expanded(
-      child: Column(
-        children: [
-          MaterialButton(
-            color: Colors.red,
-            onPressed: () {
-              _messages.clear();
-              setState(() {});
-            },
-            child: const Text("Effacer"),
-          ),
-          Expanded(
-            child: ListView(
-              children: _messages.map((e) => Text(e)).toList(),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
