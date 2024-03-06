@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gru_minions/page/control_page.dart';
 import 'package:gru_minions/page/view_page.dart';
 import 'package:gru_minions/service/gru_service.dart';
@@ -31,33 +32,40 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          // const Image(
-          //   image: AssetImage('assets/images/Background/Wallpaper.png'),
-          //   fit: BoxFit.fill,
-          //   width: double.infinity,
-          //   height: double.infinity,
-          // ),
+          const Image(
+            image: AssetImage('assets/images/Background/Wallpaper.png'),
+            fit: BoxFit.fill,
+            width: double.infinity,
+            height: double.infinity,
+          ),
           Center(
-            child: Container(
-              width: 400,
-              height: 500,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.white,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text('Welcome', style: TextStyle(fontSize: 30)),
-                  _controllerButton(context),
-                  _screenButton(context),
-                  _permissionsButton(context),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Welcome',
+                  style: GoogleFonts.pixelifySans(
+                    textStyle: const TextStyle(
+                      fontSize: 100,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 100),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _controllerButton(context),
+                    _screenButton(context),
+                  ],
+                ),
+              ],
             ),
           )
         ],
       ),
+      floatingActionButton: _permissionsButton(context)
     );
   }
 
@@ -80,20 +88,25 @@ class _HomePageState extends State<HomePage> {
           minimumSize: const Size(80, 80),
           shadowColor: Colors.grey,
           elevation: 5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(2),
+              bottomLeft: Radius.circular(2),
+              bottomRight: Radius.circular(10),
+            ),
           ),
           tapTargetSize: MaterialTapTargetSize.padded,
         ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.gamepad),
+        child: Text(
+          "Controller",
+          style: GoogleFonts.pixelifySans(
+            textStyle: const TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
-            Text("Controller"),
-          ],
+          ),
         ),
       ),
     );
@@ -119,56 +132,36 @@ class _HomePageState extends State<HomePage> {
           shadowColor: Colors.grey,
           elevation: 5,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(2),
+              bottomLeft: Radius.circular(2),
+              bottomRight: Radius.circular(10),
+            ),
           ),
           tapTargetSize: MaterialTapTargetSize.padded,
         ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.screenshot_monitor_rounded),
+        child: Text(
+          "Screen",
+          style: GoogleFonts.pixelifySans(
+            textStyle: const TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
-            Text("Screen"),
-          ],
+          ),
         ),
       ),
     );
   }
 
   Widget _permissionsButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 20.0, left: 20.0),
-      child: ElevatedButton(
-        onPressed: () {
-          askPermissions();
-        },
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
-          textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          disabledForegroundColor: Colors.blue.withOpacity(0.38),
-          disabledBackgroundColor: Colors.blue.withOpacity(0.12),
-          minimumSize: const Size(80, 80),
-          shadowColor: Colors.grey,
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          tapTargetSize: MaterialTapTargetSize.padded,
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.wifi),
-            ),
-            Text("Permissions"),
-          ],
-        ),
-      ),
+    return FloatingActionButton(
+      onPressed: () {
+        askPermissions();
+      },
+      backgroundColor: Colors.white,
+      child: const Icon(Icons.wifi, color: Colors.black,),
     );
   }
 
