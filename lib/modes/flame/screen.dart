@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'game.dart';
 import 'helpers/joypad.dart';
 
-class MainGamePage extends StatefulWidget {
+class Screen extends StatefulWidget {
   final MainGame game;
 
-  const MainGamePage({super.key, required this.game});
+  const Screen({super.key, required this.game});
 
   @override
   MainGameState createState() => MainGameState();
 }
 
-class MainGameState extends State<MainGamePage> {
+class MainGameState extends State<Screen> {
   late MainGame game = widget.game;
 
   @override

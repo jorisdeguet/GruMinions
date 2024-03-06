@@ -6,14 +6,14 @@ import 'package:gru_minions/widget/boss_base_widget.dart';
 import '../modes/base-mode.dart';
 import '../modes/list_of_modes.dart';
 
-class ControllerPage extends StatefulWidget {
-  const ControllerPage({super.key});
+class ControlPage extends StatefulWidget {
+  const ControlPage({super.key});
 
   @override
-  State<ControllerPage> createState() => _MainBossPageState();
+  State<ControlPage> createState() => _MainBossPageState();
 }
 
-class _MainBossPageState extends BossBaseWidgetState<ControllerPage> {
+class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
   final bool _messagesDebug = true;
 
   final List<String> _messages = [];

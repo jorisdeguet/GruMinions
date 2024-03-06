@@ -5,14 +5,14 @@ import 'package:gru_minions/modes/list_of_modes.dart';
 import 'package:gru_minions/service/minion_service.dart';
 import 'package:gru_minions/widget/minion_base_widget.dart';
 
-class ScreenPage extends StatefulWidget {
-  const ScreenPage({super.key});
+class ViewPage extends StatefulWidget {
+  const ViewPage({super.key});
 
   @override
-  State<ScreenPage> createState() => _ScreenPageState();
+  State<ViewPage> createState() => _ViewPageState();
 }
 
-class _ScreenPageState extends MinionBaseWidgetState<ScreenPage> {
+class _ViewPageState extends MinionBaseWidgetState<ViewPage> {
   late final List<GruMinionMode> _modes = listOfModes(_send);
 
   late GruMinionMode _currentMode = _modes[0];

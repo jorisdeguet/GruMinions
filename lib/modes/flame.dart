@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/modes/flame/game.dart';
-import 'package:gru_minions/modes/flame/gru_game_page.dart';
+import 'package:gru_minions/modes/flame/controller.dart';
 import 'package:gru_minions/modes/flame/helpers/direction.dart';
-import 'package:gru_minions/modes/flame/main_game_page.dart';
+import 'package:gru_minions/modes/flame/screen.dart';
 
 // taken from https://github.com/flame-games/player_move
 class FlameMode extends GruMinionMode {
@@ -15,7 +15,7 @@ class FlameMode extends GruMinionMode {
 
   @override
   Widget gruWidget() {
-    return GruGamePage(
+    return Controller(
       send: sendToOthers,
     );
   }
@@ -41,7 +41,7 @@ class FlameMode extends GruMinionMode {
 
   @override
   Widget minionWidget(BuildContext context) {
-    return MainGamePage(game: _game);
+    return Screen(game: _game);
   }
 
   @override

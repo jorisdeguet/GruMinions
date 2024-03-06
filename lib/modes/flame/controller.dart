@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/flame/helpers/joypad.dart';
 
-class GruGamePage extends StatefulWidget {
+class Controller extends StatefulWidget {
   final Function send;
 
-  const GruGamePage({super.key, required this.send});
+  const Controller({super.key, required this.send});
 
   @override
-  GruGamePageState createState() => GruGamePageState();
+  ControllerState createState() => ControllerState();
 }
 
-class GruGamePageState extends State<GruGamePage> {
+class ControllerState extends State<Controller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class GruGamePageState extends State<GruGamePage> {
               alignment: Alignment.bottomLeft,
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
-                child: Joypad(onDirectionChanged: (direction) {
+                child: JoyPad(onDirectionChanged: (direction) {
                   widget.send(direction.toString());
                 }),
               ),
