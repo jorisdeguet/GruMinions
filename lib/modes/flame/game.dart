@@ -12,12 +12,18 @@ import 'components/level.dart';
 import 'components/player.dart';
 import 'helpers/direction.dart';
 
-class MainGame extends FlameGame with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection, TapCallbacks{
+class MainGame extends FlameGame
+    with
+        HasKeyboardHandlerComponents,
+        DragCallbacks,
+        HasCollisionDetection,
+        TapCallbacks {
   @override
   Color backgroundColor() => const Color(0xFF211F30);
   Player player = Player(character: 'Ninja Frog');
   late JoystickComponent joystick;
   bool showControls = false;
+
   //bool playSounds = false;
   double soundVolume = 1.0;
   late CameraComponent cam;
@@ -31,7 +37,7 @@ class MainGame extends FlameGame with HasKeyboardHandlerComponents, DragCallback
 
     _loadLevel();
 
-    if(showControls){
+    if (showControls) {
       addJoyStick();
       add(JumpButton());
     }
@@ -68,8 +74,9 @@ class MainGame extends FlameGame with HasKeyboardHandlerComponents, DragCallback
     joystick = JoystickComponent(
       priority: 10,
       knob: SpriteComponent.fromImage(images.fromCache('HUD/Knob.png')),
-      background: SpriteComponent.fromImage(images.fromCache('HUD/JoyStick.png')),
-      margin: const EdgeInsets.only(bottom : 32, left: 32),
+      background:
+          SpriteComponent.fromImage(images.fromCache('HUD/JoyStick.png')),
+      margin: const EdgeInsets.only(bottom: 32, left: 32),
     );
     add(joystick);
   }
@@ -77,11 +84,10 @@ class MainGame extends FlameGame with HasKeyboardHandlerComponents, DragCallback
   void loadNextLevel() {
     removeWhere((component) => component is Level);
 
-    if(currentLevel < levelNames.length - 1){
+    if (currentLevel < levelNames.length - 1) {
       currentLevel++;
       _loadLevel();
-    }
-    else {
+    } else {
       //handle game over
       currentLevel = 0;
       _loadLevel();
@@ -90,12 +96,11 @@ class MainGame extends FlameGame with HasKeyboardHandlerComponents, DragCallback
 
   void _loadLevel() {
     Future.delayed(const Duration(seconds: 1), () {
-      Level worldLevel = Level(
-          levelName: levelNames[currentLevel],
-          player: player
-      );
+      Level worldLevel =
+          Level(levelName: levelNames[currentLevel], player: player);
 
-      cam = CameraComponent.withFixedResolution(world: worldLevel, width: 640, height: 360);
+      cam = CameraComponent.withFixedResolution(
+          world: worldLevel, width: 640, height: 360);
       cam.viewfinder.anchor = Anchor.topLeft;
 
       addAll([cam, worldLevel]);
@@ -110,8 +115,14 @@ class MainGame extends FlameGame with HasKeyboardHandlerComponents, DragCallback
       case Direction.right:
         player.directionX = 1;
         break;
-      default:
+      case Direction.none:
         player.directionX = 0;
+        break;
+      case Direction.up:
+        player.isHasJumped = true;
+        break;
+      case Direction.down:
+        player.isHasJumped = false;
         break;
     }
   }

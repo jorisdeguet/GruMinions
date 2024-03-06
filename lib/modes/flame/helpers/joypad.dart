@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'direction.dart';
 
@@ -18,23 +20,54 @@ class JoyPadState extends State<JoyPad> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-          icon: const Icon(Icons.arrow_back),
-          iconSize: 120,
-          onPressed: () {
+        GestureDetector(
+          onTapUp: (details) {
+            _doesNotMove();
+          },
+          onTapDown: (details) {
             _moveLeft();
           },
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            iconSize: 120,
+            onPressed: () {},
+          ),
         ),
-        IconButton(
-          icon: const Icon(Icons.arrow_forward),
-          iconSize: 120,
-          onPressed: () {
+        GestureDetector(
+          onTapUp: (details) {
+            _doesNotMove();
+          },
+          onTapDown: (details) {
             _moveRight();
           },
+          child: IconButton(
+            icon: const Icon(Icons.arrow_forward),
+            iconSize: 120,
+            onPressed: () {},
+          ),
+        ),
+        GestureDetector(
+          onTapUp: (details) {
+            _doesNotJump();
+          },
+          onTapDown: (details) {
+            _jump();
+          },
+          child: IconButton(
+            icon: const Icon(Icons.arrow_upward),
+            iconSize: 120,
+            onPressed: () {},
+          ),
         ),
       ],
     );
+  }
+
+  void _doesNotMove() {
+    direction = Direction.none;
+    widget.onDirectionChanged!(direction);
   }
 
   void _moveLeft() {
@@ -44,6 +77,11 @@ class JoyPadState extends State<JoyPad> {
 
   void _moveRight() {
     direction = Direction.right;
+    widget.onDirectionChanged!(direction);
+  }
+
+  void _doesNotJump() {
+    direction = Direction.down;
     widget.onDirectionChanged!(direction);
   }
 
