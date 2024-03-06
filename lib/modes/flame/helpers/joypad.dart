@@ -48,6 +48,7 @@ class JoyPadState extends State<JoyPad> {
             onPressed: () {},
           ),
         ),
+        const SizedBox(width: 120),
         GestureDetector(
           onTapUp: (details) {
             _doesNotJump();
