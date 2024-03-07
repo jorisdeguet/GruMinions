@@ -68,7 +68,7 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
         child: Stack(
           children: [
             const Image(
-              image: AssetImage('assets/images/Background/Wallpaper.png'),
+              image: AssetImage('assets/images/Background/Level.png'),
               fit: BoxFit.fill,
               width: double.infinity,
               height: double.infinity,

@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +8,7 @@ import 'package:gru_minions/page/view_page.dart';
 import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/service/minion_service.dart';
 import 'package:gru_minions/service/utils.dart';
+import 'package:stroke_text/stroke_text.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -31,82 +33,65 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Image(
-            image: const AssetImage('assets/images/Background/Wallpaper.png'),
-            fit: BoxFit.fill,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Welcome',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle: const TextStyle(
-                      fontSize: 100,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 100),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _controllerButton(context),
-                    _screenButton(context),
-                  ],
-                ),
-              ],
+        body: Stack(
+          children: <Widget>[
+            Image(
+              image:
+                  const AssetImage('assets/images/Background/Wallpaper1.gif'),
+              fit: BoxFit.fill,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
             ),
-          )
-        ],
-      ),
-      floatingActionButton: _permissionsButton(context)
-    );
+            BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      StrokeText(
+                        text: 'Pixel Aventure Remake',
+                        strokeColor: Colors.black,
+                        strokeWidth: 2,
+                        textStyle: GoogleFonts.pixelifySans(
+                          textStyle: const TextStyle(
+                            fontSize: 80,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 100),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _screenButton(context),
+                          _controllerButton(context),
+                        ],
+                      ),
+                    ],
+                  ),
+                )),
+          ],
+        ),
+        floatingActionButton: _permissionsButton(context));
   }
 
   Widget _controllerButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: ElevatedButton(
-        onPressed: () {
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const ControlPage()),
           ).then((value) => _resetServices());
         },
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
-          textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          disabledForegroundColor: Colors.blue.withOpacity(0.38),
-          disabledBackgroundColor: Colors.blue.withOpacity(0.12),
-          minimumSize: const Size(80, 80),
-          shadowColor: Colors.grey,
-          elevation: 5,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(2),
-              bottomLeft: Radius.circular(2),
-              bottomRight: Radius.circular(10),
-            ),
-          ),
-          tapTargetSize: MaterialTapTargetSize.padded,
-        ),
-        child: Text(
-          "Controller",
-          style: GoogleFonts.pixelifySans(
-            textStyle: const TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+        child: const SizedBox(
+          width: 100,
+          height: 100,
+          child: Image(
+            image: AssetImage('assets/images/Menu/Buttons/Levels.png'),
+            fit: BoxFit.fill,
           ),
         ),
       ),
@@ -115,41 +100,20 @@ class _HomePageState extends State<HomePage> {
 
   Widget _screenButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 20.0, left: 20.0, bottom: 20.0),
-      child: ElevatedButton(
-        onPressed: () {
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const ViewPage()),
           ).then((value) => _resetServices());
         },
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
-          textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          disabledForegroundColor: Colors.blue.withOpacity(0.38),
-          disabledBackgroundColor: Colors.blue.withOpacity(0.12),
-          minimumSize: const Size(80, 80),
-          shadowColor: Colors.grey,
-          elevation: 5,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(2),
-              bottomLeft: Radius.circular(2),
-              bottomRight: Radius.circular(10),
-            ),
-          ),
-          tapTargetSize: MaterialTapTargetSize.padded,
-        ),
-        child: Text(
-          "Screen",
-          style: GoogleFonts.pixelifySans(
-            textStyle: const TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+        child: const SizedBox(
+          width: 100,
+          height: 100,
+          child: Image(
+            image: AssetImage('assets/images/Menu/Buttons/Play.png'),
+            fit: BoxFit.fill,
           ),
         ),
       ),
@@ -161,8 +125,13 @@ class _HomePageState extends State<HomePage> {
       onPressed: () {
         askPermissions();
       },
-      backgroundColor: Colors.white,
-      child: const Icon(Icons.wifi, color: Colors.black,),
+      backgroundColor: Colors.transparent,
+      child: Image(
+        image: const AssetImage('assets/images/Menu/Buttons/Settings.png'),
+        fit: BoxFit.fill,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+      ),
     );
   }
 

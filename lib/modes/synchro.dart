@@ -1,5 +1,6 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:intl/intl.dart';
 
@@ -53,54 +54,27 @@ class SyncMode extends GruMinionMode {
     return Stack(
       children: <Widget>[
         Image(
-          image: const AssetImage('assets/images/waiting.gif'),
+          image: const AssetImage('assets/images/Background/Wallpaper2.gif'),
           fit: BoxFit.fill,
-          width: MediaQuery.of(context).size.width ,
+          width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
         ),
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(height: 100),
-              Row(
+        BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: const Center(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: Image.asset(
-                        'assets/images/Menu/Buttons/Play.png',
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.fill,
-                    ),
-                    onPressed: () => showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => Dialog(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                const Text('This is a typical dialog.'),
-                                const SizedBox(height: 15),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Close'),
-                                ),
-                              ],
-                            ),
-                          ),
-                          ),
-                    ),
-                  )
+                children: <Widget>[
+                  SizedBox(height: 100),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                    ],
+                  ),
                 ],
               ),
-            ],
-          ),
-        )
+            )),
       ],
     );
   }
