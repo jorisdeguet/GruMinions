@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,11 +33,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          const Image(
-            image: AssetImage('assets/images/Background/Wallpaper.png'),
+          Image(
+            image: const AssetImage('assets/images/Background/Wallpaper.png'),
             fit: BoxFit.fill,
-            width: double.infinity,
-            height: double.infinity,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
           ),
           Center(
             child: Column(

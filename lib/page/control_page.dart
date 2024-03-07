@@ -108,8 +108,23 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
                       color: Colors.white,
                       onPressed: () {
                         changeMode(e.name());
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => _currentMode.gruWidget()
+                            )
+                        );
                       },
-                      child: const Text("Start"),
+                      child: Text(
+                        'Start',
+                        style: GoogleFonts.pixelifySans(
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),

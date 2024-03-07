@@ -60,6 +60,8 @@ flutter:
     - assets/flame/
     - assets/tiles/
     - assets/audio/
+    - assets/images/
+    - assets/images/Menu/Buttons/
     - assets/images/Terrain/
     - assets/images/Background/
     - assets/images/HUD/
@@ -72,3 +74,4 @@ flutter:
     - assets/images/Main Characters/Pink Man/
     - assets/images/Main Characters/Virtual Guy/
     - assets/images/Enemies/Chicken/
+    - assets/fonts/Pixelify_Sans/static/
