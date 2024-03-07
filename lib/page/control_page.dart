@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gru_minions/modes/flame.dart';
 import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/widget/boss_base_widget.dart';
 
@@ -52,7 +53,7 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
               crossAxisCount: 3,
               mainAxisSpacing: 10,
               crossAxisSpacing: 20,
-              children: _modes.map(_buttonForMode).toList(),
+              children: _modes.map(_buttonForLevel).toList(),
             ),
           ),
         ],
@@ -60,7 +61,7 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
     );
   }
 
-  Widget _buttonForMode(GruMinionMode e) {
+  Widget _buttonForLevel(GruMinionMode e) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ClipRRect(
@@ -72,7 +73,8 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
               fit: BoxFit.fill,
               width: double.infinity,
               height: double.infinity,
-            ),BackdropFilter(
+            ),
+            BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
               child: Center(
                 child: Column(
@@ -137,9 +139,7 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
   }
 
   void changeMode(String m) {
-    for (GruMinionMode mode in _modes) {
-      if (m == mode.name()) _currentMode = mode;
-    }
+    _currentMode = FlameMode(sendToOthers: _send);
     _send(m);
     _currentMode.initGru();
     setState(() {});

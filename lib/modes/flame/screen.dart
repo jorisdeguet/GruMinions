@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'game.dart';
 
 class Screen extends StatefulWidget {
-  final MainGame game;
-
   const Screen({super.key, required this.game});
+  final MainGame game;
 
   @override
   MainGameState createState() => MainGameState();

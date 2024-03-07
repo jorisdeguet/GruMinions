@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/base-mode.dart';
+import 'package:gru_minions/modes/flame.dart';
 import 'package:gru_minions/modes/list_of_modes.dart';
 import 'package:gru_minions/service/minion_service.dart';
 import 'package:gru_minions/widget/minion_base_widget.dart';
@@ -36,13 +37,8 @@ class _ViewPageState extends MinionBaseWidgetState<ViewPage> {
   }
 
   void changeMode(String m) {
-    for (GruMinionMode mode in _modes) {
-      if (m == mode.name()) {
-        print("Minion mode changed to $m");
-        _currentMode = mode;
-        _currentMode.initMinion();
-      }
-    }
+    _currentMode = FlameMode(sendToOthers: _send);
+    _currentMode.initMinion();
     setState(() {});
   }
 
