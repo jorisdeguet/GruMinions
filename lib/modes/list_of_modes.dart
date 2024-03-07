@@ -15,5 +15,10 @@ List<String> listOfLevels() {
     'Level-02',
     'Level-03',
     'Level-04',
+    'Level-05',
+    'Level-06',
+    'Level-07',
+    'Level-08',
+    'Level-09',
   ];
 }
