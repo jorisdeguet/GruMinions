@@ -11,14 +11,14 @@ import 'package:gru_minions/modes/tapelelapin.dart';
 
 List<GruMinionMode> listOfModes(Function send) {
   return [
-    SyncMode(sendToOthers: send),
-    PianoMode(sendToOthers: send),
-    Miroir(sendToOthers: send),
-    HalMode(sendToOthers: send),
-    GridMode(sendToOthers: send),
-    TapeLeLapin(sendToOthers: send),
-    SimonMode(sendToOthers: send),
+    //SyncMode(sendToOthers: send),
+    //PianoMode(sendToOthers: send),
+    //Miroir(sendToOthers: send),
+    //HalMode(sendToOthers: send),
+    //GridMode(sendToOthers: send),
+    //TapeLeLapin(sendToOthers: send),
+    //SimonMode(sendToOthers: send),
     FlameMode(sendToOthers: send),
-    MatrixMode(sendToOthers: send),
+    //MatrixMode(sendToOthers: send),
   ];
 }
