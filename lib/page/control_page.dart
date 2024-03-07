@@ -9,6 +9,7 @@ import 'package:gru_minions/widget/boss_base_widget.dart';
 
 import '../modes/base-mode.dart';
 import '../modes/list_of_modes.dart';
+import '../modes/synchro.dart';
 
 class ControlPage extends StatefulWidget {
   const ControlPage({super.key});
@@ -22,7 +23,7 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
 
   final List<String> _messages = [];
 
-  late final List<GruMinionMode> _modes = listOfModes(_send);
+  late final List<String> _levels = listOfLevels();
   late GruMinionMode _currentMode;
 
   @override
@@ -32,7 +33,7 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
     service.onReceive.listen((element) {
       _receive(element);
     });
-    changeMode(_modes[0].name());
+    _currentMode = SyncMode(sendToOthers: _send);
     super.initState();
   }
 
@@ -53,7 +54,7 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
               crossAxisCount: 3,
               mainAxisSpacing: 10,
               crossAxisSpacing: 20,
-              children: _modes.map(_buttonForLevel).toList(),
+              children: _levels.map(_buttonForLevel).toList(),
             ),
           ),
         ],
@@ -61,7 +62,7 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
     );
   }
 
-  Widget _buttonForLevel(GruMinionMode e) {
+  Widget _buttonForLevel(String e) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ClipRRect(
@@ -81,20 +82,20 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      e.name(),
+                      e.split('-').first,
                       style: GoogleFonts.pixelifySans(
                         textStyle: const TextStyle(
-                          fontSize: 40,
+                          fontSize: 60,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
                     ),
                     Text(
-                      'subtitle',
+                      e.split('-').last,
                       style: GoogleFonts.pixelifySans(
                         textStyle: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 40,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -109,7 +110,7 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
                     MaterialButton(
                       color: Colors.white,
                       onPressed: () {
-                        changeMode(e.name());
+                        changeMode(e);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
