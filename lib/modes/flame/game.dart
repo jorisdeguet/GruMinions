@@ -58,4 +58,20 @@ class MainGame extends FlameGame with KeyboardEvents {
   void onJoyPad2DirectionChanged(Direction direction) {
     _player2.direction = direction;
   }
+
+  void onAButtonPressed( bool isPressed) {
+    if (isPressed) {
+      _player.direction = Direction.right;
+    } else {
+      _player.direction = Direction.none;
+    }
+  }
+
+  void onBButtonPressed( bool isPressed) {
+    if (isPressed) {
+      _player.direction = Direction.left;
+    } else {
+      _player.direction = Direction.none;
+    }
+  }
 }

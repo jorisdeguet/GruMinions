@@ -1,7 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:gru_minions/modes/flame/helpers/a_button.dart';
 
 import 'game.dart';
+import 'helpers/b_button.dart';
 import 'helpers/joypad.dart';
 
 class ControllerBGamePage extends StatefulWidget {
@@ -32,6 +34,7 @@ class ControllerBGameState extends State<ControllerBGamePage> {
                 ),
               ),
             ),
+
           ],
         ));
   }

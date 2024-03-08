@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
-import 'package:gru_minions/modes/grid.dart';
+import 'package:gru_minions/modes/oldmodes/grid.dart';
 import 'package:gru_minions/service/base_network_service.dart';
 import 'package:gru_minions/service/gru_status.dart';
 
