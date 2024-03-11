@@ -9,13 +9,12 @@ import 'package:gru_minions/modes/boxsmasher/components/boxsmasher_background.da
 import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_ground.dart';
 import 'components/boxsmasher_player.dart';
 import 'components/world/boxsmasher_box.dart';
-import 'helpers/direction.dart';
 
 class BoxSmasherGame extends FlameGame with HasCollisionDetection{
   @override
   final images = Images(prefix: 'assets/flame/');
 
-  final BoxSmasherPlayer _player = BoxSmasherPlayer(Vector2(24, 753));
+  final BoxSmasherPlayer _player = BoxSmasherPlayer(Vector2(115, 755));
 
   final double _gravity = 1.5;
   final Vector2 _velocity = Vector2(0, 0);
@@ -44,12 +43,12 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
     final world = World(children: [_player, map,]);
     await add(world);
 
-    final camera = CameraComponent.withFixedResolution(world: world, width: 110, height: 200);
+    final camera = CameraComponent.withFixedResolution(world: world, width: 110, height: 150);
     camera.debugMode = true;
     final halfViewportSize = camera.viewport.size / 2;
     camera.setBounds(Rectangle.fromCenter(
       center: Vector2(mapWidth, mapHeight) / 2,
-      size: Vector2(100,600) - halfViewportSize,),
+      size: Vector2(100,650) - halfViewportSize,),
     );
     camera.follow(_player);
     await add(camera);
@@ -88,11 +87,11 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
       _player.position.y += _velocity.y * dt;
     }
 
-    if(_player.y < 784 - _player.height) {
+    if(_player.y < 756 - _player.height) {
       _velocity.y += _gravity;
       _player.position.y += _velocity.y * dt;
     } else {
-      _player.position.y = 784 - _player.height;
+      _player.position.y = 756 - _player.height;
       _velocity.y = 0;
     }
   }
