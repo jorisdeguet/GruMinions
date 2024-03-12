@@ -14,10 +14,11 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
   @override
   final images = Images(prefix: 'assets/flame/');
 
-  final BoxSmasherPlayer _player = BoxSmasherPlayer(Vector2(115, 755));
+  final BoxSmasherPlayer _player = BoxSmasherPlayer(Vector2(105, 785));
 
-  final double _gravity = 1.5;
+  final double _gravity = 6;
   final Vector2 _velocity = Vector2(0, 0);
+  late var boxelist = <Box>[];
 
   BoxSmasherGame();
 
@@ -43,12 +44,12 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
     final world = World(children: [_player, map,]);
     await add(world);
 
-    final camera = CameraComponent.withFixedResolution(world: world, width: 110, height: 150);
+    final camera = CameraComponent.withFixedResolution(world: world, width: 150, height: 180);
     camera.debugMode = true;
     final halfViewportSize = camera.viewport.size / 2;
     camera.setBounds(Rectangle.fromCenter(
-      center: Vector2(mapWidth, mapHeight) / 2,
-      size: Vector2(100,650) - halfViewportSize,),
+      center: Vector2(mapWidth, mapHeight ) / 2,
+      size: Vector2(190,636) - halfViewportSize,),
     );
     camera.follow(_player);
     await add(camera);
@@ -72,6 +73,7 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
       ..sprite = await loadSprite('crate.png');
       boxObject.debugMode = true;
       boxObject.priority = 2;
+      boxelist.add(boxObject);
       add(boxObject);
       world.add(boxObject);
     }
@@ -87,16 +89,30 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
       _player.position.y += _velocity.y * dt;
     }
 
-    if(_player.y < 756 - _player.height) {
+    if(_player.y < 785 - _player.height) {
       _velocity.y += _gravity;
       _player.position.y += _velocity.y * dt;
     } else {
-      _player.position.y = 756 - _player.height;
+      _player.position.y = 785 - _player.height;
       _velocity.y = 0;
+    }
+
+    for(final box in boxelist){
+      if(box.onGround == false && box.onBox == false){
+        _velocity.y += _gravity;
+        box.position.y += _velocity.y * dt;
+      }
+      if(box.y > 785 - box.height){
+        box.position.y = 785 - box.height;
+        _velocity.y = 0;
+      }
     }
   }
 
   void onAButtonPressed (bool pressed) {
-    _player.onPressed = pressed;
+   _player.onPressed = pressed;
+   for(final box in boxelist){
+     box.onPressed = pressed;
+   }
   }
 }

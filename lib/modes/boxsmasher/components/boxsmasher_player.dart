@@ -47,7 +47,6 @@ class BoxSmasherPlayer extends SpriteAnimationComponent with CollisionCallbacks,
   @override
   void update(double delta) {
     super.update(delta);
-    _movePlayer(delta);
   }
 
   Future<void> _loadAnimations() async {
@@ -58,15 +57,5 @@ class BoxSmasherPlayer extends SpriteAnimationComponent with CollisionCallbacks,
 
     idleAnimation = SpriteAnimationComponent.fromFrameData(playerSpriteSheet, idleData)
       ..size = spriteSize;
-  }
-
-  void _movePlayer(double delta){
-    if (onPressed){
-      _moveUp(delta);
-    }
-  }
-
-  void _moveUp(double delta) {
-    position.add(Vector2(0, -100));
   }
 }

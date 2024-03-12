@@ -12,19 +12,36 @@ class Box extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmasher
   }
 
   bool onGround = false;
+  bool onBox = false;
+  bool onPressed = false;
 
   @override
   Future<void> onLoad() async {
-    add(RectangleHitbox());
+    RectangleHitbox shape = RectangleHitbox();
+    shape.collisionType = CollisionType.active;
+    add(shape);
     await super.onLoad();
   }
 
   @override
   void onCollision(intersectionPoints, other){
     super.onCollision(intersectionPoints, other);
+    final points = intersectionPoints;
+    final otherBoxPoint = other.topLeftPosition;
 
     if (other is Ground){
       onGround = true;
+    }
+    if (other is Box){
+      for (var element in points) {
+        verifyCollision(element, otherBoxPoint);
+      }
+    }
+  }
+
+  void verifyCollision(Vector2 point, Vector2 otherBoxPoint){
+    if (point.y == otherBoxPoint.y){
+      onBox = true;
     }
   }
 
@@ -34,6 +51,25 @@ class Box extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmasher
 
     if (other is Ground){
       onGround = false;
+    }
+    if (other is Box){
+      onBox = false;
+    }
+  }
+
+  @override
+  void update(double delta) {
+    super.update(delta);
+    buttonPressed(onPressed);
+  }
+
+  void buttonPressed(bool pressed){
+    if(onBox == true && onGround == false && pressed){
+      return;
+    }
+
+    if (onGround && pressed){
+      removeFromParent();
     }
   }
 }
