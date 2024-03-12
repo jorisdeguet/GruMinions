@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="11">
- <editorsettings>
-  <export target="BoxSmasherMap..tmx" format="tmx"/>
- </editorsettings>
  <tileset firstgid="1" source="boxsmasher/BoxSmasherObjects.tsx"/>
  <tileset firstgid="365" source="boxsmasher/BoxSmasherTileSet.tsx"/>
  <tileset firstgid="940" source="boxsmasher/door.tsx"/>

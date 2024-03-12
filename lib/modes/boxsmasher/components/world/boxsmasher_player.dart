@@ -2,7 +2,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_ground.dart';
 
-import '../boxsmasher_game.dart';
+import '../../boxsmasher_game.dart';
 
 class BoxSmasherPlayer extends SpriteAnimationComponent with CollisionCallbacks, HasGameRef<BoxSmasherGame>{
   final double _playerSpeed = 50.0;
