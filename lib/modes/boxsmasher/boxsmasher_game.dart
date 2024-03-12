@@ -27,7 +27,7 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
 
     add(BoxSmasherBackground());
 
-    _player.priority = 3;
+    _player.priority = 4;
     _player.debugMode = true;
     add(_player);
 
@@ -42,12 +42,12 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
     final world = World(children: [_player, map,]);
     await add(world);
 
-    final camera = CameraComponent.withFixedResolution(world: world, width: 135, height: 180);
+    final camera = CameraComponent.withFixedResolution(world: world, width: 156, height: 250);
     camera.debugMode = true;
     final halfViewportSize = camera.viewport.size / 2;
     camera.setBounds(Rectangle.fromCenter(
-      center: Vector2(mapWidth, mapHeight ) / 2,
-      size: Vector2(160,636) - halfViewportSize,),
+      center: Vector2(mapWidth, mapHeight) / 2,
+      size: Vector2(250,566) - halfViewportSize,),
     );
     camera.follow(_player);
     await add(camera);
@@ -67,10 +67,10 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
 
     for ( final obj in boxesGroup!.objects){
       final boxObject = Box(size: Vector2(obj.width, obj.height),
-          position: Vector2(obj.x, obj.y) - halfViewportSize)
+          position: Vector2(obj.x, obj.y - obj.height) - halfViewportSize)
       ..sprite = await loadSprite('boxsmasher_crate.png');
       boxObject.debugMode = true;
-      boxObject.priority = 2;
+      boxObject.priority = 4;
       boxelist.add(boxObject);
       add(boxObject);
       world.add(boxObject);
@@ -83,7 +83,7 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
           position: Vector2(obj.x, obj.y - obj.height) - halfViewportSize)
       ..sprite = await loadSprite('boxsmasher_door.png');
       doorObject.debugMode = true;
-      doorObject.priority = 3;
+      doorObject.priority = 4;
       add(doorObject);
       world.add(doorObject);
     }
@@ -93,30 +93,6 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
   @override
   void update(double dt) {
     super.update(dt);
-
-    if(!_player.onGround) {
-      _velocity.y += _gravity;
-      _player.position.y += _velocity.y * dt;
-    }
-
-    if(_player.y < 785 - _player.height) {
-      _velocity.y += _gravity;
-      _player.position.y += _velocity.y * dt;
-    } else {
-      _player.position.y = 785 - _player.height;
-      _velocity.y = 0;
-    }
-
-    for(final box in boxelist){
-      if(box.onGround == false && box.onBox == false){
-        _velocity.y += _gravity;
-        box.position.y += _velocity.y * dt;
-      }
-      if(box.y > 785 - box.height){
-        box.position.y = 785 - box.height;
-        _velocity.y = 0;
-      }
-    }
   }
 
   void onAButtonPressed (bool pressed) {

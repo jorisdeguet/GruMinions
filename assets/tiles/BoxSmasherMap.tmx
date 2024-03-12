@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="51" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="119">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="51" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="120">
  <tileset firstgid="1" source="../boxsmasher/BoxSmasherTileSet.tsx"/>
  <tileset firstgid="576" source="../boxsmasher/Boxes.tsx"/>
  <tileset firstgid="578" source="../boxsmasher/BoxSmasherObjects.tsx"/>
+ <tileset firstgid="942" source="../boxsmasher/door.tsx"/>
  <layer id="7" name="MoreBehind" width="15" height="51">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -58,64 +59,6 @@
 77,79,79,79,79,79,79,79,79,79,79,79,79,79,81
 </data>
  </layer>
- <layer id="6" name="Behind" width="15" height="51">
-  <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,723,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,646,0,0,0,0,0,
-0,0,0,0,0,0,121,29,123,179,0,0,0,0,0,
-0,0,0,0,230,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-</data>
- </layer>
- <objectgroup id="8" name="door">
-  <object id="118" gid="577" x="164" y="784" width="22" height="33"/>
- </objectgroup>
  <layer id="1" name="Calque de Tuiles 1" width="15" height="51">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -174,30 +117,33 @@
  <objectgroup id="2" name="ground">
   <object id="62" x="80.0111" y="784" width="79.9839" height="16"/>
  </objectgroup>
+ <objectgroup id="8" name="door">
+  <object id="119" gid="942" x="167" y="784" width="22" height="33"/>
+ </objectgroup>
  <objectgroup id="5" name="Boxes">
-  <object id="65" gid="576" x="112" y="768" width="16" height="16"/>
-  <object id="66" gid="576" x="112" y="752" width="16" height="16"/>
-  <object id="67" gid="576" x="112" y="736" width="16" height="16"/>
-  <object id="68" gid="576" x="112" y="720" width="16" height="16"/>
-  <object id="69" gid="576" x="112" y="704" width="16" height="16"/>
-  <object id="70" gid="576" x="112" y="688" width="16" height="16"/>
-  <object id="71" gid="576" x="112" y="672" width="16" height="16"/>
-  <object id="72" gid="576" x="112" y="656" width="16" height="16"/>
-  <object id="73" gid="576" x="112" y="640" width="16" height="16"/>
-  <object id="74" gid="576" x="112" y="624" width="16" height="16"/>
-  <object id="75" gid="576" x="112" y="608" width="16" height="16"/>
-  <object id="76" gid="576" x="112" y="592" width="16" height="16"/>
-  <object id="77" gid="576" x="112" y="576" width="16" height="16"/>
-  <object id="78" gid="576" x="112" y="560" width="16" height="16"/>
-  <object id="79" gid="576" x="112" y="544" width="16" height="16"/>
-  <object id="80" gid="576" x="112" y="528" width="16" height="16"/>
-  <object id="81" gid="576" x="112" y="512" width="16" height="16"/>
-  <object id="82" gid="576" x="112" y="496" width="16" height="16"/>
-  <object id="83" gid="576" x="112" y="480" width="16" height="16"/>
-  <object id="84" gid="576" x="112" y="464" width="16" height="16"/>
-  <object id="85" gid="576" x="112" y="448" width="16" height="16"/>
-  <object id="86" gid="576" x="112" y="432" width="16" height="16"/>
-  <object id="87" gid="576" x="112" y="416" width="16" height="16"/>
-  <object id="88" gid="576" x="112" y="400" width="16" height="16"/>
+  <object id="65" gid="576" x="112" y="784" width="16" height="16"/>
+  <object id="66" gid="576" x="112" y="768" width="16" height="16"/>
+  <object id="67" gid="576" x="112" y="752" width="16" height="16"/>
+  <object id="68" gid="576" x="112" y="736" width="16" height="16"/>
+  <object id="69" gid="576" x="112" y="720" width="16" height="16"/>
+  <object id="70" gid="576" x="112" y="704" width="16" height="16"/>
+  <object id="71" gid="576" x="112" y="688" width="16" height="16"/>
+  <object id="72" gid="576" x="112" y="672" width="16" height="16"/>
+  <object id="73" gid="576" x="112" y="656" width="16" height="16"/>
+  <object id="74" gid="576" x="112" y="640" width="16" height="16"/>
+  <object id="75" gid="576" x="112" y="624" width="16" height="16"/>
+  <object id="76" gid="576" x="112" y="608" width="16" height="16"/>
+  <object id="77" gid="576" x="112" y="592" width="16" height="16"/>
+  <object id="78" gid="576" x="112" y="576" width="16" height="16"/>
+  <object id="79" gid="576" x="112" y="560" width="16" height="16"/>
+  <object id="80" gid="576" x="112" y="544" width="16" height="16"/>
+  <object id="81" gid="576" x="112" y="528" width="16" height="16"/>
+  <object id="82" gid="576" x="112" y="512" width="16" height="16"/>
+  <object id="83" gid="576" x="112" y="496" width="16" height="16"/>
+  <object id="84" gid="576" x="112" y="480" width="16" height="16"/>
+  <object id="85" gid="576" x="112" y="464" width="16" height="16"/>
+  <object id="86" gid="576" x="112" y="448" width="16" height="16"/>
+  <object id="87" gid="576" x="112" y="432" width="16" height="16"/>
+  <object id="88" gid="576" x="112" y="416" width="16" height="16"/>
  </objectgroup>
 </map>
