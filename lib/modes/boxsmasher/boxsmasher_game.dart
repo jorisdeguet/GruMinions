@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flame/cache.dart';
 import 'package:flame/camera.dart';
 import 'package:flame/experimental.dart';
@@ -44,19 +42,19 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
     final world = World(children: [_player, map,]);
     await add(world);
 
-    final camera = CameraComponent.withFixedResolution(world: world, width: 150, height: 180);
+    final camera = CameraComponent.withFixedResolution(world: world, width: 135, height: 180);
     camera.debugMode = true;
     final halfViewportSize = camera.viewport.size / 2;
     camera.setBounds(Rectangle.fromCenter(
       center: Vector2(mapWidth, mapHeight ) / 2,
-      size: Vector2(190,636) - halfViewportSize,),
+      size: Vector2(160,636) - halfViewportSize,),
     );
     camera.follow(_player);
     await add(camera);
 
-    var obstacleGroup = map.tileMap.getLayer<ObjectGroup>('ground');
+    var groundGroup = map.tileMap.getLayer<ObjectGroup>('ground');
 
-    for (final obj in obstacleGroup!.objects) {
+    for (final obj in groundGroup!.objects) {
       final groundObject = Ground(size: Vector2(obj.width, obj.height),
           position: Vector2(obj.x , obj.y) - halfViewportSize);
       groundObject.debugMode = true;
@@ -70,12 +68,24 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection{
     for ( final obj in boxesGroup!.objects){
       final boxObject = Box(size: Vector2(obj.width, obj.height),
           position: Vector2(obj.x, obj.y) - halfViewportSize)
-      ..sprite = await loadSprite('crate.png');
+      ..sprite = await loadSprite('boxsmasher_crate.png');
       boxObject.debugMode = true;
       boxObject.priority = 2;
       boxelist.add(boxObject);
       add(boxObject);
       world.add(boxObject);
+    }
+
+    var door = map.tileMap.getLayer<ObjectGroup>('door');
+
+    for (final obj in door!.objects){
+      final doorObject = Box(size: Vector2(obj.width, obj.height),
+          position: Vector2(obj.x, obj.y - obj.height) - halfViewportSize)
+      ..sprite = await loadSprite('boxsmasher_door.png');
+      doorObject.debugMode = true;
+      doorObject.priority = 3;
+      add(doorObject);
+      world.add(doorObject);
     }
 
   }
