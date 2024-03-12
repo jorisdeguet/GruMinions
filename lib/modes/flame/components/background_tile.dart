@@ -5,14 +5,16 @@ import 'package:flame/parallax.dart';
 import 'package:flutter/cupertino.dart';
 
 class BackgroundTile extends ParallaxComponent {
-  BackgroundTile ({this.color = 'Gray', position}) : super(position: position);
+  BackgroundTile ({this.color = 'Gray', super.position});
+
+  //Final variables
   final String color;
-  final double scrollSpeed = 0.4;
+  final double scrollSpeed = 40;
 
   @override
   FutureOr<void> onLoad() async {
     priority = -10;
-    size = Vector2.all(64);
+    size = Vector2(double.infinity, double.infinity);
     parallax = await game.loadParallax(
       [ParallaxImageData('Background/$color.png')],
       baseVelocity: Vector2(0, -scrollSpeed),

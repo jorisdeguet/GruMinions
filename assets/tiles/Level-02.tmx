@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="39">
+ <tileset firstgid="1" source="GameWithY.tsx"/>
+ <layer id="1" name="Background" width="40" height="23" locked="1">
+  <properties>
+   <property name="BackgroundColor" value="Blue"/>
+  </properties>
+  <data encoding="csv">
+24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,
+4,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,5,
+25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,183,184,184,184,185,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,183,184,184,184,185,23,
+25,205,206,206,206,207,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,205,206,206,206,207,23,
+25,205,206,206,206,207,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,40,41,42,205,206,206,206,207,23,
+25,205,206,206,206,207,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,205,206,206,206,207,23,
+25,205,206,206,206,207,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,205,206,206,206,207,23,
+25,205,206,206,206,207,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,183,184,184,184,184,185,206,206,207,23,
+25,205,206,206,206,207,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,205,206,206,206,206,206,206,206,207,23,
+25,205,206,206,206,207,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,183,184,185,206,206,206,206,206,206,206,207,23,
+25,205,206,206,206,207,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,205,206,206,206,206,206,206,206,206,206,207,23,
+25,205,206,206,183,184,184,184,184,184,184,184,184,184,184,184,184,184,184,184,184,184,184,184,184,184,184,184,185,206,206,206,206,206,206,206,206,206,207,23,
+25,205,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,206,207,23,
+26,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,27,
+24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24
+</data>
+ </layer>
+ <objectgroup id="3" name="Collisions" locked="1">
+  <object id="1" x="0.118412" y="15.9659" width="15.7601" height="336.233"/>
+  <object id="2" x="15.9796" y="15.904" width="624.134" height="16.1981"/>
+  <object id="3" x="624.046" y="31.983" width="15.9893" height="319.958"/>
+  <object id="4" x="16.2351" y="336.311" width="607.735" height="15.7813"/>
+  <object id="5" x="16.3919" y="160.115" width="79.3427" height="143.696"/>
+  <object id="6" x="448.157" y="272.04" width="31.878" height="32.0457"/>
+  <object id="7" x="480.176" y="239.8" width="64.0713" height="96.5663"/>
+  <object id="8" x="544.16" y="160.048" width="79.6916" height="176.418"/>
+  <object id="9" type="Platform" x="496.159" y="191.872" width="48.1558" height="15.8551"/>
+  <object id="32" type="Platform" x="432.802" y="143.837" width="48.1558" height="15.8551"/>
+  <object id="35" type="Falling Platform" x="144.177" y="128.101" width="48.1558" height="15.8551"/>
+  <object id="36" type="Falling Platform" x="240.165" y="144.168" width="48.1558" height="15.8551"/>
+  <object id="37" type="Falling Platform" x="335.946" y="128.307" width="48.1558" height="15.8551"/>
+  <object id="38" type="Falling Platform" x="432.346" y="144.374" width="48.1558" height="15.8551"/>
+  <object id="10" x="16.3919" y="304.28" width="463.657" height="31.8811"/>
+ </objectgroup>
+ <objectgroup id="4" name="Startpoints" locked="1">
+  <object id="11" name="Player" type="Player" x="32.3084" y="127.982" width="31.7501" height="32.0268"/>
+  <object id="12" name="Checkpoint" type="Checkpoint" x="560.107" y="95.8123" width="64.056" height="64.1962"/>
+  <object id="13" name="Falling Platform" type="Falling Platform" x="143.997" y="128.122" width="47.7616" height="15.5922">
+   <properties>
+    <property name="offNeg" type="float" value="20"/>
+   </properties>
+  </object>
+  <object id="14" name="Falling Platform" type="Falling Platform" x="240.085" y="144.136" width="47.6239" height="15.7324">
+   <properties>
+    <property name="offNeg" type="float" value="20"/>
+   </properties>
+  </object>
+  <object id="15" name="Falling Platform" type="Falling Platform" x="335.899" y="128.26" width="47.9018" height="15.4532">
+   <properties>
+    <property name="offNeg" type="float" value="20"/>
+   </properties>
+  </object>
+  <object id="16" name="Falling Platform" type="Falling Platform" x="432.543" y="144.137" width="47.346" height="15.591">
+   <properties>
+    <property name="offNeg" type="float" value="20"/>
+   </properties>
+  </object>
+  <object id="17" name="Kiwi" type="Fruit" x="144.275" y="79.9397" width="31.4685" height="31.7451"/>
+  <object id="19" name="Pineapple" type="Fruit" x="192.182" y="64.0622" width="31.7464" height="31.4672"/>
+  <object id="20" name="Bananas" type="Fruit" x="287.852" y="79.936" width="31.8853" height="31.7451"/>
+  <object id="21" name="Cherries" type="Fruit" x="240.085" y="95.955" width="31.7464" height="31.8841"/>
+  <object id="22" name="Apple" type="Fruit" x="336.455" y="63.2272" width="31.4685" height="32.4399"/>
+  <object id="23" name="Orange" type="Fruit" x="383.943" y="79.7971" width="32.0243" height="31.8841"/>
+  <object id="24" name="Melon" type="Fruit" x="431.987" y="95.8123" width="31.7464" height="32.023"/>
+  <object id="25" name="Strawberry" type="Fruit" x="480.171" y="79.802" width="31.6074" height="32.162"/>
+  <object id="28" name="Rino" type="Rino" x="384.048" y="272.007" width="31.66" height="31.9888">
+   <properties>
+    <property name="offNeg" type="float" value="0"/>
+    <property name="offPos" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="29" name="Saw" type="Saw" x="79.9555" y="239.866" width="32.157" height="31.9166">
+   <properties>
+    <property name="isVertical" type="bool" value="true"/>
+    <property name="offNeg" type="float" value="4"/>
+    <property name="offPos" type="float" value="2"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

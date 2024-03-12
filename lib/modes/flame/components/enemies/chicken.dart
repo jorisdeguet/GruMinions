@@ -8,33 +8,41 @@ import 'package:gru_minions/modes/flame/game.dart';
 import '../player.dart';
 
 enum ChickenState { idle, run, hit }
-class Chicken extends SpriteAnimationGroupComponent with HasGameRef<MainGame>, CollisionCallbacks{
+
+class Chicken extends SpriteAnimationGroupComponent
+    with HasGameRef<MainGame>, CollisionCallbacks {
+
   Chicken({this.offNeg = 0, this.offPos = 0, super.position, super.size});
+
+  //Final variables
   final double offNeg;
   final double offPos;
+  final _textureSize = Vector2(32, 34);
+  final Vector2 _velocity = Vector2.zero();
 
   //Animations
   late final SpriteAnimation _idleAnimation;
   late final SpriteAnimation _runAnimation;
   late final SpriteAnimation _hitAnimation;
 
-  //Player
-  late Player player;
-
   //Constants
   static const stepTime = 0.05;
   static const tileSize = 16;
-  static const moveSpeed = 80;
-  static const _bounceHeight = 260.0;
+  static const moveSpeed = 60;
+  static const bounceHeight = 260.0;
 
-  //Other variables
-  double rangeNeg = 0;
-  double rangePos = 0;
-  double moveDirection = 1;
-  double targetDirection = -1;
-  Vector2 velocity = Vector2.zero();
-  bool gotHit = false;
+  //Late variables
+  late Player player;
+  late double _rangeNeg;
+  late double _rangePos;
+  late double _playerOffset;
+  late double _chickenOffset;
 
+  //Defined variables
+  //Default : 1 if enemy is facing right and -1 for if enemy is facing left
+  double _facingDirection = -1;
+  double _targetDirection = 0;
+  bool _gotHit = false;
 
   @override
   FutureOr<void> onLoad() {
@@ -50,7 +58,7 @@ class Chicken extends SpriteAnimationGroupComponent with HasGameRef<MainGame>, C
 
   @override
   void update(double dt) {
-    if(!gotHit) {
+    if (!_gotHit) {
       _movement(dt);
       updateState();
     }
@@ -79,58 +87,67 @@ class Chicken extends SpriteAnimationGroupComponent with HasGameRef<MainGame>, C
       SpriteAnimationData.sequenced(
         amount: amount,
         stepTime: stepTime,
-        textureSize: Vector2(32, 34),
+        textureSize: _textureSize,
       ),
     );
   }
 
   void _calculateRange() {
-    rangeNeg = position.x - offNeg * tileSize;
-    rangePos = position.x + offPos * tileSize;
+    //Calculate the range vision of the enemy
+    _rangeNeg = position.x - offNeg * tileSize; //left range
+    _rangePos = position.x + offPos * tileSize; //right range
   }
 
   void _movement(double dt) {
-    velocity.x = 0;
+    _velocity.x = 0;
 
-    double playerOffset = (player.scale.x > 0) ? 0 : -player.width;
-    double chickenOffset = (scale.x > 0) ? 0 : -width;
-
-    if(playerInRange()){
-      targetDirection = (player.x + playerOffset < position.x + chickenOffset) ? -1 : 1;
-      velocity.x = targetDirection * moveSpeed;
+    //Depending on the direction the player or the chicken is facing the value
+    //of the scaleX is gonna be different, to prevent that we do this :
+    _playerOffset = (player.scale.x > 0) ? 0 : -player.width;
+    _chickenOffset = (scale.x > 0) ? 0 : -width;
+    //
+    if (playerInRange()) {
+      _targetDirection =
+          (player.x + _playerOffset < position.x + _chickenOffset) ? -1 : 1;
+      _velocity.x = _targetDirection * moveSpeed;
     }
-    moveDirection = lerpDouble(moveDirection, targetDirection, 0.1) ?? 1;
-    position.x += velocity.x * dt;
-
+    _facingDirection = lerpDouble(_facingDirection, _targetDirection, 0.1) ?? 1;
+    position.x += _velocity.x * dt;
   }
 
   bool playerInRange() {
-    double playerOffset = (player.scale.x > 0) ? 0 : -player.width;
-    return player.x + playerOffset <= rangePos &&
-        player.x + playerOffset <= rangePos &&
-        player.y + player.height > position.y &&
-        player.y < position.y + height;
+    _playerOffset = (player.scale.x > 0) ? 0 : -player.width;
+
+    return
+      //true if player is in the left range
+      player.x + _playerOffset >= _rangeNeg &&
+          //true if player is in the right range
+          player.x + _playerOffset <= _rangePos &&
+          //true if the top of player is above the chicken's bottom
+          player.y + player.height > position.y &&
+          //true if the bottom of player is below the chicken's top
+          player.y < position.y + height;
   }
 
   void updateState() {
-    current = (velocity.x != 0) ? ChickenState.run : ChickenState.idle;
+    current = (_velocity.x != 0) ? ChickenState.run : ChickenState.idle;
 
-    if((moveDirection > 0 && scale.x > 0) || (moveDirection < 0 && scale.x < 0)) {
+    if ((_facingDirection > 0 && scale.x > 0) ||
+        (_facingDirection < 0 && scale.x < 0)) {
       flipHorizontallyAroundCenter();
     }
   }
 
-  void collidedWithPlayer() async {
-    if(player.velocity.y > 0 && player.y + player.height > position.y){
-      //if(game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
-      gotHit = true;
+  void collideWithPlayer() async {
+    if (player.velocity.y > 0 && player.y + player.height > position.y) {
+      //if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
+      _gotHit = true;
       current = ChickenState.hit;
-      player.velocity.y = -_bounceHeight;
+      player.velocity.y = -bounceHeight;
       await animationTicker?.completed;
       removeFromParent();
-    }
-    else{
-      player.collidedWithEnemy();
+    } else {
+      player.collideWithEnemy();
     }
   }
 }

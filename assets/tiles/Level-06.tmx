@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="55">
+ <tileset firstgid="1" source="GameWithY.tsx"/>
+ <layer id="1" name="Background" width="40" height="23">
+  <properties>
+   <property name="BackgroundColor" value="Purple"/>
+  </properties>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,4,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,222,181,
+0,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+0,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+0,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+4,47,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,183,184,184,184,184,184,184,184,184,184,184,184,184,184,184,185,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,205,206,206,206,206,206,206,206,206,206,206,206,206,206,206,207,0,0,13,14,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,
+25,227,228,228,228,228,228,228,228,228,228,228,228,228,228,228,229,0,0,0,0,0,0,0,13,14,15,0,0,0,0,0,0,0,0,0,0,0,0,23,
+26,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,14,15,0,0,0,0,0,0,0,23,
+0,0,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,183,184,184,184,185,23,
+0,0,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,205,206,206,206,207,23,
+0,0,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,205,206,206,206,207,23,
+0,0,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,183,184,184,185,206,206,207,23,
+0,0,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,205,206,206,206,206,206,207,23,
+0,0,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,205,206,206,206,206,206,207,23,
+0,0,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,183,184,184,184,184,184,184,185,206,207,23,
+4,46,47,0,0,0,0,0,0,0,0,0,0,0,0,0,0,62,64,0,0,62,64,0,0,62,64,0,0,205,206,206,206,206,206,206,206,206,207,23,
+25,183,184,184,184,184,184,184,184,184,184,184,184,184,185,0,0,0,0,0,0,0,0,0,0,0,0,0,0,205,206,206,206,206,206,206,206,206,207,23,
+25,205,206,206,206,206,206,206,206,206,206,206,206,206,207,0,0,0,0,0,0,0,0,0,0,0,0,0,0,205,206,206,206,206,206,206,206,206,207,23,
+25,227,228,228,228,228,228,228,228,228,228,228,228,228,229,0,0,0,0,0,0,0,0,0,0,0,0,0,0,227,228,228,228,228,228,228,228,228,229,23,
+26,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,203,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="3" name="Collisions">
+  <object id="1" x="16.0052" y="15.8464" width="624.025" height="16.2292"/>
+  <object id="2" x="16.0375" y="32.4004" width="15.9105" height="63.6264"/>
+  <object id="3" x="0.324876" y="80.1947" width="15.4831" height="79.7284"/>
+  <object id="4" x="16.1148" y="143.932" width="14.0627" height="16.089"/>
+  <object id="5" x="31.9116" y="144.163" width="16.8548" height="143.478"/>
+  <object id="6" x="0.0247095" y="271.968" width="31.715" height="15.5271"/>
+  <object id="7" x="-0.0236415" y="287.887" width="15.9182" height="63.9682"/>
+  <object id="8" x="16.1642" y="336.225" width="623.955" height="15.6235"/>
+  <object id="9" x="16.1148" y="287.863" width="223.819" height="47.9275"/>
+  <object id="10" name="Platform" type="Platform" x="511.928" y="207.883" width="63.8405" height="47.9147"/>
+  <object id="11" name="Platform" type="Platform" x="543.876" y="159.961" width="80.1251" height="47.946"/>
+  <object id="13" x="624.174" y="32.2969" width="15.832" height="303.487"/>
+  <object id="14" x="464.022" y="143.886" width="47.9597" height="16.1706"/>
+  <object id="15" x="383.95" y="128.191" width="47.9479" height="16.0825"/>
+  <object id="16" x="303.865" y="112.185" width="47.949" height="15.6639"/>
+  <object id="17" name="Platform" type="Platform" x="336.261" y="271.991" width="31.7397" height="15.7946"/>
+  <object id="18" name="Platform" type="Platform" x="272.039" y="272.018" width="31.9352" height="15.5991"/>
+  <object id="19" name="Platform" type="Platform" x="399.869" y="271.768" width="32.2285" height="16.0879"/>
+  <object id="20" x="16.196" y="96.4045" width="256.047" height="47.4626"/>
+  <object id="21" x="464.453" y="256.221" width="127.265" height="79.2762"/>
+ </objectgroup>
+ <objectgroup id="4" name="Startpoints">
+  <object id="22" name="Player" type="Player" x="64.0395" y="255.587" width="32.0198" height="31.2634"/>
+  <object id="23" name="Spikes" type="Spikes" x="240.526" y="320.198" width="31.2634" height="15.1274"/>
+  <object id="24" name="Spikes" type="Spikes" x="272.042" y="320.45" width="31.2634" height="15.1274"/>
+  <object id="25" name="Spikes" type="Spikes" x="304.062" y="320.45" width="31.2634" height="15.1274"/>
+  <object id="26" name="Spikes" type="Spikes" x="336.081" y="320.702" width="31.2634" height="15.1274"/>
+  <object id="27" name="Spikes" type="Spikes" x="367.849" y="320.702" width="31.2634" height="15.1274"/>
+  <object id="28" name="Spikes" type="Spikes" x="400.121" y="320.702" width="31.2634" height="15.1274"/>
+  <object id="29" name="Spikes" type="Spikes" x="432.141" y="320.702" width="31.2634" height="15.1274"/>
+  <object id="30" name="Saw" type="Saw" x="272.037" y="159.42" width="31.0043" height="32.4044">
+   <properties>
+    <property name="isVertical" type="bool" value="true"/>
+    <property name="offNeg" type="float" value="2"/>
+    <property name="offPos" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="32" name="Saw" type="Saw" x="336.065" y="159.062" width="31.0043" height="32.4044">
+   <properties>
+    <property name="isVertical" type="bool" value="true"/>
+    <property name="offNeg" type="float" value="2"/>
+    <property name="offPos" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="33" name="Saw" type="Saw" x="399.767" y="160.299" width="32.4371" height="31.688">
+   <properties>
+    <property name="isVertical" type="bool" value="true"/>
+    <property name="offNeg" type="float" value="2"/>
+    <property name="offPos" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="34" name="Checkpoint" type="Checkpoint" x="48.7211" y="33.7726" width="62.5623" height="61.455"/>
+  <object id="35" name="Kiwi" type="Fruit" x="560.846" y="129" width="29.3434" height="29.897"/>
+  <object id="36" name="Kiwi" type="Fruit" x="577.455" y="97.4421" width="29.3434" height="29.897"/>
+  <object id="38" name="Kiwi" type="Fruit" x="465.618" y="111.283" width="29.3434" height="29.897"/>
+  <object id="39" name="Kiwi" type="Fruit" x="384.786" y="96.3348" width="29.3434" height="29.897"/>
+  <object id="40" name="Kiwi" type="Fruit" x="303.399" y="80.8327" width="29.3434" height="29.897"/>
+  <object id="41" name="Kiwi" type="Fruit" x="273.502" y="240.837" width="29.3434" height="29.897"/>
+  <object id="42" name="Kiwi" type="Fruit" x="337.172" y="240.283" width="29.3434" height="29.897"/>
+  <object id="43" name="Kiwi" type="Fruit" x="400.288" y="240.283" width="29.3434" height="29.897"/>
+  <object id="44" name="Kiwi" type="Fruit" x="481.121" y="224.781" width="29.3434" height="29.897"/>
+  <object id="46" name="Kiwi" type="Fruit" x="112.065" y="256.339" width="30.7762" height="30.9716"/>
+  <object id="47" name="Kiwi" type="Fruit" x="143.981" y="255.818" width="31.4926" height="31.3298"/>
+  <object id="48" name="Kiwi" type="Fruit" x="176.614" y="255.46" width="31.4926" height="32.4044"/>
+  <object id="49" name="Kiwi" type="Fruit" x="208.726" y="255.46" width="31.1344" height="32.4044"/>
+  <object id="50" name="Kiwi" type="Fruit" x="224.781" y="65.3305" width="29.3434" height="29.897"/>
+  <object id="51" name="Kiwi" type="Fruit" x="192.116" y="64.7769" width="29.3434" height="29.897"/>
+  <object id="52" name="Kiwi" type="Fruit" x="161.112" y="64.2232" width="29.3434" height="29.897"/>
+  <object id="53" name="Kiwi" type="Fruit" x="176.614" y="33.7726" width="29.3434" height="29.897"/>
+  <object id="54" name="Kiwi" type="Fruit" x="208.172" y="33.7726" width="29.3434" height="29.897"/>
+  <object id="45" name="Kiwi" type="Fruit" x="512.679" y="176.06" width="29.3434" height="29.897"/>
+  <object id="37" name="Kiwi" type="Fruit" x="591.85" y="129" width="29.3434" height="29.897"/>
+ </objectgroup>
+</map>

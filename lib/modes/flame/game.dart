@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,19 +21,36 @@ class MainGame extends FlameGame
         TapCallbacks {
   @override
   Color backgroundColor() => const Color(0xFF211F30);
-  Player player = Player(character: 'Ninja Frog');
-  late JoystickComponent joystick;
-  bool showControls = false;
 
-  //bool playSounds = false;
-  double soundVolume = 1.0;
+  //Final variables
+  final ValueNotifier<int> score = ValueNotifier(0);
+
+  //Late variables
+  late JoystickComponent joystick;
   late CameraComponent cam;
-  List<String> levelNames = ['Level-01.tmx', "Level-01.tmx", "Level-01.tmx"];
+  late Shape bounds;
+
+  //Defined variables
+  bool showControls = false;
+  bool playSounds = false;
+  double soundVolume = 1.0;
   int currentLevel = 0;
+
+  //Other variables
+  Player player = Player(character: 'Mask Dude');
+  List<String> levelNames = [
+    'WorldMap.tmx',
+    'WorldMap.tmx',
+    'Level-03.tmx',
+    'Level-04.tmx',
+    'Level-05.tmx',
+    "Level-06.tmx",
+    "Level-07.tmx"
+  ];
 
   @override
   FutureOr<void> onLoad() async {
-    //Load all images into cache *can create some issues*
+    //Load all images into cache
     await images.loadAllImages();
 
     _loadLevel();
@@ -41,6 +59,8 @@ class MainGame extends FlameGame
       addJoyStick();
       add(JumpButton());
     }
+    //if (playSounds) FlameAudio.play('background.wav', volume: soundVolume);
+
     return super.onLoad();
   }
 
@@ -49,7 +69,48 @@ class MainGame extends FlameGame
     if (showControls) {
       updateJoystick();
     }
+
+    // if(player.life.value <= 0){
+    //   overlays.add('GameOver');
+    // }
     super.update(dt);
+  }
+
+  void reset() {
+    score.value = 0;
+    player.life.value = 100;
+    overlays.remove('GameOver');
+    print('close');
+  }
+
+  // @override
+  // void onTapDown(TapDownEvent event) {
+  //   player.isHasJumped = true;
+  //   super.onTapDown(event);
+  // }
+
+  // @override
+  // void onTapUp(TapUpEvent event) {
+  //   player.isHasJumped = false;
+  //   super.onTapUp(event);
+  // }
+
+  void addJoyStick() {
+    joystick = JoystickComponent(
+      priority: 10,
+      knob: SpriteComponent(
+        sprite: Sprite(
+          images.fromCache('HUD/Knob.png'),
+        ),
+      ),
+      background: SpriteComponent(
+        sprite: Sprite(
+          images.fromCache('HUD/JoyStick.png'),
+        ),
+      ),
+      margin: const EdgeInsets.only(left: 32, bottom: 32),
+    );
+    add(joystick);
   }
 
   void updateJoystick() {
@@ -70,17 +131,6 @@ class MainGame extends FlameGame
     }
   }
 
-  void addJoyStick() {
-    joystick = JoystickComponent(
-      priority: 10,
-      knob: SpriteComponent.fromImage(images.fromCache('HUD/Knob.png')),
-      background:
-          SpriteComponent.fromImage(images.fromCache('HUD/JoyStick.png')),
-      margin: const EdgeInsets.only(bottom: 32, left: 32),
-    );
-    add(joystick);
-  }
-
   void loadNextLevel() {
     removeWhere((component) => component is Level);
 
@@ -95,15 +145,20 @@ class MainGame extends FlameGame
   }
 
   void _loadLevel() {
+    score.value = 0;
     Future.delayed(const Duration(seconds: 1), () {
-      Level worldLevel =
-          Level(levelName: levelNames[currentLevel], player: player);
+      Level world = Level(levelName: levelNames[currentLevel], player: player);
 
       cam = CameraComponent.withFixedResolution(
-          world: worldLevel, width: 640, height: 360);
-      cam.viewfinder.anchor = Anchor.topLeft;
+        world: world,
+        width: 640,
+        height: 360,
+      );
 
-      addAll([cam, worldLevel]);
+      cam.viewfinder.anchor = Anchor.topCenter;
+      cam.priority = 1;
+      addAll([cam, world]);
+      cam.follow(player, horizontalOnly: true);
     });
   }
 

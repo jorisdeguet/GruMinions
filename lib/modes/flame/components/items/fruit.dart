@@ -6,22 +6,20 @@ import 'package:gru_minions/modes/flame/game.dart';
 
 import '../custom_hitbox.dart';
 
-
 class Fruit extends SpriteAnimationComponent with HasGameRef<MainGame>, CollisionCallbacks{
-  Fruit({this.fruitType = 'Apple', position, size})
-      : super(position: position, size: size);
+  Fruit({this.fruitType = 'Apple', super.position, super.size});
   final String fruitType;
   bool collected = false;
   final double stepTime = 0.05;
-  final hitbox = CustomHitbox(offsetX: 10, offsetY: 10, width: 12, height: 12);
+  final hitBox = CustomHitBox(offsetX: 10, offsetY: 10, width: 12, height: 12);
 
   @override
   FutureOr<void> onLoad() {
     //debugMode = true;
     priority = -1;
     add(RectangleHitbox(
-      position: Vector2(hitbox.offsetX, hitbox.offsetY),
-      size: Vector2(hitbox.width, hitbox.height),
+      position: Vector2(hitBox.offsetX, hitBox.offsetY),
+      size: Vector2(hitBox.width, hitBox.height),
     ));
     animation = SpriteAnimation.fromFrameData(
         game.images.fromCache('Items/Fruits/$fruitType.png'),
@@ -37,6 +35,7 @@ class Fruit extends SpriteAnimationComponent with HasGameRef<MainGame>, Collisio
   Future<void> collidedWithPlayer() async {
     if(!collected){
       collected = true;
+      game.score.value++;
       //if(game.playSounds) FlameAudio.play('collect_fruit.wav', volume: game.soundVolume);
 
       animation = SpriteAnimation.fromFrameData(

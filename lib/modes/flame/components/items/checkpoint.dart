@@ -7,7 +7,7 @@ import 'package:gru_minions/modes/flame/game.dart';
 import '../player.dart';
 
 class Checkpoint extends SpriteAnimationComponent with HasGameRef<MainGame>, CollisionCallbacks {
-  Checkpoint({position, size}) : super(position: position, size: size);
+  Checkpoint({super.position, super.size});
   static const double stepTime = 0.05;
   bool reachedCheckpoint = false;
 
@@ -52,7 +52,6 @@ class Checkpoint extends SpriteAnimationComponent with HasGameRef<MainGame>, Col
     await animationTicker?.completed;
     animationTicker?.reset();
 
-    const flagDuration = Duration(milliseconds: (1300));
     animation = SpriteAnimation.fromFrameData(
       game.images.fromCache('Items/Checkpoints/Checkpoint/Checkpoint (Flag Idle) (64x64).png'),
       SpriteAnimationData.sequenced(

@@ -4,24 +4,31 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:gru_minions/modes/flame/game.dart';
 
+
 class Saw extends SpriteAnimationComponent with HasGameRef<MainGame> {
-  Saw({this.isVertical = false, this.offNeg = 0, this.offPos = 0, position, size}) : super(position: position, size: size);
+  Saw({this.isVertical = false, this.offNeg = 0, this.offPos = 0, super.position, super.size});
+
+  //Final variables
   final bool isVertical;
   final double offNeg;
   final double offPos;
+
+  //Constants
   static const double sawSpeed = 0.03;
   static const moveSpeed = 50;
   static const tileSize = 16;
+
+  //Late variables
+  late double rangeNeg;
+  late double rangePos;
+
+  //Defined variables
   double moveDirection = 1;
-  double rangeNeg = 0;
-  double rangePos = 0;
 
   @override
   FutureOr<void> onLoad() {
     priority = -1;
-    add(CircleHitbox(
-
-    ));
+    add(CircleHitbox());
 
     if(isVertical) {
       rangeNeg = position.y - offNeg * tileSize;

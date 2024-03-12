@@ -2,22 +2,34 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:gru_minions/modes/flame/components/traps/saw.dart';
+import 'package:gru_minions/modes/flame/components/traps/spike_head.dart';
+import 'package:gru_minions/modes/flame/components/traps/spikes.dart';
+import 'package:gru_minions/modes/flame/components/traps/trampoline.dart';
 import 'package:gru_minions/modes/flame/components/utils.dart';
-import 'package:gru_minions/modes/flame/game.dart';
 
+import '../game.dart';
 import 'custom_hitbox.dart';
+import 'enemies/angry_pig.dart';
+import 'enemies/bat.dart';
+import 'enemies/mushroom.dart';
+import 'enemies/rino.dart';
+import 'enemies/slime.dart';
+import 'enemies/turtle.dart';
+import 'items/box.dart';
 import 'items/checkpoint.dart';
 import 'collisions_block.dart';
 import 'enemies/chicken.dart';
+import 'items/end.dart';
 import 'items/fruit.dart';
 
 enum PlayerState { idle, running, jumping, falling, hit, appearing, disappearing }
 
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<MainGame>, KeyboardHandler, CollisionCallbacks {
-  Player({position ,this.character = 'Ninja Frog'}) : super(position: position);
+  Player({super.position ,this.character = 'Ninja Frog'});
   String character;
 
   //Animations
@@ -34,6 +46,7 @@ class Player extends SpriteAnimationGroupComponent
   final double _jumpForce = 300;
   final double _terminalVelocity = 300;
   final double stepTime = 0.05;
+  final ValueNotifier<double> life = ValueNotifier(100.0);
 
   double fixedDeltaTime = 1 / 60;
   double accumulatedTime = 100;
@@ -44,21 +57,20 @@ class Player extends SpriteAnimationGroupComponent
   bool isOnGround = false;
   bool isHasJumped = false;
   bool gotHit = false;
-  bool reachedCheckpoint = false;
+  bool reachedEnd = false;
 
   Vector2 velocity = Vector2.zero();
   Vector2 revivePosition = Vector2.zero();
   List<CollisionBlock> collisions = [];
-  CustomHitbox hitbox = CustomHitbox(offsetX: 10, offsetY: 4, width: 14, height: 28);
+  CustomHitBox hitBox = CustomHitBox(offsetX: 10, offsetY: 4, width: 14, height: 28);
 
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
-    //debugMode = true;
-    revivePosition = Vector2(position.x, position.y);
+    //revivePosition = Vector2(position.x, position.y);
     add(RectangleHitbox(
-      position: Vector2(hitbox.offsetX, hitbox.offsetY),
-      size: Vector2(hitbox.width, hitbox.height),
+      position: Vector2(hitBox.offsetX, hitBox.offsetY),
+      size: Vector2(hitBox.width, hitBox.height),
     ));
     return super.onLoad();
   }
@@ -67,7 +79,7 @@ class Player extends SpriteAnimationGroupComponent
   void update(double dt) {
     accumulatedTime += dt;
     while (accumulatedTime >= fixedDeltaTime) {
-      if(!gotHit && !reachedCheckpoint){
+      if(!gotHit && !reachedEnd){
         _updatePlayerState();
         _updatePlayerMovement(fixedDeltaTime);
         _checkHorizontalCollisions();
@@ -95,11 +107,22 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if(!reachedCheckpoint){
+    if(!reachedEnd){
       if(other is Fruit) other.collidedWithPlayer();
-      if(other is Saw) _revive();
+      if(other is Box) other.collidedWithPlayer();
       if(other is Checkpoint) _reachedCheckpoint();
-      if(other is Chicken) other.collidedWithPlayer();
+      if(other is End) _reachedEnd();
+      if(other is Saw) _revive();
+      if(other is Spikes) _revive();
+      if(other is SpikeHead) _revive();
+      if(other is Trampoline) other.collideWithPlayer();
+      if(other is Chicken) other.collideWithPlayer();
+      if(other is Mushroom) other.collideWithPlayer();
+      if(other is Rino) other.collideWithPlayer();
+      if(other is Slime) other.collideWithPlayer();
+      if(other is AngryPig) other.collideWithPlayer();
+      if(other is Bat) other.collideWithPlayer();
+      if(other is Turtle) other.collideWithPlayer();
     }
     super.onCollisionStart(intersectionPoints, other);
   }
@@ -195,12 +218,12 @@ class Player extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.x > 0) {
             velocity.x = 0;
-            position.x = block.x - hitbox.offsetX - hitbox.width;
+            position.x = block.x - hitBox.offsetX - hitBox.width;
             break;
           }
           if (velocity.x < 0) {
             velocity.x = 0;
-            position.x = block.x + block.width + hitbox.offsetX + hitbox.width;
+            position.x = block.x + block.width + hitBox.offsetX + hitBox.width;
             break;
           }
         }
@@ -214,7 +237,7 @@ class Player extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;
-            position.y = block.y - hitbox.offsetY - hitbox.height;
+            position.y = block.y - hitBox.offsetY - hitBox.height;
             isOnGround = true;
             break;
           }
@@ -224,13 +247,13 @@ class Player extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;
-            position.y = block.y - hitbox.offsetY - hitbox.height;
+            position.y = block.y - hitBox.offsetY - hitBox.height;
             isOnGround = true;
             break;
           }
           if (velocity.y < 0) {
             velocity.y = 0;
-            position.y = block.y + block.height - hitbox.offsetY;
+            position.y = block.y + block.height - hitBox.offsetY;
             break;
           }
         }
@@ -248,6 +271,13 @@ class Player extends SpriteAnimationGroupComponent
     //if(game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
     gotHit = true;
     current = PlayerState.hit;
+    life.value -= 10;
+
+    if(life.value <= 0){
+      current = PlayerState.disappearing;
+      await animationTicker?.completed;
+      removeFromParent();
+    }
 
     await animationTicker?.completed;
     animationTicker?.reset();
@@ -266,7 +296,12 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _reachedCheckpoint() {
-    reachedCheckpoint = true;
+    //if(game.playSounds) FlameAudio.play('disappear.wav', volume: game.soundVolume);
+    revivePosition = Vector2(position.x, position.y);
+  }
+
+  void _reachedEnd() {
+    reachedEnd = true;
     //if(game.playSounds) FlameAudio.play('disappear.wav', volume: game.soundVolume);
     if(scale.x > 0) {
       position = position - Vector2.all(32);
@@ -281,7 +316,7 @@ class Player extends SpriteAnimationGroupComponent
 
     const reachedCheckpointDuration = Duration(milliseconds: 350);
     Future.delayed(reachedCheckpointDuration, () {
-      reachedCheckpoint = false;
+      reachedEnd = false;
       position = Vector2.all(-640);
 
       const waitToChangeDuration = Duration(seconds: 3);
@@ -289,7 +324,7 @@ class Player extends SpriteAnimationGroupComponent
     });
   }
 
-  void collidedWithEnemy() {
+  void collideWithEnemy() {
     _revive();
   }
 }

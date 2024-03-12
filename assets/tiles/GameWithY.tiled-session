@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "WorldMap.tmx",
     "expandedProjectPaths": [
         ".",
         "/Users/yadianbetancourt/Downloads/GruMinions/assets/tiles"
@@ -35,11 +35,83 @@
             "scaleInEditor": 1
         },
         "Level-01.tmx": {
-            "scale": 1.5588,
-            "selectedLayer": 1,
+            "expandedObjectLayers": [
+                2,
+                3
+            ],
+            "scale": 1.1404,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 49.07621247113164,
-                "y": 182.83294842186302
+                "x": 315.6787092248334,
+                "y": 218.34444054717648
+            }
+        },
+        "Level-02.tmx": {
+            "expandedObjectLayers": [
+                4,
+                3
+            ],
+            "scale": 2.1594,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 217.1899601741224,
+                "y": 224.1363341668982
+            }
+        },
+        "Level-03.tmx": {
+            "scale": 1.693671875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.01476082845153,
+                "y": 184.80557221274046
+            }
+        },
+        "Level-04.tmx": {
+            "scale": 1.63578125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 278.15455153309773,
+                "y": 185.23259146050245
+            }
+        },
+        "Level-05.tmx": {
+            "expandedObjectLayers": [
+                2,
+                3
+            ],
+            "scale": 1.5443,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 215.63167778281422,
+                "y": 144.40199443113383
+            }
+        },
+        "Level-06.tmx": {
+            "expandedObjectLayers": [
+                4,
+                3
+            ],
+            "scale": 2.7917,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 158.3264677436687,
+                "y": 164.41594727227135
+            }
+        },
+        "Level-07.tmx": {
+            "scale": 1.693671875,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 210.78463028737488,
+                "y": 164.14041238064488
+            }
+        },
+        "WorldMap.tmx": {
+            "scale": 1.5657,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1419.8122245640927,
+                "y": 159.0342977581912
             }
         }
     },
@@ -48,13 +120,22 @@
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 40,
+    "map.width": 120,
     "openFiles": [
+        "Level-01.tmx",
+        "WorldMap.tmx"
     ],
     "project": "GameWithY.tiled-project",
     "property.type": "float",
     "recentFiles": [
         "Level-01.tmx",
+        "WorldMap.tmx",
+        "Level-02.tmx",
+        "Level-03.tmx",
+        "Level-04.tmx",
+        "Level-05.tmx",
+        "Level-06.tmx",
+        "Level-07.tmx",
         "GameWithY.tsx",
         "/Users/yadianbetancourt/Downloads/GruMinions/assets/tiles/Level-01.tmx",
         "GameWithY.tmx"
