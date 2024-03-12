@@ -101,11 +101,6 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
                         ),
                       ),
                     ),
-                    const Image(
-                        width: 32,
-                        height: 32,
-                        image: AssetImage('assets/images/Main Characters/Mask Dude/Jump (32x32).png')
-                    ),
                     const SizedBox(height: 20),
                     MaterialButton(
                       color: Colors.white,

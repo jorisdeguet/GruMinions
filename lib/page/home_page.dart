@@ -18,7 +18,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   void initState() {
     _resetServices();
@@ -80,19 +79,26 @@ class _HomePageState extends State<HomePage> {
   Widget _controllerButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ControlPage()),
-          ).then((value) => _resetServices());
-        },
-        child: const SizedBox(
-          width: 100,
-          height: 100,
-          child: Image(
-            image: AssetImage('assets/images/Menu/Buttons/Levels.png'),
-            fit: BoxFit.fill,
+      child: SizedBox(
+        width: 200,
+        height: 60,
+        child: ElevatedButton.icon(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ControlPage()),
+            ).then((value) => _resetServices());
+          },
+          icon: const Icon(Icons.gamepad, color: Colors.black),
+          label: Text(
+            'Controller',
+            style: GoogleFonts.pixelifySans(
+              textStyle: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
           ),
         ),
       ),
@@ -102,19 +108,26 @@ class _HomePageState extends State<HomePage> {
   Widget _screenButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ViewPage()),
-          ).then((value) => _resetServices());
-        },
-        child: const SizedBox(
-          width: 100,
-          height: 100,
-          child: Image(
-            image: AssetImage('assets/images/Menu/Buttons/Play.png'),
-            fit: BoxFit.fill,
+      child: SizedBox(
+        width: 200,
+        height: 60,
+        child: ElevatedButton.icon(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ViewPage()),
+            ).then((value) => _resetServices());
+          },
+          icon: const Icon(Icons.tv, color: Colors.black),
+          label: Text(
+            'Screen',
+            style: GoogleFonts.pixelifySans(
+              textStyle: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
           ),
         ),
       ),
@@ -126,12 +139,10 @@ class _HomePageState extends State<HomePage> {
       onPressed: () {
         askPermissions();
       },
-      backgroundColor: Colors.transparent,
-      child: Image(
-        image: const AssetImage('assets/images/Menu/Buttons/Settings.png'),
-        fit: BoxFit.fill,
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+      backgroundColor: Colors.white,
+      child: const Icon(
+        Icons.settings,
+        color: Colors.black,
       ),
     );
   }
