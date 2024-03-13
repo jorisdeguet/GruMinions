@@ -9,7 +9,7 @@ class BoxSmasherBackground extends SpriteComponent with HasGameRef<BoxSmasherGam
     final backgroundSprite = await gameRef.images.load('BoxSmasherBackground.png');
     sprite = Sprite(backgroundSprite);
     anchor = Anchor.topLeft;
-    center = gameRef.size / 2;
+    center = gameRef.size / 3;
     size = gameRef.size;
     height = gameRef.size.y;
   }
