@@ -11,7 +11,7 @@ import 'components/world/boxsmasher_box.dart';
 class BoxSmasherGame extends FlameGame with HasCollisionDetection {
   @override
   final images = Images(prefix: 'assets/boxsmasher/flame/');
-  final BoxSmasherPlayer _player = BoxSmasherPlayer(Vector2(105, 785));
+  final BoxSmasherPlayer _player = BoxSmasherPlayer(Vector2(85, 768));
 
   BoxSmasherGame();
 
@@ -20,8 +20,10 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
     super.onLoad();
 
     //#region PlayerSetup
+    //Replace player to be on top of the ground
+    _player.y -= _player.height;
     //Set priority to 4 to be on top of the map
-    _player.priority = 4;
+    _player.priority = 5;
     //Add the player to the game
     add(_player);
     //#endregion
@@ -43,7 +45,7 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
 
     //#region CameraSetup
     //Make the camera with a fixed resolution
-    final camera = CameraComponent.withFixedResolution(world: world, width: 156, height: 250);
+    final camera = CameraComponent.withFixedResolution(world: world, width: 180, height: 290);
 
     //Get the map width and height
     double mapWidth = map.tileMap.map.width * 16.0;
@@ -53,19 +55,21 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
     final halfViewportSize = camera.viewport.size / 2;
     camera.setBounds(
       Rectangle.fromCenter(
-        center: Vector2(mapWidth, mapHeight) / 1.5,
-        size: Vector2(250, 566) - halfViewportSize,
+        center: Vector2(mapWidth, mapHeight) / 2,
+        size: Vector2(260, 510) - halfViewportSize,
       ),
     );
 
     //Follow the player
-    camera.follow(_player);
+    camera.moveTo(_player.position + Vector2(64, 0));
     //Add the camera to the game
     await add(camera);
     //#endregion
 
     //#region GroundSetup
+    //Get the ground object from the map
     var ground = map.tileMap.getLayer<ObjectGroup>('ground')?.objects.first;
+    //Create the ground object
       final groundObject = Ground(
           size: Vector2(ground!.width, ground.height),
           position: Vector2(ground.x, ground.y) - halfViewportSize);
@@ -74,31 +78,47 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
       world.add(groundObject);
     //#endregion
 
+    //#region BoxSetup
+    //Get the boxes object from the map
     var boxesGroup = map.tileMap.getLayer<ObjectGroup>('Boxes');
 
+    //Create the boxes objects
     for (final obj in boxesGroup!.objects) {
       final boxObject = Box(
           size: Vector2(obj.width, obj.height),
           position: Vector2(obj.x, obj.y - obj.height) - halfViewportSize)
         ..sprite = await loadSprite('boxsmasher_boxes.png');
       boxObject.debugMode = true;
+      //Set priority to 4 to be visible
       boxObject.priority = 4;
+      //Add the box to the game
       add(boxObject);
+      //Add the box to the world (This makes it visible in game)
       world.add(boxObject);
     }
+    //#endregion
 
+    //#region DoorSetup
+    //Get the door object from the map
     var door = map.tileMap.getLayer<ObjectGroup>('door')?.objects.first;
 
+    //Create the door object
     final doorObject = Box(
         size: Vector2(door!.width, door.height),
         position: Vector2(door.x, door.y - door.height) - halfViewportSize)
       ..sprite = await loadSprite('boxsmasher_door.png');
     doorObject.debugMode = true;
+    //Same priority as the boxes
     doorObject.priority = 4;
+    //Add the door to the game
     add(doorObject);
+    //Add the door to the world (This makes it visible in game)
     world.add(doorObject);
+    //#endregion
 
-    add(BoxSmasherBackground());
+    //Add the background to the game
+    world.add(BoxSmasherBackground());
+    //add(BoxSmasherBackground());
   }
 
   @override

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="11">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="51" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="11">
  <editorsettings>
   <export target="BoxSmasherMap..tmx" format="tmx"/>
  </editorsettings>
@@ -7,7 +7,7 @@
  <tileset firstgid="365" source="boxsmasher/BoxSmasherTileSet.tsx"/>
  <tileset firstgid="940" source="boxsmasher/door.tsx"/>
  <tileset firstgid="941" source="boxsmasher/Boxes.tsx"/>
- <layer id="1" name="Behind" width="15" height="50">
+ <layer id="1" name="Behind" width="15" height="51">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -58,10 +58,11 @@
 164,165,166,167,168,169,170,0,176,177,178,179,180,181,182,
 184,185,625,193,194,195,196,0,202,203,204,205,206,207,208,
 56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,
-56,56,56,56,56,56,56,56,56,56,56,56,56,56,56
+56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="2" name="Main" width="15" height="50">
+ <layer id="2" name="Main" width="15" height="51">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -112,6 +113,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,626,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,626,
 391,393,393,393,393,393,393,393,393,393,393,393,393,393,395,
+441,443,443,443,443,443,443,443,443,443,443,443,443,443,445,
 441,443,443,443,443,443,443,443,443,443,443,443,443,443,445
 </data>
  </layer>
