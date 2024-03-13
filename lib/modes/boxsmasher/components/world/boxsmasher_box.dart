@@ -1,5 +1,8 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
+import 'package:flutter/animation.dart';
+import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_door.dart';
 
 import '../../boxsmasher_game.dart';
 import 'boxsmasher_ground.dart';
@@ -26,22 +29,8 @@ class Box extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmasher
   @override
   void onCollision(intersectionPoints, other){
     super.onCollision(intersectionPoints, other);
-    final points = intersectionPoints;
-    final otherBoxPoint = other.topLeftPosition;
-
-    if (other is Ground){
-      onGround = true;
-    }
-    if (other is Box){
-      for (var element in points) {
-        verifyCollision(element, otherBoxPoint);
-      }
-    }
-  }
-
-  void verifyCollision(Vector2 point, Vector2 otherBoxPoint){
-    if (point.y == otherBoxPoint.y){
-      onBox = true;
+    if(other is Door){
+      position = Vector2(106, 736);
     }
   }
 
@@ -49,12 +38,7 @@ class Box extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmasher
   void onCollisionEnd(other){
     super.onCollisionEnd(other);
 
-    if (other is Ground){
-      onGround = false;
-    }
-    if (other is Box){
-      onBox = false;
-    }
+    if (other is Door){}
   }
 
   @override
@@ -64,12 +48,16 @@ class Box extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmasher
   }
 
   void buttonPressed(bool pressed){
-    if(onBox == true && onGround == false && pressed){
-      return;
-    }
+    if (pressed){
+      add(
+        MoveEffect.by(Vector2(16, 0), EffectController(
+          duration: 1,
+          alternate: false,
+          infinite: false,
+          curve: Curves.ease,
 
-    if (onGround && pressed){
-      removeFromParent();
+        )),
+      );
     }
   }
 }

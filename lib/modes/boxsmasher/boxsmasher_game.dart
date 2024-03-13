@@ -13,6 +13,7 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
   @override
   final images = Images(prefix: 'assets/boxsmasher/flame/');
   final BoxSmasherPlayer _player = BoxSmasherPlayer(Vector2(85, 768));
+  late Box _boxMoving;
 
   BoxSmasherGame();
 
@@ -115,6 +116,7 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
     add(movingBoxObject);
     //Add the moving box to the world (This makes it visible in game)
     world.add(movingBoxObject);
+    _boxMoving = movingBoxObject;
     //#endregion
 
     //#region DoorSetup
@@ -147,5 +149,6 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
   void onAButtonPressed(bool pressed) {
     _player.onPressed = pressed;
     // TODO: Add box
+    _boxMoving.onPressed = pressed;
   }
 }

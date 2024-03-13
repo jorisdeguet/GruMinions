@@ -4,7 +4,7 @@ import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/widget/boss_base_widget.dart';
 
 import '../modes/base-mode.dart';
-import '../modes/list_of_modes.dart';
+import 'package:gru_minions/modes/list_of_modes.dart';
 
 class MainGruPage extends StatefulWidget {
   const MainGruPage({super.key});
