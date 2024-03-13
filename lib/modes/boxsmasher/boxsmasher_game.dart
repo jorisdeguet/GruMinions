@@ -4,6 +4,7 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_background.dart';
+import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_door.dart';
 import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_ground.dart';
 import 'components/world/boxsmasher_player.dart';
 import 'components/world/boxsmasher_box.dart';
@@ -98,12 +99,30 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
     }
     //#endregion
 
+    //#region MovingBoxSetup
+    //Get the moving box object from the map
+    var movingBox = map.tileMap.getLayer<ObjectGroup>('trueBox')?.objects.first;
+
+    //Create the moving box object
+    final movingBoxObject = Box(
+        size: Vector2(movingBox!.width, movingBox.height),
+        position: Vector2(movingBox.x, movingBox.y - movingBox.height) - halfViewportSize)
+      ..sprite = await loadSprite('boxsmasher_boxes.png');
+    movingBoxObject.debugMode = true;
+    //Priority 3 to be behind the other boxes
+    movingBoxObject.priority = 3;
+    //Add the moving box to the game
+    add(movingBoxObject);
+    //Add the moving box to the world (This makes it visible in game)
+    world.add(movingBoxObject);
+    //#endregion
+
     //#region DoorSetup
     //Get the door object from the map
     var door = map.tileMap.getLayer<ObjectGroup>('door')?.objects.first;
 
     //Create the door object
-    final doorObject = Box(
+    final doorObject = Door(
         size: Vector2(door!.width, door.height),
         position: Vector2(door.x, door.y - door.height) - halfViewportSize)
       ..sprite = await loadSprite('boxsmasher_door.png');
@@ -118,7 +137,6 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
 
     //Add the background to the game
     world.add(BoxSmasherBackground());
-    //add(BoxSmasherBackground());
   }
 
   @override
