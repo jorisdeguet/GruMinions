@@ -5,7 +5,6 @@ import 'package:flutter/animation.dart';
 import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_door.dart';
 
 import '../../boxsmasher_game.dart';
-import 'boxsmasher_ground.dart';
 
 class Box extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmasherGame>{
 
@@ -48,14 +47,16 @@ class Box extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmasher
   }
 
   void buttonPressed(bool pressed){
+    if (position.x > 768) {
+      position.x = 106;
+    }
     if (pressed){
       add(
         MoveEffect.by(Vector2(16, 0), EffectController(
-          duration: 1,
           alternate: false,
           infinite: false,
           curve: Curves.ease,
-
+          speed: 1,
         )),
       );
     }

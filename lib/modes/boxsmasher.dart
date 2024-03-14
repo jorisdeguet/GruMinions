@@ -10,7 +10,8 @@ import 'boxsmasher/screen_boxsmasher_page.dart';
 class BoxSmasherMode extends GruMinionMode {
   BoxSmasherMode({required super.sendToOthers});
 
-  final BoxSmasherGame _game = BoxSmasherGame();
+  final BoxSmasherGame _gameA = BoxSmasherGame();
+  final BoxSmasherGame _gameB = BoxSmasherGame();
 
   @override
   Widget gruWidget() {
@@ -42,9 +43,9 @@ class BoxSmasherMode extends GruMinionMode {
 
 
       if (controllerId == 'ControllerA') {
-        _game.onAButtonPressed(Pressed);
+        _gameA.onAButtonPressed(Pressed);
       } else if (controllerId == 'ControllerB') {
-        _game.onAButtonPressed(Pressed);
+        _gameB.onAButtonPressed(Pressed);
       } else {
         print("Unknown controller ID");
       }
@@ -98,7 +99,7 @@ class BoxSmasherMode extends GruMinionMode {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return ScreenBoxSmasherPage(game: _game);
+    return ScreenBoxSmasherPage(gameA: _gameA, gameB: _gameB);
   }
 
   @override

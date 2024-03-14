@@ -1,6 +1,5 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_box.dart';
 
 import '../../boxsmasher_game.dart';
 import 'boxsmasher_ground.dart';

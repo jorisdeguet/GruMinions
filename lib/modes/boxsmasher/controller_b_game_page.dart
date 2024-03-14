@@ -30,7 +30,7 @@ class ControllerBBoxSmasherState extends State<ControllerBBoxSmasherPage> {
                       padding: const EdgeInsets.all(50.0),
                       child:
                       AButton(onAButtonChanged: (isPressed) {
-                        widget.send('ControllerA,${isPressed ? true : false}');
+                        widget.send('ControllerB,${isPressed ? true : false}');
                       }),
                     ),
                   ],
