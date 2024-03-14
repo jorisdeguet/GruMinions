@@ -8,7 +8,6 @@ class Door extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmashe
 
   Door({required size, required position})
       : super(size: size, position: position) {
-    debugMode = true;
   }
 
   bool onGround = false;

@@ -10,7 +10,6 @@ class Box extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmasher
 
   Box({required size, required position})
       : super(size: size, position: position) {
-    debugMode = true;
   }
 
   bool onGround = false;
@@ -29,7 +28,7 @@ class Box extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmasher
   void onCollision(intersectionPoints, other){
     super.onCollision(intersectionPoints, other);
     if(other is Door){
-      position = Vector2(106, 736);
+      position = Vector2(106, 730);
     }
   }
 
@@ -56,7 +55,7 @@ class Box extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmasher
           alternate: false,
           infinite: false,
           curve: Curves.ease,
-          speed: 1,
+          speed: 2.5,
         )),
       );
     }

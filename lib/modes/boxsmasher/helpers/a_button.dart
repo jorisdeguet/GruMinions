@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class AButton extends StatefulWidget {
@@ -26,18 +27,16 @@ class AButtonState extends State<AButton> {
         child: GestureDetector(
           onTapDown: _onTapDown,
           onTapUp: _onTapUp,
-          onLongPressStart: _onLongPressDown,
-          onLongPressEnd: _onLongPressUp,
           child: Container(
             decoration: BoxDecoration(
               color: isPressed ? const Color(0x88ffffff) : const Color(0x44ffffff),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(50),
             ),
             child: Center(
               child: Text(
                 'A',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 32,
                   color: isPressed ? const Color(0x88ffffff) : const Color(0x44ffffff),
                 ),
               ),
@@ -60,18 +59,6 @@ class AButtonState extends State<AButton> {
       isPressed = false;
     });
     widget.onAButtonChanged?.call(false);
-  }
-
-  void _onLongPressDown(LongPressStartDetails details) {
-    setState(() {
-      isPressed = false;
-    });
-  }
-
-  void _onLongPressUp(LongPressEndDetails details) {
-    setState(() {
-      isPressed = false;
-    });
   }
 
 }

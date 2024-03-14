@@ -91,7 +91,6 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
           size: Vector2(obj.width, obj.height),
           position: Vector2(obj.x, obj.y - obj.height) - halfViewportSize)
         ..sprite = await loadSprite('boxsmasher_boxes.png');
-      boxObject.debugMode = true;
       //Set priority to 4 to be visible
       boxObject.priority = 4;
       //Add the box to the game
@@ -110,7 +109,6 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
         size: Vector2(movingBox!.width, movingBox.height),
         position: Vector2(movingBox.x, movingBox.y - movingBox.height) - halfViewportSize)
       ..sprite = await loadSprite('boxsmasher_boxes.png');
-    movingBoxObject.debugMode = true;
     //Priority 3 to be behind the other boxes
     movingBoxObject.priority = 3;
     //Add the moving box to the game
@@ -129,7 +127,6 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
         size: Vector2(door!.width, door.height),
         position: Vector2(door.x, door.y - door.height) - halfViewportSize)
       ..sprite = await loadSprite('boxsmasher_door.png');
-    doorObject.debugMode = true;
     //Same priority as the boxes
     doorObject.priority = 4;
     //Add the door to the game
