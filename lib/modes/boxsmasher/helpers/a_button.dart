@@ -26,6 +26,8 @@ class AButtonState extends State<AButton> {
         child: GestureDetector(
           onTapDown: _onTapDown,
           onTapUp: _onTapUp,
+          onLongPressStart: _onLongPressDown,
+          onLongPressEnd: _onLongPressUp,
           child: Container(
             decoration: BoxDecoration(
               color: isPressed ? const Color(0x88ffffff) : const Color(0x44ffffff),
@@ -59,4 +61,17 @@ class AButtonState extends State<AButton> {
     });
     widget.onAButtonChanged?.call(false);
   }
+
+  void _onLongPressDown(LongPressStartDetails details) {
+    setState(() {
+      isPressed = false;
+    });
+  }
+
+  void _onLongPressUp(LongPressEndDetails details) {
+    setState(() {
+      isPressed = false;
+    });
+  }
+
 }
