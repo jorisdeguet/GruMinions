@@ -6,6 +6,7 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_background.dart';
 import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_door.dart';
 import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_ground.dart';
+import 'components/world/boxsmasher_movingbox.dart';
 import 'components/world/boxsmasher_player.dart';
 import 'components/world/boxsmasher_box.dart';
 
@@ -13,7 +14,7 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
   @override
   final images = Images(prefix: 'assets/boxsmasher/flame/');
   final BoxSmasherPlayer _player = BoxSmasherPlayer(Vector2(85, 193));
-  late Box _boxMoving;
+  late MovingBox _boxMoving;
   int score = 0;
 
   BoxSmasherGame();
@@ -105,7 +106,7 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
     var movingBox = map.tileMap.getLayer<ObjectGroup>('trueBox')?.objects.first;
 
     //Create the moving box object
-    final movingBoxObject = Box(
+    final movingBoxObject = MovingBox(
         size: Vector2(movingBox!.width, movingBox.height),
         position: Vector2(movingBox.x, movingBox.y - movingBox.height) - halfViewportSize)
       ..sprite = await loadSprite('boxsmasher_boxes.png');
