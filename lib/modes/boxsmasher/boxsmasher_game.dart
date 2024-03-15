@@ -12,7 +12,7 @@ import 'components/world/boxsmasher_box.dart';
 class BoxSmasherGame extends FlameGame with HasCollisionDetection {
   @override
   final images = Images(prefix: 'assets/boxsmasher/flame/');
-  final BoxSmasherPlayer _player = BoxSmasherPlayer(Vector2(85, 768));
+  final BoxSmasherPlayer _player = BoxSmasherPlayer(Vector2(85, 193));
   late Box _boxMoving;
   int score = 0;
 
@@ -48,7 +48,7 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
 
     //#region CameraSetup
     //Make the camera with a fixed resolution
-    final camera = CameraComponent.withFixedResolution(world: world, width: 180, height: 290);
+    final camera = CameraComponent.withFixedResolution(world: world, width: 180, height: 175);
 
     //Get the map width and height
     double mapWidth = map.tileMap.map.width * 16.0;
@@ -59,12 +59,12 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
     camera.setBounds(
       Rectangle.fromCenter(
         center: Vector2(mapWidth, mapHeight) / 2,
-        size: Vector2(260, 510) - halfViewportSize,
+        size: Vector2(260, 75) - halfViewportSize,
       ),
     );
 
     //Follow the player
-    camera.moveTo(_player.position + Vector2(64, 0));
+    camera.moveTo(Vector2(105, 130));
     //Add the camera to the game
     await add(camera);
     //#endregion

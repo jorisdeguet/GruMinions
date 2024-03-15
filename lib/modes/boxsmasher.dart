@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/modes/boxsmasher/controller_a_game_page.dart';
-import 'package:gru_minions/modes/flame/gru_game_page.dart';
+import 'package:gru_minions/modes/boxsmasher/gru_game_page.dart';
 
 import 'boxsmasher/boxsmasher_game.dart';
 import 'boxsmasher/controller_b_game_page.dart';
@@ -15,7 +15,7 @@ class BoxSmasherMode extends GruMinionMode {
 
   @override
   Widget gruWidget() {
-    return GruGamePage(
+    return GruBoxSmasherPage(
       send: sendToOthers,
     );
   }
@@ -71,6 +71,7 @@ class BoxSmasherMode extends GruMinionMode {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Text('In this game you need to press the A button as fast as you can to win.'),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(

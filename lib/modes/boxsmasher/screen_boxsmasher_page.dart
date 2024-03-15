@@ -32,11 +32,11 @@ class ScreenBoxSmasherState extends State<ScreenBoxSmasherPage> {
             child: Text(
               'Score: ${game.score}',
               style: const TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 shadows: [
                   Shadow(
-                    blurRadius: 10.0,
-                    color: Colors.white,
+                    blurRadius: 20.0,
+                    color: Colors.black,
                     offset: Offset(0.0, 0.0),
                   ),
                 ],

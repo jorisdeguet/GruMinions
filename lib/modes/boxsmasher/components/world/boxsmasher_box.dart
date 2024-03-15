@@ -28,7 +28,7 @@ class Box extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxSmasher
   void onCollision(intersectionPoints, other){
     super.onCollision(intersectionPoints, other);
     if(other is Door){
-      position = Vector2(106, 730);
+      position = Vector2(106, 742);
     }
   }
 
