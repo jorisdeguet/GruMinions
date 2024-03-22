@@ -59,3 +59,9 @@ flutter:
     - assets/boxsmasher/images/
     - assets/tiles/
     - assets/tiles/boxsmasher/
+    # MasterfulDiviner Assets
+    - assets/masterfuldiviner/images/
+    - assets/masterfuldiviner/flame/
+    - assets/masterfuldiviner/flame/furnitures/
+    - assets/masterfuldiviner/animations/
+    - assets/tiles/masterfuldiviner/
