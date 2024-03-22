@@ -1,5 +1,6 @@
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/modes/flame.dart';
+import 'package:gru_minions/modes/ski_master.dart';
 
 import 'boxsmasher.dart';
 
@@ -14,6 +15,7 @@ List<GruMinionMode> listOfModes(Function send) {
     //SimonMode(sendToOthers: send),
     FlameMode(sendToOthers: send),
     BoxSmasherMode(sendToOthers: send),
+    SkiMaster(sendToOthers: send),
     //MatrixMode(sendToOthers: send),
   ];
 }
