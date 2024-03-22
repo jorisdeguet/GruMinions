@@ -6,6 +6,9 @@ import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 
+import 'components/bugytpes.dart';
+import 'components/masterfuldiviner_bugs.dart';
+
 class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, KeyboardEvents{
   @override
   final images = Images(prefix: 'assets/masterfuldiviner/flame/furnitures/');
@@ -77,20 +80,20 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
     //#endregion
 
     //#region BugSetup
-    // var allBugs = map.tileMap.getLayer<ObjectGroup>('Bugs')?.objects;
-    //
-    // if (allBugs != null) {
-    //   for (var bug in allBugs) {
-    //
-    //     BugTypes name =  BugTypes.values[int.parse(bug.name)];
-    //     var bugPosition = Vector2(bug.x, bug.y - bug.height);
-    //     var bugComponent = MasterfulDivinerBug(position: bugPosition, bugType: name.toString(), map: map);
-    //
-    //     bugComponent.priority = 2;
-    //     await add(bugComponent);
-    //     world.add(bugComponent);
-    //   }
-    // }
+    var allBugs = map.tileMap.getLayer<ObjectGroup>('Bugs')?.objects;
+
+    if (allBugs != null) {
+      for (var bug in allBugs) {
+
+        BugTypes name =  BugTypes.values[int.parse(bug.name)];
+        var bugPosition = Vector2(bug.x, bug.y - bug.height);
+        var bugComponent = MasterfulDivinerBug(position: bugPosition, bugType: name.toString(), map: map);
+
+        bugComponent.priority = 2;
+        await add(bugComponent);
+        world.add(bugComponent);
+      }
+    }
     //#endregion
 
     //#region FurnitureSetup
