@@ -11,7 +11,10 @@ import 'components/masterfuldiviner_bugs.dart';
 
 class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, KeyboardEvents{
   @override
-  final images = Images(prefix: 'assets/masterfuldiviner/flame/furnitures/');
+  set images(Images images) {
+
+    images = Images(prefix: 'assets/masterfuldiviner/flame/furnitures/');
+  }
   final animations = Images(prefix: 'assets/masterfuldiviner/animations/');
 
   late PositionComponent cameraEntity;
