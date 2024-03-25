@@ -1,20 +1,28 @@
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scaled_list/scaled_list.dart';
 import 'package:stroke_text/stroke_text.dart';
 
-import 'choose_level.dart';
+import '../../service/gru_service.dart';
+import '../base/base-mode.dart';
+import '../level/controller_level.dart';
+import '../level/level_mode.dart';
+import '../list_of_modes.dart';
 
-class ChooseCharacter extends StatefulWidget {
-  const ChooseCharacter({super.key});
+class ControllerCharacter extends StatefulWidget {
+  const ControllerCharacter({super.key});
 
   @override
-  _ChooseCharacterState createState() => _ChooseCharacterState();
+  State<ControllerCharacter> createState() => _ControllerCharacterState();
 }
 
-class _ChooseCharacterState extends State<ChooseCharacter> {
+class _ControllerCharacterState extends State<ControllerCharacter> {
+  final List<String> _messages = [];
+  late final List<GruMinionMode> _modes = listOfModes(_send);
+  late GruMinionMode _currentMode;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +59,9 @@ class _ChooseCharacterState extends State<ChooseCharacter> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChooseLevel(character: character.name),
+                        builder: (context) => const ControllerLevel(
+                          character: "Virtual Guy",
+                        ),
                       ),
                     );
                   },
@@ -110,6 +120,30 @@ class _ChooseCharacterState extends State<ChooseCharacter> {
     Characters(image: "/Main Characters/Pink Man/Idle (32x32).png", name: "Pink Man"),
     Characters(image: "/Main Characters/Virtual Guy/Idle (32x32).png", name: "Virtual Guy"),
   ];
+
+  void changeMode(String m) {
+    _currentMode = LevelMode(sendToOthers: _send);
+    _currentMode.initController();
+    _send('LevelMode');
+    setState(() {});
+  }
+
+  void _send(String m) {
+    _messages.insert(0, "Gru - $m");
+    Get.find<GruService>().p2p.sendStringToSocket(m);
+    setState(() {});
+  }
+
+  void _receive(String m) {
+    try {
+      _messages.insert(0, "Minion - $m");
+      _currentMode.handleMessageAsGru(m);
+    } catch (e) {
+      print("Minion got exception while handling message $m");
+      e.printError();
+    }
+    setState(() {});
+  }
 }
 
 class Characters {

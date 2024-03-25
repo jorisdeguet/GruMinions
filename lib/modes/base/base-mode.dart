@@ -19,7 +19,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   void handleMessageAsGru(String s);
 }
 
-// This is the base interface to interact with a mode
+// This is the base interface to interact with a stepGame
 abstract class GruMinionMode {
   final Function sendToOthers;
 

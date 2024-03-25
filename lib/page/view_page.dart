@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/base/base-mode.dart';
-import 'package:gru_minions/modes/flame/flame.dart';
 import 'package:gru_minions/modes/list_of_modes.dart';
 import 'package:gru_minions/service/minion_service.dart';
 import 'package:gru_minions/widget/minion_base_widget.dart';
@@ -15,7 +14,6 @@ class ViewPage extends StatefulWidget {
 
 class _ViewPageState extends MinionBaseWidgetState<ViewPage> {
   late final List<GruMinionMode> _modes = listOfModes(_send);
-
   late GruMinionMode _currentMode = _modes[0];
 
   @override
@@ -29,16 +27,16 @@ class _ViewPageState extends MinionBaseWidgetState<ViewPage> {
 
   @override
   Widget content(BuildContext context) {
-    return _mainBody();
-  }
-
-  Widget _mainBody() {
     return _currentMode.screenWidget(context);
   }
 
   void changeMode(String m) {
-    _currentMode = FlameMode(sendToOthers: _send);
-    _currentMode.initScreen();
+    for (GruMinionMode mode in _modes) {
+      if (m == mode.name()) {
+        _currentMode = mode;
+        _currentMode.initScreen();
+      }
+    }
     setState(() {});
   }
 

@@ -5,18 +5,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gru_minions/page/home_page.dart';
 
 
-class SplashScreenGame extends StatefulWidget {
-  const SplashScreenGame({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  SplashScreenGameState createState() => SplashScreenGameState();
+  SplashScreenState createState() => SplashScreenState();
 }
 
-class SplashScreenGameState extends State<SplashScreenGame> {
+class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FlameSplashScreen(
+        theme: FlameSplashTheme.dark,
         showBefore: (BuildContext context) {
           return SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -61,7 +62,6 @@ class SplashScreenGameState extends State<SplashScreenGame> {
             ),
           );
         },
-        theme: FlameSplashTheme.dark,
         onFinish: (context) => Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),

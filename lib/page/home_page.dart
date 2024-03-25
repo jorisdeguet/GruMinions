@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gru_minions/page/control_page.dart';
+import 'package:gru_minions/page/controller_page.dart';
 import 'package:gru_minions/page/view_page.dart';
 import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/service/minion_service.dart';
@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   void initState() {
     _resetServices();
@@ -86,7 +87,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ControlPage()),
+              MaterialPageRoute(builder: (context) => const Controller()),
             ).then((value) => _resetServices());
           },
           icon: const Icon(Icons.gamepad, color: Colors.black),

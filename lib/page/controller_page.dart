@@ -1,20 +1,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gru_minions/modes/player/character_mode.dart';
 import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/widget/boss_base_widget.dart';
 
 import '../modes/base/base-mode.dart';
 import '../modes/list_of_modes.dart';
 
-class ControlPage extends StatefulWidget {
-  const ControlPage({super.key});
+class Controller extends StatefulWidget {
+  const Controller({super.key});
 
   @override
-  State<ControlPage> createState() => _MainBossPageState();
+  State<Controller> createState() => _MainBossPageState();
 }
 
-class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
+class _MainBossPageState extends BossBaseWidgetState<Controller> {
   final List<String> _messages = [];
   late final List<GruMinionMode> _modes = listOfModes(_send);
   late GruMinionMode _currentMode;
@@ -26,7 +27,8 @@ class _MainBossPageState extends BossBaseWidgetState<ControlPage> {
     service.onReceive.listen((element) {
       _receive(element);
     });
-    changeMode(_modes[0].name());
+    _currentMode = CharacterMode(sendToOthers: _send);
+    _currentMode.initController();
     super.initState();
   }
 

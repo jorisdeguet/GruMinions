@@ -1,7 +1,7 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:gru_minions/modes/base-mode.dart';
+import 'package:gru_minions/modes/base/base-mode.dart';
+import 'package:gru_minions/page/view_page.dart';
 import 'package:intl/intl.dart';
 
 class SyncMode extends GruMinionMode {
@@ -51,32 +51,7 @@ class SyncMode extends GruMinionMode {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Image(
-          image: const AssetImage('assets/images/Background/Wallpaper2.gif'),
-          fit: BoxFit.fill,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-        ),
-        BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-            child: const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: 100),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(),
-                    ],
-                  ),
-                ],
-              ),
-            )),
-      ],
-    );
+    return const ViewPage();
   }
 
   @override

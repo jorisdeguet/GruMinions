@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
 
-import '../../level/choose_level.dart';
+import '../../level/controller_level.dart';
 import '../game/pixel_adventure.dart';
 
 class Menu extends StatelessWidget {
@@ -205,7 +205,7 @@ class Menu extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ChooseLevel(character: game.character)
+                          builder: (context) => ControllerLevel(character: game.character)
                         ),
                       );
                     },

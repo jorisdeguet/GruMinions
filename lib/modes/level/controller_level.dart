@@ -3,16 +3,16 @@ import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gru_minions/modes/level/level_mode.dart';
 import 'package:stroke_text/stroke_text.dart';
 
 import '../../service/gru_service.dart';
-import '../base-mode.dart';
-import '../flame.dart';
-import '../synchro.dart';
+import '../base/base-mode.dart';
+import '../flame/flame.dart';
 import '../player/controller_character.dart';
 
-class ChooseLevel extends StatefulWidget {
-  const ChooseLevel({
+class ControllerLevel extends StatefulWidget {
+  const ControllerLevel({
     super.key,
     required this.character,
   });
@@ -20,10 +20,10 @@ class ChooseLevel extends StatefulWidget {
   final String character;
 
   @override
-  _ChooseLevelState createState() => _ChooseLevelState();
+  _ControllerLevelState createState() => _ControllerLevelState();
 }
 
-class _ChooseLevelState extends State<ChooseLevel> {
+class _ControllerLevelState extends State<ControllerLevel> {
   final List<String> _levels = [
     '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
     '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
@@ -40,7 +40,7 @@ class _ChooseLevelState extends State<ChooseLevel> {
     service.onReceive.listen((element) {
       _receive(element);
     });
-    _currentMode = SyncMode(sendToOthers: _send);
+    _currentMode = LevelMode(sendToOthers: _send);
     super.initState();
   }
 
@@ -53,7 +53,7 @@ class _ChooseLevelState extends State<ChooseLevel> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ChooseCharacter(),
+                builder: (context) => const ControllerCharacter(),
               ),
             );
           },
@@ -103,13 +103,7 @@ class _ChooseLevelState extends State<ChooseLevel> {
       padding: const EdgeInsets.all(8.0),
       child: SpriteButton.asset(
           onPressed: () {
-            changeMode(level);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => _currentMode.controllerWidget()
-                )
-            );
+            //changeMode(level);
           },
           label: const Text(''),
           path: 'Menu/Levels/$level.png',
