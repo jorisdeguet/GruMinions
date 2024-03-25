@@ -99,25 +99,6 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
     }
     //#endregion
 
-    //#region FurnitureSetup
-    // var allFurniture = map.tileMap.getLayer<ObjectGroup>('Furniture')?.objects;
-    //
-    // if (allFurniture != null) {
-    //   for (var furniture in allFurniture) {
-    //     var furniturePosition = Vector2(furniture.x, furniture.y - furniture.height);
-    //     var furnitureSize = Vector2(furniture.width, furniture.height);
-    //     var name = furniture.name;
-    //
-    //     var furnitureComponent = Furniture(size: furnitureSize, position: furniturePosition)
-    //       ..sprite = await loadSprite('$name.png');
-    //
-    //     furnitureComponent.priority = 3;
-    //     await add(furnitureComponent);
-    //     world.add(furnitureComponent);
-    //   }
-    // }
-    //#endregion
-
   }
 
   @override
