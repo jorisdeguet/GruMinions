@@ -8,6 +8,8 @@ import 'package:stroke_text/stroke_text.dart';
 import 'choose_level.dart';
 
 class ChooseCharacter extends StatefulWidget {
+  const ChooseCharacter({super.key});
+
   @override
   _ChooseCharacterState createState() => _ChooseCharacterState();
 }
@@ -52,7 +54,7 @@ class _ChooseCharacterState extends State<ChooseCharacter> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         width: 120,
                         height: 120,
                         child: SpriteAnimationWidget.asset(
@@ -65,7 +67,7 @@ class _ChooseCharacterState extends State<ChooseCharacter> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Text(
                         character.name,
                         style: GoogleFonts.pixelifySans(
@@ -75,7 +77,7 @@ class _ChooseCharacterState extends State<ChooseCharacter> {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      SizedBox(height: 10)
+                      const SizedBox(height: 10)
                     ],
                   ),
                 );
@@ -88,14 +90,14 @@ class _ChooseCharacterState extends State<ChooseCharacter> {
   }
 
   final List<Color> mixedColors = [
-    Color(0xffea71bd),
-    Color(0xff6cd9f1),
-    Color(0xffcc3048),
-    Color(0xff288610),
-    Color(0xffd8e1e4),
-    Color(0xffd2622e),
-    Color(0xff30acd9),
-    Color(0xffa14744),
+    const Color(0xffea71bd),
+    const Color(0xff6cd9f1),
+    const Color(0xffcc3048),
+    const Color(0xff288610),
+    const Color(0xffd8e1e4),
+    const Color(0xffd2622e),
+    const Color(0xff30acd9),
+    const Color(0xffa14744),
   ];
 
   final List<Characters> characters = [

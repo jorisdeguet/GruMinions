@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gru_minions/page/home_page.dart';
+import 'package:gru_minions/page/splash_screen_game.dart';
 
 // TODO make issue / fork / pull request on bug on Map<String, dynamic>? json = jsonDecode(obj); line 123 in
 // flutter_p2p_connection.dart ::: some peripherals for me a roku TCL TV ends up with bad JSON
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const SplashScreenGame(),
     );
   }
 }

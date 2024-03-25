@@ -35,7 +35,7 @@ class _ChooseLevelState extends State<ChooseLevel> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChooseCharacter(),
+                builder: (context) => const ChooseCharacter(),
               ),
             );
           },

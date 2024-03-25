@@ -36,7 +36,7 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
   bool showControls = false;
   bool playSounds = false;
   double soundVolume = 1.0;
-  List<String> _levels = [
+  final List<String> _levels = [
     '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
     '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
     '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
@@ -158,7 +158,7 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
 
     Future.delayed(const Duration(seconds: 1), () {
       worldMap = Level(
-          levelName: currentLevel + '.tmx',
+          levelName: '$currentLevel.tmx',
           player: player
       );
 

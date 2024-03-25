@@ -2,8 +2,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gru_minions/page/home_page.dart';
 
-import 'choose_character.dart';
 
 class SplashScreenGame extends StatefulWidget {
   const SplashScreenGame({super.key});
@@ -34,9 +34,6 @@ class SplashScreenGameState extends State<SplashScreenGame> {
                     FadeAnimatedText('GameWithY'),
                     FadeAnimatedText(''),
                   ],
-                  onTap: () {
-                    print("Tap Event");
-                  },
                 ),
               ),
             ),
@@ -56,12 +53,9 @@ class SplashScreenGameState extends State<SplashScreenGame> {
                 ),
                 child: AnimatedTextKit(
                   animatedTexts: [
-                    TypewriterAnimatedText('Pixel Adventure Remake'),
+                    TypewriterAnimatedText('Arcade'),
                     TypewriterAnimatedText('A Flame Game'),
                   ],
-                  onTap: () {
-                    print("Tap Event");
-                  },
                 ),
               ),
             ),
@@ -70,7 +64,7 @@ class SplashScreenGameState extends State<SplashScreenGame> {
         theme: FlameSplashTheme.dark,
         onFinish: (context) => Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ChooseCharacter()),
+          MaterialPageRoute(builder: (context) => const HomePage()),
         ),
       ),
     );

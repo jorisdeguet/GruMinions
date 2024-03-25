@@ -13,7 +13,7 @@ class ScreenGame extends StatefulWidget {
   @override
   _ScreenGameState createState() => _ScreenGameState();
 
-  const ScreenGame({required this.character, required this.level});
+  const ScreenGame({super.key, required this.character, required this.level});
 
   final String character;
   final String level;

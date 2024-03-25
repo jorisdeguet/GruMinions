@@ -45,7 +45,7 @@ class LifeBar extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.menu,
                       color: Color(0xFF211F30),
                     )),

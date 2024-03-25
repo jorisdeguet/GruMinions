@@ -228,8 +228,9 @@ class Player extends SpriteAnimationGroupComponent
     if (velocity.y < 0) playerState = PlayerState.jumping;
 
     //check is double jumping, set double jumping
-    if (velocity.y < 0 && !canDoubleJump)
+    if (velocity.y < 0 && !canDoubleJump) {
       playerState = PlayerState.doubleJumping;
+    }
 
     current = playerState;
   }
@@ -341,13 +342,14 @@ class Player extends SpriteAnimationGroupComponent
   Future<void> _reachedCheckpoint() async {
     //Can only reach checkpoint once
     if (!reachedCheckpoint) {
-      if (game.playSounds)
+      if (game.playSounds) {
         FlameAudio.play('disappear.wav', volume: game.soundVolume);
+      }
       revivePosition = Vector2(position.x, position.y);
       reachedCheckpoint = true;
       while (life.value < 100) {
         life.value++;
-        await Future.delayed(Duration(milliseconds: 100));
+        await Future.delayed(const Duration(milliseconds: 100));
       }
       game.score.value += 100;
     }
@@ -357,8 +359,9 @@ class Player extends SpriteAnimationGroupComponent
     reachedEnd = true;
     game.cam.stop();
     game.interval.stop();
-    if (game.playSounds)
+    if (game.playSounds) {
       FlameAudio.play('disappear.wav', volume: game.soundVolume);
+    }
     if (scale.x > 0) {
       position = position - Vector2.all(32);
     } else if (scale.x < 0) {
@@ -385,8 +388,9 @@ class Player extends SpriteAnimationGroupComponent
     isDead = true;
     game.cam.stop();
     game.interval.stop();
-    if (game.playSounds)
+    if (game.playSounds) {
       FlameAudio.play('disappear.wav', volume: game.soundVolume);
+    }
 
     const duration = Duration(milliseconds: 350);
     Future.delayed(duration, () {

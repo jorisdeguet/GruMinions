@@ -43,7 +43,7 @@ class Rino extends SpriteAnimationGroupComponent
   //Default : 1 if enemy is facing right and -1 for if enemy is facing left
   double _facingDirection = -1;
   double _targetDirection = 0;
-  Vector2 _velocity = Vector2.zero();
+  final Vector2 _velocity = Vector2.zero();
   bool _gotHit = false;
 
   @override

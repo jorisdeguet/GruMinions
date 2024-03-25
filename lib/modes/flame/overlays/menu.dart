@@ -33,7 +33,7 @@ class Menu extends StatelessWidget {
           width: 700,
           decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: const BorderRadius.all(
+            borderRadius: BorderRadius.all(
               Radius.circular(20),
             ),
           ),
@@ -64,7 +64,7 @@ class Menu extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 120,
                 height: 120,
                 child: SpriteAnimationWidget.asset(
@@ -77,7 +77,7 @@ class Menu extends StatelessWidget {
                   ),
                 ),
               ),
-              Divider(
+              const Divider(
                 height: 20,
                 thickness: 5,
                 indent: 20,
@@ -103,7 +103,7 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                       StrokeText(
-                        text: '${(game.player.life.value.toInt()).toString()}',
+                        text: (game.player.life.value.toInt()).toString(),
                         strokeColor: Colors.black,
                         strokeWidth: 4,
                         textStyle: GoogleFonts.pixelifySans(
@@ -131,7 +131,7 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                       StrokeText(
-                        text: '${game.score.value.toString()}',
+                        text: game.score.value.toString(),
                         strokeColor: Colors.black,
                         strokeWidth: 4,
                         textStyle: GoogleFonts.pixelifySans(
@@ -159,7 +159,7 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                       StrokeText(
-                        text: '${_formatDuration(Duration(seconds: game.time.value))}',
+                        text: _formatDuration(Duration(seconds: game.time.value)),
                         strokeColor: Colors.black,
                         strokeWidth: 4,
                         textStyle: GoogleFonts.pixelifySans(
