@@ -3,14 +3,15 @@ import 'dart:ui';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:gru_minions/modes/flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import '../player.dart';
+import '../../game/pixel_adventure.dart';
 
 enum RinoState { idle, run, hit, hitWall }
 
 class Rino extends SpriteAnimationGroupComponent
-    with HasGameRef<MainGame>, CollisionCallbacks {
+    with HasGameRef<PixelAdventure>, CollisionCallbacks {
 
   Rino({this.offNeg = 0, this.offPos = 0, super.position, super.size});
 
@@ -18,7 +19,6 @@ class Rino extends SpriteAnimationGroupComponent
   final double offNeg;
   final double offPos;
   final _textureSize = Vector2(52, 34);
-  final Vector2 _velocity = Vector2.zero();
 
   //Animations
   late final SpriteAnimation _idleAnimation;
@@ -43,6 +43,7 @@ class Rino extends SpriteAnimationGroupComponent
   //Default : 1 if enemy is facing right and -1 for if enemy is facing left
   double _facingDirection = -1;
   double _targetDirection = 0;
+  Vector2 _velocity = Vector2.zero();
   bool _gotHit = false;
 
   @override
@@ -143,7 +144,7 @@ class Rino extends SpriteAnimationGroupComponent
 
   void collideWithPlayer() async {
     if (player.velocity.y > 0 && player.y + player.height > position.y) {
-      //if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
+      if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
       _gotHit = true;
       current = RinoState.hit;
       player.velocity.y = -bounceHeight;
@@ -155,7 +156,7 @@ class Rino extends SpriteAnimationGroupComponent
   }
 
   void collideWithBlock() async {
-    //if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
+    if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
     _gotHit = true;
     current = RinoState.hitWall;
     await animationTicker?.completed;

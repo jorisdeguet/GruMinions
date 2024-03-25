@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -7,83 +6,100 @@ import 'package:flame_audio/flame_audio.dart';
 
 import '../player.dart';
 import '../../game/pixel_adventure.dart';
+import '../bullets/trunk_bullet.dart';
 
-enum ChickenState { idle, run, hit }
+enum TrunkState { idle, attack, hit }
 
-class Chicken extends SpriteAnimationGroupComponent
+class Trunk extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure>, CollisionCallbacks {
-  Chicken({this.offNeg = 0, this.offPos = 0, super.position, super.size});
+  Trunk(
+      {this.offNeg = 0,
+      this.offPos = 0,
+      this.isFacingRight = false,
+      super.position,
+      super.size});
 
   //Final variables
   final double offNeg;
   final double offPos;
-  final _textureSize = Vector2(32, 34);
+  final bool isFacingRight;
+  final _textureSize = Vector2(64, 32);
 
   //Animations
   late final SpriteAnimation _idleAnimation;
-  late final SpriteAnimation _runAnimation;
+  late final SpriteAnimation _attackAnimation;
   late final SpriteAnimation _hitAnimation;
 
   //Constants
   static const stepTime = 0.05;
   static const tileSize = 16;
   static const moveSpeed = 80;
-  static const bounceHeight = 260.0;
+  static const bounceHeight = 300.0;
 
   //Late variables
   late Player player;
   late double _rangeNeg;
   late double _rangePos;
   late double _playerOffset;
-  late double _chickenOffset;
+  late Timer interval;
 
   //Defined variables
-  //Default : 1 if enemy is facing right and -1 for if enemy is facing left
-  double _facingDirection = -1;
-  double _targetDirection = 0;
-  Vector2 _velocity = Vector2.zero();
   bool _gotHit = false;
 
   @override
   FutureOr<void> onLoad() {
     player = game.player;
+
+    if (isFacingRight) {
+      flipHorizontallyAroundCenter();
+    }
+
     add(RectangleHitbox(
-      position: Vector2(4, 6),
-      size: Vector2(24, 26),
+      position: Vector2(15, 2),
+      size: Vector2(36, 32),
     ));
+
     _loadAllAnimations();
     _calculateRange();
+
+    interval = Timer(
+      2,
+      onTick: () => _shoot(),
+      repeat: true,
+    );
+
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
     if (!_gotHit) {
-      _movement(dt);
-      updateState();
+      _updateState(dt);
     }
     super.update(dt);
   }
 
   void _loadAllAnimations() {
-    _idleAnimation = _spriteAnimation('Idle', 13);
-    _runAnimation = _spriteAnimation('Run', 14);
-    _hitAnimation = _spriteAnimation('Hit', 15)..loop = false;
+    _idleAnimation = _spriteAnimation('Idle', 11);
+    _attackAnimation = _spriteAnimation('Attack', 8)
+      ..stepTime = 0.2
+      ..loop = false;
+    _hitAnimation = _spriteAnimation('Hit', 5)..loop = false;
 
     //List of all animations
     animations = {
-      ChickenState.idle: _idleAnimation,
-      ChickenState.run: _runAnimation,
-      ChickenState.hit: _hitAnimation,
+      TrunkState.idle: _idleAnimation,
+      TrunkState.attack: _attackAnimation,
+      TrunkState.hit: _hitAnimation,
     };
 
     //Set default animation
-    current = ChickenState.idle;
+    current = TrunkState.idle;
   }
 
   SpriteAnimation _spriteAnimation(String state, int amount) {
     return SpriteAnimation.fromFrameData(
-      game.images.fromCache('Enemies/Chicken/$state (32x34).png'),
+      game.images.fromCache('Enemies/Trunk/$state (64x32).png'),
       SpriteAnimationData.sequenced(
         amount: amount,
         stepTime: stepTime,
@@ -98,21 +114,14 @@ class Chicken extends SpriteAnimationGroupComponent
     _rangePos = position.x + offPos * tileSize; //right range
   }
 
-  void _movement(double dt) {
-    _velocity.x = 0;
-
-    //Depending on the direction the player or the chicken is facing the value
-    //of the scaleX is gonna be different, to prevent that we do this :
-    _playerOffset = (player.scale.x > 0) ? 0 : -player.width;
-    _chickenOffset = (scale.x > 0) ? 0 : -width;
-    //
+  Future<void> _updateState(dt) async {
     if (playerInRange()) {
-      _targetDirection =
-          (player.x + _playerOffset < position.x + _chickenOffset) ? -1 : 1;
-      _velocity.x = _targetDirection * moveSpeed;
+      current = TrunkState.attack;
+      await animationTicker?.completed.then((value) => interval.update(dt));
+      animationTicker?.reset();
+    } else if (!playerInRange()) {
+      current = TrunkState.idle;
     }
-    _facingDirection = lerpDouble(_facingDirection, _targetDirection, 0.1) ?? 1;
-    position.x += _velocity.x * dt;
   }
 
   bool playerInRange() {
@@ -123,30 +132,30 @@ class Chicken extends SpriteAnimationGroupComponent
         player.x + _playerOffset >= _rangeNeg &&
             //true if player is in the right range
             player.x + _playerOffset <= _rangePos &&
-            //true if the top of player is above the chicken's bottom
-            player.y + player.height > position.y &&
-            //true if the bottom of player is below the chicken's top
+            //true if the bottom of player is below the plant's top
             player.y < position.y + height;
   }
 
-  void updateState() {
-    current = (_velocity.x != 0) ? ChickenState.run : ChickenState.idle;
-
-    if ((_facingDirection > 0 && scale.x > 0) ||
-        (_facingDirection < 0 && scale.x < 0)) {
-      flipHorizontallyAroundCenter();
-    }
+  void _shoot() {
+    final bullet = TrunkBullet(
+      position: Vector2(position.x, position.y + 8),
+      size: Vector2(16, 16),
+      offNeg: _rangeNeg,
+      offPos: _rangePos,
+      isFacingRight: isFacingRight,
+    );
+    game.worldMap.add(bullet);
   }
 
   void collideWithPlayer() async {
     if (player.velocity.y > 0 && player.y + player.height > position.y) {
       if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
       _gotHit = true;
-      current = ChickenState.hit;
+      current = TrunkState.hit;
       player.velocity.y = -bounceHeight;
       await animationTicker?.completed;
       removeFromParent();
-      game.score.value += 5;
+      game.score.value += 14;
     } else {
       player.collideWithEnemy();
     }

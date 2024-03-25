@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:gru_minions/modes/flame/game.dart';
 
+import '../../game/pixel_adventure.dart';
 import '../player.dart';
 
-class Checkpoint extends SpriteAnimationComponent with HasGameRef<MainGame>, CollisionCallbacks {
+class Checkpoint extends SpriteAnimationComponent with HasGameRef<PixelAdventure>, CollisionCallbacks {
   Checkpoint({super.position, super.size});
   static const double stepTime = 0.05;
   bool reachedCheckpoint = false;
@@ -38,6 +38,7 @@ class Checkpoint extends SpriteAnimationComponent with HasGameRef<MainGame>, Col
   }
 
   Future<void> _reachedCheckpoint() async {
+
     reachedCheckpoint = true;
     animation = SpriteAnimation.fromFrameData(
       game.images.fromCache('Items/Checkpoints/Checkpoint/Checkpoint (Flag Out) (64x64).png'),

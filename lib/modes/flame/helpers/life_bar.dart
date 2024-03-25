@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gru_minions/modes/flame/game.dart';
 
-import 'menu.dart';
+import '../game/pixel_adventure.dart';
 
 class LifeBar extends StatelessWidget {
   const LifeBar({
@@ -11,8 +10,19 @@ class LifeBar extends StatelessWidget {
     required this.game,
   });
 
+  //Final variables
   final ValueNotifier<double> life;
-  final MainGame game;
+  final PixelAdventure game;
+
+  Color getLifeBarColor() {
+    if (life.value >= 60) {
+      return Colors.green;
+    } else if (life.value >= 40) {
+      return Colors.yellow;
+    } else {
+      return Colors.red;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +36,7 @@ class LifeBar extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   game.pauseEngine();
-                  showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => Dialog(
-                              child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Menu(game: game),
-                          )));
+                  game.overlays.add('Menu');
                 },
                 child: Container(
                     width: 40,
@@ -41,7 +45,7 @@ class LifeBar extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.menu,
                       color: Color(0xFF211F30),
                     )),
@@ -60,7 +64,7 @@ class LifeBar extends StatelessWidget {
                     widthFactor: life.value / 100,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.green,
+                        color: getLifeBarColor(),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
@@ -71,7 +75,7 @@ class LifeBar extends StatelessWidget {
                       style: GoogleFonts.pixelifySans(
                         color: Colors.white,
                         fontSize: 30,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w200,
                         fontStyle: FontStyle.normal,
                       ),
                     ),

@@ -7,6 +7,7 @@ class ScoreBar extends StatelessWidget {
     required this.score,
   });
 
+  //Final variables
   final ValueNotifier<int> score;
 
   @override
@@ -19,7 +20,7 @@ class ScoreBar extends StatelessWidget {
           style: GoogleFonts.pixelifySans(
             color: Colors.white,
             fontSize: 30,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w200,
             fontStyle: FontStyle.normal,
           ),
         );

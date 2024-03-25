@@ -8,37 +8,34 @@ import 'package:flame_audio/flame_audio.dart';
 import '../player.dart';
 import '../../game/pixel_adventure.dart';
 
-enum SlimeState { idleRun, hit, particles }
+enum RadishState { idle, run, hit }
 
-//Special feature after dying it leaves a particle
-class Slime extends SpriteAnimationGroupComponent
+class Radish extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure>, CollisionCallbacks {
-
-  Slime({this.offNeg = 0, this.offPos = 0, super.position, super.size});
+  Radish({this.offNeg = 0, this.offPos = 0, super.position, super.size});
 
   //Final variables
   final double offNeg;
   final double offPos;
-  final _textureSize = Vector2(44, 30);
-  final _specialTextureSize = Vector2(62, 16);
+  final _textureSize = Vector2(30, 38);
 
   //Animations
-  late final SpriteAnimation _idleRunAnimation;
+  late final SpriteAnimation _idleAnimation;
+  late final SpriteAnimation _runAnimation;
   late final SpriteAnimation _hitAnimation;
-  late final SpriteAnimation _particlesAnimation;
 
   //Constants
-  static const stepTime = 0.12;
+  static const stepTime = 0.05;
   static const tileSize = 16;
-  static const moveSpeed = 20;
-  static const bounceHeight = 320.0;
+  static const moveSpeed = 70;
+  static const bounceHeight = 260.0;
 
   //Late variables
   late Player player;
   late double _rangeNeg;
   late double _rangePos;
   late double _playerOffset;
-  late double _slimeOffset;
+  late double _radishOffset;
 
   //Defined variables
   //Default : 1 if enemy is facing right and -1 for if enemy is facing left
@@ -50,10 +47,12 @@ class Slime extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() {
     player = game.player;
+
     add(RectangleHitbox(
-      position: Vector2(4, 6),
-      size: Vector2(31, 26),
+      position: Vector2(4, 8),
+      size: Vector2(24, 24),
     ));
+
     _loadAllAnimations();
     _calculateRange();
     return super.onLoad();
@@ -69,39 +68,28 @@ class Slime extends SpriteAnimationGroupComponent
   }
 
   void _loadAllAnimations() {
-    _idleRunAnimation = _spriteAnimation('Idle-Run', 10);
+    _idleAnimation = _spriteAnimation('Idle 2', 9);
+    _runAnimation = _spriteAnimation('Run', 12);
     _hitAnimation = _spriteAnimation('Hit', 5)..loop = false;
-    _particlesAnimation = _specialSpriteAnimation('Particles', 4)..loop = false;
 
     //List of all animations
     animations = {
-      SlimeState.idleRun: _idleRunAnimation,
-      SlimeState.hit: _hitAnimation,
-      SlimeState.particles: _particlesAnimation
+      RadishState.idle: _idleAnimation,
+      RadishState.run: _runAnimation,
+      RadishState.hit: _hitAnimation
     };
 
     //Set default animation
-    current = SlimeState.idleRun;
+    current = RadishState.idle;
   }
 
   SpriteAnimation _spriteAnimation(String state, int amount) {
     return SpriteAnimation.fromFrameData(
-      game.images.fromCache('Enemies/Slime/$state (44x30).png'),
+      game.images.fromCache('Enemies/Radish/$state (30x38).png'),
       SpriteAnimationData.sequenced(
         amount: amount,
         stepTime: stepTime,
         textureSize: _textureSize,
-      ),
-    );
-  }
-
-  SpriteAnimation _specialSpriteAnimation(String state, int amount) {
-    return SpriteAnimation.fromFrameData(
-      game.images.fromCache('Enemies/Slime/$state (62x16).png'),
-      SpriteAnimationData.sequenced(
-        amount: amount,
-        stepTime: stepTime,
-        textureSize: _specialTextureSize,
       ),
     );
   }
@@ -118,11 +106,11 @@ class Slime extends SpriteAnimationGroupComponent
     //Depending on the direction the player or the chicken is facing the value
     //of the scaleX is gonna be different, to prevent that we do this :
     _playerOffset = (player.scale.x > 0) ? 0 : -player.width;
-    _slimeOffset = (scale.x > 0) ? 0 : -width;
+    _radishOffset = (scale.x > 0) ? 0 : -width;
     //
     if (playerInRange()) {
       _targetDirection =
-      (player.x + _playerOffset < position.x + _slimeOffset) ? -1 : 1;
+          (player.x + _playerOffset < position.x + _radishOffset) ? -1 : 1;
       _velocity.x = _targetDirection * moveSpeed;
     }
     _facingDirection = lerpDouble(_facingDirection, _targetDirection, 0.1) ?? 1;
@@ -133,18 +121,18 @@ class Slime extends SpriteAnimationGroupComponent
     _playerOffset = (player.scale.x > 0) ? 0 : -player.width;
 
     return
-      //true if player is in the left range
-      player.x + _playerOffset >= _rangeNeg &&
-          //true if player is in the right range
-          player.x + _playerOffset <= _rangePos &&
-          //true if the top of player is above the chicken's bottom
-          player.y + player.height > position.y &&
-          //true if the bottom of player is below the chicken's top
-          player.y < position.y + height;
+        //true if player is in the left range
+        player.x + _playerOffset >= _rangeNeg &&
+            //true if player is in the right range
+            player.x + _playerOffset <= _rangePos &&
+            //true if the top of player is above the chicken's bottom
+            player.y + player.height > position.y &&
+            //true if the bottom of player is below the chicken's top
+            player.y < position.y + height;
   }
 
   void _updateState() {
-    current = SlimeState.idleRun;
+    current = (_velocity.x != 0) ? RadishState.run : RadishState.idle;
 
     if ((_facingDirection > 0 && scale.x > 0) ||
         (_facingDirection < 0 && scale.x < 0)) {
@@ -156,12 +144,11 @@ class Slime extends SpriteAnimationGroupComponent
     if (player.velocity.y > 0 && player.y + player.height > position.y) {
       if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
       _gotHit = true;
-      current = SlimeState.hit;
+      current = RadishState.hit;
       player.velocity.y = -bounceHeight;
       await animationTicker?.completed;
-
       removeFromParent();
-      game.score.value += 10;
+      game.score.value += 5;
     } else {
       player.collideWithEnemy();
     }

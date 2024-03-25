@@ -31,6 +31,12 @@ dependencies:
   flame_tiled: ^1.19.0
   google_fonts: ^6.2.0
   stroke_text: ^0.0.2
+  flame_audio: ^2.10.0
+  rename: ^3.0.1
+  flutter_animate: ^4.5.0
+  scaled_list: ^2.0.0
+  flame_splash_screen: ^0.3.0
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:
@@ -49,21 +55,20 @@ flutter:
     - assets/icon/
     - assets/fonts/
     - assets/images/
+    - assets/images/Other/
     - assets/images/Menu/Buttons/
+    - assets/images/Menu/Levels/
     - assets/images/Terrain/
     - assets/images/Background/
     - assets/images/HUD/
     - assets/images/Items/Fruits/
-    - assets/images/Items/Boxes/Box1/
-    - assets/images/Items/Boxes/Box2/
-    - assets/images/Items/Boxes/Box3/
+    - assets/images/Items/Coins/
     - assets/images/Items/Checkpoints/Start/
     - assets/images/Items/Checkpoints/Checkpoint/
     - assets/images/Items/Checkpoints/End/
     - assets/images/Traps/Saw/
-    - assets/images/Traps/Falling Platforms/
+    - assets/images/Traps/Fire/
     - assets/images/Traps/Spikes/
-    - assets/images/Traps/Spike Head/
     - assets/images/Traps/Trampoline/
     - assets/images/Main Characters/
     - assets/images/Main Characters/Mask Dude/
@@ -72,8 +77,9 @@ flutter:
     - assets/images/Main Characters/Virtual Guy/
     - assets/images/Enemies/Chicken/
     - assets/images/Enemies/Mushroom/
+    - assets/images/Enemies/Radish/
     - assets/images/Enemies/Rino/
     - assets/images/Enemies/Slime/
     - assets/images/Enemies/AngryPig/
-    - assets/images/Enemies/Bat/
-    - assets/images/Enemies/Turtle/
+    - assets/images/Enemies/Plant/
+    - assets/images/Enemies/Trunk/

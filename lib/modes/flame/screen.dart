@@ -1,18 +1,18 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
-import 'game.dart';
+import 'game/pixel_adventure.dart';
 
 class Screen extends StatefulWidget {
   const Screen({super.key, required this.game});
-  final MainGame game;
+  final PixelAdventure game;
 
   @override
   MainGameState createState() => MainGameState();
 }
 
 class MainGameState extends State<Screen> {
-  late MainGame game = widget.game;
+  late PixelAdventure game = widget.game;
 
   @override
   Widget build(BuildContext context) {

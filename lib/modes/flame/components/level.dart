@@ -1,31 +1,32 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flame/experimental.dart';
 import 'package:flame_tiled/flame_tiled.dart';
-import 'package:gru_minions/modes/flame/components/player.dart';
-import 'package:gru_minions/modes/flame/components/traps/falling_platform.dart';
-import 'package:gru_minions/modes/flame/components/traps/saw.dart';
-import 'package:gru_minions/modes/flame/components/traps/spike_head.dart';
-import 'package:gru_minions/modes/flame/components/traps/spikes.dart';
-import 'package:gru_minions/modes/flame/components/traps/trampoline.dart';
-import 'package:gru_minions/modes/flame/game.dart';
+import '../components/enemies/plant.dart';
+import '../components/traps/fire.dart';
+import '../helpers/background_tile.dart';
+import '../components/enemies/mushroom.dart';
+import '../components/enemies/rino.dart';
+import '../components/enemies/slime.dart';
+import '../components/items/end.dart';
+import '../components/items/start.dart';
+import '../components/player.dart';
+import '../components/traps/saw.dart';
+import '../components/traps/spikes.dart';
+import '../components/traps/trampoline.dart';
+import '../game/pixel_adventure.dart';
 
-import 'background_tile.dart';
-import 'enemies/angry_pig.dart';
-import 'enemies/bat.dart';
-import 'enemies/mushroom.dart';
-import 'enemies/rino.dart';
-import 'enemies/slime.dart';
-import 'enemies/turtle.dart';
-import 'items/box.dart';
+import 'enemies/angryPig.dart';
+import 'enemies/radish.dart';
+import 'enemies/trunk.dart';
 import 'items/checkpoint.dart';
-import 'collisions_block.dart';
+import '../helpers/collisions_block.dart';
 import 'enemies/chicken.dart';
-import 'items/end.dart';
+import 'items/coin.dart';
 import 'items/fruit.dart';
-import 'items/start.dart';
 
-class Level extends World with HasGameRef<MainGame> {
+class Level extends World with HasGameRef<PixelAdventure> {
   Level({required this.levelName, required this.player});
 
   final String levelName;
@@ -42,6 +43,7 @@ class Level extends World with HasGameRef<MainGame> {
     _scrollBackground();
     _setObjectsPosition();
     _addCollisions();
+    _setupCamera();
 
     return super.onLoad();
   }
@@ -51,26 +53,27 @@ class Level extends World with HasGameRef<MainGame> {
 
     if (backgroundLayer != null) {
       final backgroundColor =
-      backgroundLayer.properties.getValue('BackgroundColor');
+          backgroundLayer.properties.getValue('BackgroundColor');
       final backgroundTile = BackgroundTile(
         color: backgroundColor ?? 'Gray',
         position: Vector2(0, 0),
       );
-      add(backgroundTile);
+      game.cam.backdrop = backgroundTile;
     }
   }
 
   void _setObjectsPosition() {
-    final startPointLayer = level.tileMap.getLayer<ObjectGroup>('Startpoints');
+    final startPointLayer =
+        level.tileMap.getLayer<ObjectGroup>('StartingPoints');
 
     if (startPointLayer != null) {
       for (final spawnPoint in startPointLayer.objects) {
         switch (spawnPoint.class_) {
           case 'Player':
-            player.position =
-                Vector2(spawnPoint.x, spawnPoint.y); //set player starting position
-            player.revivePosition =
-                Vector2(spawnPoint.x, spawnPoint.y); //set player revive position
+            player.position = Vector2(
+                spawnPoint.x, spawnPoint.y); //set player starting position
+            player.revivePosition = Vector2(
+                spawnPoint.x, spawnPoint.y); //set player revive position
             player.scale.x = 1;
             add(player);
             break;
@@ -102,49 +105,40 @@ class Level extends World with HasGameRef<MainGame> {
             );
             add(fruit);
             break;
-          case 'Box':
-            final box = Box(
-              boxType: spawnPoint.name,
+            case 'Coin':
+            final coin = Coin(
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: Vector2(spawnPoint.width, spawnPoint.height),
             );
-            add(box);
+            add(coin);
             break;
           case 'Saw':
             final saw = Saw(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: Vector2(spawnPoint.width, spawnPoint.height),
               isVertical: spawnPoint.properties.getValue('isVertical'),
               offNeg: spawnPoint.properties.getValue('offNeg'),
               offPos: spawnPoint.properties.getValue('offPos'),
-              position: Vector2(spawnPoint.x, spawnPoint.y),
-              size: Vector2(spawnPoint.width, spawnPoint.height),
             );
             add(saw);
-            break;
-          case 'Spike Head':
-            final spikeHead = SpikeHead(
-              //isMoving: spawnPoint.properties.getValue('isMoving'),
-              isVertical: spawnPoint.properties.getValue('isVertical'),
-              offNeg: spawnPoint.properties.getValue('offNeg'),
-              offPos: spawnPoint.properties.getValue('offPos'),
-              position: Vector2(spawnPoint.x, spawnPoint.y),
-              size: Vector2(spawnPoint.width, spawnPoint.height),
-            );
-            add(spikeHead);
             break;
           case 'Spikes':
             final spikes = Spikes(
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: Vector2(spawnPoint.width, spawnPoint.height),
+              isFacingUp: spawnPoint.properties.getValue('isFacingUp'),
             );
             add(spikes);
             break;
-          case 'Falling Platform':
-            final fallingPlatform = FallingPlatform(
-              offNeg: spawnPoint.properties.getValue('offNeg'),
+          case 'Fire':
+            final fire = Fire(
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: Vector2(spawnPoint.width, spawnPoint.height),
+              offNeg: spawnPoint.properties.getValue('offNeg'),
+              offPos: spawnPoint.properties.getValue('offPos'),
+              isFacingUp: spawnPoint.properties.getValue('isFacingUp'),
             );
-            add(fallingPlatform);
+            add(fire);
             break;
           case 'Trampoline':
             final trampoline = Trampoline(
@@ -171,6 +165,15 @@ class Level extends World with HasGameRef<MainGame> {
             );
             add(mushroom);
             break;
+          case 'Radish':
+            final radish = Radish(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: Vector2(spawnPoint.width, spawnPoint.height),
+              offNeg: spawnPoint.properties.getValue('offNeg'),
+              offPos: spawnPoint.properties.getValue('offPos'),
+            );
+            add(radish);
+            break;
           case 'Rino':
             final rino = Rino(
               position: Vector2(spawnPoint.x, spawnPoint.y),
@@ -193,29 +196,30 @@ class Level extends World with HasGameRef<MainGame> {
             final angryPig = AngryPig(
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: Vector2(spawnPoint.width, spawnPoint.height),
-              isWalking: spawnPoint.properties.getValue('isWalking'),
               offNeg: spawnPoint.properties.getValue('offNeg'),
               offPos: spawnPoint.properties.getValue('offPos'),
             );
             add(angryPig);
             break;
-          case 'Bat':
-            final bat = Bat(
+          case 'Plant':
+            final plant = Plant(
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: Vector2(spawnPoint.width, spawnPoint.height),
               offNeg: spawnPoint.properties.getValue('offNeg'),
               offPos: spawnPoint.properties.getValue('offPos'),
+              isFacingRight: spawnPoint.properties.getValue('isFacingRight'),
             );
-            add(bat);
+            add(plant);
             break;
-          case 'Turtle':
-            final turtle = Turtle(
+          case 'Trunk':
+            final trunk = Trunk(
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: Vector2(spawnPoint.width, spawnPoint.height),
               offNeg: spawnPoint.properties.getValue('offNeg'),
               offPos: spawnPoint.properties.getValue('offPos'),
+              isFacingRight: spawnPoint.properties.getValue('isFacingRight'),
             );
-            add(turtle);
+            add(trunk);
             break;
           default:
         }
@@ -248,6 +252,22 @@ class Level extends World with HasGameRef<MainGame> {
       }
     }
     player.collisions = collisionBlocks;
-
   }
+
+  void _setupCamera() {
+    double left = level.width - (640 / 2);
+    double top = size.y * 9 / 2;
+    double right = size.x * 4 / 2;
+    double bottom = level.height - (360 / 2);
+
+    game.cam.setBounds(Rectangle.fromLTRB(
+      left,
+      top,
+      right,
+      bottom,
+    ));
+  }
+
+  Vector2 get size => Vector2(
+      level.tileMap.map.width.toDouble(), level.tileMap.map.height.toDouble());
 }

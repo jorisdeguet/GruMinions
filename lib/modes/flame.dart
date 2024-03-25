@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/base-mode.dart';
-import 'package:gru_minions/modes/flame/game.dart';
 import 'package:gru_minions/modes/flame/controller.dart';
 import 'package:gru_minions/modes/flame/helpers/direction.dart';
 import 'package:gru_minions/modes/flame/screen.dart';
+
+import 'flame/game/pixel_adventure.dart';
 
 // taken from https://github.com/flame-games/player_move
 class FlameMode extends GruMinionMode {
   FlameMode({required super.sendToOthers});
 
-  final MainGame _game = MainGame();
+  final PixelAdventure _game = PixelAdventure(character: "Ninja Frog", level: "01");
 
   late Function _setMinionDirection;
 
@@ -30,7 +31,7 @@ class FlameMode extends GruMinionMode {
 
     Direction d = Direction.values.firstWhere((e) => s.contains(e.name));
     print("Good  $d");
-    _game.onJoyPad1DirectionChanged(d);
+    //_game.onJoyPad1DirectionChanged(d);
   }
 
   @override

@@ -2,13 +2,17 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:gru_minions/modes/flame/game.dart';
-
+import '../../game/pixel_adventure.dart';
 import '../player.dart';
 
-class End extends SpriteAnimationComponent with HasGameRef<MainGame>, CollisionCallbacks {
+class End extends SpriteAnimationComponent with HasGameRef<PixelAdventure>, CollisionCallbacks {
   End({super.position, super.size});
+
+  //Constant variables
   static const double stepTime = 0.05;
+  static const double specialStepTime = 0.1;
+
+  //Defined variables
   bool reachedEnd = false;
 
   @override
@@ -40,13 +44,13 @@ class End extends SpriteAnimationComponent with HasGameRef<MainGame>, CollisionC
   Future<void> _reachedEnd() async {
     reachedEnd = true;
     animation = SpriteAnimation.fromFrameData(
-      game.images.fromCache('Items/Checkpoints/End/End (Pressed).png (64x64).png'),
+      game.images.fromCache('Items/Checkpoints/End/End (Pressed) (64x64).png'),
       SpriteAnimationData.sequenced(
         amount: 8,
-        stepTime: stepTime,
+        stepTime: specialStepTime,
         textureSize: Vector2.all(64),
-        loop: false,
       ),
     );
+    await animationTicker?.completed;
   }
 }

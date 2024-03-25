@@ -1,34 +1,19 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TimerBar extends StatefulWidget {
-  const TimerBar({super.key});
+import '../game/pixel_adventure.dart';
 
-  @override
-  _TimerBarState createState() => _TimerBarState();
-}
+class TimerBar extends StatelessWidget {
+  const TimerBar({
+    super.key,
+    required this.game,
+    required this.time,
+  });
 
-class _TimerBarState extends State<TimerBar> {
-  int _seconds = 0;
-  late Timer _timer;
+  final PixelAdventure game;
 
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        _seconds++;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
+  //Final variables
+  final ValueNotifier<int> time;
 
   String _formatDuration(Duration duration) {
     String twoDigits(int n) {
@@ -43,14 +28,18 @@ class _TimerBarState extends State<TimerBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'Time:  ${_formatDuration(Duration(seconds: _seconds))}',
-      style: GoogleFonts.pixelifySans(
-      color: Colors.white,
-      fontSize: 20,
-      fontWeight: FontWeight.w700,
-      fontStyle: FontStyle.normal,
-    ),
-    );
+    return ValueListenableBuilder<int>(
+        valueListenable: time,
+        builder: (context, score, child) {
+          return Text(
+            'Time: ${_formatDuration(Duration(seconds: time.value))}',
+            style: GoogleFonts.pixelifySans(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w200,
+              fontStyle: FontStyle.normal,
+            ),
+          );
+        });
   }
 }

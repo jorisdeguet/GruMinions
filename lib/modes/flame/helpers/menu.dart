@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gru_minions/modes/flame/game.dart';
+
+import '../game/pixel_adventure.dart';
 
 class Menu extends StatelessWidget {
   const Menu({
@@ -8,7 +9,7 @@ class Menu extends StatelessWidget {
     required this.game,
   });
 
-  final MainGame game;
+  final PixelAdventure game;
 
   @override
   Widget build(BuildContext context) {

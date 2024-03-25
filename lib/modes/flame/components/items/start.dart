@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:gru_minions/modes/flame/game.dart';
 
+import '../../game/pixel_adventure.dart';
 
-class Start extends SpriteAnimationComponent with HasGameRef<MainGame>, CollisionCallbacks {
+class Start extends SpriteAnimationComponent with HasGameRef<PixelAdventure>, CollisionCallbacks {
   Start({super.position, super.size});
   static const double stepTime = 0.05;
 
