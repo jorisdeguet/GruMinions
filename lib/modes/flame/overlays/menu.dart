@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
 
-import '../game/choose_level.dart';
+import '../../level/choose_level.dart';
 import '../game/pixel_adventure.dart';
 
 class Menu extends StatelessWidget {

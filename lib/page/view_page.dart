@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gru_minions/modes/base-mode.dart';
-import 'package:gru_minions/modes/flame.dart';
+import 'package:gru_minions/modes/base/base-mode.dart';
+import 'package:gru_minions/modes/flame/flame.dart';
 import 'package:gru_minions/modes/list_of_modes.dart';
 import 'package:gru_minions/service/minion_service.dart';
 import 'package:gru_minions/widget/minion_base_widget.dart';

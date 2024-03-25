@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
 
-import '../../../service/gru_service.dart';
-import '../../base-mode.dart';
-import '../../flame.dart';
-import '../../synchro.dart';
-import 'choose_character.dart';
+import '../../service/gru_service.dart';
+import '../base-mode.dart';
+import '../flame.dart';
+import '../synchro.dart';
+import '../player/controller_character.dart';
 
 class ChooseLevel extends StatefulWidget {
   const ChooseLevel({
