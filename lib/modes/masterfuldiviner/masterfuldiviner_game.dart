@@ -7,7 +7,9 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 
 import 'components/bugytpes.dart';
+import 'components/masterdiviner_cameraentity.dart';
 import 'components/masterfuldiviner_bugs.dart';
+import 'helpers/masterfuldiviner_direction.dart';
 
 class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, KeyboardEvents{
   @override
@@ -17,7 +19,7 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
   }
   final animations = Images(prefix: 'assets/masterfuldiviner/animations/');
 
-  late PositionComponent cameraEntity;
+  late Entity _cameraEntity;
   late TiledComponent<FlameGame<World>> _map;
   late Timer interval;
   final TextPaint textPaint = TextPaint(
@@ -64,10 +66,10 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
     double mapWidth = map.tileMap.map.width * 16.0;
     double mapHeight = map.tileMap.map.height * 16.0;
 
-    // cameraEntity = Entity(size: Vector2(16, 16), position: Vector2(mapWidth, mapHeight) / 2, map: map);
-    // cameraEntity.priority = 11;
-    // await add(cameraEntity);
-    // world.add(cameraEntity);
+    _cameraEntity = Entity(size: Vector2(16, 16), position: Vector2(mapWidth, mapHeight) / 2, map: map);
+    _cameraEntity.priority = 11;
+    await add(_cameraEntity);
+    world.add(_cameraEntity);
 
     final halfViewportSize = camera.viewport.size / 2;
     camera.setBounds(
@@ -77,8 +79,7 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
       ),
     );
     _map = map;
-    //camera.follow(cameraEntity);
-    camera.moveTo(Vector2(mapWidth / 2 - 275, mapHeight / 2 - 275));
+    camera.follow(_cameraEntity);
     await add(camera);
     //#endregion
 
@@ -113,6 +114,9 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
   }
 
   //#region InputsFromUser
+  void onJoyPad1DirectionChanged(Direction direction) {
+    _cameraEntity.direction = direction;
+  }
 
   void onAButtonPressed(bool pressed) {}
   //#endregion

@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gru_minions/modes/masterfuldiviner/masterfuldiviner_game.dart';
 
 import 'base-mode.dart';
+import 'masterfuldiviner/helpers/masterfuldiviner_direction.dart';
 import 'masterfuldiviner/masterfuldiviner_gru_game_page.dart';
 import 'masterfuldiviner/masterfuldiviner_controller_a_page.dart';
 import 'masterfuldiviner/masterfuldiviner_screen_page.dart';
@@ -32,18 +34,24 @@ class MasterfulDivinerMode extends GruMinionMode {
 
     if(parts.length >= 2){
       bool Pressed = false;
-      if (parts[1] == 'true') {
-        Pressed = true;
-      }
-      if (parts[1] == 'false') {
-        Pressed = false;
-      }
+      if(parts[1].contains('Direction')){
+        Direction direction = Direction.values.firstWhere((e) => parts[1].contains(e.name));
+        if (controllerId == 'ControllerA') {
+          _gameA.onJoyPad1DirectionChanged(direction);
+        }
+      } else {
+        if (parts[1] == 'true') {
+          Pressed = true;
+        }
+        if (parts[1] == 'false') {
+          Pressed = false;
+        }
 
-
-      if (controllerId == 'ControllerA') {
-        _gameA.onAButtonPressed(Pressed);
-      } else if (controllerId == 'ControllerB') {
-        _gameB.onAButtonPressed(Pressed);
+        if (controllerId == 'ControllerA') {
+          _gameA.onAButtonPressed(Pressed);
+        } else if (controllerId == 'ControllerB') {
+          _gameB.onAButtonPressed(Pressed);
+        }
       }
     }
   }
