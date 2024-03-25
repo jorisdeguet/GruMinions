@@ -78,7 +78,7 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
     );
     _map = map;
     //camera.follow(cameraEntity);
-    camera.moveTo(Vector2(mapWidth / 2, mapHeight / 2));
+    camera.moveTo(Vector2(mapWidth / 2 - 275, mapHeight / 2 - 275));
     await add(camera);
     //#endregion
 

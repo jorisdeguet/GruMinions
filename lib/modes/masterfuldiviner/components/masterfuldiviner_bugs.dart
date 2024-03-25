@@ -56,8 +56,8 @@ class MasterfulDivinerBug extends SpriteAnimationComponent with CollisionCallbac
 
     //Set the bounds at the start of map on Y Axis
     minY = position.y.toInt() + 150;
-    if(minY > (_map.tileMap.map.height * 16 - 30)){
-      while(minY > (_map.tileMap.map.height * 16 - 30)){
+    if(minY > (_map.tileMap.map.height * 16 - 20)){
+      while(minY > (_map.tileMap.map.height * 16 - 20)){
         minY--;
       }
     }
@@ -72,8 +72,8 @@ class MasterfulDivinerBug extends SpriteAnimationComponent with CollisionCallbac
 
     //Set the bounds at the end of map on Y Axis
     maxY = position.y.toInt() - 150;
-    if(maxY < 0 + 10){
-      while(maxY < 0 + 10){
+    if(maxY < 0 + 15){
+      while(maxY < 0 + 15){
         maxY++;
       }
     }
@@ -143,8 +143,8 @@ class MasterfulDivinerBug extends SpriteAnimationComponent with CollisionCallbac
   /// Verify if the bug is out of bounds
   void verifyDirection() {
     if (position.x >= maxX) {
-      randomDirection();
       flipHorizontally();
+      randomDirection();
       while (direction == 0) {
         randomDirection();
       }
@@ -152,8 +152,8 @@ class MasterfulDivinerBug extends SpriteAnimationComponent with CollisionCallbac
       return;
     }
     if (position.x <= minX) {
-      randomDirection();
       flipHorizontally();
+      randomDirection();
       while (direction == 1) {
         randomDirection();
       }
@@ -161,6 +161,7 @@ class MasterfulDivinerBug extends SpriteAnimationComponent with CollisionCallbac
       return;
     }
     if (position.y <= maxY) {
+      flipVertically();
       randomDirection();
       while (direction == 2) {
         randomDirection();
@@ -169,6 +170,7 @@ class MasterfulDivinerBug extends SpriteAnimationComponent with CollisionCallbac
       return;
     }
     if (position.y >= minY) {
+      flipVertically();
       randomDirection();
       while (direction == 3) {
         randomDirection();
