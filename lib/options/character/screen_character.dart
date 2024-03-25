@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class ScreenCharacter extends StatefulWidget {
   const ScreenCharacter({super.key});
 
@@ -9,16 +8,13 @@ class ScreenCharacter extends StatefulWidget {
 }
 
 class _ScreenCharacterState extends State<ScreenCharacter> {
-
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('View Character')
-          ],
+          children: [Text('View Character')],
         ),
       ),
     );

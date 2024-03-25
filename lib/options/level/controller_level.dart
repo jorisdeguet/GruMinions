@@ -1,15 +1,14 @@
-
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gru_minions/modes/level/level_mode.dart';
 import 'package:stroke_text/stroke_text.dart';
 
 import '../../service/controller_service.dart';
 import '../base/base-mode.dart';
 import '../character/controller_character.dart';
 import '../flame/flame.dart';
+import 'level_mode.dart';
 
 class ControllerLevel extends StatefulWidget {
   const ControllerLevel({
@@ -25,24 +24,40 @@ class ControllerLevel extends StatefulWidget {
 
 class _ControllerLevelState extends State<ControllerLevel> {
   final List<String> _levels = [
-    '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
-    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-    '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
+    '01',
+    '02',
+    '03',
+    '04',
+    '05',
+    '06',
+    '07',
+    '08',
+    '09',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+    '22',
+    '23',
+    '24',
+    '25',
+    '26',
+    '27',
+    '28',
+    '29',
+    '30',
   ];
 
   final List<String> _messages = [];
   late ScreenControllerOption _currentMode;
-
-  @override
-  void initState() {
-    Get.put(ControllerService());
-    ControllerService service = Get.find<ControllerService>();
-    service.onReceive.listen((element) {
-      _receive(element);
-    });
-    _currentMode = LevelMode(sendToOthers: _send);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,43 +113,18 @@ class _ControllerLevelState extends State<ControllerLevel> {
   }
 
   Widget _levelButton(String level) {
-    return
-    Padding(
+    return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SpriteButton.asset(
-          onPressed: () {
-            //changeMode(level);
-          },
-          label: const Text(''),
-          path: 'Menu/Levels/$level.png',
-          pressedPath: 'Menu/Levels/$level.png',
-          width: 40,
-          height: 40,
-        ),
-      );
-  }
-
-  void changeMode(String m) {
-    _currentMode = FlameMode(sendToOthers: _send);
-    _send(m);
-    _currentMode.initController();
-    setState(() {});
-  }
-
-  void _send(String m) {
-    _messages.insert(0, "Gru - $m");
-    Get.find<ControllerService>().p2p.sendStringToSocket(m);
-    setState(() {});
-  }
-
-  void _receive(String m) {
-    try {
-      _messages.insert(0, "Minion - $m");
-      _currentMode.handleMessageAsGru(m);
-    } catch (e) {
-      print("Minion got exception while handling message $m");
-      e.printError();
-    }
-    setState(() {});
+        onPressed: () {
+          //changeMode(level);
+        },
+        label: const Text(''),
+        path: 'Menu/Levels/$level.png',
+        pressedPath: 'Menu/Levels/$level.png',
+        width: 40,
+        height: 40,
+      ),
+    );
   }
 }

@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 class ViewLevel extends StatefulWidget {
   const ViewLevel({
@@ -11,20 +9,17 @@ class ViewLevel extends StatefulWidget {
   final String character;
 
   @override
-  State<ViewLevel>  createState() => _ViewLevelState();
+  State<ViewLevel> createState() => _ViewLevelState();
 }
 
 class _ViewLevelState extends State<ViewLevel> {
-
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('View Level')
-          ],
+          children: [Text('View Level')],
         ),
       ),
     );

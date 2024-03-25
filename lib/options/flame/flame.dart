@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gru_minions/modes/base/base-mode.dart';
-import 'package:gru_minions/modes/flame/controller.dart';
-import 'package:gru_minions/modes/flame/helpers/direction.dart';
-import 'package:gru_minions/modes/flame/screen.dart';
 
+import '../base/base-mode.dart';
+import 'controller.dart';
 import 'game/pixel_adventure.dart';
+import 'helpers/direction.dart';
+import 'screen.dart';
 
 // taken from https://github.com/flame-games/player_move
 class FlameMode extends ScreenControllerOption {

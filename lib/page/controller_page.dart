@@ -1,15 +1,15 @@
-
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/service/controller_service.dart';
 import 'package:gru_minions/widget/controller_base_widget.dart';
 import 'package:sidebarx/sidebarx.dart';
 
-import '../modes/base/base-mode.dart';
-import '../modes/character/character_mode.dart';
-import '../modes/list_of_modes.dart';
+import '../options/base/base-mode.dart';
+import '../options/character/character_mode.dart';
+import '../options/list_of_modes.dart';
 
 class Controller extends StatefulWidget {
   const Controller({super.key});
@@ -86,21 +86,23 @@ class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
           ),
         ),
         headerBuilder: (context, extended) {
-          return SizedBox(
-            width: 100,
-            height: 100,
-            child: SpriteAnimationWidget.asset(
-              path: "assets/images/Main Characters/Mask Dude/Idle (32x32).png",
-              data: SpriteAnimationData.sequenced(
-                amount: 11,
-                stepTime: 0.05,
-                textureSize: Vector2(32, 32),
-                loop: true,
-              ),
-            ),
+          return const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: ClipOval(
+                child: CircleAvatar(
+              radius: 60,
+              backgroundImage: AssetImage("/assets/images/icon/profile.jpeg"),
+            )),
           );
         },
         items: [
+          SidebarXItem(
+            icon: Icons.home_rounded,
+            label: 'Home',
+            onTap: () {
+              //changeMode("home");
+            },
+          ),
           SidebarXItem(
             icon: Icons.play_arrow_rounded,
             label: 'Start Game',
@@ -138,7 +140,8 @@ class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
       ),
       body: Column(
         children: [
-          Expanded(child: _currentMode.controllerWidget()), // Your app screen body
+          Expanded(child: _currentMode.controllerWidget()),
+          // Your app screen body
         ],
       ),
     );
@@ -155,18 +158,20 @@ class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
     setState(() {});
   }
 
-  void _send(String m) {
-    _messages.insert(0, "Gru - $m");
-    Get.find<ControllerService>().p2p.sendStringToSocket(m);
+  void _send(String option) {
+    _messages.insert(0, "Controller - $option");
+    Get.find<ControllerService>().p2p.sendStringToSocket(option);
     setState(() {});
   }
 
-  void _receive(String m) {
+  void _receive(String option) {
     try {
-      _messages.insert(0, "Minion - $m");
-      _currentMode.handleMessageAsGru(m);
+      _messages.insert(0, "Screen - $option");
+      _currentMode.handleMessageAsGru(option);
     } catch (e) {
-      print("Minion got exception while handling message $m");
+      if (kDebugMode) {
+        print("Screen got exception while handling message $option");
+      }
       e.printError();
     }
     setState(() {});

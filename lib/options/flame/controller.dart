@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gru_minions/modes/flame/helpers/joypad.dart';
+
+import 'helpers/joypad.dart';
 
 class Controller extends StatefulWidget {
   final Function send;

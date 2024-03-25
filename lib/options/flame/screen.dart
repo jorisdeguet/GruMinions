@@ -5,6 +5,7 @@ import 'game/pixel_adventure.dart';
 
 class Screen extends StatefulWidget {
   const Screen({super.key, required this.game});
+
   final PixelAdventure game;
 
   @override
@@ -18,7 +19,6 @@ class MainGameState extends State<Screen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
-        body: GameWidget(game: game)
-    );
+        body: GameWidget(game: game));
   }
 }

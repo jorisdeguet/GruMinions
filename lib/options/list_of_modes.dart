@@ -1,8 +1,7 @@
-import 'package:gru_minions/modes/base/base-mode.dart';
-import 'package:gru_minions/modes/flame/flame.dart';
-import 'package:gru_minions/modes/level/level_mode.dart';
-
+import 'base/base-mode.dart';
 import 'character/character_mode.dart';
+import 'flame/flame.dart';
+import 'level/level_mode.dart';
 
 List<ScreenControllerOption> listOfModes(Function send) {
   return [

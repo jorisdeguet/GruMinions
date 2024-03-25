@@ -20,10 +20,6 @@ class ControllerCharacter extends StatefulWidget {
 }
 
 class _ControllerCharacterState extends State<ControllerCharacter> {
-  final List<String> _messages = [];
-  late final List<ScreenControllerOption> _modes = listOfModes(_send);
-  late ScreenControllerOption _currentMode;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,14 +52,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                 final character = characters[index];
                 return InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ControllerLevel(
-                          character: "Virtual Guy",
-                        ),
-                      ),
-                    );
+                    //set character
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -115,35 +104,18 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
   ];
 
   final List<Characters> characters = [
-    Characters(image: "assets/images/Main Characters/Mask Dude/Idle (32x32).png", name: "Mask Dude"),
-    Characters(image: "/Main Characters/Ninja Frog/Idle (32x32).png", name: "Ninja Frog"),
-    Characters(image: "/Main Characters/Pink Man/Idle (32x32).png", name: "Pink Man"),
-    Characters(image: "/Main Characters/Virtual Guy/Idle (32x32).png", name: "Virtual Guy"),
+    Characters(
+        image: "assets/images/Main Characters/Mask Dude/Idle (32x32).png",
+        name: "Mask Dude"),
+    Characters(
+        image: "/Main Characters/Ninja Frog/Idle (32x32).png",
+        name: "Ninja Frog"),
+    Characters(
+        image: "/Main Characters/Pink Man/Idle (32x32).png", name: "Pink Man"),
+    Characters(
+        image: "/Main Characters/Virtual Guy/Idle (32x32).png",
+        name: "Virtual Guy"),
   ];
-
-  void changeMode(String m) {
-    _currentMode = LevelMode(sendToOthers: _send);
-    _currentMode.initController();
-    _send('LevelMode');
-    setState(() {});
-  }
-
-  void _send(String m) {
-    _messages.insert(0, "Gru - $m");
-    Get.find<ControllerService>().p2p.sendStringToSocket(m);
-    setState(() {});
-  }
-
-  void _receive(String m) {
-    try {
-      _messages.insert(0, "Minion - $m");
-      _currentMode.handleMessageAsGru(m);
-    } catch (e) {
-      print("Minion got exception while handling message $m");
-      e.printError();
-    }
-    setState(() {});
-  }
 }
 
 class Characters {

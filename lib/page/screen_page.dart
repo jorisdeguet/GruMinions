@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gru_minions/modes/list_of_modes.dart';
 import 'package:gru_minions/service/screen_service.dart';
 import 'package:gru_minions/widget/view_base_widget.dart';
 
-import '../modes/base/base-mode.dart';
+import '../options/base/base-mode.dart';
+import '../options/list_of_modes.dart';
 
 class ScreenPage extends StatefulWidget {
   const ScreenPage({super.key});
@@ -42,17 +43,19 @@ class _ScreenPageState extends ViewBaseWidgetState<ScreenPage> {
     setState(() {});
   }
 
-  void _send(String m) {
-    Get.find<ScreenService>().p2p.sendStringToSocket(m);
+  void _send(String option) {
+    Get.find<ScreenService>().p2p.sendStringToSocket(option);
     setState(() {});
   }
 
-  void _receive(String m) {
+  void _receive(String option) {
     try {
-      changeMode(m);
-      _currentOption.handleMessageAsMinion(m);
+      changeMode(option);
+      _currentOption.handleMessageAsMinion(option);
     } catch (e) {
-      print("Minion got exception while handling message $m  $e");
+      if (kDebugMode) {
+        print("Minion got exception while handling message $option  $e");
+      }
       e.printError();
     }
     setState(() {});

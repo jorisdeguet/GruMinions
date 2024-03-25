@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gru_minions/modes/base/base-mode.dart';
-import 'package:gru_minions/modes/level/view_level.dart';
-import 'package:gru_minions/modes/level/controller_level.dart';
-import 'package:gru_minions/modes/flame/helpers/direction.dart';
-
+import '../base/base-mode.dart';
+import '../flame/helpers/direction.dart';
+import 'controller_character.dart';
+import 'screen_character.dart';
 
 // taken from https://github.com/flame-games/player_move
-class LevelMode extends ScreenControllerOption {
-  LevelMode({required super.sendToOthers});
+class CharacterMode extends ScreenControllerOption {
+  CharacterMode({required super.sendToOthers});
 
   @override
   void initController() {}
@@ -17,12 +16,12 @@ class LevelMode extends ScreenControllerOption {
 
   @override
   Widget controllerWidget() {
-    return const ControllerLevel(character: "Virtual Guy");
+    return const ControllerCharacter();
   }
 
   @override
   Widget screenWidget(BuildContext context) {
-    return const ViewLevel(character: "Virtual Guy");
+    return const ScreenCharacter();
   }
 
   @override
@@ -39,5 +38,5 @@ class LevelMode extends ScreenControllerOption {
   }
 
   @override
-  String name() => "level_mode";
+  String name() => "character_mode";
 }
