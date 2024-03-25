@@ -10,12 +10,12 @@ import 'flame/game/pixel_adventure.dart';
 class FlameMode extends GruMinionMode {
   FlameMode({required super.sendToOthers});
 
-  final PixelAdventure _game = PixelAdventure(character: "Ninja Frog", level: "01");
+  final PixelAdventure _game = PixelAdventure(character: "Virtual Guy", level: "01");
 
   late Function _setMinionDirection;
 
   @override
-  Widget gruWidget() {
+  Widget controllerWidget() {
     return Controller(
       send: sendToOthers,
     );
@@ -35,14 +35,14 @@ class FlameMode extends GruMinionMode {
   }
 
   @override
-  void initGru() {}
+  void initController() {}
 
   @override
-  void initMinion() {}
+  void initScreen() {}
 
   @override
-  Widget minionWidget(BuildContext context) {
-    return Screen(game: _game);
+  Widget screenWidget(BuildContext context) {
+    return Screen(game: PixelAdventure(character: "Virtual Guy", level: "01"));
   }
 
   @override

@@ -44,14 +44,14 @@ abstract class GruMinionMode {
   // gives the unique name of this mode
   String name();
 
-  void initGru();
+  void initController();
 
-  void initMinion();
+  void initScreen();
 
   // will provide the appropriate widget
-  Widget minionWidget(BuildContext context);
+  Widget screenWidget(BuildContext context);
 
-  Widget gruWidget();
+  Widget controllerWidget();
 
   // provides the method to call when receiving the message for minions
   void handleMessageAsMinion(String s);

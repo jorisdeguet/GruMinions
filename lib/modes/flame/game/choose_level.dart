@@ -1,11 +1,15 @@
 
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
 
+import '../../../service/gru_service.dart';
+import '../../base-mode.dart';
+import '../../flame.dart';
+import '../../synchro.dart';
 import 'choose_character.dart';
-import 'screen_game.dart';
 
 class ChooseLevel extends StatefulWidget {
   const ChooseLevel({
@@ -25,6 +29,20 @@ class _ChooseLevelState extends State<ChooseLevel> {
     '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
     '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
   ];
+
+  final List<String> _messages = [];
+  late GruMinionMode _currentMode;
+
+  @override
+  void initState() {
+    Get.put(GruService());
+    GruService service = Get.find<GruService>();
+    service.onReceive.listen((element) {
+      _receive(element);
+    });
+    _currentMode = SyncMode(sendToOthers: _send);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +103,12 @@ class _ChooseLevelState extends State<ChooseLevel> {
       padding: const EdgeInsets.all(8.0),
       child: SpriteButton.asset(
           onPressed: () {
+            changeMode(level);
             Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ScreenGame(
-                  character: widget.character,
-                  level: level,
-                ),
-              ),
+                context,
+                MaterialPageRoute(
+                    builder: (context) => _currentMode.controllerWidget()
+                )
             );
           },
           label: const Text(''),
@@ -102,5 +118,29 @@ class _ChooseLevelState extends State<ChooseLevel> {
           height: 40,
         ),
       );
+  }
+
+  void changeMode(String m) {
+    _currentMode = FlameMode(sendToOthers: _send);
+    _send(m);
+    _currentMode.initController();
+    setState(() {});
+  }
+
+  void _send(String m) {
+    _messages.insert(0, "Gru - $m");
+    Get.find<GruService>().p2p.sendStringToSocket(m);
+    setState(() {});
+  }
+
+  void _receive(String m) {
+    try {
+      _messages.insert(0, "Minion - $m");
+      _currentMode.handleMessageAsGru(m);
+    } catch (e) {
+      print("Minion got exception while handling message $m");
+      e.printError();
+    }
+    setState(() {});
   }
 }

@@ -40,17 +40,17 @@ class SyncMode extends GruMinionMode {
   }
 
   @override
-  void initGru() {
+  void initController() {
     // TODO: implement initGru
   }
 
   @override
-  void initMinion() {
+  void initScreen() {
     // TODO: implement initMinion
   }
 
   @override
-  Widget minionWidget(BuildContext context) {
+  Widget screenWidget(BuildContext context) {
     return Stack(
       children: <Widget>[
         Image(
@@ -80,7 +80,7 @@ class SyncMode extends GruMinionMode {
   }
 
   @override
-  Widget gruWidget() {
+  Widget controllerWidget() {
     return Column(children: [
       MaterialButton(
         onPressed: () {

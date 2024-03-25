@@ -33,12 +33,12 @@ class _ViewPageState extends MinionBaseWidgetState<ViewPage> {
   }
 
   Widget _mainBody() {
-    return _currentMode.minionWidget(context);
+    return _currentMode.screenWidget(context);
   }
 
   void changeMode(String m) {
     _currentMode = FlameMode(sendToOthers: _send);
-    _currentMode.initMinion();
+    _currentMode.initScreen();
     setState(() {});
   }
 

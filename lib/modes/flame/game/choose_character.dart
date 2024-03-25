@@ -29,7 +29,7 @@ class _ChooseCharacterState extends State<ChooseCharacter> {
               strokeWidth: 4,
               textStyle: GoogleFonts.pixelifySans(
                 textStyle: const TextStyle(
-                  fontSize: 80,
+                  fontSize: 70,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -40,6 +40,10 @@ class _ChooseCharacterState extends State<ChooseCharacter> {
               itemColor: (index) {
                 return mixedColors[index % mixedColors.length];
               },
+              cardWidthRatio: 0.7,
+              marginWidthRatio: 0.1,
+              selectedCardHeightRatio: 0.5,
+              unSelectedCardHeightRatio: 0.4,
               itemBuilder: (index, selectedIndex) {
                 final character = characters[index];
                 return InkWell(
@@ -55,8 +59,8 @@ class _ChooseCharacterState extends State<ChooseCharacter> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 120,
-                        height: 120,
+                        width: 100,
+                        height: 100,
                         child: SpriteAnimationWidget.asset(
                           path: character.image,
                           data: SpriteAnimationData.sequenced(
@@ -101,7 +105,7 @@ class _ChooseCharacterState extends State<ChooseCharacter> {
   ];
 
   final List<Characters> characters = [
-    Characters(image: "/Main Characters/Mask Dude/Idle (32x32).png", name: "Mask Dude"),
+    Characters(image: "assets/images/Main Characters/Mask Dude/Idle (32x32).png", name: "Mask Dude"),
     Characters(image: "/Main Characters/Ninja Frog/Idle (32x32).png", name: "Ninja Frog"),
     Characters(image: "/Main Characters/Pink Man/Idle (32x32).png", name: "Pink Man"),
     Characters(image: "/Main Characters/Virtual Guy/Idle (32x32).png", name: "Virtual Guy"),
