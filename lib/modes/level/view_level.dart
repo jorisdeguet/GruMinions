@@ -23,7 +23,7 @@ class _ViewLevelState extends State<ViewLevel> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('View Character')
+            Text('View Level')
           ],
         ),
       ),

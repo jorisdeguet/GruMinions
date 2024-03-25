@@ -1,11 +1,17 @@
 
+import 'package:flame/components.dart';
+import 'package:flame/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/modes/player/character_mode.dart';
 import 'package:gru_minions/service/gru_service.dart';
 import 'package:gru_minions/widget/boss_base_widget.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../modes/base/base-mode.dart';
+import '../modes/flame/flame.dart';
+import '../modes/level/level_mode.dart';
 import '../modes/list_of_modes.dart';
 
 class Controller extends StatefulWidget {
@@ -34,16 +40,121 @@ class _MainBossPageState extends BossBaseWidgetState<Controller> {
 
   @override
   Widget content(BuildContext context) {
-    return _currentMode.controllerWidget();
+    return Scaffold(
+      drawer: SidebarX(
+        controller: SidebarXController(selectedIndex: 0),
+        theme: SidebarXTheme(
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          hoverColor: Colors.black.withOpacity(0.2),
+          textStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
+          selectedTextStyle: const TextStyle(color: Colors.white),
+          itemTextPadding: const EdgeInsets.only(left: 30),
+          selectedItemTextPadding: const EdgeInsets.only(left: 30),
+          itemDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black),
+          ),
+          selectedItemDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.black.withOpacity(0.37),
+            ),
+            gradient: const LinearGradient(
+              colors: [Colors.black38, Colors.black],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.28),
+                blurRadius: 30,
+              )
+            ],
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.white.withOpacity(0.7),
+            size: 20,
+          ),
+          selectedIconTheme: const IconThemeData(
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
+        extendedTheme: const SidebarXTheme(
+          width: 200,
+          decoration: BoxDecoration(
+            color: Colors.black,
+          ),
+        ),
+        headerBuilder: (context, extended) {
+          return SizedBox(
+            width: 100,
+            height: 100,
+            child: SpriteAnimationWidget.asset(
+              path: "assets/images/Main Characters/Mask Dude/Idle (32x32).png",
+              data: SpriteAnimationData.sequenced(
+                amount: 11,
+                stepTime: 0.05,
+                textureSize: Vector2(32, 32),
+                loop: true,
+              ),
+            ),
+          );
+        },
+        items: [
+          SidebarXItem(
+            icon: Icons.play_arrow_rounded,
+            label: 'Start Game',
+            onTap: () {
+              changeMode("flame");
+            },
+          ),
+          SidebarXItem(
+            icon: Icons.settings_accessibility,
+            label: 'Choose Character',
+            onTap: () {
+              changeMode("character_mode");
+            },
+          ),
+          SidebarXItem(
+            icon: Icons.map,
+            label: 'Choose Level',
+            onTap: () {
+              changeMode("level_mode");
+            },
+          ),
+          const SidebarXItem(
+            icon: Icons.settings,
+            label: 'Settings',
+          ),
+          const SidebarXItem(
+            iconWidget: FlutterLogo(size: 20),
+            label: 'Flutter',
+          ),
+        ],
+        footerDivider: Divider(
+          color: Colors.white.withOpacity(0.5),
+          thickness: 0.5,
+        ),
+      ),
+      body: Column(
+        children: [
+          Expanded(child: _currentMode.controllerWidget()), // Your app screen body
+        ],
+      ),
+    );
   }
 
-  void changeMode(String m) {
+  void changeMode(String option) {
     for (GruMinionMode mode in _modes) {
-      if (m == mode.name()) {
+      if (option == mode.name()) {
         _currentMode = mode;
-        _currentMode.initController();
       }
     }
+    _send(option);
+    _currentMode.initController();
     setState(() {});
   }
 

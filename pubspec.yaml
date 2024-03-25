@@ -37,6 +37,7 @@ dependencies:
   scaled_list: ^2.0.0
   flame_splash_screen: ^0.3.0
   animated_text_kit: ^4.2.2
+  sidebarx: ^0.16.3
 
 dev_dependencies:
   flutter_test:

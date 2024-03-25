@@ -39,5 +39,5 @@ class CharacterMode extends GruMinionMode {
   }
 
   @override
-  String name() => "character_name";
+  String name() => "character_mode";
 }

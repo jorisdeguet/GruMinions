@@ -39,5 +39,5 @@ class LevelMode extends GruMinionMode {
   }
 
   @override
-  String name() => "level_name";
+  String name() => "level_mode";
 }

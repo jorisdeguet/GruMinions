@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gru_minions/modes/base/base-mode.dart';
 import 'package:gru_minions/modes/list_of_modes.dart';
 import 'package:gru_minions/service/minion_service.dart';
 import 'package:gru_minions/widget/minion_base_widget.dart';
+
+import '../modes/base/base-mode.dart';
 
 class ViewPage extends StatefulWidget {
   const ViewPage({super.key});
@@ -14,6 +15,7 @@ class ViewPage extends StatefulWidget {
 
 class _ViewPageState extends MinionBaseWidgetState<ViewPage> {
   late final List<GruMinionMode> _modes = listOfModes(_send);
+
   late GruMinionMode _currentMode = _modes[0];
 
   @override
@@ -30,11 +32,12 @@ class _ViewPageState extends MinionBaseWidgetState<ViewPage> {
     return _currentMode.screenWidget(context);
   }
 
-  void changeMode(String m) {
+  void changeMode(String option) {
     for (GruMinionMode mode in _modes) {
-      if (m == mode.name()) {
+      if (option == mode.name()) {
+        print("Minion mode changed to $option");
         _currentMode = mode;
-        _currentMode.initScreen();
+        _currentMode.screenWidget(context);
       }
     }
     setState(() {});
