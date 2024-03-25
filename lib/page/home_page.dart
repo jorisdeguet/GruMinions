@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gru_minions/page/controller_page.dart';
-import 'package:gru_minions/page/view_page.dart';
-import 'package:gru_minions/service/gru_service.dart';
-import 'package:gru_minions/service/minion_service.dart';
+import 'package:gru_minions/page/screen_page.dart';
+import 'package:gru_minions/service/controller_service.dart';
+import 'package:gru_minions/service/screen_service.dart';
 import 'package:gru_minions/service/utils.dart';
 import 'package:stroke_text/stroke_text.dart';
 
@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ViewPage()),
+              MaterialPageRoute(builder: (context) => const ScreenPage()),
             ).then((value) => _resetServices());
           },
           icon: const Icon(Icons.tv, color: Colors.black),
@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _resetServices() {
-    Get.delete<GruService>();
-    Get.delete<MinionService>();
+    Get.delete<ControllerService>();
+    Get.delete<ScreenService>();
   }
 }

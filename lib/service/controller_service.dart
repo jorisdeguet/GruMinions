@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/service/base_network_service.dart';
-import 'package:gru_minions/service/gru_status.dart';
+import 'package:gru_minions/service/controller_status.dart';
 
-class GruService extends BaseNetworkService {
-  Rx<BossStatus> bossStatus = BossStatus.none.obs;
+class ControllerService extends BaseNetworkService {
+  Rx<ControllerStatus> bossStatus = ControllerStatus.none.obs;
 
   Rx<String> onReceive = ''.obs;
 
@@ -19,12 +19,12 @@ class GruService extends BaseNetworkService {
   WifiP2PInfo? info;
 
 
-  GruService() {
+  ControllerService() {
     init();
   }
 
   Future<void> init() async {
-    bossStatus.value = BossStatus.initializing;
+    bossStatus.value = ControllerStatus.initializing;
 
     await p2p.initialize();
     await p2p.register();
@@ -46,7 +46,7 @@ class GruService extends BaseNetworkService {
         debugPrint('GruService   ip : ${event.groupOwnerAddress}');
         debugPrint('GruService   clients : $foundClients');
       } else if (!_creatingGroup && !_groupCreated) {
-        bossStatus.value = BossStatus.creatingGroup;
+        bossStatus.value = ControllerStatus.creatingGroup;
         _creatingGroup = true;
         p2p.createGroup();
       }
@@ -54,7 +54,7 @@ class GruService extends BaseNetworkService {
   }
 
   Future _startBossSocket(WifiP2PInfo info) async {
-    bossStatus.value = BossStatus.openingSocket;
+    bossStatus.value = ControllerStatus.openingSocket;
     await p2p.startSocket(
       groupOwnerAddress: info.groupOwnerAddress,
       downloadPath: "/storage/emulated/0/Download/",
@@ -85,7 +85,7 @@ class GruService extends BaseNetworkService {
         // onReceive.call(message);
       },
     );
-    bossStatus.value = BossStatus.active;
+    bossStatus.value = ControllerStatus.active;
   }
 
   @override

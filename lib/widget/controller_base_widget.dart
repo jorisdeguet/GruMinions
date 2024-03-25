@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gru_minions/service/gru_service.dart';
-import 'package:gru_minions/service/gru_status.dart';
+import 'package:gru_minions/service/controller_service.dart';
+import 'package:gru_minions/service/controller_status.dart';
 
-abstract class BossBaseWidgetState<T extends StatefulWidget> extends State<T> {
-  late GruService bossService;
+abstract class ControllerBaseWidgetState<T extends StatefulWidget> extends State<T> {
+  late ControllerService controllerService;
 
   Widget content(BuildContext context);
 
   @override
   void initState() {
     super.initState();
-    bossService = Get.find();
+    controllerService = Get.find();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        switch (bossService.bossStatus.value) {
-          case BossStatus.initializing:
+        switch (controllerService.bossStatus.value) {
+          case ControllerStatus.initializing:
             return _loading(subText: 'Initialisation...');
-          case BossStatus.creatingGroup:
+          case ControllerStatus.creatingGroup:
             return _loading(subText: 'Création du groupe...');
-          case BossStatus.openingSocket:
+          case ControllerStatus.openingSocket:
             return _loading(subText: 'Ouverture du socket...');
-          case BossStatus.active:
+          case ControllerStatus.active:
             return content(context);
           default:
             return _loading();

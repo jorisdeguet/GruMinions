@@ -2,14 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:gru_minions/service/minion_status.dart';
+import 'package:gru_minions/service/screen_status.dart';
 import 'package:mac_address/mac_address.dart';
 
-import '../service/minion_service.dart';
+import '../service/screen_service.dart';
 
-abstract class MinionBaseWidgetState<T extends StatefulWidget>
+abstract class ViewBaseWidgetState<T extends StatefulWidget>
     extends State<T> {
-  late MinionService minionService;
+  late ScreenService viewService;
 
   List<String> logs = [];
 
@@ -29,7 +29,7 @@ abstract class MinionBaseWidgetState<T extends StatefulWidget>
     super.initState();
     _initMac();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    minionService = Get.find();
+    viewService = Get.find();
   }
 
   @override
@@ -37,17 +37,17 @@ abstract class MinionBaseWidgetState<T extends StatefulWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        switch (minionService.minionStatus.value) {
-          case MinionStatus.initializing:
+        switch (viewService.minionStatus.value) {
+          case ViewStatus.initializing:
             return _loading(subText: '${macAddress()} Initialisation...');
-          case MinionStatus.searchingBoss:
+          case ViewStatus.searchingBoss:
             return _loading(subText: '${macAddress()} Recherche de Gru...');
-          case MinionStatus.connectingBoss:
+          case ViewStatus.connectingBoss:
             return _loading(subText: '${macAddress()} Connection à Gru...');
-          case MinionStatus.connectingSocket:
+          case ViewStatus.connectingSocket:
             return _loading(
                 subText: '${macAddress()} Connection au socket de Gru...');
-          case MinionStatus.active:
+          case ViewStatus.active:
             return content(context);
           default:
             return _loading();
@@ -82,17 +82,17 @@ abstract class MinionBaseWidgetState<T extends StatefulWidget>
                   ),
                 ],
               )),
-              minionService.grus.length < 2
+              viewService.grus.length < 2
                   ? Container()
                   : Expanded(
                       child: ListView(
-                      children: minionService.grus.map((gru) {
+                      children: viewService.grus.map((gru) {
                         return ListTile(
                           title: Text(gru.deviceName),
                           subtitle: Text(gru.deviceAddress),
                           trailing: ElevatedButton.icon(
                               onPressed: () {
-                                minionService.initiateConnectionToGru(gru);
+                                viewService.initiateConnectionToGru(gru);
                               },
                               icon: const Icon(Icons.wifi_find),
                               label: const Text("connect")),
@@ -108,7 +108,7 @@ abstract class MinionBaseWidgetState<T extends StatefulWidget>
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView(
-                  children: minionService.logs
+                  children: viewService.logs
                       .map((e) => Text(
                             e,
                             style: const TextStyle(color: Colors.white60),

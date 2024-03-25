@@ -7,7 +7,7 @@ import 'package:gru_minions/modes/flame/screen.dart';
 import 'game/pixel_adventure.dart';
 
 // taken from https://github.com/flame-games/player_move
-class FlameMode extends GruMinionMode {
+class FlameMode extends ScreenControllerOption {
   FlameMode({required super.sendToOthers});
 
   @override

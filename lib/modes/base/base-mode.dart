@@ -20,12 +20,12 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
 }
 
 // This is the base interface to interact with a stepGame
-abstract class GruMinionMode {
+abstract class ScreenControllerOption {
   final Function sendToOthers;
 
   String _macAddress = "no mac";
 
-  GruMinionMode({required this.sendToOthers}) {
+  ScreenControllerOption({required this.sendToOthers}) {
     _initMac();
   }
 

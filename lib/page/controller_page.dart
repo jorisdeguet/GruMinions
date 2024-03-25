@@ -1,17 +1,14 @@
 
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gru_minions/modes/player/character_mode.dart';
-import 'package:gru_minions/service/gru_service.dart';
-import 'package:gru_minions/widget/boss_base_widget.dart';
+import 'package:gru_minions/service/controller_service.dart';
+import 'package:gru_minions/widget/controller_base_widget.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../modes/base/base-mode.dart';
-import '../modes/flame/flame.dart';
-import '../modes/level/level_mode.dart';
+import '../modes/character/character_mode.dart';
 import '../modes/list_of_modes.dart';
 
 class Controller extends StatefulWidget {
@@ -21,15 +18,15 @@ class Controller extends StatefulWidget {
   State<Controller> createState() => _MainBossPageState();
 }
 
-class _MainBossPageState extends BossBaseWidgetState<Controller> {
+class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
   final List<String> _messages = [];
-  late final List<GruMinionMode> _modes = listOfModes(_send);
-  late GruMinionMode _currentMode;
+  late final List<ScreenControllerOption> _modes = listOfModes(_send);
+  late ScreenControllerOption _currentMode;
 
   @override
   void initState() {
-    Get.put(GruService());
-    GruService service = Get.find<GruService>();
+    Get.put(ControllerService());
+    ControllerService service = Get.find<ControllerService>();
     service.onReceive.listen((element) {
       _receive(element);
     });
@@ -148,7 +145,7 @@ class _MainBossPageState extends BossBaseWidgetState<Controller> {
   }
 
   void changeMode(String option) {
-    for (GruMinionMode mode in _modes) {
+    for (ScreenControllerOption mode in _modes) {
       if (option == mode.name()) {
         _currentMode = mode;
       }
@@ -160,7 +157,7 @@ class _MainBossPageState extends BossBaseWidgetState<Controller> {
 
   void _send(String m) {
     _messages.insert(0, "Gru - $m");
-    Get.find<GruService>().p2p.sendStringToSocket(m);
+    Get.find<ControllerService>().p2p.sendStringToSocket(m);
     setState(() {});
   }
 

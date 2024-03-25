@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 
-class ViewCharacter extends StatefulWidget {
-  const ViewCharacter({super.key});
+class ScreenCharacter extends StatefulWidget {
+  const ScreenCharacter({super.key});
 
   @override
-  State<ViewCharacter> createState() => _ViewCharacterState();
+  State<ScreenCharacter> createState() => _ScreenCharacterState();
 }
 
-class _ViewCharacterState extends State<ViewCharacter> {
+class _ScreenCharacterState extends State<ScreenCharacter> {
 
   @override
   Widget build(BuildContext context) {

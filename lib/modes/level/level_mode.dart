@@ -6,7 +6,7 @@ import 'package:gru_minions/modes/flame/helpers/direction.dart';
 
 
 // taken from https://github.com/flame-games/player_move
-class LevelMode extends GruMinionMode {
+class LevelMode extends ScreenControllerOption {
   LevelMode({required super.sendToOthers});
 
   @override

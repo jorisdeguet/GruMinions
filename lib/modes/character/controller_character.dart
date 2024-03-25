@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scaled_list/scaled_list.dart';
 import 'package:stroke_text/stroke_text.dart';
 
-import '../../service/gru_service.dart';
+import '../../service/controller_service.dart';
 import '../base/base-mode.dart';
 import '../level/controller_level.dart';
 import '../level/level_mode.dart';
@@ -21,8 +21,8 @@ class ControllerCharacter extends StatefulWidget {
 
 class _ControllerCharacterState extends State<ControllerCharacter> {
   final List<String> _messages = [];
-  late final List<GruMinionMode> _modes = listOfModes(_send);
-  late GruMinionMode _currentMode;
+  late final List<ScreenControllerOption> _modes = listOfModes(_send);
+  late ScreenControllerOption _currentMode;
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +130,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
 
   void _send(String m) {
     _messages.insert(0, "Gru - $m");
-    Get.find<GruService>().p2p.sendStringToSocket(m);
+    Get.find<ControllerService>().p2p.sendStringToSocket(m);
     setState(() {});
   }
 

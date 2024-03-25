@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/base/base-mode.dart';
-import 'package:gru_minions/modes/player/controller_character.dart';
 import 'package:gru_minions/modes/flame/helpers/direction.dart';
-import 'package:gru_minions/modes/player/view_character.dart';
+
+import 'controller_character.dart';
+import 'screen_character.dart';
 
 
 // taken from https://github.com/flame-games/player_move
-class CharacterMode extends GruMinionMode {
+class CharacterMode extends ScreenControllerOption {
   CharacterMode({required super.sendToOthers});
 
   @override
@@ -22,7 +23,7 @@ class CharacterMode extends GruMinionMode {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return const ViewCharacter();
+    return const ScreenCharacter();
   }
 
   @override

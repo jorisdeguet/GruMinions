@@ -6,10 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gru_minions/modes/level/level_mode.dart';
 import 'package:stroke_text/stroke_text.dart';
 
-import '../../service/gru_service.dart';
+import '../../service/controller_service.dart';
 import '../base/base-mode.dart';
+import '../character/controller_character.dart';
 import '../flame/flame.dart';
-import '../player/controller_character.dart';
 
 class ControllerLevel extends StatefulWidget {
   const ControllerLevel({
@@ -31,12 +31,12 @@ class _ControllerLevelState extends State<ControllerLevel> {
   ];
 
   final List<String> _messages = [];
-  late GruMinionMode _currentMode;
+  late ScreenControllerOption _currentMode;
 
   @override
   void initState() {
-    Get.put(GruService());
-    GruService service = Get.find<GruService>();
+    Get.put(ControllerService());
+    ControllerService service = Get.find<ControllerService>();
     service.onReceive.listen((element) {
       _receive(element);
     });
@@ -123,7 +123,7 @@ class _ControllerLevelState extends State<ControllerLevel> {
 
   void _send(String m) {
     _messages.insert(0, "Gru - $m");
-    Get.find<GruService>().p2p.sendStringToSocket(m);
+    Get.find<ControllerService>().p2p.sendStringToSocket(m);
     setState(() {});
   }
 

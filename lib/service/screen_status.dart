@@ -1,4 +1,4 @@
-enum MinionStatus {
+enum ViewStatus {
   none,
   initializing,
   searchingBoss,

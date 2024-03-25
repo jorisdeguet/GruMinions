@@ -7,13 +7,13 @@ import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/service/base_network_service.dart';
 
-import 'minion_status.dart';
+import 'screen_status.dart';
 
 // Quand on a un reasoncode= 2 c'est https://developer.android.com/reference/android/net/wifi/p2p/WifiP2pManager#BUSY
 // https://developer.android.com/reference/android/net/wifi/p2p/WifiP2pManager.ActionListener#onFailure(int)
 
-class MinionService extends BaseNetworkService {
-  Rx<MinionStatus> minionStatus = MinionStatus.none.obs;
+class ScreenService extends BaseNetworkService {
+  Rx<ViewStatus> minionStatus = ViewStatus.none.obs;
   Rx<String> onReceive = ''.obs;
 
   bool _connectingToBoss = false;
@@ -28,7 +28,7 @@ class MinionService extends BaseNetworkService {
 
   List<String> logs = [];
 
-  MinionService() {
+  ScreenService() {
     _init();
   }
 
@@ -38,7 +38,7 @@ class MinionService extends BaseNetworkService {
   }
 
   void _init() async {
-    minionStatus.value = MinionStatus.initializing;
+    minionStatus.value = ViewStatus.initializing;
 
     await Future.delayed(const Duration(seconds: 1));
     await p2p.initialize();
@@ -60,8 +60,8 @@ class MinionService extends BaseNetworkService {
       // TODO on ne veut pas forcément passer dans ce mode non?
       _log(
           'Minion Service got peers ${_connected.toString()} ${_connectingToBoss.toString()}');
-      if (minionStatus.value != MinionStatus.active) {
-        minionStatus.value = MinionStatus.searchingBoss;
+      if (minionStatus.value != ViewStatus.active) {
+        minionStatus.value = ViewStatus.searchingBoss;
         _peers = event;
         _log('Minion Service got peers$_peers');
         grus =
@@ -97,7 +97,7 @@ class MinionService extends BaseNetworkService {
   void initiateConnectionToGru(DiscoveredPeers gru) {
     _log('Minion Service connecting to Gru ${gru.deviceAddress}');
     _connectingToBoss = true;
-    minionStatus.value = MinionStatus.connectingBoss;
+    minionStatus.value = ViewStatus.connectingBoss;
     p2p.connect(gru.deviceAddress).then((bool value) {
       _log('Minion Service connection is $value');
     });
@@ -131,7 +131,7 @@ class MinionService extends BaseNetworkService {
   }
 
   Future connectToSocket(WifiP2PInfo info) async {
-    minionStatus.value = MinionStatus.connectingSocket;
+    minionStatus.value = ViewStatus.connectingSocket;
     bool succeeded = false;
     while (!succeeded) {
       succeeded = await p2p.connectToSocket(
@@ -141,7 +141,7 @@ class MinionService extends BaseNetworkService {
         deleteOnError: true,
         onConnect: (String address) {
           _connected = true;
-          minionStatus.value = MinionStatus.active;
+          minionStatus.value = ViewStatus.active;
           debugPrint("Minion Service  $info");
           DiscoveredPeers boss =
               _peers.firstWhere((DiscoveredPeers peer) => peer.isGroupOwner);
