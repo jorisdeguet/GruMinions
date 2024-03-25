@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/service/screen_service.dart';
-import 'package:gru_minions/widget/view_base_widget.dart';
+import 'package:gru_minions/widget/screen_base_widget.dart';
 
 import '../options/base/base-mode.dart';
 import '../options/list_of_modes.dart';
@@ -14,7 +14,7 @@ class ScreenPage extends StatefulWidget {
   State<ScreenPage> createState() => _ScreenPageState();
 }
 
-class _ScreenPageState extends ViewBaseWidgetState<ScreenPage> {
+class _ScreenPageState extends ScreenBaseWidgetState<ScreenPage> {
   late final List<ScreenControllerOption> _options = listOfModes(_send);
 
   late ScreenControllerOption _currentOption = _options[0];

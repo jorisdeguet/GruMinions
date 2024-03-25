@@ -7,7 +7,7 @@ import 'package:mac_address/mac_address.dart';
 
 import '../service/screen_service.dart';
 
-abstract class ViewBaseWidgetState<T extends StatefulWidget>
+abstract class ScreenBaseWidgetState<T extends StatefulWidget>
     extends State<T> {
   late ScreenService viewService;
 

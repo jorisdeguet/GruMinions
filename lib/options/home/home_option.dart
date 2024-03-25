@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gru_minions/options/home/controller_home.dart';
+
 import '../base/base-mode.dart';
 import '../flame/helpers/direction.dart';
-import 'controller_character.dart';
-import 'screen_character.dart';
+import 'screen_home.dart';
 
 // taken from https://github.com/flame-games/player_move
-class CharacterMode extends ScreenControllerOption {
-  CharacterMode({required super.sendToOthers});
+class HomeOption extends ScreenControllerOption {
+  HomeOption({required super.sendToOthers});
 
   @override
   void initController() {}
@@ -16,12 +17,12 @@ class CharacterMode extends ScreenControllerOption {
 
   @override
   Widget controllerWidget() {
-    return const ControllerCharacter();
+    return const ControllerHome();
   }
 
   @override
   Widget screenWidget(BuildContext context) {
-    return const ScreenCharacter();
+    return const ScreenHome();
   }
 
   @override
@@ -30,13 +31,10 @@ class CharacterMode extends ScreenControllerOption {
   @override
   void handleMessageAsMinion(String s) {
     // change the direction for Minion game
-    print(s);
-
     Direction d = Direction.values.firstWhere((e) => s.contains(e.name));
-    print("Good  $d");
     //_game.onJoyPad1DirectionChanged(d);
   }
 
   @override
-  String name() => "character_mode";
+  String name() => "home_mode";
 }

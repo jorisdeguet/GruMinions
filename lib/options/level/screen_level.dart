@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ViewLevel extends StatefulWidget {
-  const ViewLevel({
+class ScreenLevel extends StatefulWidget {
+  const ScreenLevel({
     super.key,
     required this.character,
   });
@@ -9,10 +9,10 @@ class ViewLevel extends StatefulWidget {
   final String character;
 
   @override
-  State<ViewLevel> createState() => _ViewLevelState();
+  State<ScreenLevel> createState() => _ScreenLevelState();
 }
 
-class _ViewLevelState extends State<ViewLevel> {
+class _ScreenLevelState extends State<ScreenLevel> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

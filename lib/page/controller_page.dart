@@ -1,5 +1,3 @@
-import 'package:flame/components.dart';
-import 'package:flame/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +6,7 @@ import 'package:gru_minions/widget/controller_base_widget.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../options/base/base-mode.dart';
-import '../options/character/character_mode.dart';
+import '../options/character/character_option.dart';
 import '../options/list_of_modes.dart';
 
 class Controller extends StatefulWidget {
@@ -30,7 +28,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
     service.onReceive.listen((element) {
       _receive(element);
     });
-    _currentMode = CharacterMode(sendToOthers: _send);
+    _currentMode = CharacterOption(sendToOthers: _send);
     _currentMode.initController();
     super.initState();
   }
@@ -87,7 +85,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
         ),
         headerBuilder: (context, extended) {
           return const Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.only(left: 10.0, right: 10.0),
             child: ClipOval(
                 child: CircleAvatar(
               radius: 60,

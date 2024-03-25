@@ -1,14 +1,9 @@
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
 
-import '../../service/controller_service.dart';
-import '../base/base-mode.dart';
 import '../character/controller_character.dart';
-import '../flame/flame.dart';
-import 'level_mode.dart';
 
 class ControllerLevel extends StatefulWidget {
   const ControllerLevel({
@@ -19,7 +14,7 @@ class ControllerLevel extends StatefulWidget {
   final String character;
 
   @override
-  _ControllerLevelState createState() => _ControllerLevelState();
+  State<ControllerLevel> createState() => _ControllerLevelState();
 }
 
 class _ControllerLevelState extends State<ControllerLevel> {
@@ -44,20 +39,7 @@ class _ControllerLevelState extends State<ControllerLevel> {
     '18',
     '19',
     '20',
-    '21',
-    '22',
-    '23',
-    '24',
-    '25',
-    '26',
-    '27',
-    '28',
-    '29',
-    '30',
   ];
-
-  final List<String> _messages = [];
-  late ScreenControllerOption _currentMode;
 
   @override
   Widget build(BuildContext context) {

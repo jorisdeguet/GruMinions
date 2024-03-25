@@ -1,16 +1,10 @@
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scaled_list/scaled_list.dart';
 import 'package:stroke_text/stroke_text.dart';
 
-import '../../service/controller_service.dart';
-import '../base/base-mode.dart';
-import '../level/controller_level.dart';
-import '../level/level_mode.dart';
-import '../list_of_modes.dart';
 
 class ControllerCharacter extends StatefulWidget {
   const ControllerCharacter({super.key});

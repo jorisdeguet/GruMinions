@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../base/base-mode.dart';
 import '../flame/helpers/direction.dart';
 import 'controller_level.dart';
-import 'view_level.dart';
+import 'screen_level.dart';
 
 // taken from https://github.com/flame-games/player_move
-class LevelMode extends ScreenControllerOption {
-  LevelMode({required super.sendToOthers});
+class LevelOption extends ScreenControllerOption {
+  LevelOption({required super.sendToOthers});
 
   @override
   void initController() {}
@@ -22,7 +22,7 @@ class LevelMode extends ScreenControllerOption {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return const ViewLevel(character: "Virtual Guy");
+    return const ScreenLevel(character: "Virtual Guy");
   }
 
   @override
@@ -31,10 +31,7 @@ class LevelMode extends ScreenControllerOption {
   @override
   void handleMessageAsMinion(String s) {
     // change the direction for Minion game
-    print(s);
-
     Direction d = Direction.values.firstWhere((e) => s.contains(e.name));
-    print("Good  $d");
     //_game.onJoyPad1DirectionChanged(d);
   }
 
