@@ -98,7 +98,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
             icon: Icons.home_rounded,
             label: 'Home',
             onTap: () {
-              changeMode("home-option");
+              changeMode("home_option");
             },
           ),
           SidebarXItem(

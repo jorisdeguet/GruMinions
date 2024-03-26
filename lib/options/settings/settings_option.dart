@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:gru_minions/options/settings/controller_settings.dart';
+import 'package:gru_minions/options/settings/screen_settings.dart';
 
 import '../base/base-mode.dart';
 import '../flame/helpers/direction.dart';
@@ -16,12 +18,12 @@ class SettingsOption extends ScreenControllerOption {
 
   @override
   Widget controllerWidget() {
-    return const Text('data');
+    return ControllerSettings(macAddress: macAddress());
   }
 
   @override
   Widget screenWidget(BuildContext context) {
-    return const Text('data');
+    return ScreenSettings(macAddress: macAddress());
   }
 
   @override

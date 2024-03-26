@@ -16,7 +16,7 @@ class _ScreenHomeState extends State<ScreenHome> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('View Level')],
+          children: [Text('View Home')],
         ),
       ),
     );
