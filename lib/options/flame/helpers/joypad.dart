@@ -47,17 +47,16 @@ class JoyPadState extends State<JoyPad> {
         ),
         const SizedBox(width: 120),
         GestureDetector(
-          onTap: () {
+          onTapDown: (d) {
             _jump();
           },
-          onTapUp: (d) {
-            _doesNotMove();
+          onTapCancel: () {
+            _doesNotJump();
           },
           child: IconButton(
             icon: const Icon(Icons.arrow_upward),
             iconSize: 120,
-            onPressed: () {
-            },
+            onPressed: () {},
           ),
         ),
       ],
