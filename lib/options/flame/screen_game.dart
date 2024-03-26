@@ -13,19 +13,16 @@ class ScreenGame extends StatefulWidget {
   @override
   State<ScreenGame> createState() => _ScreenGameState();
 
-  const ScreenGame({super.key, required this.character, required this.level});
+  const ScreenGame({super.key, required this.game});
 
-  final String character;
-  final String level;
+  final PixelAdventure game;
 }
 
 class _ScreenGameState extends State<ScreenGame> {
-  late PixelAdventure game;
   late TimerBar timerBar;
 
   @override
   initState() {
-    game = PixelAdventure(character: widget.character, level: widget.level);
     super.initState();
   }
 
@@ -42,14 +39,14 @@ class _ScreenGameState extends State<ScreenGame> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    LifeBar(life: game.player.life, game: game),
+                    LifeBar(life: widget.game.player.life, game: widget.game),
                     Padding(
                       padding: const EdgeInsets.only(right: 20.0),
                       //remove for game release
                       child: Column(
                         children: [
-                          ScoreBar(score: game.score),
-                          TimerBar(game: game, time: game.time),
+                          ScoreBar(score: widget.game.score),
+                          TimerBar(game: widget.game, time: widget.game.time),
                         ],
                       ),
                     ),
@@ -59,7 +56,7 @@ class _ScreenGameState extends State<ScreenGame> {
             ),
             Expanded(
               child: GameWidget(
-                game: game,
+                game: widget.game,
                 overlayBuilderMap: {
                   'Menu': (BuildContext context, PixelAdventure game) {
                     return Menu(game: game);

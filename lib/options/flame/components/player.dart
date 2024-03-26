@@ -203,25 +203,27 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _updatePlayerMovement(double dt) {
+    switch (direction) {
+      case Direction.up:
+        isJumping = true;
+        break;
+      case Direction.down:
+        isJumping = false;
+        break;
+      case Direction.left:
+        directionX = -1;
+        break;
+      case Direction.right:
+        directionX = 1;
+        break;
+      case Direction.none:
+        directionX = 0;
+        break;
+    }
+
     if (isJumping && isOnGround) _playerJump(dt);
     if (isJumping && !isOnGround && canDoubleJump) _playerDoubleJump(dt);
 
-    switch (direction) {
-      case Direction.up:
-        //_moveUp(delta);
-        break;
-      case Direction.down:
-        //_moveDown(delta);
-        break;
-      case Direction.left:
-        velocity.x = -1;
-        break;
-      case Direction.right:
-        velocity.x = 1;
-        break;
-      case Direction.none:
-        break;
-    }
     velocity.x = directionX * moveSpeed;
     position.x += velocity.x * dt;
   }

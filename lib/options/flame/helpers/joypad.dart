@@ -20,11 +20,11 @@ class JoyPadState extends State<JoyPad> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
-          onTapUp: (details) {
-            _doesNotMove();
-          },
-          onTapDown: (details) {
+          onTapDown: (d) {
             _moveLeft();
+          },
+          onTapCancel: () {
+            _doesNotMove();
           },
           child: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -33,11 +33,11 @@ class JoyPadState extends State<JoyPad> {
           ),
         ),
         GestureDetector(
-          onTapUp: (details) {
-            _doesNotMove();
-          },
-          onTapDown: (details) {
+          onTapDown: (d) {
             _moveRight();
+          },
+          onTapCancel: () {
+            _doesNotMove();
           },
           child: IconButton(
             icon: const Icon(Icons.arrow_forward),
@@ -47,16 +47,17 @@ class JoyPadState extends State<JoyPad> {
         ),
         const SizedBox(width: 120),
         GestureDetector(
-          onTapUp: (details) {
-            _doesNotJump();
-          },
-          onTapDown: (details) {
+          onTap: () {
             _jump();
+          },
+          onTapUp: (d) {
+            _doesNotMove();
           },
           child: IconButton(
             icon: const Icon(Icons.arrow_upward),
             iconSize: 120,
-            onPressed: () {},
+            onPressed: () {
+            },
           ),
         ),
       ],
@@ -66,30 +67,30 @@ class JoyPadState extends State<JoyPad> {
   void _doesNotMove() {
     direction = Direction.none;
     widget.onDirectionChanged!(direction);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
+    //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
   }
 
   void _moveLeft() {
     direction = Direction.left;
     widget.onDirectionChanged!(direction);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
+    //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
   }
 
   void _moveRight() {
     direction = Direction.right;
     widget.onDirectionChanged!(direction);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
-  }
-
-  void _doesNotJump() {
-    direction = Direction.down;
-    widget.onDirectionChanged!(direction);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
+    //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
   }
 
   void _jump() {
     direction = Direction.up;
     widget.onDirectionChanged!(direction);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
+    //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
+  }
+
+  void _doesNotJump() {
+    direction = Direction.down;
+    widget.onDirectionChanged!(direction);
+    //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
   }
 }

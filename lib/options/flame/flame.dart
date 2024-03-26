@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gru_minions/options/flame/game/pixel_adventure.dart';
 import 'package:gru_minions/options/flame/screen_game.dart';
 
 import '../base/base-mode.dart';
@@ -8,6 +10,8 @@ import 'helpers/direction.dart';
 // taken from https://github.com/flame-games/player_move
 class FlameMode extends ScreenControllerOption {
   FlameMode({required super.sendToOthers});
+
+  final PixelAdventure _game = PixelAdventure(character: "Virtual Guy", level: "01");
 
   @override
   void initController() {}
@@ -24,7 +28,7 @@ class FlameMode extends ScreenControllerOption {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return const ScreenGame(character: "Virtual Guy", level: "01");
+    return ScreenGame(game: _game,);
   }
 
   @override
@@ -33,11 +37,15 @@ class FlameMode extends ScreenControllerOption {
   @override
   void handleMessageAsMinion(String s) {
     // change the direction for Minion game
-    print(s);
+    if (kDebugMode) {
+      print(s);
+    }
 
     Direction d = Direction.values.firstWhere((e) => s.contains(e.name));
-    print("Good  $d");
-    //_game.onJoyPad1DirectionChanged(d);
+    if (kDebugMode) {
+      print("Good  $d");
+    }
+    _game.onJoyPad1DirectionChanged(d);
   }
 
   @override
