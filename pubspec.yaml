@@ -38,6 +38,7 @@ dependencies:
   flame_splash_screen: ^0.3.0
   animated_text_kit: ^4.2.2
   sidebarx: ^0.16.3
+  blinking_text: ^1.0.2
 
 dev_dependencies:
   flutter_test:

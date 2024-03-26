@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gru_minions/page/home_page.dart';
 import 'package:gru_minions/page/splash_screen.dart';
 
 // TODO make issue / fork / pull request on bug on Map<String, dynamic>? json = jsonDecode(obj); line 123 in
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: const HomePage(), //change to splash screen at the end
     );
   }
 }
