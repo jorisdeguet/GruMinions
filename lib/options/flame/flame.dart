@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gru_minions/options/flame/screen_game.dart';
 
 import '../base/base-mode.dart';
 import 'controller.dart';
-import 'game/pixel_adventure.dart';
 import 'helpers/direction.dart';
-import 'screen.dart';
 
 // taken from https://github.com/flame-games/player_move
 class FlameMode extends ScreenControllerOption {
@@ -25,7 +24,7 @@ class FlameMode extends ScreenControllerOption {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return Screen(game: PixelAdventure(character: "Virtual Guy", level: "01"));
+    return const ScreenGame(character: "Virtual Guy", level: "01");
   }
 
   @override

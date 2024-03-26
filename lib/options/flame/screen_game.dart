@@ -1,17 +1,17 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
-import '../helpers/life_bar.dart';
-import '../helpers/score_bar.dart';
-import '../helpers/time_bar.dart';
-import '../overlays/end.dart';
-import '../overlays/game_over.dart';
-import '../overlays/menu.dart';
-import 'pixel_adventure.dart';
+import 'helpers/life_bar.dart';
+import 'helpers/score_bar.dart';
+import 'helpers/time_bar.dart';
+import 'overlays/end.dart';
+import 'overlays/game_over.dart';
+import 'overlays/menu.dart';
+import 'game/pixel_adventure.dart';
 
 class ScreenGame extends StatefulWidget {
   @override
-  _ScreenGameState createState() => _ScreenGameState();
+  State<ScreenGame> createState() => _ScreenGameState();
 
   const ScreenGame({super.key, required this.character, required this.level});
 
