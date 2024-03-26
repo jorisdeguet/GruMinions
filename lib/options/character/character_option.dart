@@ -35,5 +35,5 @@ class CharacterOption extends ScreenControllerOption {
   }
 
   @override
-  String name() => "character_mode";
+  String name() => "character_option";
 }

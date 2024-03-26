@@ -35,6 +35,6 @@ class SettingsOption extends ScreenControllerOption {
   }
 
   @override
-  String name() => "level_mode";
+  String name() => "settings_option";
 }
 

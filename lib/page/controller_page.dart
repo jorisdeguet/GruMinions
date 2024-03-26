@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gru_minions/options/home/home_option.dart';
 import 'package:gru_minions/service/controller_service.dart';
 import 'package:gru_minions/widget/controller_base_widget.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../options/base/base-mode.dart';
-import '../options/character/character_option.dart';
 import '../options/list_of_modes.dart';
 
 class Controller extends StatefulWidget {
@@ -28,7 +28,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
     service.onReceive.listen((element) {
       _receive(element);
     });
-    _currentMode = CharacterOption(sendToOthers: _send);
+    _currentMode = HomeOption(sendToOthers: _send);
     _currentMode.initController();
     super.initState();
   }
@@ -98,7 +98,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
             icon: Icons.home_rounded,
             label: 'Home',
             onTap: () {
-              //changeMode("home");
+              changeMode("home-option");
             },
           ),
           SidebarXItem(
@@ -112,19 +112,22 @@ class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
             icon: Icons.settings_accessibility,
             label: 'Choose Character',
             onTap: () {
-              changeMode("character_mode");
+              changeMode("character_option");
             },
           ),
           SidebarXItem(
             icon: Icons.map,
             label: 'Choose Level',
             onTap: () {
-              changeMode("level_mode");
+              changeMode("level_option");
             },
           ),
-          const SidebarXItem(
+          SidebarXItem(
             icon: Icons.settings,
             label: 'Settings',
+            onTap: () {
+              changeMode("settings_option");
+            },
           ),
           const SidebarXItem(
             iconWidget: FlutterLogo(size: 20),

@@ -36,5 +36,5 @@ class HomeOption extends ScreenControllerOption {
   }
 
   @override
-  String name() => "home_mode";
+  String name() => "home_option";
 }

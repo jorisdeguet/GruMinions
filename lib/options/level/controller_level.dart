@@ -44,45 +44,13 @@ class _ControllerLevelState extends State<ControllerLevel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: SpriteButton.asset(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ControllerCharacter(),
-              ),
-            );
-          },
-          label: const Text(''),
-          path: 'Menu/Buttons/Back.png',
-          pressedPath: 'Menu/Buttons/Back.png',
-          width: 50,
-          height: 50,
-        ),
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: StrokeText(
-            text: 'Level',
-            strokeColor: Colors.black,
-            strokeWidth: 4,
-            textStyle: GoogleFonts.pixelifySans(
-              textStyle: const TextStyle(
-                fontSize: 80,
-                fontWeight: FontWeight.normal,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20.0),
         child: Column(
           children: [
             Expanded(
               child: GridView.count(
-                crossAxisCount: 6,
+                crossAxisCount: 5,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
                 children: _levels.map(_levelButton).toList(),
@@ -99,7 +67,7 @@ class _ControllerLevelState extends State<ControllerLevel> {
       padding: const EdgeInsets.all(8.0),
       child: SpriteButton.asset(
         onPressed: () {
-          //changeMode(level);
+          //set level
         },
         label: const Text(''),
         path: 'Menu/Levels/$level.png',

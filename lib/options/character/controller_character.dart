@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scaled_list/scaled_list.dart';
 import 'package:stroke_text/stroke_text.dart';
 
-
 class ControllerCharacter extends StatefulWidget {
   const ControllerCharacter({super.key});
 
@@ -52,8 +51,8 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 100,
-                        height: 100,
+                        width: 50,
+                        height: 50,
                         child: SpriteAnimationWidget.asset(
                           path: character.image,
                           data: SpriteAnimationData.sequenced(

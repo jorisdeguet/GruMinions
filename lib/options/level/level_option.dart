@@ -36,5 +36,5 @@ class LevelOption extends ScreenControllerOption {
   }
 
   @override
-  String name() => "level_mode";
+  String name() => "level_option";
 }
