@@ -7,6 +7,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import '../helpers/direction.dart';
 import '../helpers/jump_button.dart';
 import '../components/player.dart';
 import '../components/level.dart';
@@ -39,7 +40,6 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
   final List<String> _levels = [
     '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
     '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-    '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
   ];
 
   @override
@@ -71,6 +71,10 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
       updateJoystick();
     }
     super.update(dt);
+  }
+
+  void onJoyPad1DirectionChanged(Direction direction) {
+    player.direction = direction;
   }
 
   void addJoyStick() {

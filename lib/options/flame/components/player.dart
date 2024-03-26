@@ -16,6 +16,7 @@ import '../components/items/end.dart';
 import '../components/traps/saw.dart';
 import '../components/traps/spikes.dart';
 import '../components/traps/trampoline.dart';
+import '../helpers/direction.dart';
 import '../helpers/utils.dart';
 import '../game/pixel_adventure.dart';
 
@@ -65,6 +66,7 @@ class Player extends SpriteAnimationGroupComponent
   final ValueNotifier<double> life = ValueNotifier(100.0);
 
   //Defined variables
+  Direction direction = Direction.none;
   double fixedDeltaTime = 1 / 60;
   double accumulatedTime = 100;
   double directionX = 0;
@@ -203,6 +205,23 @@ class Player extends SpriteAnimationGroupComponent
   void _updatePlayerMovement(double dt) {
     if (isJumping && isOnGround) _playerJump(dt);
     if (isJumping && !isOnGround && canDoubleJump) _playerDoubleJump(dt);
+
+    switch (direction) {
+      case Direction.up:
+        //_moveUp(delta);
+        break;
+      case Direction.down:
+        //_moveDown(delta);
+        break;
+      case Direction.left:
+        velocity.x = -1;
+        break;
+      case Direction.right:
+        velocity.x = 1;
+        break;
+      case Direction.none:
+        break;
+    }
     velocity.x = directionX * moveSpeed;
     position.x += velocity.x * dt;
   }

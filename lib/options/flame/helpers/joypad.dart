@@ -66,25 +66,30 @@ class JoyPadState extends State<JoyPad> {
   void _doesNotMove() {
     direction = Direction.none;
     widget.onDirectionChanged!(direction);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
   }
 
   void _moveLeft() {
     direction = Direction.left;
     widget.onDirectionChanged!(direction);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
   }
 
   void _moveRight() {
     direction = Direction.right;
     widget.onDirectionChanged!(direction);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
   }
 
   void _doesNotJump() {
     direction = Direction.down;
     widget.onDirectionChanged!(direction);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
   }
 
   void _jump() {
     direction = Direction.up;
     widget.onDirectionChanged!(direction);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
   }
 }
