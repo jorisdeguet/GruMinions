@@ -1,6 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/masterfuldiviner/masterfuldiviner_game.dart';
+import 'package:gru_minions/modes/masterfuldiviner/overlays/game_over.dart';
 
 class ScreenMasterfulDivinerPage extends StatefulWidget {
   final MasterfulDivinerGame gameA;
@@ -20,7 +21,13 @@ class ScreenMasterfulDivinerState extends State<ScreenMasterfulDivinerPage> {
       children: [
         Align(
           alignment: Alignment.center,
-          child: GameWidget(game: game),
+          child: GameWidget(
+              game: game,
+              overlayBuilderMap: {
+                'GameOver': (BuildContext context, MasterfulDivinerGame game) =>
+                    GameOver(game: game),
+              }
+          ),
         ),
       ],
     );

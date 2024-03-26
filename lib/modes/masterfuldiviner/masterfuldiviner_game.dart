@@ -10,6 +10,7 @@ import 'components/bugytpes.dart';
 import 'components/masterdiviner_cameraentity.dart';
 import 'components/masterfuldiviner_bugs.dart';
 import 'helpers/masterfuldiviner_direction.dart';
+import 'overlays/game_over.dart';
 
 class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, KeyboardEvents{
   @override
@@ -34,6 +35,7 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
   int elapsedSeconds = 15;
   int numberOfBugsToFind = 0;
   int numberTypeBugToFind = 0;
+  int counter = 0;
 
   MasterfulDivinerGame(){
     interval = Timer(1,
@@ -107,7 +109,7 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
     super.update(dt);
     if(elapsedSeconds == 0){
       interval.stop();
-      //overlays.add(GameOver.iD);
+      overlays.add(GameOver.iD);
     } else {
       interval.update(dt);
     }
@@ -118,7 +120,9 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
     _cameraEntity.direction = direction;
   }
 
-  void onAButtonPressed(bool pressed) {}
+  void onAButtonPressed(bool pressed) {
+    counter++;
+  }
   //#endregion
 
   @override

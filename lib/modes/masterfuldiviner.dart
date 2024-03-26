@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:gru_minions/modes/masterfuldiviner/masterfuldiviner_game.dart';
 
 import 'base-mode.dart';
