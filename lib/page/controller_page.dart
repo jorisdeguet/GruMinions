@@ -89,7 +89,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
             child: ClipOval(
                 child: CircleAvatar(
               radius: 60,
-              backgroundImage: AssetImage("/assets/images/icon/profile.jpeg"),
+              backgroundImage: AssetImage("assets/icons/profile.png"),
             )),
           );
         },
