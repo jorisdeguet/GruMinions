@@ -60,7 +60,8 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                               width: 100,
                               height: 100,
                               child: SpriteAnimationWidget.asset(
-                                path: "Main Characters/${item.name}/Idle (32x32).png",
+                                path:
+                                    "Main Characters/${item.name}/Idle (32x32).png",
                                 //running
                                 data: SpriteAnimationData.sequenced(
                                   amount: 11,
@@ -126,6 +127,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
           ),
           CarouselSlider(
             items: characterSliders,
+            disableGesture: true,
             options: CarouselOptions(enlargeCenterPage: true, height: 300),
             carouselController: _controller,
           ),
@@ -135,10 +137,9 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               GestureDetector(
                 onTap: () {
                   _controller.previousPage();
-                  if(_current > 0){
-                    _current - 1;
-                  }
-                  else{
+                  _current = _current - 1;
+
+                  if (_current < 0) {
                     _current = 3;
                   }
                   widget.send(characters[_current].name);
@@ -193,10 +194,8 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               GestureDetector(
                 onTap: () {
                   _controller.nextPage();
-                  if(_current < 3){
-                    _current + 1;
-                  }
-                  else{
+                  _current = _current + 1;
+                  if (_current > 3) {
                     _current = 0;
                   }
                   widget.send(characters[_current].name);

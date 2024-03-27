@@ -14,6 +14,11 @@ class ScreenCharacter extends StatefulWidget {
 
 class _ScreenCharacterState extends State<ScreenCharacter> {
   @override
+  void initState() {
+    widget.characterName.value = 'Mask Dude';
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<String>(
       valueListenable: widget.characterName,
