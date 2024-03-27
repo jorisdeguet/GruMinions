@@ -1,17 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BButton extends StatefulWidget {
+class AButton extends StatefulWidget {
 
   final ValueChanged<bool>? onAButtonChanged;
 
-  const BButton({Key? key, this.onAButtonChanged}) : super(key: key);
+  const AButton({super.key, this.onAButtonChanged});
 
   @override
-  BButtonState createState() => BButtonState();
+  AButtonState createState() => AButtonState();
 }
 
-class BButtonState extends State<BButton> {
+class AButtonState extends State<AButton> {
   bool isPressed = false;
 
   @override
@@ -29,13 +28,13 @@ class BButtonState extends State<BButton> {
           child: Container(
             decoration: BoxDecoration(
               color: isPressed ? const Color(0x88ffffff) : const Color(0x44ffffff),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(50),
             ),
             child: Center(
               child: Text(
-                'B',
+                'A',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 32,
                   color: isPressed ? const Color(0x88ffffff) : const Color(0x44ffffff),
                 ),
               ),
@@ -59,4 +58,5 @@ class BButtonState extends State<BButton> {
     });
     widget.onAButtonChanged?.call(false);
   }
+
 }

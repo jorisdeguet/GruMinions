@@ -2,8 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gru_minions/modes/ski_master/helpers/skimaster_direction.dart';
 
-import 'direction.dart';
+
 
 class Joypad extends StatefulWidget {
   final ValueChanged<Direction>? onDirectionChanged;
@@ -15,7 +16,7 @@ class Joypad extends StatefulWidget {
 }
 
 class JoypadState extends State<Joypad> {
-  Direction direction = Direction.none;
+  Direction? direction;
   Offset delta = Offset.zero;
 
   @override
@@ -59,10 +60,11 @@ class JoypadState extends State<Joypad> {
 
   void _updateDelta(Offset newDelta) {
     final newDirection = _getDirectionFromOffset(newDelta);
+    print("_updateDelta newDirection: $newDirection");
 
     if (newDirection != direction) {
       direction = newDirection;
-      widget.onDirectionChanged!(direction);
+      widget.onDirectionChanged!(direction!);
     }
 
     setState(() {
@@ -75,7 +77,11 @@ class JoypadState extends State<Joypad> {
       return Direction.right;
     } else if (offset.dx < -20) {
       return Direction.left;
-    } else if (offset.dy > 20) {}
+    } else if (offset.dy > 20) {
+      return Direction.down;
+    } else if (offset.dy < -20) {
+      return Direction.up;
+    }
     return Direction.none;
   }
 

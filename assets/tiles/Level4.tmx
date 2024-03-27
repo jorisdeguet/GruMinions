@@ -4,9 +4,9 @@
   <export target="../../tiled/Level4.tmx" format="tmx"/>
  </editorsettings>
  <properties>
-  <property name="Star1" type="int" value="10"/>
-  <property name="Star2" type="int" value="13"/>
-  <property name="Star3" type="int" value="16"/>
+  <property name="Star1" type="int" value="6"/>
+  <property name="Star2" type="int" value="3"/>
+  <property name="Star3" type="int" value="0"/>
  </properties>
  <tileset firstgid="1" name="tilemap_packed" tilewidth="16" tileheight="16" tilecount="132" columns="12" objectalignment="center">
   <image source="../images/skimaster/tilemap_packed.png" width="192" height="176"/>

@@ -13,29 +13,25 @@ import '../actors/player.dart';
 import '../actors/snowman.dart';
 import '../game.dart';
 import '../hud.dart';
-import '../input.dart';
 
-//Will be a little diffrent as gameplay won't be a widget
-//Instead we want it to be a flame component so that
-//we can setup the flame world as the child of this component
+
+
 class Gameplay extends Component with HasGameReference<SkiMasterGame> {
   // onPausePressed is a optional parameter
   Gameplay(
-    this.currentLevel, {
-    super.key,
-    required this.onPausePressed,
-    required this.onLevelCompleted,
-    required this.onGameOver,
-  });
-  static const id = 'Gameplay';
+      this.currentLevel, {
+        super.key,
+        required this.onPausePressed,
+        required this.onLevelCompleted,
+        required this.onGameOver,
+      });
+  static const id = 'Gameplay ';
   static const _timeScaleRate = 1;
 
   final int currentLevel;
   final VoidCallback onPausePressed;
   final ValueChanged<int> onLevelCompleted;
   final VoidCallback onGameOver;
-
-  late final input = Input();
 
   late final _resetTimer = Timer(1, autoStart: false, onTick: resetPlayer);
   late final _cameraShake = MoveEffect.by(
@@ -47,7 +43,7 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
 
   late final World _world;
   late final CameraComponent _camera;
-  late final Player _player;
+  late final Player player;
   late final Vector2 _lastSafePosition;
   late final RectangleComponent _fader;
   late final Hud hud;
@@ -97,7 +93,7 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
     hud = Hud(
       playerSprite: _spriteSheet.getSprite(5, 10),
       snowmanSprite: _spriteSheet.getSprite(5, 9),
-      input: input,
+      player: player,
       onPausePressed: onPausePressed,
     );
 
@@ -117,13 +113,13 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
     }
     if (!hud.intervalCountdown.isRunning()) {
       if (_levelCompleted || _gameOver) {
-        _player.timeScale = lerpDouble(
-          _player.timeScale,
+        player.timeScale = lerpDouble(
+          player.timeScale,
           0,
           _timeScaleRate * dt,
         )!;
       } else {
-        if (_isOffTrail && input.active) {
+        if (_isOffTrail && player.active) {
           _resetTimer.update(dt);
 
           if (!_resetTimer.isRunning()) {
@@ -150,13 +146,13 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
 
   Future<void> _setupWorldAndCamera(TiledComponent map) async {
     // instead of adding the loaded map to gameplay, we add it as a child of world
-    _world = World(children: [map, input]);
+    _world = World(children: [map]);
     // adding the world to the gameplay component but still wont render the world
     await add(_world);
     //We neet to make the camera look at the world by setting the world as parameter
     _camera = CameraComponent.withFixedResolution(
-      width: 320,
-      height: 180,
+      width: 300,
+      height: 150,
       world: _world,
     );
     await add(_camera);
@@ -173,14 +169,15 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
       for (final object in objects) {
         switch (object.class_) {
           case 'Player':
-            //By default, a postion component does not have any visual info
-            _player = Player(
+          //By default, a postion component does not have any visual info
+            player = Player(
                 priority: 1,
                 position: Vector2(object.x, object.y),
                 sprite: _spriteSheet.getSprite(5, 10))
               ..debugMode = true;
-            await _world.add(_player);
-            _camera.follow(_player);
+            await _world.add(player);
+            //await add(player);
+            _camera.follow(player);
             _lastSafePosition = Vector2(object.x, object.y);
             break;
           case 'Snowman':
@@ -217,12 +214,6 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
             for (final point in object.polygon) {
               vertices.add(Vector2(point.x + object.x, point.y + object.y));
             }
-            //most common setup for hitbox is to add it directly to its component like we did with snomen and _player
-            //so we added the hitbox to components that extend from positioncomponent
-            //however hitobx are also components and can be direcly added to the component tree
-            //the only requirement is that they should have at least 1 ancestaor that is a position component
-            //so we will add it to the tile component since it derives from the positionComponent
-            //we do not add it to the world since its not a position component
             final hitbox = PolygonHitbox(
               vertices,
               collisionType: CollisionType.passive,
@@ -288,7 +279,7 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
   }
 
   void onRamp() {
-    final jumpFactor = _player.jump();
+    final jumpFactor = player.jump();
     final jumpScale = lerpDouble(1, 1.08, jumpFactor)!;
     final jumpDuration = lerpDouble(0, 0.8, jumpFactor)!;
 
@@ -310,14 +301,14 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
   }
 
   _onTrailStart() {
-    input.active = true;
+    player.active = true;
     _levelStarted = true;
-    _lastSafePosition.setFrom(_player.position);
+    _lastSafePosition.setFrom(player.position);
   }
 
   void _onTrailEnd() {
     _fader.add(OpacityEffect.fadeIn(LinearEffectController(1.5)));
-    input.active = false;
+    player.active = false;
     _levelCompleted = true;
     if (_nSnowmanCollected >= _star3) {
       onLevelCompleted.call(3);
@@ -342,7 +333,7 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
     hud.updateLifeCount(_nLives);
     if (_nLives > 0) {
       _fader.add(OpacityEffect.fadeOut(LinearEffectController(2)));
-      _player.resetTo(_lastSafePosition);
+      player.resetTo(_lastSafePosition);
       _avalanche?.resetTo(_lastSafePosition);
       _hudCounterStart();
     } else {

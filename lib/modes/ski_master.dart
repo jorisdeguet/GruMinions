@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/base-mode.dart';
+import 'package:gru_minions/modes/ski_master/helpers/skimaster_direction.dart';
 
 import 'ski_master/controller_a_game_page.dart';
 import 'ski_master/game/game.dart';
@@ -24,22 +25,20 @@ class SkiMaster extends GruMinionMode {
   @override
   void handleMessageAsMinion(String s) {
     // change the direction for Minion game
-    print(s);
 
     List<String> parts = s.split(',');
     String controllerId = parts[0];
 
-    //Direction direction =
-    //    Direction.values.firstWhere((e) => s.contains(e.name));
-    //print("Controller: $controllerId, Direction: $direction");
-//
-    //if (controllerId == 'ControllerA') {
-    //  _game.onJoyPad1DirectionChanged(direction);
-    //}
-    //else if (controllerId == 'ControllerB') {
-    //  _game.onJoyPad2DirectionChanged(direction);
-    //} else {
-    //  print("Unknown controller ID");
+    if(parts.length >= 2){
+      if(parts[1].contains('Direction')){
+        Direction direction = Direction.values.firstWhere((e) => parts[1].contains(e.name));
+        print("Handle message as Minion: $controllerId, $direction");
+        if (controllerId == 'ControllerA') {
+          print("Minion received controllerA $direction");
+          _game.onJoyPad1DirectionChanged(direction);
+        }
+      }
+    }
   }
 
   @override

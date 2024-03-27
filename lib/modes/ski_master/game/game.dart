@@ -1,7 +1,10 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart' hide Route, OverlayRoute;
+import 'package:get/get.dart';
 
+import '../helpers/skimaster_direction.dart';
+import 'actors/player.dart';
 import 'routes/gameplay.dart';
 import 'routes/level_complete.dart';
 import 'routes/level_selection.dart';
@@ -94,6 +97,7 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
     //So we are making a gameplay route instead
     //we will for this reason store the name/id as a optional parameter
     _router.pop();
+
     _router.pushReplacement(
         Route(
           () => Gameplay(
@@ -146,5 +150,38 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
 
   void _showRetryMenu() {
     _router.pushNamed(RetryMenu.id);
+  }
+
+  void onJoyPad1DirectionChanged(Direction direction) {
+    try{
+      final gameplay = findByKeyName<Gameplay>(Gameplay.id);
+      final firstGameplay = firstChild<Component>();
+      final list = children;
+      print("Trying to print plyer${this.world.firstChild<Player>()}");
+      print("Trying to print pllllllllyer${this.world.children}");
+      parent?.children.forEach((element) {
+
+      });
+      for (Component child in children){
+        print("kiddo  $child" );
+        print("parent is  " + parent.toString() );
+        print("has a Player " + child.children.toString());
+        print("element $child");
+      }
+
+      final gg = firstGameplay?.parent;
+      print("IG Direction : $direction $gg $firstGameplay" );
+      if (gameplay != null) {
+        print("gamplay is not null");
+      }
+      gameplay?.player.direction = direction;
+      print("Value write Player direction: $direction");
+    } catch(e){
+      print("Trying to print pllllllllyer${this.world.children}");
+      print("Error onJoyPad1DirectionChanged: $e");
+      e.printError();
+    }
+
+
   }
 }

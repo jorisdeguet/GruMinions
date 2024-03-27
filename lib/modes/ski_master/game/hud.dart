@@ -8,21 +8,19 @@ import 'package:flame/effects.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart' hide Viewport;
 
-import 'input.dart';
+import 'actors/player.dart';
 
-//to make this remain static depending on the camera we will add in the viewport of the camera
-//to enforce this relation we also add the parentIsA with viewport as a mix in the class
-//this make sure that any obj of this class is only overriden by a obj of class Viewport
+
 class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
   Hud({
     required Sprite playerSprite,
     required Sprite snowmanSprite,
-    required this.input,
+    required this.player,
     this.onPausePressed,
   })  : _player = SpriteComponent(
-          sprite: playerSprite,
-          anchor: Anchor.center,
-        ),
+    sprite: playerSprite,
+    anchor: Anchor.center,
+  ),
         _snowman = SpriteComponent(
           sprite: snowmanSprite,
           anchor: Anchor.center,
@@ -54,7 +52,7 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
   final SpriteComponent _snowman;
 
   late final JoystickComponent? _joystick;
-  final Input input;
+  final Player player;
   final VoidCallback? onPausePressed;
 
   late Timer intervalCountdown;
@@ -95,24 +93,24 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
     //adding them as child of hud
     await addAll([_player, _life, _snowman, _score]);
 
-    _joystick = JoystickComponent(
-      anchor: Anchor.center,
-      position: parent.virtualSize * 0.2,
-      knob: CircleComponent(
-        radius: 10,
-        paint: Paint()..color = Colors.green.withOpacity(0.08),
-      ),
-      background: CircleComponent(
-        radius: 20,
-        paint: Paint()
-          ..color = Colors.black.withOpacity(0.05)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 4,
-      ),
-    );
+   //_joystick = JoystickComponent(
+   //  anchor: Anchor.center,
+   //  position: parent.virtualSize * 0.2,
+   //  knob: CircleComponent(
+   //    radius: 10,
+   //    paint: Paint()..color = Colors.green.withOpacity(0.08),
+   //  ),
+   //  background: CircleComponent(
+   //    radius: 20,
+   //    paint: Paint()
+   //      ..color = Colors.black.withOpacity(0.05)
+   //      ..style = PaintingStyle.stroke
+   //      ..strokeWidth = 4,
+   //  ),
+   //);
 
-    _joystick?.position.y = parent.virtualSize.y - _joystick!.knobRadius * 1.5;
-    await _joystick?.addToParent(this);
+   //_joystick?.position.y = parent.virtualSize.y - _joystick!.knobRadius * 1.5;
+   //await _joystick?.addToParent(this);
 
     final pauseButton = HudButtonComponent(
       button: SpriteComponent.fromImage(
@@ -129,13 +127,13 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
   @override
   void update(double dt) {
     intervalCountdown.update(dt);
-    if (input.active) {
-      input.joystickHaxis = lerpDouble(
-        input.joystickHaxis,
-        _joystick!.isDragged ? _joystick!.relativeDelta.x * input.maxHAxis : 0,
-        input.sensitivity * dt,
-      )!;
-    }
+   //if (player.active) {
+   //  player.joystickHaxis = lerpDouble(
+   //    player.joystickHaxis,
+   //    _joystick!.isDragged ? _joystick!.relativeDelta.x * player.maxHAxis : 0,
+   //    player.sensitivity * dt,
+   //  )!;
+   //}
   }
 
   void updateSnowmanCount(int count) {

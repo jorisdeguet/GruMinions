@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'helpers/joypad.dart';
+import '../boxsmasher/helpers/joypad.dart';
+
+
+
+
 
 class ControllerAGamePage extends StatefulWidget {
   final Function send;
@@ -19,7 +23,7 @@ class ControllerAGameState extends State<ControllerAGamePage> {
         body: Stack(
           children: [
             Align(
-              alignment: Alignment.bottomRight,
+              alignment: Alignment.bottomLeft,
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: Joypad(
