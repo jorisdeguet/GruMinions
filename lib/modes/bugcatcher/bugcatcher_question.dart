@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gru_minions/modes/masterfuldiviner/masterfuldiviner_screen_page.dart';
 
-import 'masterfuldiviner_game.dart';
-
+import 'bugcatcher_game.dart';
+import 'bugcatcher_screen_page.dart';
 class Question extends StatelessWidget {
   final int NumberTypeBugToFind;
   final int NumberOfBugsToFind;
@@ -32,13 +31,13 @@ class Question extends StatelessWidget {
   }
 
   Widget imageOfBugToFind(){
-    return Image.asset('assets/masterfuldiviner/flame/$NumberTypeBugToFind.png', width: 50, scale: 0.1,);
+    return Image.asset('assets/bugcatcher/flame/$NumberTypeBugToFind.png', width: 50, scale: 0.1,);
   }
 
   Widget questionMark(){
     return const Padding(
       padding: EdgeInsets.only(top: 23.0),
-      child: Text('?'),
+      child: Text('?', style: TextStyle(color: Colors.white, fontSize: 24)),
     );
   }
  //#endregion
@@ -96,11 +95,7 @@ class Question extends StatelessWidget {
                   spaceBetweenWidgets(),
                   MaterialButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => ScreenMasterfulDivinerPage(gameA: MasterfulDivinerGame()),
-                        ),
-                      );
+                      Navigator.of(context).pop();
                     },
                     child: const Text('Back To Main Menu', style: TextStyle(color: Colors.white, fontSize: 24)),
                   ),

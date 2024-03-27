@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../mastefuldiviner_question.dart';
-import '../masterfuldiviner_game.dart';
+import '../bugcatcher_question.dart';
+import '../bugcatcher_game.dart';
 
 class GameOver extends StatelessWidget {
   static const String iD = 'GameOver';
-  final MasterfulDivinerGame game;
+  final BugCatcherGame game;
   const GameOver({super.key, required this.game});
 
   @override
@@ -46,7 +46,7 @@ class GameOver extends StatelessWidget {
                     } else {
                       isCorrect = false;
                     }
-                    Navigator.of(context).pushReplacement(
+                    Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => Question(NumberOfBugsToFind: game.numberOfBugsToFind, NumberTypeBugToFind: game.numberTypeBugToFind, correct: isCorrect, count: game.counter),
                     ));

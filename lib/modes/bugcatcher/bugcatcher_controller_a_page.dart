@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../boxsmasher/helpers/joypad.dart';
-import 'helpers/masterfuldiviner_a_button.dart';
+import 'helpers/bugcatcher_a_button.dart';
 
-class ControllerAMasterfulDivinerPage extends StatefulWidget {
+class ControllerABugCatcherPage extends StatefulWidget {
   final Function send;
 
-  const ControllerAMasterfulDivinerPage({super.key, required this.send});
+  const ControllerABugCatcherPage({super.key, required this.send});
 
   @override
-  ControllerAMasterfulDivinerState createState() => ControllerAMasterfulDivinerState();
+  ControllerABugCatcherState createState() => ControllerABugCatcherState();
 }
 
-class ControllerAMasterfulDivinerState extends State<ControllerAMasterfulDivinerPage> {
+class ControllerABugCatcherState extends State<ControllerABugCatcherPage> {
 
   @override
   Widget build(BuildContext context) {

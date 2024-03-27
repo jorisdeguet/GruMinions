@@ -7,9 +7,9 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-import '../masterfuldiviner_game.dart';
+import '../bugcatcher_game.dart';
 
-class MasterfulDivinerBug extends SpriteAnimationComponent with CollisionCallbacks, HasGameRef<MasterfulDivinerGame> {
+class BugCatcherBug extends SpriteAnimationComponent with CollisionCallbacks, HasGameRef<BugCatcherGame> {
   // Animation speed
   final double _animationSpeed = 0.1;
   // Bug speed
@@ -30,7 +30,7 @@ class MasterfulDivinerBug extends SpriteAnimationComponent with CollisionCallbac
   late int minY;
   //#endregion
 
-  MasterfulDivinerBug(
+  BugCatcherBug(
       {required position,
         required this.bugType,
         required TiledComponent<FlameGame<World>> map})

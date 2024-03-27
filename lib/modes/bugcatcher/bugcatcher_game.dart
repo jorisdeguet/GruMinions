@@ -1,24 +1,26 @@
+
+
 import 'package:flame/cache.dart';
-import 'package:flame/components.dart';
-import 'package:flame/events.dart';
+import 'package:flame/camera.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
+import 'package:flame/timer.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 
+import 'components/bugcatcher_bugs.dart';
+import 'components/bugcatcher_cameraentity.dart';
 import 'components/bugytpes.dart';
-import 'components/masterdiviner_cameraentity.dart';
-import 'components/masterfuldiviner_bugs.dart';
-import 'helpers/masterfuldiviner_direction.dart';
+import 'helpers/bugcatcher_direction.dart';
 import 'overlays/game_over.dart';
 
-class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, KeyboardEvents{
+class BugCatcherGame extends FlameGame with HasCollisionDetection{
   @override
   set images(Images images) {
 
-    images = Images(prefix: 'assets/masterfuldiviner/flame/furnitures/');
+    images = Images(prefix: 'assets/bugcatcher/flame/furnitures/');
   }
-  final animations = Images(prefix: 'assets/masterfuldiviner/animations/');
+  final animations = Images(prefix: 'assets/bugcatcher/animations/');
 
   late Entity _cameraEntity;
   late TiledComponent<FlameGame<World>> _map;
@@ -37,7 +39,7 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
   int numberTypeBugToFind = 0;
   int counter = 0;
 
-  MasterfulDivinerGame(){
+  BugCatcherGame(){
     interval = Timer(1,
       onTick: () => elapsedSeconds--,
       repeat: true,);
@@ -48,7 +50,7 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
     super.onLoad();
 
     //#region MapSetup
-    final map = await TiledComponent.load('MasterfulDivinerScenario_1_1.tmx', Vector2.all(16));
+    final map = await TiledComponent.load('BugCatcherScenario_1_1.tmx', Vector2.all(16));
     // Get the custom properties from the map
     numberOfBugsToFind = map.tileMap.map.properties.byName['NumberOfBugsToFind']!.value as int;
     numberTypeBugToFind = map.tileMap.map.properties.byName['NumberTypeBugToFind']!.value as int;
@@ -93,7 +95,7 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
 
         BugTypes name =  BugTypes.values[int.parse(bug.name)];
         var bugPosition = Vector2(bug.x, bug.y - bug.height);
-        var bugComponent = MasterfulDivinerBug(position: bugPosition, bugType: name.toString(), map: map);
+        var bugComponent = BugCatcherBug(position: bugPosition, bugType: name.toString(), map: map);
 
         bugComponent.priority = 2;
         await add(bugComponent);
@@ -121,7 +123,9 @@ class MasterfulDivinerGame extends FlameGame with HasCollisionDetection, Keyboar
   }
 
   void onAButtonPressed(bool pressed) {
-    counter++;
+    if(pressed) {
+      counter++;
+    }
   }
   //#endregion
 

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:gru_minions/modes/masterfuldiviner/masterfuldiviner_game.dart';
+import 'package:gru_minions/modes/base-mode.dart';
 
-import 'base-mode.dart';
-import 'masterfuldiviner/helpers/masterfuldiviner_direction.dart';
-import 'masterfuldiviner/masterfuldiviner_gru_game_page.dart';
-import 'masterfuldiviner/masterfuldiviner_controller_a_page.dart';
-import 'masterfuldiviner/masterfuldiviner_screen_page.dart';
+import 'bugcatcher/bugcatcher_game.dart';
+import 'bugcatcher/bugcatcher_gru_game_page.dart';
+import 'bugcatcher/bugcatcher_screen_page.dart';
+import 'bugcatcher/helpers/bugcatcher_direction.dart';
+import 'bugcatcher/bugcatcher_controller_a_page.dart';
 
 class MasterfulDivinerMode extends GruMinionMode {
   MasterfulDivinerMode({required super.sendToOthers});
 
-  final MasterfulDivinerGame _gameA = MasterfulDivinerGame();
-  final MasterfulDivinerGame _gameB = MasterfulDivinerGame();
+  final BugCatcherGame _gameA = BugCatcherGame();
+  final BugCatcherGame _gameB = BugCatcherGame();
 
   @override
   Widget gruWidget() {
-    return GruMasterfulDivinerPage(
+    return GruBugCatcherPage(
       send: sendToOthers,
     );
   }
@@ -77,7 +77,7 @@ class MasterfulDivinerMode extends GruMinionMode {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ControllerAMasterfulDivinerPage(send: sendToOthers),
+                    builder: (_) => ControllerABugCatcherPage(send: sendToOthers),
                   ),
                 );
               },
@@ -91,9 +91,9 @@ class MasterfulDivinerMode extends GruMinionMode {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return ScreenMasterfulDivinerPage(gameA: _gameA);
+    return ScreenBugCatcherPage(gameA: _gameA);
   }
 
   @override
-  String name() => "MasterfulDiviner";
+  String name() => "BugCatcher";
 }

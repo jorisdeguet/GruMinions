@@ -2,10 +2,10 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-import '../helpers/masterfuldiviner_direction.dart';
-import '../masterfuldiviner_game.dart';
+import '../helpers/bugcatcher_direction.dart';
+import '../bugcatcher_game.dart';
 
-class Entity extends PositionComponent with HasGameRef<MasterfulDivinerGame> {
+class Entity extends PositionComponent with HasGameRef<BugCatcherGame> {
   late final TiledComponent<FlameGame<World>> _map;
   final speed = 30;
   Direction direction = Direction.none;

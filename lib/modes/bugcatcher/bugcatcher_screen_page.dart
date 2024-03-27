@@ -1,22 +1,23 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:gru_minions/modes/masterfuldiviner/masterfuldiviner_game.dart';
-import 'package:gru_minions/modes/masterfuldiviner/overlays/game_over.dart';
 
-class ScreenMasterfulDivinerPage extends StatefulWidget {
-  final MasterfulDivinerGame gameA;
+import 'bugcatcher_game.dart';
+import 'overlays/game_over.dart';
 
-  const ScreenMasterfulDivinerPage(
+class ScreenBugCatcherPage extends StatefulWidget {
+  final BugCatcherGame gameA;
+
+  const ScreenBugCatcherPage(
       {super.key, required this.gameA});
 
   @override
-  ScreenMasterfulDivinerState createState() => ScreenMasterfulDivinerState();
+  ScreenBugCatcherState createState() => ScreenBugCatcherState();
 }
 
-class ScreenMasterfulDivinerState extends State<ScreenMasterfulDivinerPage> {
-  late MasterfulDivinerGame controllerAGame = widget.gameA;
+class ScreenBugCatcherState extends State<ScreenBugCatcherPage> {
+  late BugCatcherGame controllerAGame = widget.gameA;
 
-  Widget theGameWidget(MasterfulDivinerGame game) {
+  Widget theGameWidget(BugCatcherGame game) {
     return Stack(
       children: [
         Align(
@@ -24,7 +25,7 @@ class ScreenMasterfulDivinerState extends State<ScreenMasterfulDivinerPage> {
           child: GameWidget(
               game: game,
               overlayBuilderMap: {
-                'GameOver': (BuildContext context, MasterfulDivinerGame game) =>
+                'GameOver': (BuildContext context, BugCatcherGame game) =>
                     GameOver(game: game),
               }
           ),

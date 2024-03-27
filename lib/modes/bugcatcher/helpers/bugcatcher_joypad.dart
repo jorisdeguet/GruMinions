@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'masterfuldiviner_direction.dart';
+import 'bugcatcher_direction.dart';
 
 
 class Joypad extends StatefulWidget {
