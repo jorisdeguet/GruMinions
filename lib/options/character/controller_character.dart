@@ -1,4 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flame/components.dart';
+import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
@@ -14,22 +16,27 @@ class ControllerCharacter extends StatefulWidget {
 
 class _ControllerCharacterState extends State<ControllerCharacter> {
   final CarouselController _controller = CarouselController();
+  late int _current = 0;
 
   @override
   Widget build(BuildContext context) {
-    List<Characters> characters = [
-      Characters(
-          image: "assets/images/Main Characters/Mask Dude/Idle (32x32).png",
-          name: "Mask Dude"),
-      Characters(
-          image: "/Main Characters/Ninja Frog/Idle (32x32).png",
-          name: "Ninja Frog"),
-      Characters(
-          image: "/Main Characters/Pink Man/Idle (32x32).png",
-          name: "Pink Man"),
-      Characters(
-          image: "/Main Characters/Virtual Guy/Idle (32x32).png",
-          name: "Virtual Guy"),
+    List<Character> characters = [
+      Character(
+          image: "Main Characters/Mask Dude/Run (32x32).png",
+          name: "Mask Dude",
+          color: const Color(0xffea71bd)),
+      Character(
+          image: "Main Characters/Ninja Frog/Run (32x32).png",
+          name: "Ninja Frog",
+          color: const Color(0xff6cd9f1)),
+      Character(
+          image: "Main Characters/Pink Man/Run (32x32).png",
+          name: "Pink Man",
+          color: const Color(0xffcc3048)),
+      Character(
+          image: "Main Characters/Virtual Guy/Run (32x32).png",
+          name: "Virtual Guy",
+          color: const Color(0xff288610)),
     ];
 
     List<Widget> characterSliders = characters
@@ -39,11 +46,33 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                   borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                   child: Stack(
                     children: <Widget>[
-                      const Image(
-                          image: AssetImage(
-                              "assets/images/Main Characters/example.png"),
-                          fit: BoxFit.cover,
-                          width: 500.0), //replace with sprite animation
+                      Container(
+                        width: 500,
+                        height: 300,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: item.color,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 100,
+                              height: 100,
+                              child: SpriteAnimationWidget.asset(
+                                path: "Main Characters/${item.name}/Idle (32x32).png",
+                                //running
+                                data: SpriteAnimationData.sequenced(
+                                  amount: 11,
+                                  stepTime: 0.05,
+                                  textureSize: Vector2(32, 32),
+                                  loop: true,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ), //replace with sprite animation
                       Positioned(
                         bottom: 0.0,
                         left: 0.0,
@@ -62,7 +91,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 20.0),
                           child: Text(
-                            'Chain Saw',
+                            item.name,
                             style: GoogleFonts.pixelifySans(
                               textStyle: const TextStyle(
                                 fontSize: 40,
@@ -106,7 +135,13 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               GestureDetector(
                 onTap: () {
                   _controller.previousPage();
-                  widget.send("Chain Saw previous");
+                  if(_current > 0){
+                    _current - 1;
+                  }
+                  else{
+                    _current = 3;
+                  }
+                  widget.send(characters[_current].name);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -125,7 +160,9 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  //stock character name
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -156,7 +193,13 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               GestureDetector(
                 onTap: () {
                   _controller.nextPage();
-                  widget.send("Chain Saw next");
+                  if(_current < 3){
+                    _current + 1;
+                  }
+                  else{
+                    _current = 0;
+                  }
+                  widget.send(characters[_current].name);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -180,22 +223,12 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
       ),
     ));
   }
-
-  final List<Color> mixedColors = [
-    const Color(0xffea71bd),
-    const Color(0xff6cd9f1),
-    const Color(0xffcc3048),
-    const Color(0xff288610),
-    const Color(0xffd8e1e4),
-    const Color(0xffd2622e),
-    const Color(0xff30acd9),
-    const Color(0xffa14744),
-  ];
 }
 
-class Characters {
+class Character {
   final String image;
   final String name;
+  final Color color;
 
-  Characters({required this.image, required this.name});
+  Character({required this.image, required this.name, required this.color});
 }

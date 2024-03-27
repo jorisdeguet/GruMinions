@@ -86,7 +86,7 @@ class _ControllerHomeState extends State<ControllerHome> {
                           child: SpriteAnimationWidget.asset(
                             path: "Main Characters/Ninja Frog/Run (32x32).png",
                             data: SpriteAnimationData.sequenced(
-                              amount: 11,
+                              amount: 12,
                               stepTime: 0.05,
                               textureSize: Vector2(32, 32),
                               loop: true,
@@ -115,7 +115,7 @@ class _ControllerHomeState extends State<ControllerHome> {
                           child: SpriteAnimationWidget.asset(
                             path: "Main Characters/Pink Man/Run (32x32).png",
                             data: SpriteAnimationData.sequenced(
-                              amount: 11,
+                              amount: 12,
                               stepTime: 0.05,
                               textureSize: Vector2(32, 32),
                               loop: true,
@@ -144,7 +144,7 @@ class _ControllerHomeState extends State<ControllerHome> {
                           child: SpriteAnimationWidget.asset(
                             path: "Main Characters/Virtual Guy/Run (32x32).png",
                             data: SpriteAnimationData.sequenced(
-                              amount: 11,
+                              amount: 12,
                               stepTime: 0.05,
                               textureSize: Vector2(32, 32),
                               loop: true,
