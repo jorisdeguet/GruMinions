@@ -45,7 +45,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                       borderRadius: BorderRadius.circular(10),
                       child: const Image(
                         image:
-                        AssetImage('assets/images/Background/Wallpaper1.gif'),
+                        AssetImage('assets/images/Background/Level 01.gif'),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -60,7 +60,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                       borderRadius: BorderRadius.circular(10),
                       child: const Image(
                         image:
-                        AssetImage('assets/images/Background/Wallpaper2.gif'),
+                        AssetImage('assets/images/Background/Level 02.gif'),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -75,7 +75,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                       borderRadius: BorderRadius.circular(10),
                       child: const Image(
                         image:
-                        AssetImage('assets/images/Background/Wallpaper3.gif'),
+                        AssetImage('assets/images/Background/Level 03.gif'),
                         fit: BoxFit.fill,
                       ),
                     ),

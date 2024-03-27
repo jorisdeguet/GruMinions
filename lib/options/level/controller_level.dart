@@ -187,20 +187,3 @@ class Level {
   Level({required this.image, required this.name});
 }
 
-//   Widget _levelButton(String level) {
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: SpriteButton.asset(
-//         onPressed: () {
-//           //set level
-//         },
-//         label: const Text(''),
-//         path: 'Menu/Levels/$level.png',
-//         pressedPath: 'Menu/Levels/$level.png',
-//         width: 40,
-//         height: 40,
-//       ),
-//     );
-//   }
-// }
-
