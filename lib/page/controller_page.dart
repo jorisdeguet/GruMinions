@@ -9,14 +9,14 @@ import 'package:sidebarx/sidebarx.dart';
 import '../options/base/base-mode.dart';
 import '../options/list_of_modes.dart';
 
-class Controller extends StatefulWidget {
-  const Controller({super.key});
+class ControllerPage extends StatefulWidget {
+  const ControllerPage({super.key});
 
   @override
-  State<Controller> createState() => _MainBossPageState();
+  State<ControllerPage> createState() => _MainBossPageState();
 }
 
-class _MainBossPageState extends ControllerBaseWidgetState<Controller> {
+class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
   final List<String> _messages = [];
   late final List<ScreenControllerOption> _modes = listOfModes(_send);
   late ScreenControllerOption _currentMode;

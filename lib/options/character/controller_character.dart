@@ -104,7 +104,8 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
         image: "/Main Characters/Ninja Frog/Idle (32x32).png",
         name: "Ninja Frog"),
     Characters(
-        image: "/Main Characters/Pink Man/Idle (32x32).png", name: "Pink Man"),
+        image: "/Main Characters/Pink Man/Idle (32x32).png",
+        name: "Pink Man"),
     Characters(
         image: "/Main Characters/Virtual Guy/Idle (32x32).png",
         name: "Virtual Guy"),
