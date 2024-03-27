@@ -1,6 +1,7 @@
-import 'dart:ui';
 
 import 'package:blinking_text/blinking_text.dart';
+import 'package:flame/components.dart';
+import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
@@ -40,45 +41,84 @@ class _ControllerHomeState extends State<ControllerHome> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 256,
-                    height: 144,
-                    child: ClipRRect(
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      child: const Image(
-                        image:
-                        AssetImage('assets/images/Background/Wallpaper1.gif'),
-                        fit: BoxFit.fill,
+                      color: const Color(0xffea71bd),
+                    ),
+                    child: SpriteAnimationWidget.asset(
+                      path:
+                      "assets/images/Main Characters/Mask Dude/Idle (32x32).png", //running
+                      data: SpriteAnimationData.sequenced(
+                        amount: 11,
+                        stepTime: 0.05,
+                        textureSize: Vector2(32, 32),
+                        loop: true,
                       ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 256,
-                    height: 144,
-                    child: ClipRRect(
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      child: const Image(
-                        image:
-                        AssetImage('assets/images/Background/Wallpaper2.gif'),
-                        fit: BoxFit.fill,
+                      color: const Color(0xff6cd9f1),
+                    ),
+                    child: SpriteAnimationWidget.asset(
+                      path:
+                      "assets/images/Main Characters/Mask Dude/Idle (32x32).png",
+                      data: SpriteAnimationData.sequenced(
+                        amount: 11,
+                        stepTime: 0.05,
+                        textureSize: Vector2(32, 32),
+                        loop: true,
                       ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 256,
-                    height: 144,
-                    child: ClipRRect(
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      child: const Image(
-                        image:
-                        AssetImage('assets/images/Background/Wallpaper3.gif'),
-                        fit: BoxFit.fill,
+                      color: const Color(0xffcc3048),
+                    ),
+                    child: SpriteAnimationWidget.asset(
+                      path:
+                      "assets/images/Main Characters/Mask Dude/Idle (32x32).png",
+                      data: SpriteAnimationData.sequenced(
+                        amount: 11,
+                        stepTime: 0.05,
+                        textureSize: Vector2(32, 32),
+                        loop: true,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(0xff288610),
+                    ),
+                    child: SpriteAnimationWidget.asset(
+                      path:
+                      "assets/images/Main Characters/Mask Dude/Idle (32x32).png",
+                      data: SpriteAnimationData.sequenced(
+                        amount: 11,
+                        stepTime: 0.05,
+                        textureSize: Vector2(32, 32),
+                        loop: true,
                       ),
                     ),
                   ),
