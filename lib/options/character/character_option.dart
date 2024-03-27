@@ -7,6 +7,8 @@ import 'screen_character.dart';
 class CharacterOption extends ScreenControllerOption {
   CharacterOption({required super.sendToOthers});
 
+  final ValueNotifier<String> _characterName = ValueNotifier<String>('View Character Name');
+
   @override
   void initController() {}
 
@@ -22,7 +24,7 @@ class CharacterOption extends ScreenControllerOption {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return const ScreenCharacter();
+    return ScreenCharacter(characterName: _characterName);
   }
 
   @override
@@ -31,7 +33,7 @@ class CharacterOption extends ScreenControllerOption {
   @override
   void handleMessageAsMinion(String s) {
     // receive the character name
-    String c = s;
+    _characterName.value = s;
   }
 
   @override

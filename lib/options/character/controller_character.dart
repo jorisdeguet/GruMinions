@@ -106,7 +106,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               GestureDetector(
                 onTap: () {
                   _controller.previousPage();
-                  widget.send("Chain Saw");
+                  widget.send("Chain Saw previous");
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -156,7 +156,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               GestureDetector(
                 onTap: () {
                   _controller.nextPage();
-                  widget.send("Chain Saw");
+                  widget.send("Chain Saw next");
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
