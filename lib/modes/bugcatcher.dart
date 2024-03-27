@@ -49,18 +49,24 @@ class BugCatcherMode extends GruMinionMode {
 
         if (controllerId == 'ControllerA') {
           if (parts[1] == 'ButtonA') {
-            if(_gameA.overlays.activeOverlays.contains(GameOver.iD)){
-              _gameA.onAButtonPressedDuringGameOver(Pressed);
+            if(_gameA.overlays.activeOverlays.isEmpty){
+              _gameA.onAButtonPressed(Pressed);
             }
-            _gameA.onAButtonPressed(Pressed);
+
           } else if (parts[1] == 'ButtonB') {
-            _gameA.onBButtonPressed(Pressed);
+            if(_gameA.overlays.activeOverlays.isEmpty){
+              _gameA.onBButtonPressed(Pressed);
+            }
           }
         } else if (controllerId == 'ControllerB') {
           if (parts[1] == 'ButtonA') {
-            _gameB.onAButtonPressed(Pressed);
+            if(_gameB.overlays.activeOverlays.isEmpty){
+              _gameB.onAButtonPressed(Pressed);
+            }
           } else if (parts[1] == 'ButtonB') {
-            _gameB.onBButtonPressed(Pressed);
+            if(_gameB.overlays.activeOverlays.isEmpty){
+              _gameB.onBButtonPressed(Pressed);
+            }
           }
         }
       }

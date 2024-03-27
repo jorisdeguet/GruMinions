@@ -1,5 +1,4 @@
 
-
 import 'dart:math';
 
 import 'package:flame/cache.dart';
@@ -51,7 +50,6 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
   @override
   Future<void> onLoad() async {
     super.onLoad();
-
     overlays.add(Instructions.iD);
 
     //#region MapSetup
