@@ -111,6 +111,7 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
     super.update(dt);
     if(elapsedSeconds == 0){
       interval.stop();
+      pauseEngine();
       overlays.add(GameOver.iD);
     } else {
       interval.update(dt);
@@ -127,6 +128,12 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
       counter++;
     }
   }
+
+  void onBButtonPressed(bool pressed) {
+    if(pressed) {
+      counter--;
+    }
+  }
   //#endregion
 
   @override
@@ -137,5 +144,9 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
       '$elapsedSeconds',
       Vector2((_map.tileMap.map.width * 25), (_map.tileMap.map.height * 18)),
     );
+  }
+
+  void onAButtonPressedDuringGameOver(pressed) {
+    overlays.remove(GameOver.iD);
   }
 }

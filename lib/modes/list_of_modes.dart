@@ -15,7 +15,7 @@ List<GruMinionMode> listOfModes(Function send) {
     //SimonMode(sendToOthers: send),
     FlameMode(sendToOthers: send),
     BoxSmasherMode(sendToOthers: send),
-    MasterfulDivinerMode(sendToOthers: send),
+    BugCatcherMode(sendToOthers: send),
     //MatrixMode(sendToOthers: send),
   ];
 }

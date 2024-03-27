@@ -30,6 +30,26 @@ class ScreenBugCatcherState extends State<ScreenBugCatcherPage> {
               }
           ),
         ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Text(
+              'Count: ${game.counter}',
+              style: const TextStyle(
+                color: Colors.white,
+                shadows: [
+                  Shadow(
+                    blurRadius: 20.0,
+                    color: Colors.black,
+                    offset: Offset(0.0, 0.0),
+                  ),
+                ],
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

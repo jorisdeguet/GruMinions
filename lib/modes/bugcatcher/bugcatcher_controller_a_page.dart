@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../boxsmasher/helpers/joypad.dart';
 import 'helpers/bugcatcher_a_button.dart';
+import 'helpers/bugcatcher_b_button.dart';
 
 class ControllerABugCatcherPage extends StatefulWidget {
   final Function send;
@@ -28,10 +29,17 @@ class ControllerABugCatcherState extends State<ControllerABugCatcherPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(50.0),
+                      padding: const EdgeInsets.all(65.0),
                       child:
                       AButton(onAButtonChanged: (isPressed) {
-                        widget.send('ControllerA,${isPressed ? true : false}');
+                        widget.send('ControllerA,ButtonA,${isPressed ? true : false}');
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(50.0),
+                      child:
+                      BButton(onBButtonChanged: (isPressed) {
+                        widget.send('ControllerA,ButtonB,${isPressed ? true : false}');
                       }),
                     ),
                   ],
@@ -41,7 +49,7 @@ class ControllerABugCatcherState extends State<ControllerABugCatcherPage> {
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: const EdgeInsets.all(32.0),
+                padding: const EdgeInsets.all(50.0),
                 child: Joypad(
                   onDirectionChanged: (direction) {
                     widget.send('ControllerA,$direction');

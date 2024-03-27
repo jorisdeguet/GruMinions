@@ -6,9 +6,10 @@ import 'bugcatcher/bugcatcher_gru_game_page.dart';
 import 'bugcatcher/bugcatcher_screen_page.dart';
 import 'bugcatcher/helpers/bugcatcher_direction.dart';
 import 'bugcatcher/bugcatcher_controller_a_page.dart';
+import 'bugcatcher/overlays/game_over.dart';
 
-class MasterfulDivinerMode extends GruMinionMode {
-  MasterfulDivinerMode({required super.sendToOthers});
+class BugCatcherMode extends GruMinionMode {
+  BugCatcherMode({required super.sendToOthers});
 
   final BugCatcherGame _gameA = BugCatcherGame();
   final BugCatcherGame _gameB = BugCatcherGame();
@@ -30,70 +31,83 @@ class MasterfulDivinerMode extends GruMinionMode {
     List<String> parts = s.split(',');
     String controllerId = parts[0];
 
-    if(parts.length >= 2){
+    if (parts.length >= 2) {
       bool Pressed = false;
-      if(parts[1].contains('Direction')){
-        Direction direction = Direction.values.firstWhere((e) => parts[1].contains(e.name));
+      if (parts[1].contains('Direction')) {
+        Direction direction = Direction.values.firstWhere((e) =>
+            parts[1].contains(e.name));
         if (controllerId == 'ControllerA') {
           _gameA.onJoyPad1DirectionChanged(direction);
         }
       } else {
-        if (parts[1] == 'true') {
+        if (parts[2] == 'true') {
           Pressed = true;
         }
-        if (parts[1] == 'false') {
+        if (parts[2] == 'false') {
           Pressed = false;
         }
 
         if (controllerId == 'ControllerA') {
-          _gameA.onAButtonPressed(Pressed);
+          if (parts[1] == 'ButtonA') {
+            if(_gameA.overlays.activeOverlays.contains(GameOver.iD)){
+              _gameA.onAButtonPressedDuringGameOver(Pressed);
+            }
+            _gameA.onAButtonPressed(Pressed);
+          } else if (parts[1] == 'ButtonB') {
+            _gameA.onBButtonPressed(Pressed);
+          }
         } else if (controllerId == 'ControllerB') {
-          _gameB.onAButtonPressed(Pressed);
+          if (parts[1] == 'ButtonA') {
+            _gameB.onAButtonPressed(Pressed);
+          } else if (parts[1] == 'ButtonB') {
+            _gameB.onBButtonPressed(Pressed);
+          }
         }
       }
     }
   }
 
-  @override
-  void handleMessageAsScreen(String s) {}
+    @override
+    void handleMessageAsScreen(String s) {}
 
-  @override
-  void initGru() {}
+    @override
+    void initGru() {}
 
-  @override
-  void initMinion() {}
+    @override
+    void initMinion() {}
 
-  @override
-  Widget minionWidget(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Select Option'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ControllerABugCatcherPage(send: sendToOthers),
-                  ),
-                );
-              },
-              child: const Text('Controller A'),
-            ),
-          ],
+    @override
+    Widget minionWidget(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Select Option'),
         ),
-      ),
-    );
-  }
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          ControllerABugCatcherPage(send: sendToOthers),
+                    ),
+                  );
+                },
+                child: const Text('Controller A'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
-  @override
-  Widget screenWidget(BuildContext context) {
-    return ScreenBugCatcherPage(gameA: _gameA);
-  }
+    @override
+    Widget screenWidget(BuildContext context) {
+      return ScreenBugCatcherPage(gameA: _gameA);
+    }
 
-  @override
-  String name() => "BugCatcher";
-}
+    @override
+    String name() => "BugCatcher";
+  }

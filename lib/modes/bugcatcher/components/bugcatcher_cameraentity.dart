@@ -7,7 +7,7 @@ import '../bugcatcher_game.dart';
 
 class Entity extends PositionComponent with HasGameRef<BugCatcherGame> {
   late final TiledComponent<FlameGame<World>> _map;
-  final speed = 30;
+  final speed = 50;
   Direction direction = Direction.none;
 
   Entity({required size, required position,
