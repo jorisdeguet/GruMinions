@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../base/base-mode.dart';
-import '../flame/helpers/direction.dart';
 import 'controller_character.dart';
 import 'screen_character.dart';
 
@@ -16,7 +15,9 @@ class CharacterOption extends ScreenControllerOption {
 
   @override
   Widget controllerWidget() {
-    return const ControllerCharacter();
+    return ControllerCharacter(
+      send: sendToOthers,
+    );
   }
 
   @override
@@ -29,9 +30,8 @@ class CharacterOption extends ScreenControllerOption {
 
   @override
   void handleMessageAsMinion(String s) {
-    // change the direction for Minion game
-    Direction d = Direction.values.firstWhere((e) => s.contains(e.name));
-    //_game.onJoyPad1DirectionChanged(d);
+    // receive the character name
+    String c = s;
   }
 
   @override
