@@ -1,5 +1,7 @@
 
 
+import 'dart:math';
+
 import 'package:flame/cache.dart';
 import 'package:flame/camera.dart';
 import 'package:flame/experimental.dart';
@@ -13,6 +15,7 @@ import 'components/bugcatcher_cameraentity.dart';
 import 'components/bugytpes.dart';
 import 'helpers/bugcatcher_direction.dart';
 import 'overlays/game_over.dart';
+import 'overlays/instructions.dart';
 
 class BugCatcherGame extends FlameGame with HasCollisionDetection{
   @override
@@ -49,8 +52,11 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
   Future<void> onLoad() async {
     super.onLoad();
 
+    overlays.add(Instructions.iD);
+
     //#region MapSetup
-    final map = await TiledComponent.load('BugCatcherScenario_1_1.tmx', Vector2.all(16));
+    final mapNumber = Random().nextInt(2) + 1;
+    final map = await TiledComponent.load('BugCatcherScenario_${mapNumber}_1.tmx', Vector2.all(16));
     // Get the custom properties from the map
     numberOfBugsToFind = map.tileMap.map.properties.byName['NumberOfBugsToFind']!.value as int;
     numberTypeBugToFind = map.tileMap.map.properties.byName['NumberTypeBugToFind']!.value as int;
@@ -111,7 +117,6 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
     super.update(dt);
     if(elapsedSeconds == 0){
       interval.stop();
-      pauseEngine();
       overlays.add(GameOver.iD);
     } else {
       interval.update(dt);

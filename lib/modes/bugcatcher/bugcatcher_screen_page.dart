@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'bugcatcher_game.dart';
 import 'overlays/game_over.dart';
+import 'overlays/instructions.dart';
 
 class ScreenBugCatcherPage extends StatefulWidget {
   final BugCatcherGame gameA;
@@ -25,8 +26,10 @@ class ScreenBugCatcherState extends State<ScreenBugCatcherPage> {
           child: GameWidget(
               game: game,
               overlayBuilderMap: {
-                'GameOver': (BuildContext context, BugCatcherGame game) =>
-                    GameOver(game: game),
+                GameOver.iD: (BuildContext context, BugCatcherGame game) =>
+                     GameOver(game: game),
+                Instructions.iD: (BuildContext context, BugCatcherGame game) =>
+                    Instructions(game: game),
               }
           ),
         ),

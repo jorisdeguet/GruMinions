@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="18" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="18" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="19">
+ <properties>
+  <property name="NumberOfBugsToFind" type="int" value="4"/>
+  <property name="NumberTypeBugToFind" type="int" value="0"/>
+ </properties>
  <tileset firstgid="1" source="bugcatcher/TopDownHouse_FloorsAndWalls.tsx"/>
  <tileset firstgid="163" source="bugcatcher/TopDownHouse_FurnitureState2.tsx"/>
  <tileset firstgid="397" source="bugcatcher/TopDownHouse_FurnitureState1.tsx"/>
  <tileset firstgid="631" source="bugcatcher/TopDownHouse_DoorsAndWindows.tsx"/>
  <tileset firstgid="811" source="bugcatcher/TopDownHouse_SmallItems.tsx"/>
+ <tileset firstgid="875" source="bugcatcher/Bugs.tsx"/>
  <layer id="1" name="FloorWall" width="18" height="15">
   <data encoding="csv">
 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,
@@ -176,4 +181,24 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="10" name="Bugs">
+  <object id="1" name="4" gid="889" x="28" y="100" width="18" height="18"/>
+  <object id="2" name="4" gid="889" x="132" y="104" width="18" height="18"/>
+  <object id="3" name="4" gid="889" x="68" y="200" width="18" height="18"/>
+  <object id="4" name="3" gid="888" x="240" y="176" width="18" height="18"/>
+  <object id="5" name="6" gid="884" x="188" y="112" width="18" height="18"/>
+  <object id="6" name="6" gid="884" x="116" y="192" width="18" height="18"/>
+  <object id="7" name="9" gid="880" x="192" y="204" width="18" height="18"/>
+  <object id="8" name="9" gid="880" x="136" y="140" width="18" height="18"/>
+  <object id="9" name="9" gid="880" x="216" y="144" width="18" height="18"/>
+  <object id="10" name="5" gid="883" x="32" y="156" width="18" height="18"/>
+  <object id="11" name="5" gid="883" x="64" y="140" width="18" height="18"/>
+  <object id="12" name="7" gid="878" x="236" y="92" width="18" height="18"/>
+  <object id="13" name="7" gid="878" x="228" y="212" width="18" height="18"/>
+  <object id="14" name="0" gid="885" x="28" y="208" width="18" height="18"/>
+  <object id="15" name="0" gid="885" x="184" y="72" width="18" height="18"/>
+  <object id="16" name="0" gid="885" x="52" y="40" width="18" height="18"/>
+  <object id="17" name="0" gid="885" x="160" y="220" width="18" height="18"/>
+  <object id="18" name="11" gid="882" x="176" y="156" width="18" height="18"/>
+ </objectgroup>
 </map>

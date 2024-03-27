@@ -10,28 +10,14 @@ class GameOver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return FutureBuilder(
-        future: goToQuestion(context),
-        builder: (BuildContext context, AsyncSnapshot<void> snapshot){
-          if (snapshot.connectionState == ConnectionState.done) {
-            return gameOver(context);
-          } else {
-            return const Padding(
-                padding: EdgeInsets.all(24),
-                child:  Center(
-                  child: CircularProgressIndicator(
-                      color: Color.fromRGBO(34, 157, 67, 1)),
-                )
-            );
-          }
-        }
-    );
+     return gameOver(context);
   }
 
   Widget gameOver(BuildContext context){
     const blackTextColor = Color.fromRGBO(0, 0, 0, 1);
     const whiteTextColor = Color.fromRGBO(255, 255, 255, 1);
+    game.pauseEngine();
+    goToQuestion(context);
 
     return Material(
       color: Colors.transparent,

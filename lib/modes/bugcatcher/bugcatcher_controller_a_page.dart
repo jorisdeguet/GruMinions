@@ -29,7 +29,7 @@ class ControllerABugCatcherState extends State<ControllerABugCatcherPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(65.0),
+                      padding: const EdgeInsets.all(50.0),
                       child:
                       AButton(onAButtonChanged: (isPressed) {
                         widget.send('ControllerA,ButtonA,${isPressed ? true : false}');
@@ -49,7 +49,7 @@ class ControllerABugCatcherState extends State<ControllerABugCatcherPage> {
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: const EdgeInsets.all(50.0),
+                padding: const EdgeInsets.all(75.0),
                 child: Joypad(
                   onDirectionChanged: (direction) {
                     widget.send('ControllerA,$direction');
