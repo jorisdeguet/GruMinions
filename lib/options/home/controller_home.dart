@@ -1,4 +1,3 @@
-
 import 'package:blinking_text/blinking_text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
@@ -48,15 +47,24 @@ class _ControllerHomeState extends State<ControllerHome> {
                       borderRadius: BorderRadius.circular(10),
                       color: const Color(0xffea71bd),
                     ),
-                    child: SpriteAnimationWidget.asset(
-                      path:
-                      "assets/images/Main Characters/Mask Dude/Idle (32x32).png", //running
-                      data: SpriteAnimationData.sequenced(
-                        amount: 11,
-                        stepTime: 0.05,
-                        textureSize: Vector2(32, 32),
-                        loop: true,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: SpriteAnimationWidget.asset(
+                            path: "Main Characters/Mask Dude/Run (32x32).png",
+                            //running
+                            data: SpriteAnimationData.sequenced(
+                              amount: 12,
+                              stepTime: 0.05,
+                              textureSize: Vector2(32, 32),
+                              loop: true,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -69,15 +77,23 @@ class _ControllerHomeState extends State<ControllerHome> {
                       borderRadius: BorderRadius.circular(10),
                       color: const Color(0xff6cd9f1),
                     ),
-                    child: SpriteAnimationWidget.asset(
-                      path:
-                      "assets/images/Main Characters/Mask Dude/Idle (32x32).png",
-                      data: SpriteAnimationData.sequenced(
-                        amount: 11,
-                        stepTime: 0.05,
-                        textureSize: Vector2(32, 32),
-                        loop: true,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: SpriteAnimationWidget.asset(
+                            path: "Main Characters/Ninja Frog/Run (32x32).png",
+                            data: SpriteAnimationData.sequenced(
+                              amount: 11,
+                              stepTime: 0.05,
+                              textureSize: Vector2(32, 32),
+                              loop: true,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -90,15 +106,23 @@ class _ControllerHomeState extends State<ControllerHome> {
                       borderRadius: BorderRadius.circular(10),
                       color: const Color(0xffcc3048),
                     ),
-                    child: SpriteAnimationWidget.asset(
-                      path:
-                      "assets/images/Main Characters/Mask Dude/Idle (32x32).png",
-                      data: SpriteAnimationData.sequenced(
-                        amount: 11,
-                        stepTime: 0.05,
-                        textureSize: Vector2(32, 32),
-                        loop: true,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: SpriteAnimationWidget.asset(
+                            path: "Main Characters/Pink Man/Run (32x32).png",
+                            data: SpriteAnimationData.sequenced(
+                              amount: 11,
+                              stepTime: 0.05,
+                              textureSize: Vector2(32, 32),
+                              loop: true,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -111,23 +135,30 @@ class _ControllerHomeState extends State<ControllerHome> {
                       borderRadius: BorderRadius.circular(10),
                       color: const Color(0xff288610),
                     ),
-                    child: SpriteAnimationWidget.asset(
-                      path:
-                      "assets/images/Main Characters/Mask Dude/Idle (32x32).png",
-                      data: SpriteAnimationData.sequenced(
-                        amount: 11,
-                        stepTime: 0.05,
-                        textureSize: Vector2(32, 32),
-                        loop: true,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: SpriteAnimationWidget.asset(
+                            path: "Main Characters/Virtual Guy/Run (32x32).png",
+                            data: SpriteAnimationData.sequenced(
+                              amount: 11,
+                              stepTime: 0.05,
+                              textureSize: Vector2(32, 32),
+                              loop: true,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 20),
-            BlinkText(
-                'Swipe right to open the menu!',
+            BlinkText('Swipe right to open the menu!',
                 style: GoogleFonts.pixelifySans(
                   textStyle: const TextStyle(
                     fontSize: 20,
@@ -143,4 +174,31 @@ class _ControllerHomeState extends State<ControllerHome> {
       ),
     );
   }
+
+  List<Character> characters = [
+    Character(
+        image: "Main Characters/Mask Dude/Run (32x32).png",
+        name: "Mask Dude",
+        color: const Color(0xffea71bd)),
+    Character(
+        image: "Main Characters/Ninja Frog/Run (32x32).png",
+        name: "Ninja Frog",
+        color: const Color(0xff6cd9f1)),
+    Character(
+        image: "Main Characters/Pink Man/Run (32x32).png",
+        name: "Pink Man",
+        color: const Color(0xffcc3048)),
+    Character(
+        image: "Main Characters/Virtual Guy/Run (32x32).png",
+        name: "Virtual Guy",
+        color: const Color(0xff288610)),
+  ];
+}
+
+class Character {
+  final String image;
+  final String name;
+  final Color color;
+
+  Character({required this.image, required this.name, required this.color});
 }
