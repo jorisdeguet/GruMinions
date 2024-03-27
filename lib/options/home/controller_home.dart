@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
 
-
 class ControllerHome extends StatefulWidget {
   const ControllerHome({
     super.key,
@@ -19,54 +18,88 @@ class _ControllerHomeState extends State<ControllerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Image(
-            image:
-            const AssetImage('assets/images/Background/Wallpaper2.gif'),
-            fit: BoxFit.fill,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-          ),
-          BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 160.0),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        StrokeText(
-                          text: 'Pixel Adventure',
-                          strokeColor: Colors.black,
-                          strokeWidth: 2,
-                          textStyle: GoogleFonts.pixelifySans(
-                            textStyle: const TextStyle(
-                              fontSize: 80,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        BlinkText(
-                            'Swipe right to open the menu',
-                            style: GoogleFonts.pixelifySans(
-                              textStyle: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            beginColor: Colors.black,
-                            endColor: Colors.transparent,
-                            times: 100,
-                            duration: const Duration(seconds: 1)
-                        ),
-                      ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            StrokeText(
+              text: 'Pixel Adventure',
+              strokeColor: Colors.black,
+              strokeWidth: 2,
+              textStyle: GoogleFonts.pixelifySans(
+                textStyle: const TextStyle(
+                  fontSize: 80,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 256,
+                    height: 144,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: const Image(
+                        image:
+                        AssetImage('assets/images/Background/Wallpaper1.gif'),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),
-              ),
-        ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 256,
+                    height: 144,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: const Image(
+                        image:
+                        AssetImage('assets/images/Background/Wallpaper2.gif'),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 256,
+                    height: 144,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: const Image(
+                        image:
+                        AssetImage('assets/images/Background/Wallpaper3.gif'),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            BlinkText(
+                'Swipe right to open the menu!',
+                style: GoogleFonts.pixelifySans(
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                beginColor: Colors.black,
+                endColor: Colors.transparent,
+                times: 3600,
+                duration: const Duration(seconds: 1)),
+          ],
+        ),
       ),
     );
   }

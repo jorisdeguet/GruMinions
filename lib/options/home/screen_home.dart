@@ -135,7 +135,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                 ),
                 beginColor: Colors.black,
                 endColor: Colors.transparent,
-                times: 100,
+                times: 3600,
                 duration: const Duration(seconds: 1)),
           ],
         ),
