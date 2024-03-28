@@ -20,7 +20,7 @@ class ScreenGameState extends State<ScreenSkiMasterPage> {
         backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
         body: Stack(
           children: [
-            GameWidget.controlled(gameFactory: SkiMasterGame.new),
+            GameWidget(game: game),
           ],
         ));
   }

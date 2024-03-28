@@ -25,7 +25,7 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
         required this.onLevelCompleted,
         required this.onGameOver,
       });
-  static const id = 'Gameplay ';
+  static const id = 'Gameplay';
   static const _timeScaleRate = 1;
 
   final int currentLevel;
@@ -151,8 +151,8 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
     await add(_world);
     //We neet to make the camera look at the world by setting the world as parameter
     _camera = CameraComponent.withFixedResolution(
-      width: 300,
-      height: 150,
+      width: 320,
+      height: 180,
       world: _world,
     );
     await add(_camera);
@@ -171,12 +171,11 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
           case 'Player':
           //By default, a postion component does not have any visual info
             player = Player(
-                priority: 1,
-                position: Vector2(object.x, object.y),
-                sprite: _spriteSheet.getSprite(5, 10))
-              ..debugMode = true;
+              priority: 1,
+              position: Vector2(object.x, object.y),
+              sprite: _spriteSheet.getSprite(5, 10),
+            );
             await _world.add(player);
-            //await add(player);
             _camera.follow(player);
             _lastSafePosition = Vector2(object.x, object.y);
             break;
@@ -191,7 +190,7 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
           case 'Avalanche':
             _avalanche = Avalanche(
               priority: 1,
-              position: Vector2(object.x, object.y),
+              position: Vector2(object.x + object.width / 2, object.y),
             );
             await _world.add(_avalanche!);
             break;
@@ -214,6 +213,12 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
             for (final point in object.polygon) {
               vertices.add(Vector2(point.x + object.x, point.y + object.y));
             }
+            //most common setup for hitbox is to add it directly to its component like we did with snomen and player
+            //so we added the hitbox to components that extend from positioncomponent
+            //however hitobx are also components and can be direcly added to the component tree
+            //the only requirement is that they should have at least 1 ancestaor that is a position component
+            //so we will add it to the tile component since it derives from the positionComponent
+            //we do not add it to the world since its not a position component
             final hitbox = PolygonHitbox(
               vertices,
               collisionType: CollisionType.passive,
@@ -280,7 +285,7 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
 
   void onRamp() {
     final jumpFactor = player.jump();
-    final jumpScale = lerpDouble(1, 1.08, jumpFactor)!;
+    final jumpScale = lerpDouble(1, 0.8, jumpFactor)!;
     final jumpDuration = lerpDouble(0, 0.8, jumpFactor)!;
 
     _camera.viewfinder.add(
@@ -310,20 +315,20 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
     _fader.add(OpacityEffect.fadeIn(LinearEffectController(1.5)));
     player.active = false;
     _levelCompleted = true;
-    if (_nSnowmanCollected >= _star3) {
+    if (_nSnowmanCollected <= _star3) {
       onLevelCompleted.call(3);
-    } else if (_nSnowmanCollected >= _star2) {
+    } else if (_nSnowmanCollected <= _star2) {
       onLevelCompleted.call(2);
-    } else if (_nSnowmanCollected >= _star1) {
+    } else if (_nSnowmanCollected <= _star1) {
       onLevelCompleted.call(1);
-    } else {
-      onLevelCompleted.call(0);
     }
   }
 
   void _onSnowmanCollected() {
     _nSnowmanCollected++;
     hud.updateSnowmanCount(_nSnowmanCollected);
+    //Set the player speed to 50% of the max and acceleration to 0 and make them lerp back to their initial value
+    player.speed *= 0.5;
   }
 
   void resetPlayer() {

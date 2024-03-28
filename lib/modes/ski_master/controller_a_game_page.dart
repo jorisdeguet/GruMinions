@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../boxsmasher/helpers/joypad.dart';
+import 'helpers/skimaster_joypad.dart';
+
 
 
 

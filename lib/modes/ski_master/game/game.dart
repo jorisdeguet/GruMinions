@@ -14,8 +14,11 @@ import 'routes/retry_menu.dart';
 import 'routes/settings.dart';
 
 class SkiMasterGame extends FlameGame with HasCollisionDetection {
+
   final musicValueNotifier = ValueNotifier(false);
   final sfxValueNotifier = ValueNotifier(false);
+
+  ValueNotifier<bool> showJoypadNotifier = ValueNotifier(false);
 
   //Stores the mapping between strings and routes using a id as a key
   late final _routes = <String, Route>{
@@ -97,7 +100,6 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
     //So we are making a gameplay route instead
     //we will for this reason store the name/id as a optional parameter
     _router.pop();
-
     _router.pushReplacement(
         Route(
           () => Gameplay(
@@ -153,35 +155,10 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
   }
 
   void onJoyPad1DirectionChanged(Direction direction) {
-    try{
-      final gameplay = findByKeyName<Gameplay>(Gameplay.id);
-      final firstGameplay = firstChild<Component>();
-      final list = children;
-      print("Trying to print plyer${this.world.firstChild<Player>()}");
-      print("Trying to print pllllllllyer${this.world.children}");
-      parent?.children.forEach((element) {
-
-      });
-      for (Component child in children){
-        print("kiddo  $child" );
-        print("parent is  " + parent.toString() );
-        print("has a Player " + child.children.toString());
-        print("element $child");
-      }
-
-      final gg = firstGameplay?.parent;
-      print("IG Direction : $direction $gg $firstGameplay" );
-      if (gameplay != null) {
-        print("gamplay is not null");
-      }
-      gameplay?.player.direction = direction;
-      print("Value write Player direction: $direction");
-    } catch(e){
-      print("Trying to print pllllllllyer${this.world.children}");
-      print("Error onJoyPad1DirectionChanged: $e");
-      e.printError();
+    final gameplay = findByKeyName<Gameplay>(Gameplay.id);
+    if (gameplay != null) {
+      print("Gameplay is not null $gameplay");
+      gameplay.player.direction = direction;
     }
-
-
   }
 }
