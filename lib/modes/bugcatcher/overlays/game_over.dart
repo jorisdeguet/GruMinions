@@ -55,7 +55,7 @@ class GameOver extends StatelessWidget {
       } else {
         isCorrect = false;
       }
-      game.overlays.remove(GameOver.iD);
+
       Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) =>

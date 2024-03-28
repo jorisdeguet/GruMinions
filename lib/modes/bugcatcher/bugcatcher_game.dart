@@ -152,4 +152,19 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
   void onAButtonPressedDuringGameOver(pressed) {
     overlays.remove(GameOver.iD);
   }
+
+  Future<void> reset() async {
+
+    overlays.remove(GameOver.iD);
+
+    int mapNumber = Random().nextInt(2) + 1;
+    _map = await TiledComponent.load('BugCatcherScenario_${mapNumber}_1.tmx', Vector2.all(16));
+    world.children.toList()[0] = _map;
+
+    overlays.add(Instructions.iD);
+    resumeEngine();
+    interval.start();
+    elapsedSeconds = 15;
+    counter = 0;
+  }
 }

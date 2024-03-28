@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-
 import 'bugcatcher_game.dart';
-import 'bugcatcher_screen_page.dart';
+import 'overlays/game_over.dart';
+
 class Question extends StatelessWidget {
   final int NumberTypeBugToFind;
   final int NumberOfBugsToFind;
   final int count;
   final bool correct;
   final BugCatcherGame game;
-  Question({super.key,
+  const Question({super.key,
     required this.NumberTypeBugToFind,
     required this.NumberOfBugsToFind,
     required this.correct,
@@ -101,8 +101,9 @@ class Question extends StatelessWidget {
                   areYouCorrect(),
                   spaceBetweenWidgets(),
                   MaterialButton(
-                    onPressed: () {
+                    onPressed: () async {
                         Navigator.of(context).pop();
+                        await game.reset();
                     },
                     child: const Text('Back To Main Menu', style: TextStyle(color: Colors.white, fontSize: 24)),
                   ),
