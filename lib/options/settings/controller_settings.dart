@@ -4,6 +4,7 @@ import 'package:flame/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ControllerSettings extends StatefulWidget {
   const ControllerSettings({super.key, required this.macAddress});
@@ -17,9 +18,26 @@ class ControllerSettings extends StatefulWidget {
 enum Options { english, spanish, french }
 
 class _ControllerSettingsState extends State<ControllerSettings> {
+
+  late String characterPlayer1 = 'Mask Dude'; //default character for player 1
+  late String characterPlayer2 = ''; //the player 2 can be null
+
   Color player1Color = const Color(0xff30acd9);
   Color player2Color = const Color(0xffcc3048);
   Color color = Colors.black;
+
+  Future<void> getString() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      characterPlayer1 = prefs.getString('characterPlayer1')!;
+    });
+  }
+
+  @override
+  initState() {
+    getString();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +61,7 @@ class _ControllerSettingsState extends State<ControllerSettings> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Player 1',
+                    characterPlayer1,
                     style: GoogleFonts.pixelifySans(
                       textStyle: TextStyle(
                         fontSize: 30,
@@ -56,7 +74,7 @@ class _ControllerSettingsState extends State<ControllerSettings> {
                     width: 100,
                     height: 100,
                     child: SpriteAnimationWidget.asset(
-                      path: "Main Characters/Pink Man/Idle (32x32).png",
+                      path: "Main Characters/$characterPlayer1/Idle (32x32).png",
                       //player 1's character
                       data: SpriteAnimationData.sequenced(
                         amount: 11,
