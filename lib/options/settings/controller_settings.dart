@@ -1,6 +1,7 @@
 import 'package:blinking_text/blinking_text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,11 +17,6 @@ class ControllerSettings extends StatefulWidget {
 enum Options { english, spanish, french }
 
 class _ControllerSettingsState extends State<ControllerSettings> {
-  final TextEditingController languagesController = TextEditingController();
-  double music = 50;
-  double soundFX = 50;
-  bool sound = true;
-  bool fullScreen = true;
   Color player1Color = const Color(0xff30acd9);
   Color player2Color = const Color(0xffcc3048);
   Color color = Colors.black;
@@ -111,21 +107,31 @@ class _ControllerSettingsState extends State<ControllerSettings> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: SpriteAnimationWidget.asset(
-                      path: "Main Characters/Virtual Guy/Idle (32x32).png",
-                      //player 2's character
-                      data: SpriteAnimationData.sequenced(
-                        amount: 11,
-                        stepTime: 0.05,
-                        textureSize: Vector2(32, 32),
-                        loop: true,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: CircularProgressIndicator(
+                        color: player2Color,
                       ),
                     ),
                   ),
-                  BlinkText('Connected',
+                  // SizedBox(
+                  //   width: 100,
+                  //   height: 100,
+                  //   child: SpriteAnimationWidget.asset(
+                  //     path: "Main Characters/Virtual Guy/Idle (32x32).png",
+                  //     //player 2's character
+                  //     data: SpriteAnimationData.sequenced(
+                  //       amount: 11,
+                  //       stepTime: 0.05,
+                  //       textureSize: Vector2(32, 32),
+                  //       loop: true,
+                  //     ),
+                  //   ),
+                  // ),
+                  BlinkText('Waiting...',
                       style: GoogleFonts.pixelifySans(
                         textStyle: const TextStyle(
                           fontSize: 20,
@@ -161,181 +167,7 @@ class _ControllerSettingsState extends State<ControllerSettings> {
                         color: color,
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        'Music ',
-                        style: GoogleFonts.pixelifySans(
-                          textStyle: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: color,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 300,
-                        child: Slider(
-                          min: 0,
-                          max: 100,
-                          activeColor: color,
-                          inactiveColor: Colors.black12,
-                          value: music,
-                          onChanged: (value) {
-                            setState(() {
-                              music = value.floorToDouble();
-                            });
-                          },
-                        ),
-                      ),
-                      Text(
-                        '$music %',
-                        style: GoogleFonts.pixelifySans(
-                          textStyle: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.normal,
-                            color: color,
-                          ),
-                        ),
-                      )
-                    ],
-                  ), //Music slider
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        'Sound FX ',
-                        style: GoogleFonts.pixelifySans(
-                          textStyle: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: color,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 300,
-                        child: Slider(
-                          min: 0,
-                          max: 100,
-                          activeColor: color,
-                          inactiveColor: Colors.black12,
-                          value: soundFX,
-                          onChanged: (value) {
-                            setState(() {
-                              soundFX = value.floorToDouble();
-                            });
-                          },
-                        ),
-                      ),
-                      Text(
-                        '$soundFX %',
-                        style: GoogleFonts.pixelifySans(
-                          textStyle: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.normal,
-                            color: color,
-                          ),
-                        ),
-                      )
-                    ],
-                  ), //Sound FX slider
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        'Sound ',
-                        style: GoogleFonts.pixelifySans(
-                          textStyle: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: color,
-                          ),
-                        ),
-                      ),
-                      Switch(
-                        value: sound,
-                        activeColor: color,
-                        onChanged: (bool value) {
-                          setState(() {
-                            sound = value;
-                          });
-                        },
-                      ),
-                      Text(
-                        'Full Screen',
-                        style: GoogleFonts.pixelifySans(
-                          textStyle: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: color,
-                          ),
-                        ),
-                      ),
-                      Switch(
-                        value: fullScreen,
-                        activeColor: color,
-                        onChanged: (bool value) {
-                          setState(() {
-                            fullScreen = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      DropdownMenu<Options>(
-                        initialSelection: Options.english,
-                        controller: languagesController,
-                        //requestFocusOnTap: true,
-                        enableSearch: false,
-                        menuStyle: MenuStyle(
-                          backgroundColor: MaterialStateProperty.all(color),
-                        ),
-                        textStyle: GoogleFonts.pixelifySans(
-                          textStyle: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.normal,
-                            color: color,
-                          ),
-                        ),
-                        label: Text(
-                          'Languages',
-                          style: GoogleFonts.pixelifySans(
-                            textStyle: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.normal,
-                              color: color,
-                            ),
-                          ),
-                        ),
-                        onSelected: (Options? language) {
-                          setState(() {
-                            language = language;
-                          });
-                        },
-                        dropdownMenuEntries: Options.values
-                            .map<DropdownMenuEntry<Options>>(
-                                (Options language) {
-                          return DropdownMenuEntry<Options>(
-                            value: language,
-                            label: language.toString(),
-                            enabled: language.toString() != 'english',
-                          );
-                        }).toList(),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                    ],
-                  ), //Language dropdown
+                  ),//Language dropdown
                 ],
               ),
             ),
