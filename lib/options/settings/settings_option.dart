@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:gru_minions/options/settings/controller_settings.dart';
 import 'package:gru_minions/options/settings/screen_settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../base/base-mode.dart';
 import '../flame/helpers/direction.dart';
@@ -18,7 +18,9 @@ class SettingsOption extends ScreenControllerOption {
 
   @override
   Widget controllerWidget() {
-    return ControllerSettings(macAddress: macAddress());
+    return ControllerSettings(
+      macAddress: macAddress(),
+    );
   }
 
   @override
@@ -30,13 +32,8 @@ class SettingsOption extends ScreenControllerOption {
   void handleMessageAsGru(String s) {}
 
   @override
-  void handleMessageAsMinion(String s) {
-    // change the direction for Minion game
-    Direction d = Direction.values.firstWhere((e) => s.contains(e.name));
-    //_game.onJoyPad1DirectionChanged(d);
-  }
+  void handleMessageAsMinion(String s) {}
 
   @override
   String name() => "settings_option";
 }
-

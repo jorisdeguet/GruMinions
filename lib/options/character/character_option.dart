@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../base/base-mode.dart';
 import 'controller_character.dart';
 import 'screen_character.dart';
@@ -7,7 +8,7 @@ import 'screen_character.dart';
 class CharacterOption extends ScreenControllerOption {
   CharacterOption({required super.sendToOthers});
 
-  final ValueNotifier<String> _characterName = ValueNotifier<String>('View Character Name');
+  final ValueNotifier<String> _characterName = ValueNotifier<String>('');
 
   @override
   void initController() {}

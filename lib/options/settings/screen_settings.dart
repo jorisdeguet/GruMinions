@@ -3,23 +3,26 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreenSettings extends StatefulWidget {
+  final String macAddress;
+
   const ScreenSettings({
     super.key,
     required this.macAddress,
   });
-
-  final String macAddress;
 
   @override
   State<ScreenSettings> createState() => _ScreenSettingsState();
 }
 
 class _ScreenSettingsState extends State<ScreenSettings> {
+
   Color player1Color = const Color(0xff30acd9);
   Color player2Color = const Color(0xffcc3048);
   Color color = Colors.black;
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,7 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                       width: 100,
                       height: 100,
                       child: SpriteAnimationWidget.asset(
-                        path: "Main Characters/Pink Man/Idle (32x32).png",
+                        path: "Main Characters/Mask Dude/Idle (32x32).png",
                         //player 1's character
                         data: SpriteAnimationData.sequenced(
                           amount: 11,
@@ -118,20 +121,6 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                         ),
                       ),
                     ),
-                    // SizedBox(
-                    //   width: 100,
-                    //   height: 100,
-                    //   child: SpriteAnimationWidget.asset(
-                    //     path: "Main Characters/Virtual Guy/Idle (32x32).png",
-                    //     //player 2's character
-                    //     data: SpriteAnimationData.sequenced(
-                    //       amount: 11,
-                    //       stepTime: 0.05,
-                    //       textureSize: Vector2(32, 32),
-                    //       loop: true,
-                    //     ),
-                    //   ),
-                    // ),
                     BlinkText('Waiting...',
                         style: GoogleFonts.pixelifySans(
                           textStyle: const TextStyle(
@@ -160,7 +149,7 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Level 01',
+                      'Level 01'.toUpperCase(),
                       style: GoogleFonts.pixelifySans(
                         textStyle: TextStyle(
                           fontSize: 30,
@@ -174,7 +163,7 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                       height: 288,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: const Image(
+                        child: Image(
                           image: AssetImage(
                               'assets/images/Background/Level 01.gif'),
                           fit: BoxFit.fill,

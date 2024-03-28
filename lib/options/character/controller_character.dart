@@ -10,16 +10,15 @@ import '../../dialogs/successful_selected.dart';
 import '../../models/character.dart';
 
 class ControllerCharacter extends StatefulWidget {
-  const ControllerCharacter({super.key, required this.send});
-
   final Function send;
+
+  const ControllerCharacter({super.key, required this.send});
 
   @override
   State<ControllerCharacter> createState() => _ControllerCharacterState();
 }
 
 class _ControllerCharacterState extends State<ControllerCharacter> {
-
   //final variables
   final CarouselController _controller = CarouselController();
 
@@ -54,7 +53,8 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                               width: 100,
                               height: 100,
                               child: SpriteAnimationWidget.asset(
-                                path: item.image,
+                                path:
+                                    "Main Characters/${item.name}/Idle (32x32).png",
                                 data: SpriteAnimationData.sequenced(
                                   amount: 11,
                                   stepTime: 0.05,

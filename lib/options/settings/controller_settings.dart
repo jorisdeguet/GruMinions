@@ -7,37 +7,32 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ControllerSettings extends StatefulWidget {
-  const ControllerSettings({super.key, required this.macAddress});
-
   final String macAddress;
+
+  const ControllerSettings({super.key, required this.macAddress});
 
   @override
   State<ControllerSettings> createState() => _ControllerSettingsState();
 }
 
-enum Options { english, spanish, french }
-
 class _ControllerSettingsState extends State<ControllerSettings> {
-
-  late String characterPlayer1 = 'Mask Dude'; //default character for player 1
-  late String characterPlayer2 = ''; //the player 2 can be null
-  late String level = 'Level 01'; //default level
 
   Color player1Color = const Color(0xff30acd9);
   Color player2Color = const Color(0xffcc3048);
   Color color = Colors.black;
 
-  Future<void> getInfos() async {
+  late String characterPlayer1 = 'Mask Dude'; //default character
+
+  Future<void> getCharacter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       characterPlayer1 = prefs.getString('characterPlayer1')!;
-      level = prefs.getString('currentLevel')!;
     });
   }
 
   @override
-  initState() {
-    getInfos();
+  void initState() {
+    getCharacter();
     super.initState();
   }
 
@@ -63,7 +58,7 @@ class _ControllerSettingsState extends State<ControllerSettings> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    characterPlayer1,
+                    'Player1',
                     style: GoogleFonts.pixelifySans(
                       textStyle: TextStyle(
                         fontSize: 30,
@@ -137,20 +132,6 @@ class _ControllerSettingsState extends State<ControllerSettings> {
                       ),
                     ),
                   ),
-                  // SizedBox(
-                  //   width: 100,
-                  //   height: 100,
-                  //   child: SpriteAnimationWidget.asset(
-                  //     path: "Main Characters/Virtual Guy/Idle (32x32).png",
-                  //     //player 2's character
-                  //     data: SpriteAnimationData.sequenced(
-                  //       amount: 11,
-                  //       stepTime: 0.05,
-                  //       textureSize: Vector2(32, 32),
-                  //       loop: true,
-                  //     ),
-                  //   ),
-                  // ),
                   BlinkText('Waiting...',
                       style: GoogleFonts.pixelifySans(
                         textStyle: const TextStyle(
