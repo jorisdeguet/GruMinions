@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:blinking_text/blinking_text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
@@ -180,16 +181,18 @@ class _ScreenCharacterState extends State<ScreenCharacter> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Waiting for Player 2...',
-                    style: GoogleFonts.pixelifySans(
-                      textStyle: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                  BlinkText('Waiting for Player 2...',
+                      style: GoogleFonts.pixelifySans(
+                        textStyle: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                  )
+                      beginColor: Colors.black,
+                      endColor: Colors.transparent,
+                      times: 3600,
+                      duration: const Duration(seconds: 2)),
                 ],
               ),
             ],
