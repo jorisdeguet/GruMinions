@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../boxsmasher/helpers/joypad.dart';
+
 import 'helpers/bugcatcher_a_button.dart';
 import 'helpers/bugcatcher_b_button.dart';
+import 'helpers/bugcatcher_joypad.dart';
 
 class ControllerABugCatcherPage extends StatefulWidget {
   final Function send;

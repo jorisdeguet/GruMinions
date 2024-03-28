@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../flame/helpers/a_button.dart';
+import 'helpers/a_button.dart';
+import 'helpers/b_button.dart';
 import 'helpers/joypad.dart';
 
 class ControllerABoxSmasherPage extends StatefulWidget {
@@ -30,10 +31,28 @@ class ControllerABoxSmasherState extends State<ControllerABoxSmasherPage> {
                       padding: const EdgeInsets.all(50.0),
                       child:
                       AButton(onAButtonChanged: (isPressed) {
-                        widget.send('ControllerA,${isPressed ? true : false}');
+                        widget.send('ControllerA,ButtonA,${isPressed ? true : false}');
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(50.0),
+                      child:
+                      BButton(onBButtonChanged: (isPressed) {
+                        widget.send('ControllerA,ButtonB,${isPressed ? true : false}');
                       }),
                     ),
                   ],
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(75.0),
+                child: Joypad(
+                  onDirectionChanged: (direction) {
+                    widget.send('ControllerA,$direction');
+                  },
                 ),
               ),
             ),

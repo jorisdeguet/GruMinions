@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class AButton extends StatefulWidget {
 
   final ValueChanged<bool>? onAButtonChanged;
 
-  const AButton({Key? key, this.onAButtonChanged}) : super(key: key);
+  const AButton({super.key, this.onAButtonChanged});
 
   @override
   AButtonState createState() => AButtonState();
@@ -18,11 +16,11 @@ class AButtonState extends State<AButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
-      width: 60,
+      height: 120,
+      width: 120,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(60),
         ),
         child: GestureDetector(
           onTapDown: _onTapDown,
@@ -30,13 +28,13 @@ class AButtonState extends State<AButton> {
           child: Container(
             decoration: BoxDecoration(
               color: isPressed ? const Color(0x88ffffff) : const Color(0x44ffffff),
-              borderRadius: BorderRadius.circular(50),
+              borderRadius: BorderRadius.circular(100),
             ),
             child: Center(
               child: Text(
                 'A',
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 48,
                   color: isPressed ? const Color(0x88ffffff) : const Color(0x44ffffff),
                 ),
               ),

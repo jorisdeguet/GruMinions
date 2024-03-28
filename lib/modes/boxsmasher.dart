@@ -5,6 +5,7 @@ import 'package:gru_minions/modes/boxsmasher/gru_game_page.dart';
 
 import 'boxsmasher/boxsmasher_game.dart';
 import 'boxsmasher/controller_b_game_page.dart';
+import 'boxsmasher/helpers/direction.dart';
 import 'boxsmasher/screen_boxsmasher_page.dart';
 
 class BoxSmasherMode extends GruMinionMode {
@@ -26,28 +27,51 @@ class BoxSmasherMode extends GruMinionMode {
   @override
   void handleMessageAsMinion(String s) {
     // change the direction for Minion game
-    print(s);
 
     List<String> parts = s.split(',');
     String controllerId = parts[0];
 
-    if(parts.length >= 2){
+    if (parts.length >= 2) {
       bool Pressed = false;
-      if (parts[1] == 'true') {
-        Pressed = true;
-      }
-      if (parts[1] == 'false') {
-        Pressed = false;
-      }
-      print("Controller: $controllerId, Pressed: $Pressed");
-
-
-      if (controllerId == 'ControllerA') {
-        _gameA.onAButtonPressed(Pressed);
-      } else if (controllerId == 'ControllerB') {
-        _gameB.onAButtonPressed(Pressed);
+      if (parts[1].contains('Direction')) {
+        Direction direction = Direction.values.firstWhere((e) =>
+            parts[1].contains(e.name));
+        if (controllerId == 'ControllerA') {
+          // In Case of Joystick
+          // _gameA.onJoyPad1DirectionChanged(direction);
+        }
       } else {
-        print("Unknown controller ID");
+        if (parts[2] == 'true') {
+          Pressed = true;
+        }
+        if (parts[2] == 'false') {
+          Pressed = false;
+        }
+
+        if (controllerId == 'ControllerA') {
+          if (parts[1] == 'ButtonA') {
+            if(_gameA.overlays.activeOverlays.isEmpty){
+              _gameA.onAButtonPressed(Pressed);
+            }
+
+          } else if (parts[1] == 'ButtonB') {
+            if(_gameA.overlays.activeOverlays.isEmpty){
+              //In Case of Button B
+              // _gameA.onBButtonPressed(Pressed);
+            }
+          }
+        } else if (controllerId == 'ControllerB') {
+          if (parts[1] == 'ButtonA') {
+            if(_gameB.overlays.activeOverlays.isEmpty){
+              _gameB.onAButtonPressed(Pressed);
+            }
+          } else if (parts[1] == 'ButtonB') {
+            if(_gameB.overlays.activeOverlays.isEmpty){
+              //In Case of Button B
+              // _gameB.onBButtonPressed(Pressed);
+            }
+          }
+        }
       }
     }
   }

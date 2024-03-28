@@ -9,10 +9,13 @@ import 'bugcatcher/bugcatcher_controller_a_page.dart';
 import 'bugcatcher/overlays/game_over.dart';
 
 class BugCatcherMode extends GruMinionMode {
-  BugCatcherMode({required super.sendToOthers});
+  BugCatcherMode({required super.sendToOthers}) {
+    gameA = BugCatcherGame();
+    gameB = BugCatcherGame();
+  }
 
-  final BugCatcherGame _gameA = BugCatcherGame();
-  final BugCatcherGame _gameB = BugCatcherGame();
+  late BugCatcherGame gameA;
+  late BugCatcherGame gameB;
 
   @override
   Widget gruWidget() {
@@ -37,7 +40,7 @@ class BugCatcherMode extends GruMinionMode {
         Direction direction = Direction.values.firstWhere((e) =>
             parts[1].contains(e.name));
         if (controllerId == 'ControllerA') {
-          _gameA.onJoyPad1DirectionChanged(direction);
+          gameA.onJoyPad1DirectionChanged(direction);
         }
       } else {
         if (parts[2] == 'true') {
@@ -49,23 +52,23 @@ class BugCatcherMode extends GruMinionMode {
 
         if (controllerId == 'ControllerA') {
           if (parts[1] == 'ButtonA') {
-            if(_gameA.overlays.activeOverlays.isEmpty){
-              _gameA.onAButtonPressed(Pressed);
+            if(gameA.overlays.activeOverlays.isEmpty){
+              gameA.onAButtonPressed(Pressed);
             }
 
           } else if (parts[1] == 'ButtonB') {
-            if(_gameA.overlays.activeOverlays.isEmpty){
-              _gameA.onBButtonPressed(Pressed);
+            if(gameA.overlays.activeOverlays.isEmpty){
+              gameA.onBButtonPressed(Pressed);
             }
           }
         } else if (controllerId == 'ControllerB') {
           if (parts[1] == 'ButtonA') {
-            if(_gameB.overlays.activeOverlays.isEmpty){
-              _gameB.onAButtonPressed(Pressed);
+            if(gameB.overlays.activeOverlays.isEmpty){
+              gameB.onAButtonPressed(Pressed);
             }
           } else if (parts[1] == 'ButtonB') {
-            if(_gameB.overlays.activeOverlays.isEmpty){
-              _gameB.onBButtonPressed(Pressed);
+            if(gameB.overlays.activeOverlays.isEmpty){
+              gameB.onBButtonPressed(Pressed);
             }
           }
         }
@@ -111,7 +114,7 @@ class BugCatcherMode extends GruMinionMode {
 
     @override
     Widget screenWidget(BuildContext context) {
-      return ScreenBugCatcherPage(gameA: _gameA);
+      return ScreenBugCatcherPage(gameA: gameA);
     }
 
     @override

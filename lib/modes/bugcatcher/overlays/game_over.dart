@@ -58,7 +58,14 @@ class GameOver extends StatelessWidget {
       game.overlays.remove(GameOver.iD);
       Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => Question(NumberOfBugsToFind: game.numberOfBugsToFind, NumberTypeBugToFind: game.numberTypeBugToFind, correct: isCorrect, count: game.counter),
+            builder: (context) =>
+                Question(
+                    NumberOfBugsToFind: game.numberOfBugsToFind,
+                    NumberTypeBugToFind: game.numberTypeBugToFind,
+                    correct: isCorrect,
+                    count: game.counter,
+                    game: game
+                ),
           ));
     });
   }

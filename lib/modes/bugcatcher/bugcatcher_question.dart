@@ -7,7 +7,14 @@ class Question extends StatelessWidget {
   final int NumberOfBugsToFind;
   final int count;
   final bool correct;
-  Question({super.key, required this.NumberTypeBugToFind, required this.NumberOfBugsToFind, required this.correct, required this.count});
+  final BugCatcherGame game;
+  Question({super.key,
+    required this.NumberTypeBugToFind,
+    required this.NumberOfBugsToFind,
+    required this.correct,
+    required this.count,
+    required this.game,
+  });
 
  //#region How Well Did You Do
   Widget entireWellDidYouDo(){

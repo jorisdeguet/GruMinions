@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BButton extends StatefulWidget {
 
-  final ValueChanged<bool>? onAButtonChanged;
+  final ValueChanged<bool>? onBButtonChanged;
 
-  const BButton({Key? key, this.onAButtonChanged}) : super(key: key);
+  const BButton({super.key, this.onBButtonChanged});
 
   @override
   BButtonState createState() => BButtonState();
@@ -17,26 +16,28 @@ class BButtonState extends State<BButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
-      width: 60,
+      height: 120,
+      width: 120,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(60),
         ),
         child: GestureDetector(
           onTapDown: _onTapDown,
           onTapUp: _onTapUp,
           child: Container(
             decoration: BoxDecoration(
-              color: isPressed ? const Color(0x88ffffff) : const Color(0x44ffffff),
-              borderRadius: BorderRadius.circular(30),
+              color: isPressed ? const Color(0x88ffffff) : const Color(
+                  0x44ffffff),
+              borderRadius: BorderRadius.circular(100),
             ),
             child: Center(
               child: Text(
                 'B',
                 style: TextStyle(
-                  fontSize: 24,
-                  color: isPressed ? const Color(0x88ffffff) : const Color(0x44ffffff),
+                  fontSize: 48,
+                  color: isPressed ? const Color(0x88ffffff) : const Color(
+                      0x44ffffff),
                 ),
               ),
             ),
@@ -50,13 +51,13 @@ class BButtonState extends State<BButton> {
     setState(() {
       isPressed = true;
     });
-    widget.onAButtonChanged?.call(true);
+    widget.onBButtonChanged?.call(true);
   }
 
   void _onTapUp(TapUpDetails details) {
     setState(() {
       isPressed = false;
     });
-    widget.onAButtonChanged?.call(false);
+    widget.onBButtonChanged?.call(false);
   }
 }
