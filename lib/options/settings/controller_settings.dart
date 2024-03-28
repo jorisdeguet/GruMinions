@@ -23,7 +23,7 @@ class _ControllerSettingsState extends State<ControllerSettings> {
   bool fullScreen = true;
   Color player1Color = const Color(0xff30acd9);
   Color player2Color = const Color(0xffcc3048);
-  Color color = const Color(0xffa14744);
+  Color color = Colors.black;
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +81,16 @@ class _ControllerSettingsState extends State<ControllerSettings> {
                       endColor: Colors.transparent,
                       times: 3600,
                       duration: const Duration(seconds: 2)),
+                  Text(
+                    widget.macAddress,
+                    style: GoogleFonts.pixelifySans(
+                      textStyle: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: color,
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 40),
                   const Divider(
                     thickness: 2,
@@ -181,14 +191,14 @@ class _ControllerSettingsState extends State<ControllerSettings> {
                         ),
                       ),
                       Text(
-                          '$music %',
-                       style : GoogleFonts.pixelifySans(
-                      textStyle: TextStyle(
-                      fontSize: 30,
-                        fontWeight: FontWeight.normal,
-                        color: color,
-                      ),
-            ),
+                        '$music %',
+                        style: GoogleFonts.pixelifySans(
+                          textStyle: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.normal,
+                            color: color,
+                          ),
+                        ),
                       )
                     ],
                   ), //Music slider
@@ -221,7 +231,7 @@ class _ControllerSettingsState extends State<ControllerSettings> {
                         ),
                       ),
                       Text(
-                          '$soundFX %',
+                        '$soundFX %',
                         style: GoogleFonts.pixelifySans(
                           textStyle: TextStyle(
                             fontSize: 30,
@@ -297,7 +307,7 @@ class _ControllerSettingsState extends State<ControllerSettings> {
                           ),
                         ),
                         label: Text(
-                            'Languages',
+                          'Languages',
                           style: GoogleFonts.pixelifySans(
                             textStyle: TextStyle(
                               fontSize: 30,
