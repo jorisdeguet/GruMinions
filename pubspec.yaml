@@ -39,6 +39,7 @@ dependencies:
   sidebarx: ^0.16.3
   blinking_text: ^1.0.2
   carousel_slider: ^4.2.1
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

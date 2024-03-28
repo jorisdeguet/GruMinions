@@ -3,7 +3,11 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stroke_text/stroke_text.dart';
+
+import '../../dialogs/successful_selected.dart';
+import '../../models/character.dart';
 
 class ControllerCharacter extends StatefulWidget {
   const ControllerCharacter({super.key, required this.send});
@@ -15,30 +19,20 @@ class ControllerCharacter extends StatefulWidget {
 }
 
 class _ControllerCharacterState extends State<ControllerCharacter> {
+
+  //final variables
   final CarouselController _controller = CarouselController();
+
+  //late variables
   late int _current = 0;
+
+  Future<void> storeCharacter(String value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('characterPlayer1', value);
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Character> characters = [
-      Character(
-          image: "Main Characters/Mask Dude/Run (32x32).png",
-          name: "Mask Dude",
-          color: const Color(0xffea71bd)),
-      Character(
-          image: "Main Characters/Ninja Frog/Run (32x32).png",
-          name: "Ninja Frog",
-          color: const Color(0xff6cd9f1)),
-      Character(
-          image: "Main Characters/Pink Man/Run (32x32).png",
-          name: "Pink Man",
-          color: const Color(0xffcc3048)),
-      Character(
-          image: "Main Characters/Virtual Guy/Run (32x32).png",
-          name: "Virtual Guy",
-          color: const Color(0xff288610)),
-    ];
-
     List<Widget> characterSliders = characters
         .map((item) => Padding(
               padding: const EdgeInsets.all(8.0),
@@ -60,9 +54,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                               width: 100,
                               height: 100,
                               child: SpriteAnimationWidget.asset(
-                                path:
-                                    "Main Characters/${item.name}/Idle (32x32).png",
-                                //running
+                                path: item.image,
                                 data: SpriteAnimationData.sequenced(
                                   amount: 11,
                                   stepTime: 0.05,
@@ -73,7 +65,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                             ),
                           ],
                         ),
-                      ), //replace with sprite animation
+                      ),
                       Positioned(
                         bottom: 0.0,
                         left: 0.0,
@@ -161,8 +153,13 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  //stock character name
+                onTap: () async {
+                  await storeCharacter(characters[_current].name)
+                      .then((value) => showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => SuccessfulSelected(
+                                characterName: characters[_current].name,
+                              )));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -222,12 +219,4 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
       ),
     ));
   }
-}
-
-class Character {
-  final String image;
-  final String name;
-  final Color color;
-
-  Character({required this.image, required this.name, required this.color});
 }
