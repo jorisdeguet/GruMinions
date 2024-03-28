@@ -21,21 +21,23 @@ class _ControllerSettingsState extends State<ControllerSettings> {
 
   late String characterPlayer1 = 'Mask Dude'; //default character for player 1
   late String characterPlayer2 = ''; //the player 2 can be null
+  late String level = 'Level 01'; //default level
 
   Color player1Color = const Color(0xff30acd9);
   Color player2Color = const Color(0xffcc3048);
   Color color = Colors.black;
 
-  Future<void> getString() async {
+  Future<void> getInfos() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       characterPlayer1 = prefs.getString('characterPlayer1')!;
+      level = prefs.getString('currentLevel')!;
     });
   }
 
   @override
   initState() {
-    getString();
+    getInfos();
     super.initState();
   }
 

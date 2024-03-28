@@ -31,7 +31,7 @@ class LevelOption extends ScreenControllerOption {
 
   @override
   void handleMessageAsMinion(String s) {
-    // receive the level name
+    // receive the level.dart name
     _levelName.value = s;
   }
 
