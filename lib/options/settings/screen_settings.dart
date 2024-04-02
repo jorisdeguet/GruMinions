@@ -150,7 +150,7 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Level 01'.toUpperCase(),
+                      currentConfig.level.toUpperCase(),
                       style: GoogleFonts.pixelifySans(
                         textStyle: TextStyle(
                           fontSize: 30,
@@ -164,9 +164,9 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                       height: 288,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: const Image(
+                        child: Image(
                           image: AssetImage(
-                              'assets/images/Background/Level 01.gif'),
+                              'assets/images/Background/${currentConfig.level}.gif'),
                           fit: BoxFit.fill,
                         ),
                       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../comm/message.dart';
 import '../base/base-mode.dart';
 import 'controller_level.dart';
 import 'screen_level.dart';
@@ -32,7 +33,12 @@ class LevelOption extends ScreenControllerOption {
   @override
   void handleMessageAsMinion(String s) {
     // receive the level.dart name
-    _levelName.value = s;
+    if(s.startsWith("Selected")){
+      currentConfig.level = s.split(':').last;
+    }
+    else if (s.startsWith("View")){
+      _levelName.value = s.split(':').last;
+    }
   }
 
   @override

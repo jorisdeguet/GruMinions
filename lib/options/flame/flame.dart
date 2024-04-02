@@ -14,7 +14,7 @@ import 'helpers/direction.dart';
 class FlameMode extends ScreenControllerOption {
   FlameMode({required super.sendToOthers});
 
-  final PixelAdventure _game = PixelAdventure(character: "Virtual Guy", level: "01");
+  late final PixelAdventure _game = PixelAdventure(character: currentConfig.characterPlayer1, level: currentConfig.level.split('').last);
 
   @override
   void initController() {}
@@ -40,12 +40,12 @@ class FlameMode extends ScreenControllerOption {
   @override
   void handleMessageAsMinion(String s) {
     // change the direction for Minion game
-    if (s.startsWith("{")){
-      Config c = Config.fromJson(jsonDecode(s));
-
-      // TODO dans le controller quand jèenvoie le message pour commencer le jeu
-      String message = jsonEncode(c.toJson());
-    }
+    // if (s.startsWith("{")){
+    //   Config c = Config.fromJson(jsonDecode(s));
+    //
+    //   // TODO dans le controller quand jèenvoie le message pour commencer le jeu
+    //   String message = jsonEncode(c.toJson());
+    // }
 
 
     if (kDebugMode) {

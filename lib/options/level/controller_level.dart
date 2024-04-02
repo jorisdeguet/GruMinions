@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
 
+import '../../comm/message.dart';
 import '../../dialogs/successful_selected.dart';
 import '../../models/level.dart';
 
@@ -98,7 +99,7 @@ class _ControllerLevelState extends State<ControllerLevel> {
                   if (_current < 0) {
                     _current = 2;
                   }
-                  widget.send(levels[_current].name);
+                  widget.send('View:${levels[_current].name}');
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -118,6 +119,8 @@ class _ControllerLevelState extends State<ControllerLevel> {
               ),
               GestureDetector(
                 onTap: () async {
+                  currentConfig.level = levels[_current].name;
+                  widget.send('Selected:${levels[_current].name}');
                   showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => SuccessfulSelected(
@@ -158,7 +161,7 @@ class _ControllerLevelState extends State<ControllerLevel> {
                   if (_current > 2) {
                     _current = 0;
                   }
-                  widget.send(levels[_current].name);
+                  widget.send('View:${levels[_current].name}');
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

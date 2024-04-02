@@ -37,10 +37,7 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
   bool showControls = false;
   bool playSounds = false;
   double soundVolume = 1.0;
-  final List<String> _levels = [
-    '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
-    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-  ];
+  final List<String> _levels = ['01', '02', '03'];
 
   @override
   FutureOr<void> onLoad() async {
