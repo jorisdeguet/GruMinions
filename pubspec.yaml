@@ -24,7 +24,7 @@ dependencies:
   #audioplayers: ^5.2.0
   intl: ^0.18.1
   assets_audio_player: ^3.1.1
-  flame: ^1.10.0
+  flame: ^1.17.0
   json_annotation: ^4.8.1
   get: ^4.6.6
   image: ^4.1.3

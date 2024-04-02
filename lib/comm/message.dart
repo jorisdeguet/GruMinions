@@ -4,16 +4,19 @@ part 'message.g.dart';
 
 //flutter packages pub run build_runner build --delete-conflicting-outputs
 
+Config courantConfig = Config();
+
+
 @JsonSerializable()
 class Config {
   // soit toute le monde soit l'adresse MAC de la tablette visée.
-  String target = "all";
+  //String target = "all";
 
-  final String characterPlayer1;
-  final String level;
-  final String? characterPlayer2;
+  late String characterPlayer1;
+  late String level;
+  late String? characterPlayer2;
 
-  Config({required this.characterPlayer1, required this.level, this.characterPlayer2});
+  Config({this.characterPlayer1 = "Mask Dude", this.level = "Level 01", this.characterPlayer2});
 
   factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
 

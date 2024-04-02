@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gru_minions/comm/message.dart';
 import 'package:gru_minions/options/flame/game/pixel_adventure.dart';
 import 'package:gru_minions/options/flame/screen_game.dart';
 
@@ -37,6 +40,14 @@ class FlameMode extends ScreenControllerOption {
   @override
   void handleMessageAsMinion(String s) {
     // change the direction for Minion game
+    if (s.startsWith("{")){
+      Config c = Config.fromJson(jsonDecode(s));
+
+      // TODO dans le controller quand jèenvoie le message pour commencer le jeu
+      String message = jsonEncode(c.toJson());
+    }
+
+
     if (kDebugMode) {
       print(s);
     }

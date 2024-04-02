@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
 
+import '../../comm/message.dart';
 import '../../dialogs/successful_selected.dart';
 import '../../models/character.dart';
 
@@ -148,6 +149,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               ),
               GestureDetector(
                 onTap: () async {
+                  courantConfig.characterPlayer1 = characters[_current].name;
                   showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => SuccessfulSelected(
