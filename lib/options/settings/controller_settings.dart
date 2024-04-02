@@ -1,10 +1,8 @@
 import 'package:blinking_text/blinking_text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ControllerSettings extends StatefulWidget {
   final String macAddress;
@@ -22,22 +20,6 @@ class _ControllerSettingsState extends State<ControllerSettings> {
   Color color = Colors.black;
 
   late String characterPlayer1 = 'Mask Dude'; //default character
-
-  Future<void> getCharacter() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      characterPlayer1 = prefs.getString('characterPlayer1')!;
-      if(characterPlayer1 == '') {
-        characterPlayer1 = 'Mask Dude';
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    getCharacter();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

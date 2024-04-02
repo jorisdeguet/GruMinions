@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../base/base-mode.dart';
 import 'controller_character.dart';
 import 'screen_character.dart';

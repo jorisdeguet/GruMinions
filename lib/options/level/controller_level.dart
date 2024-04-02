@@ -3,7 +3,6 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stroke_text/stroke_text.dart';
 
 import '../../dialogs/successful_selected.dart';
@@ -27,11 +26,6 @@ class _ControllerLevelState extends State<ControllerLevel> {
 
   //late variables
   late int _current = 0;
-
-  Future<void> storeLevel(String value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('currentLevel', value);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,12 +118,11 @@ class _ControllerLevelState extends State<ControllerLevel> {
               ),
               GestureDetector(
                 onTap: () async {
-                  await storeLevel(levels[_current].name)
-                      .then((value) => showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => SuccessfulSelected(
-                                characterName: levels[_current].name,
-                              )));
+                  showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => SuccessfulSelected(
+                            characterName: levels[_current].name,
+                          ));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

@@ -3,7 +3,6 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreenSettings extends StatefulWidget {
   final String macAddress;
@@ -163,7 +162,7 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                       height: 288,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image(
+                        child: const Image(
                           image: AssetImage(
                               'assets/images/Background/Level 01.gif'),
                           fit: BoxFit.fill,

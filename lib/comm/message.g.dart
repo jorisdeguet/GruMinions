@@ -6,27 +6,15 @@ part of 'message.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Person _$PersonFromJson(Map<String, dynamic> json) => Person(
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
-      dateOfBirth: json['dateOfBirth'] == null
-          ? null
-          : DateTime.parse(json['dateOfBirth'] as String),
+Config _$ConfigFromJson(Map<String, dynamic> json) => Config(
+      characterPlayer1: json['characterPlayer1'] as String,
+      level: json['level'] as String,
+      characterPlayer2: json['characterPlayer2'] as String?,
     )..target = json['target'] as String;
 
-Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
+Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'target': instance.target,
-      'firstName': instance.firstName,
-      'lastName': instance.lastName,
-      'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
-    };
-
-SimonSequence _$SimonSequenceFromJson(Map<String, dynamic> json) =>
-    SimonSequence()
-      ..sequence =
-          (json['sequence'] as List<dynamic>).map((e) => e as String).toList();
-
-Map<String, dynamic> _$SimonSequenceToJson(SimonSequence instance) =>
-    <String, dynamic>{
-      'sequence': instance.sequence,
+      'characterPlayer1': instance.characterPlayer1,
+      'level': instance.level,
+      'characterPlayer2': instance.characterPlayer2,
     };

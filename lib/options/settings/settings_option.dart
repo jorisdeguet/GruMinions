@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/options/settings/controller_settings.dart';
 import 'package:gru_minions/options/settings/screen_settings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../base/base-mode.dart';
-import '../flame/helpers/direction.dart';
 
 // taken from https://github.com/flame-games/player_move
 class SettingsOption extends ScreenControllerOption {

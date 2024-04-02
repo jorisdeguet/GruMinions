@@ -3,7 +3,6 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stroke_text/stroke_text.dart';
 
 import '../../dialogs/successful_selected.dart';
@@ -24,11 +23,6 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
 
   //late variables
   late int _current = 0;
-
-  Future<void> storeCharacter(String value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('characterPlayer1', value);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,12 +148,11 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               ),
               GestureDetector(
                 onTap: () async {
-                  await storeCharacter(characters[_current].name)
-                      .then((value) => showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => SuccessfulSelected(
-                                characterName: characters[_current].name,
-                              )));
+                  showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => SuccessfulSelected(
+                            characterName: characters[_current].name,
+                          ));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

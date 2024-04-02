@@ -5,7 +5,6 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreenCharacter extends StatefulWidget {
   final ValueNotifier<String> characterName;
