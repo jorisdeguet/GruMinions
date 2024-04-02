@@ -1,1 +1,9 @@
-enum ControllerStatus { none, initializing, creatingGroup, openingSocket, active }
+enum ControllerStatus {
+  none,
+  initializing,
+  searchingBoss,
+  connectingBoss,
+  connectingSocket,
+  tooManyBoss,
+  active
+}

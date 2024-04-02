@@ -1,9 +1,1 @@
-enum ViewStatus {
-  none,
-  initializing,
-  searchingBoss,
-  connectingBoss,
-  connectingSocket,
-  tooManyBoss,
-  active
-}
+enum ViewStatus { none, initializing, creatingGroup, openingSocket, active }
