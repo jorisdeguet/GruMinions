@@ -129,7 +129,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                   if (_current < 0) {
                     _current = 3;
                   }
-                  widget.send(characters[_current].name);
+                  widget.send('View:${characters[_current].name}');
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -149,7 +149,8 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               ),
               GestureDetector(
                 onTap: () async {
-                  courantConfig.characterPlayer1 = characters[_current].name;
+                  currentConfig.characterPlayer1 = characters[_current].name;
+                  widget.send('Selected:${characters[_current].name}');
                   showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => SuccessfulSelected(
@@ -190,7 +191,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                   if (_current > 3) {
                     _current = 0;
                   }
-                  widget.send(characters[_current].name);
+                  widget.send('View:${characters[_current].name}');
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

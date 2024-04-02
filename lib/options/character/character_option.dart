@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gru_minions/comm/message.dart';
 import '../base/base-mode.dart';
 import 'controller_character.dart';
 import 'screen_character.dart';
@@ -33,7 +34,12 @@ class CharacterOption extends ScreenControllerOption {
   @override
   void handleMessageAsMinion(String s) {
     // receive the character name
-    _characterName.value = s;
+    if(s.startsWith("Selected")){
+      currentConfig.characterPlayer1 = s.split(':').last;
+    }
+    else if (s.startsWith("View")){
+      _characterName.value = s.split(':').last;
+    }
   }
 
   @override

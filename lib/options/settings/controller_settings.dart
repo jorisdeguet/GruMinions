@@ -59,7 +59,7 @@ class _ControllerSettingsState extends State<ControllerSettings> {
                       width: 100,
                       height: 100,
                       child: SpriteAnimationWidget.asset(
-                        path: "Main Characters/${courantConfig.characterPlayer1}/Idle (32x32).png",
+                        path: "Main Characters/${currentConfig.characterPlayer1}/Idle (32x32).png",
                         //player 1's character
                         data: SpriteAnimationData.sequenced(
                           amount: 11,

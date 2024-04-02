@@ -4,6 +4,8 @@ import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../comm/message.dart';
+
 class ScreenSettings extends StatefulWidget {
   final String macAddress;
 
@@ -59,7 +61,7 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                       width: 100,
                       height: 100,
                       child: SpriteAnimationWidget.asset(
-                        path: "Main Characters/Mask Dude/Idle (32x32).png",
+                        path: "Main Characters/${currentConfig.characterPlayer1}/Idle (32x32).png",
                         //player 1's character
                         data: SpriteAnimationData.sequenced(
                           amount: 11,
