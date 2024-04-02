@@ -18,8 +18,8 @@ class ControllerPage extends StatefulWidget {
 
 class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
   final List<String> _messages = [];
-  late final List<ScreenControllerOption> _modes = listOfModes(_send);
-  late ScreenControllerOption _currentMode;
+  late final List<ScreenControllerOption> _options = listOfModes(_send);
+  late ScreenControllerOption _currentOption;
 
   @override
   void initState() {
@@ -28,8 +28,8 @@ class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
     service.onReceive.listen((element) {
       _receive(element);
     });
-    _currentMode = HomeOption(sendToOthers: _send);
-    _currentMode.initController();
+    _currentOption = HomeOption(sendToOthers: _send);
+    _currentOption.initController();
     super.initState();
   }
 
@@ -141,7 +141,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
       ),
       body: Column(
         children: [
-          Expanded(child: _currentMode.controllerWidget()),
+          Expanded(child: _currentOption.controllerWidget()),
           // Your app screen body
         ],
       ),
@@ -149,13 +149,13 @@ class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
   }
 
   void changeMode(String option) {
-    for (ScreenControllerOption mode in _modes) {
+    for (ScreenControllerOption mode in _options) {
       if (option == mode.name()) {
-        _currentMode = mode;
+        _currentOption = mode;
       }
     }
     _send(option);
-    _currentMode.initController();
+    _currentOption.initController();
     setState(() {});
   }
 
@@ -168,7 +168,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
   void _receive(String option) {
     try {
       _messages.insert(0, "Screen - $option");
-      _currentMode.handleMessageAsGru(option);
+      _currentOption.handleMessageAsGru(option);
     } catch (e) {
       if (kDebugMode) {
         print("Screen got exception while handling message $option");
