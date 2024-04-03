@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
 
 import '../../comm/message.dart';
-import '../../dialogs/successful_selected.dart';
+import '../../dialogs/successful_select.dart';
 import '../../models/level.dart';
 
 class ControllerLevel extends StatefulWidget {
@@ -123,7 +123,7 @@ class _ControllerLevelState extends State<ControllerLevel> {
                   widget.send('Selected:${levels[_current].name}');
                   showDialog<String>(
                       context: context,
-                      builder: (BuildContext context) => SuccessfulSelected(
+                      builder: (BuildContext context) => SuccessfulSelect(
                             characterName: levels[_current].name,
                           ));
                 },

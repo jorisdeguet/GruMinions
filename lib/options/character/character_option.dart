@@ -8,7 +8,8 @@ import 'screen_character.dart';
 class CharacterOption extends ScreenControllerOption {
   CharacterOption({required super.sendToOthers});
 
-  final ValueNotifier<String> _characterName = ValueNotifier<String>('');
+  final ValueNotifier<String> _character1 = ValueNotifier<String>('');
+  final ValueNotifier<String> _character2 = ValueNotifier<String>('');
 
   @override
   void initController() {}
@@ -25,7 +26,7 @@ class CharacterOption extends ScreenControllerOption {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return ScreenCharacter(characterPlayer1: _characterName);
+    return ScreenCharacter(characterPlayer1: _character1, characterPlayer2: _character1);
   }
 
   @override
@@ -38,7 +39,7 @@ class CharacterOption extends ScreenControllerOption {
       currentConfig.characterPlayer1 = s.split(':').last;
     }
     else if (s.startsWith("View")){
-      _characterName.value = s.split(':').last;
+      _character1.value = s.split(':').last;
     }
   }
 

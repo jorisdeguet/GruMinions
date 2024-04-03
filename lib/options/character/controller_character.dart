@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
 
 import '../../comm/message.dart';
-import '../../dialogs/successful_selected.dart';
+import '../../dialogs/successful_select.dart';
 import '../../models/character.dart';
 
 class ControllerCharacter extends StatefulWidget {
@@ -153,7 +153,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                   widget.send('Selected:${characters[_current].name}');
                   showDialog<String>(
                       context: context,
-                      builder: (BuildContext context) => SuccessfulSelected(
+                      builder: (BuildContext context) => SuccessfulSelect(
                             characterName: characters[_current].name,
                           ));
                 },

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-class SuccessfulSelected extends StatefulWidget {
-  const SuccessfulSelected({super.key, required this.characterName});
+class SuccessfulSelect extends StatefulWidget {
+  const SuccessfulSelect({super.key, required this.characterName});
 
   final String characterName;
 
   @override
-  State<SuccessfulSelected> createState() => _SuccessfulSelectedState();
+  State<SuccessfulSelect> createState() => _SuccessfulSelectState();
 }
 
-class _SuccessfulSelectedState extends State<SuccessfulSelected> {
+class _SuccessfulSelectState extends State<SuccessfulSelect> {
   @override
   Widget build(BuildContext context) {
     return Dialog(

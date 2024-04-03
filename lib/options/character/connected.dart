@@ -13,11 +13,11 @@ class Connected extends StatefulWidget {
 }
 
 class _ConnectedState extends State<Connected> {
-  @override
-  void initState() {
-    widget.characterPlayer2.value = 'Mask Dude';
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   widget.characterPlayer2.value = 'Mask Dude';
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

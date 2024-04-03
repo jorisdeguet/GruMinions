@@ -1,6 +1,5 @@
 import 'dart:core';
 
-import 'package:blinking_text/blinking_text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
@@ -10,19 +9,21 @@ import 'package:gru_minions/options/character/waiting.dart';
 
 class ScreenCharacter extends StatefulWidget {
   final ValueNotifier<String> characterPlayer1;
+  final ValueNotifier<String> characterPlayer2;
 
-  const ScreenCharacter({super.key, required this.characterPlayer1});
+  const ScreenCharacter({super.key, required this.characterPlayer1, required this.characterPlayer2});
 
   @override
   State<ScreenCharacter> createState() => _ScreenCharacterState();
 }
 
 class _ScreenCharacterState extends State<ScreenCharacter> {
-  bool multiplayer = true;
+  bool multiplayer = false;
 
   @override
   void initState() {
     widget.characterPlayer1.value = 'Mask Dude';
+    widget.characterPlayer2.value = 'Mask Dude';
     super.initState();
   }
 
@@ -174,7 +175,7 @@ class _ScreenCharacterState extends State<ScreenCharacter> {
               const SizedBox(height: 20),
               !multiplayer
               ? const Waiting()
-              : Connected(characterPlayer2: widget.characterPlayer1),
+              : Connected(characterPlayer2: widget.characterPlayer2),
             ],
           ),
         );
