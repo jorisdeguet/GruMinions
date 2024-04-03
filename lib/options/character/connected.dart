@@ -1,42 +1,35 @@
-import 'dart:core';
-
-import 'package:blinking_text/blinking_text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gru_minions/options/character/connected.dart';
-import 'package:gru_minions/options/character/waiting.dart';
 
-class ScreenCharacter extends StatefulWidget {
-  final ValueNotifier<String> characterPlayer1;
+class Connected extends StatefulWidget {
+  final ValueNotifier<String> characterPlayer2;
 
-  const ScreenCharacter({super.key, required this.characterPlayer1});
+  const Connected({super.key, required this.characterPlayer2});
 
   @override
-  State<ScreenCharacter> createState() => _ScreenCharacterState();
+  State<Connected> createState() => _ConnectedState();
 }
 
-class _ScreenCharacterState extends State<ScreenCharacter> {
-  bool multiplayer = true;
-
+class _ConnectedState extends State<Connected> {
   @override
   void initState() {
-    widget.characterPlayer1.value = 'Mask Dude';
+    widget.characterPlayer2.value = 'Mask Dude';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<String>(
-      valueListenable: widget.characterPlayer1,
+      valueListenable: widget.characterPlayer2,
       builder: (context, score, child) {
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Player 1 : ${widget.characterPlayer1.value}',
+                'Player 2 : ${widget.characterPlayer2.value}',
                 style: GoogleFonts.pixelifySans(
                   textStyle: const TextStyle(
                     fontSize: 20,
@@ -65,7 +58,7 @@ class _ScreenCharacterState extends State<ScreenCharacter> {
                             height: 100,
                             child: SpriteAnimationWidget.asset(
                               path:
-                                  "Main Characters/${widget.characterPlayer1.value}/Idle (32x32).png",
+                              "Main Characters/${widget.characterPlayer2.value}/Idle (32x32).png",
                               //running
                               data: SpriteAnimationData.sequenced(
                                 amount: 11,
@@ -96,7 +89,7 @@ class _ScreenCharacterState extends State<ScreenCharacter> {
                             height: 100,
                             child: SpriteAnimationWidget.asset(
                               path:
-                                  "Main Characters/${widget.characterPlayer1.value}/Run (32x32).png",
+                              "Main Characters/${widget.characterPlayer2.value}/Run (32x32).png",
                               data: SpriteAnimationData.sequenced(
                                 amount: 12,
                                 stepTime: 0.05,
@@ -126,7 +119,7 @@ class _ScreenCharacterState extends State<ScreenCharacter> {
                             height: 100,
                             child: SpriteAnimationWidget.asset(
                               path:
-                                  "Main Characters/${widget.characterPlayer1.value}/Wall Jump (32x32).png",
+                              "Main Characters/${widget.characterPlayer2.value}/Wall Jump (32x32).png",
                               data: SpriteAnimationData.sequenced(
                                 amount: 5,
                                 stepTime: 0.05,
@@ -156,7 +149,7 @@ class _ScreenCharacterState extends State<ScreenCharacter> {
                             height: 100,
                             child: SpriteAnimationWidget.asset(
                               path:
-                                  "Main Characters/${widget.characterPlayer1.value}/Hit (32x32).png",
+                              "Main Characters/${widget.characterPlayer2.value}/Hit (32x32).png",
                               data: SpriteAnimationData.sequenced(
                                 amount: 7,
                                 stepTime: 0.05,
@@ -171,10 +164,6 @@ class _ScreenCharacterState extends State<ScreenCharacter> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              !multiplayer
-              ? const Waiting()
-              : Connected(characterPlayer2: widget.characterPlayer1),
             ],
           ),
         );
