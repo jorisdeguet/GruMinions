@@ -29,7 +29,6 @@ class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
       _receive(element);
     });
     _currentOption = HomeOption(sendToOthers: _send);
-    _currentOption.initController();
     super.initState();
   }
 
@@ -155,7 +154,6 @@ class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
       }
     }
     _send(option);
-    _currentOption.initController();
     setState(() {});
   }
 
@@ -167,6 +165,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
 
   void _receive(String option) {
     try {
+      changeMode(option);
       _messages.insert(0, "Screen - $option");
       _currentOption.handleMessageAsGru(option);
     } catch (e) {

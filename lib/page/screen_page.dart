@@ -16,7 +16,6 @@ class ScreenPage extends StatefulWidget {
 
 class _ScreenPageState extends ScreenBaseWidgetState<ScreenPage> {
   late final List<ScreenControllerOption> _options = listOfModes(_send);
-
   late ScreenControllerOption _currentOption = _options[0];
 
   @override

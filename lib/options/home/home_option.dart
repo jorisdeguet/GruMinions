@@ -29,11 +29,7 @@ class HomeOption extends ScreenControllerOption {
   void handleMessageAsGru(String s) {}
 
   @override
-  void handleMessageAsMinion(String s) {
-    // change the direction for Minion game
-    Direction d = Direction.values.firstWhere((e) => s.contains(e.name));
-    //_game.onJoyPad1DirectionChanged(d);
-  }
+  void handleMessageAsMinion(String s) {}
 
   @override
   String name() => "home_option";
