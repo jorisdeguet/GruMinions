@@ -32,6 +32,7 @@ class ScreenService extends BaseNetworkService {
 
     await p2p.initialize();
     await p2p.register();
+    await p2p.createGroup();
 
     var groupInfo = await p2p.groupInfo();
     if (groupInfo != null) {

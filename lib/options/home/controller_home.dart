@@ -1,3 +1,4 @@
+
 import 'package:blinking_text/blinking_text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
@@ -15,7 +16,6 @@ class ControllerHome extends StatefulWidget {
 }
 
 class _ControllerHomeState extends State<ControllerHome> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

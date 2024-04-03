@@ -20,6 +20,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
   final List<String> _messages = [];
   late final List<ScreenControllerOption> _options = listOfModes(_send);
   late ScreenControllerOption _currentOption;
+  late int? id;
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
       _receive(element);
     });
     _currentOption = HomeOption(sendToOthers: _send);
+
     super.initState();
   }
 
