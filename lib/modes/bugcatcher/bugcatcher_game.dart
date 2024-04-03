@@ -8,6 +8,7 @@ import 'package:flame/game.dart';
 import 'package:flame/timer.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'components/bugcatcher_bugs.dart';
 import 'components/bugcatcher_cameraentity.dart';
@@ -23,10 +24,12 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
     images = Images(prefix: 'assets/bugcatcher/flame/furnitures/');
   }
   final animations = Images(prefix: 'assets/bugcatcher/animations/');
-
   late Entity _cameraEntity;
+  late CameraComponent _camera;
   late TiledComponent<FlameGame<World>> _map;
   late Timer interval;
+  @override
+  late World world = World();
   final TextPaint textPaint = TextPaint(
     style: const TextStyle(color: Colors.white, fontSize: 42, shadows: [
       Shadow(
@@ -39,22 +42,82 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
   int elapsedSeconds = 15;
   int numberOfBugsToFind = 0;
   int numberTypeBugToFind = 0;
-  int counter = 0;
+  int count = 0;
 
   BugCatcherGame(){
     interval = Timer(1,
       onTick: () => elapsedSeconds--,
       repeat: true,);
+    resumeEngine();
   }
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
+    resumeEngine();
     overlays.add(Instructions.iD);
 
-    //#region MapSetup
     final mapNumber = Random().nextInt(2) + 1;
     final map = await TiledComponent.load('BugCatcherScenario_${mapNumber}_1.tmx', Vector2.all(16));
+    await loadObjects(map);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if(elapsedSeconds <= 0){
+      interval.stop();
+      overlays.add(GameOver.iD);
+    } else {
+      interval.update(dt);
+    }
+  }
+
+  //#region InputsFromUser
+  void onJoyPad1DirectionChanged(Direction direction) {
+    _cameraEntity.direction = direction;
+  }
+
+  void onAButtonPressed(bool pressed) {
+    if(pressed) {
+      count++;
+    }
+  }
+
+  void onBButtonPressed(bool pressed) {
+    if(pressed) {
+      count--;
+    }
+  }
+  //#endregion
+
+  Future<void> resetGame() async {
+    count = 0;
+    elapsedSeconds = 15;
+    overlays.add(Instructions.iD);
+    interval.start();
+    resumeEngine();
+    update(0);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    textPaint.render(
+      canvas,
+      '$elapsedSeconds',
+      Vector2(_camera.viewport.size.x / 1.3, _camera.viewport.size.y / 2.2),
+    );
+    textPaint.render(
+      canvas,
+      'Count: $count',
+      Vector2(_camera.viewport.size.x / 1.5, 10),
+    );
+  }
+
+  Future<void> loadObjects(TiledComponent<FlameGame<World>> map) async {
+    //#region MapSetup
+
     // Get the custom properties from the map
     numberOfBugsToFind = map.tileMap.map.properties.byName['NumberOfBugsToFind']!.value as int;
     numberTypeBugToFind = map.tileMap.map.properties.byName['NumberTypeBugToFind']!.value as int;
@@ -65,7 +128,7 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
     //#endregion
 
     //#region WorldSetup
-    final world = World(children: [map,]);
+    world = World(children: [map,]);
     await add(world);
     //#endregion
 
@@ -76,6 +139,7 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
 
     _cameraEntity = Entity(size: Vector2(16, 16), position: Vector2(mapWidth, mapHeight) / 2, map: map);
     _cameraEntity.priority = 11;
+    _camera = camera;
     await add(_cameraEntity);
     world.add(_cameraEntity);
 
@@ -107,64 +171,5 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
       }
     }
     //#endregion
-
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-    if(elapsedSeconds == 0){
-      interval.stop();
-      overlays.add(GameOver.iD);
-    } else {
-      interval.update(dt);
-    }
-  }
-
-  //#region InputsFromUser
-  void onJoyPad1DirectionChanged(Direction direction) {
-    _cameraEntity.direction = direction;
-  }
-
-  void onAButtonPressed(bool pressed) {
-    if(pressed) {
-      counter++;
-    }
-  }
-
-  void onBButtonPressed(bool pressed) {
-    if(pressed) {
-      counter--;
-    }
-  }
-  //#endregion
-
-  @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-    textPaint.render(
-      canvas,
-      '$elapsedSeconds',
-      Vector2((_map.tileMap.map.width * 25), (_map.tileMap.map.height * 18)),
-    );
-  }
-
-  void onAButtonPressedDuringGameOver(pressed) {
-    overlays.remove(GameOver.iD);
-  }
-
-  Future<void> reset() async {
-
-    overlays.remove(GameOver.iD);
-
-    int mapNumber = Random().nextInt(2) + 1;
-    _map = await TiledComponent.load('BugCatcherScenario_${mapNumber}_1.tmx', Vector2.all(16));
-    world.children.toList()[0] = _map;
-
-    overlays.add(Instructions.iD);
-    resumeEngine();
-    interval.start();
-    elapsedSeconds = 15;
-    counter = 0;
   }
 }

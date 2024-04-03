@@ -1,3 +1,4 @@
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:gru_minions/page/home_page.dart';
 
@@ -14,6 +15,8 @@ import 'package:gru_minions/page/home_page.dart';
 // https://stackoverflow.com/questions/15524593/broadcasting-over-wi-fi-direct
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Flame.device.setLandscape();
   runApp(const MyApp());
 }
 

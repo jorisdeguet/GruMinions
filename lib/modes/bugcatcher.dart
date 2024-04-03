@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/base-mode.dart';
+import 'package:gru_minions/modes/bugcatcher/bugcatcher_mainmenu.dart';
 
 import 'bugcatcher/bugcatcher_game.dart';
 import 'bugcatcher/bugcatcher_gru_game_page.dart';
@@ -9,13 +10,10 @@ import 'bugcatcher/bugcatcher_controller_a_page.dart';
 import 'bugcatcher/overlays/game_over.dart';
 
 class BugCatcherMode extends GruMinionMode {
-  BugCatcherMode({required super.sendToOthers}) {
-    gameA = BugCatcherGame();
-    gameB = BugCatcherGame();
-  }
+  BugCatcherMode({required super.sendToOthers});
 
-  late BugCatcherGame gameA;
-  late BugCatcherGame gameB;
+  late BugCatcherGame gameA = BugCatcherGame();
+  late BugCatcherGame gameB = BugCatcherGame();
 
   @override
   Widget gruWidget() {
@@ -83,7 +81,8 @@ class BugCatcherMode extends GruMinionMode {
     void initGru() {}
 
     @override
-    void initMinion() {}
+    void initMinion() {
+    }
 
     @override
     Widget minionWidget(BuildContext context) {
@@ -114,7 +113,7 @@ class BugCatcherMode extends GruMinionMode {
 
     @override
     Widget screenWidget(BuildContext context) {
-      return ScreenBugCatcherPage(gameA: gameA);
+      return BugCatcherMainMenuPage(send: sendToOthers, gameA: gameA);
     }
 
     @override
