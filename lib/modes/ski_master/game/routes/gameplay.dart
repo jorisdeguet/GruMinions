@@ -108,9 +108,15 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
   void update(double dt) {
     if (hud.intervalCountdown.isRunning()) {
       _cameraShake.pause();
-      hud.intervalCountdown.onTick = () => hud.elapsedSecs--;
-      hud.elapsedSecs == 0 ? hud.intervalCountdown.stop() : null;
+      hud.intervalCountdown.onTick = () {
+        hud.elapsedSecs--;
+        if (hud.elapsedSecs <= 0) {
+          hud.intervalCountdown.stop();
+          hud.goDisplayTimer.start();
+        }
+      };
     }
+    hud.goDisplayTimer.update(dt);
     if (!hud.intervalCountdown.isRunning()) {
       if (_levelCompleted || _gameOver) {
         player.timeScale = lerpDouble(
@@ -152,7 +158,7 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
     //We neet to make the camera look at the world by setting the world as parameter
     _camera = CameraComponent.withFixedResolution(
       width: 320,
-      height: 180,
+      height: 200,
       world: _world,
     );
     await add(_camera);

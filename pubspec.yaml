@@ -28,7 +28,7 @@ dependencies:
   #audioplayers: ^5.2.0
   intl: ^0.18.1
   #assets_audio_player: ^3.1.1
-  flame: ^1.16.0
+  flame: ^1.17.0
   ##flame_audio: ^2.10.0
   #
   json_annotation: ^4.8.0
@@ -44,7 +44,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.1
-  # potential use of complex messages inside a mode??
+  # potential use of complex messages inside a mode?
   json_serializable: ^6.7.1
   build_runner: ^2.3.3
 

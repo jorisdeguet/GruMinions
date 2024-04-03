@@ -26,7 +26,7 @@ class ControllerAGameState extends State<ControllerAGamePage> {
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: const EdgeInsets.all(32.0),
+                padding: const EdgeInsets.all(75.0),
                 child: Joypad(
                   onDirectionChanged: (direction) {
                     widget.send('ControllerA,' + direction.toString());
