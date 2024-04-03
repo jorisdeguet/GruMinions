@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../bugcatcher_game.dart';
 
@@ -87,6 +88,7 @@ class GameOver extends StatelessWidget {
     Future.delayed(const Duration(seconds: 5), () async {
       game.resetGame();
       game.overlays.remove(GameOver.iD);
+      Navigator.of(context).pop();
     });
 
     return Material(
