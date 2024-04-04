@@ -6,6 +6,7 @@ part 'message.g.dart';
 
 Config currentConfig = Config();
 int id = 0;
+bool firstLaunch = false;
 
 @JsonSerializable()
 class Config {

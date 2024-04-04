@@ -10,13 +10,9 @@ class CharacterOption extends ScreenControllerOption {
 
   final ValueNotifier<String> _character1 = ValueNotifier<String>('');
   final ValueNotifier<String> _character2 = ValueNotifier<String>('');
-  final ValueNotifier<bool> _isMultiplayer = ValueNotifier<bool>(false);
 
   @override
-  void initController() {
-    if(id == 2) sendToOthers("Multiplayer is on");
-    debugPrint('$id Players : Multiplayer is on');
-  }
+  void initController() {}
 
   @override
   void initScreen() {}
@@ -30,7 +26,7 @@ class CharacterOption extends ScreenControllerOption {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return ScreenCharacter(characterPlayer1: _character1, characterPlayer2: _character1, isMultiplayer: _isMultiplayer);
+    return ScreenCharacter(characterPlayer1: _character1, characterPlayer2: _character2);
   }
 
   @override
@@ -50,9 +46,6 @@ class CharacterOption extends ScreenControllerOption {
     }
     else if (s.startsWith("2\'s current view:")){
       _character2.value = s.split(':').last;
-    }
-    else if(s.startsWith("Multiplayer is on")){
-      _isMultiplayer.value = true;
     }
   }
 

@@ -16,82 +16,87 @@ class ControllerHome extends StatefulWidget {
 }
 
 class _ControllerHomeState extends State<ControllerHome> {
+
   @override
   void initState() {
-    // Show dialog when the widget initializes
+    // Show dialog only on the first launch when the widget initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      showDialog(
-        barrierDismissible: false,
-        // Set to false to prevent closing on tap outside
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            title: Text(
-              'Welcome to Pixel Adventure',
-              style: GoogleFonts.pixelifySans(
-                textStyle: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+      if (!firstLaunch) {
+        firstLaunch = true; //the local value for firstLaunch is set to true
+        showDialog(
+          barrierDismissible: false,
+          // Set to false to prevent closing on tap outside
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              title: Text(
+                'Welcome to Pixel Adventure',
+                style: GoogleFonts.pixelifySans(
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ),
-            content: Text(
-              'Select your player',
-              style: GoogleFonts.pixelifySans(
-                textStyle: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+              content: Text(
+                'Select your player',
+                style: GoogleFonts.pixelifySans(
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ),
-            actions: <Widget>[
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        id = 1; //the local value for id is set to 1
-                        Navigator.pop(context);
-                        debugPrint('Player 1 : $id');
-                      },
-                      child: Text(
-                        "Player 1",
-                        style: GoogleFonts.pixelifySans(
-                          textStyle: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+              actions: <Widget>[
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          id = 1; //the local value for id is set to 1
+                          Navigator.pop(context);
+                          debugPrint('Player 1 : $id');
+                        },
+                        child: Text(
+                          "Player 1",
+                          style: GoogleFonts.pixelifySans(
+                            textStyle: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                      )),
-                  const SizedBox(width: 15),
-                  ElevatedButton(
-                      onPressed: () {
-                        id = 2; //the local value for id is set to 2
-                        Navigator.pop(context);
-                        debugPrint('Player 2 : $id');
-                      },
-                      child: Text(
-                        "Player 2",
-                        style: GoogleFonts.pixelifySans(
-                          textStyle: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                        )),
+                    const SizedBox(width: 15),
+                    ElevatedButton(
+                        onPressed: () {
+                          id = 2; //the local value for id is set to 2
+                          Navigator.pop(context);
+                          debugPrint('Player 2 : $id');
+                        },
+                        child: Text(
+                          "Player 2",
+                          style: GoogleFonts.pixelifySans(
+                            textStyle: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                      )),
-                ],
-              ),
-            ],
-          );
-        },
-      );
+                        )),
+                  ],
+                ),
+              ],
+            );
+          },
+        );
+      }
     });
+
     super.initState();
   }
 
