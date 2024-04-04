@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gru_minions/comm/message.dart';
 import 'package:gru_minions/options/character/waiting_character.dart';
 
 class ScreenCharacter extends StatefulWidget {
@@ -22,8 +23,18 @@ class ScreenCharacter extends StatefulWidget {
 class _ScreenCharacterState extends State<ScreenCharacter> {
   @override
   void initState() {
-    widget.characterPlayer1.value = 'Mask Dude';
-    widget.characterPlayer2.value = ''; //initially empty because player 2 is ?
+    //will set the current character for the players
+    //normally player 1 is always set, no need to verify
+    widget.characterPlayer1.value = currentConfig.characterPlayer1;
+
+    //check if player 2 is null
+    if(currentConfig.characterPlayer2 == null){
+      //if it is null, set the value to an empty string
+      widget.characterPlayer2.value = '';
+    } else {
+      //else, set the value to the current character
+      widget.characterPlayer2.value = currentConfig.characterPlayer2!;
+    }
     super.initState();
   }
 

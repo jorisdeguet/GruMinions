@@ -23,7 +23,21 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
   final CarouselController _controller = CarouselController();
 
   //late variables
-  late int _current = 0;
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    // will set the current index depending on the character's name
+    // check if the id is 1 or 2 to find the correct character
+    if(id == 1) {
+      _currentIndex = characters.indexWhere((element) => element.name == currentConfig.characterPlayer1);
+      debugPrint('Index found: $_currentIndex');
+    } else if(id == 2) {
+      _currentIndex = characters.indexWhere((element) => element.name == currentConfig.characterPlayer2);
+      debugPrint('Index found: $_currentIndex');
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +129,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
           CarouselSlider(
             items: characterSliders,
             disableGesture: true,
-            options: CarouselOptions(enlargeCenterPage: true, height: 300),
+            options: CarouselOptions(enlargeCenterPage: true, height: 300, initialPage: _currentIndex),
             carouselController: _controller,
           ),
           Row(
@@ -124,12 +138,12 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               GestureDetector(
                 onTap: () {
                   _controller.previousPage();
-                  _current = _current - 1;
+                  _currentIndex = _currentIndex - 1;
 
-                  if (_current < 0) {
-                    _current = 3;
+                  if (_currentIndex < 0) {
+                    _currentIndex = 3;
                   }
-                  widget.send('$id\'s current view:${characters[_current].name}');
+                  widget.send('$id\'s current view:${characters[_currentIndex].name}');
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -149,12 +163,17 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               ),
               GestureDetector(
                 onTap: () async {
-                  currentConfig.characterPlayer1 = characters[_current].name; //the local player is stocked
-                  widget.send('$id has selected:${characters[_current].name}'); // send to stock it in the device with the screen role
+                  //the local player is stocked
+                  if(id == 1) {
+                    currentConfig.characterPlayer1 = characters[_currentIndex].name;
+                  } else if(id == 2) {
+                    currentConfig.characterPlayer2 = characters[_currentIndex].name;
+                  }
+                  widget.send('$id has selected:${characters[_currentIndex].name}'); // send to stock it in the device with the screen role
                   showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => SuccessfulSelect(
-                            characterName: characters[_current].name,
+                            characterName: characters[_currentIndex].name,
                           ));
                 },
                 child: Padding(
@@ -187,11 +206,11 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               GestureDetector(
                 onTap: () {
                   _controller.nextPage();
-                  _current = _current + 1;
-                  if (_current > 3) {
-                    _current = 0;
+                  _currentIndex = _currentIndex + 1;
+                  if (_currentIndex > 3) {
+                    _currentIndex = 0;
                   }
-                  widget.send('$id\'s current view:${characters[_current].name}');
+                  widget.send('$id\'s current view:${characters[_currentIndex].name}');
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

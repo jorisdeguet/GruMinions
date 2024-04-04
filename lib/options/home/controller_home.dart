@@ -22,7 +22,7 @@ class _ControllerHomeState extends State<ControllerHome> {
     // Show dialog only on the first launch when the widget initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!firstLaunch) {
-        firstLaunch = false; //the local value for firstLaunch is set to true
+        firstLaunch = true; //the local value for firstLaunch is set to true
         showDialog(
           barrierDismissible: false,
           // Set to false to prevent closing on tap outside
@@ -59,10 +59,10 @@ class _ControllerHomeState extends State<ControllerHome> {
                         onPressed: () {
                           id = 1; //the local value for id is set to 1
                           Navigator.pop(context);
-                          debugPrint('Player 1 : $id');
+                          debugPrint('Player\'s ID : $id');
                         },
                         child: Text(
-                          "Player 1",
+                          'Player 1',
                           style: GoogleFonts.pixelifySans(
                             textStyle: const TextStyle(
                               fontSize: 12,
@@ -75,11 +75,13 @@ class _ControllerHomeState extends State<ControllerHome> {
                     ElevatedButton(
                         onPressed: () {
                           id = 2; //the local value for id is set to 2
+                          //player 2 exist so we define a default character
+                          currentConfig.characterPlayer2 = 'Mask Dude';
                           Navigator.pop(context);
-                          debugPrint('Player 2 : $id');
+                          debugPrint('Player\'s ID : $id');
                         },
                         child: Text(
-                          "Player 2",
+                          'Player 2',
                           style: GoogleFonts.pixelifySans(
                             textStyle: const TextStyle(
                               fontSize: 12,
@@ -139,7 +141,7 @@ class _ControllerHomeState extends State<ControllerHome> {
                           width: 100,
                           height: 100,
                           child: SpriteAnimationWidget.asset(
-                            path: "Main Characters/Mask Dude/Run (32x32).png",
+                            path: 'Main Characters/Mask Dude/Run (32x32).png',
                             //running
                             data: SpriteAnimationData.sequenced(
                               amount: 12,
@@ -169,7 +171,7 @@ class _ControllerHomeState extends State<ControllerHome> {
                           width: 100,
                           height: 100,
                           child: SpriteAnimationWidget.asset(
-                            path: "Main Characters/Ninja Frog/Run (32x32).png",
+                            path: 'Main Characters/Ninja Frog/Run (32x32).png',
                             data: SpriteAnimationData.sequenced(
                               amount: 12,
                               stepTime: 0.05,
@@ -198,7 +200,7 @@ class _ControllerHomeState extends State<ControllerHome> {
                           width: 100,
                           height: 100,
                           child: SpriteAnimationWidget.asset(
-                            path: "Main Characters/Pink Man/Run (32x32).png",
+                            path: 'Main Characters/Pink Man/Run (32x32).png',
                             data: SpriteAnimationData.sequenced(
                               amount: 12,
                               stepTime: 0.05,
@@ -227,7 +229,7 @@ class _ControllerHomeState extends State<ControllerHome> {
                           width: 100,
                           height: 100,
                           child: SpriteAnimationWidget.asset(
-                            path: "Main Characters/Virtual Guy/Run (32x32).png",
+                            path: 'Main Characters/Virtual Guy/Run (32x32).png',
                             data: SpriteAnimationData.sequenced(
                               amount: 12,
                               stepTime: 0.05,

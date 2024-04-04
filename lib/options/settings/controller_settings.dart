@@ -3,7 +3,6 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gru_minions/options/settings/waiting_settings.dart';
 
 import '../../comm/message.dart';
 
@@ -17,164 +16,96 @@ class ControllerSettings extends StatefulWidget {
 }
 
 class _ControllerSettingsState extends State<ControllerSettings> {
+  late Color playerColor;
+  late String myCharacter;
 
-  Color player1Color = const Color(0xff30acd9);
-  Color player2Color = const Color(0xffcc3048);
-  Color color = Colors.black;
+  @override
+  void initState() {
+    if (id == 1) {
+      myCharacter = currentConfig.characterPlayer1;
+      playerColor = const Color(0xff30acd9);
+    } else if (id == 2) {
+      myCharacter = currentConfig.characterPlayer2!;
+      playerColor = const Color(0xffcc3048);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Container(
-                width: 300,
-                height: 600,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black38,
-                    width: 2,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              MyCharacter(
+                    characterName: myCharacter,
+                    playerColor: playerColor,
                   ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Player1',
-                      style: GoogleFonts.pixelifySans(
-                        textStyle: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: player1Color,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: SpriteAnimationWidget.asset(
-                        path: "Main Characters/${currentConfig.characterPlayer1}/Idle (32x32).png",
-                        //player 1's character
-                        data: SpriteAnimationData.sequenced(
-                          amount: 11,
-                          stepTime: 0.05,
-                          textureSize: Vector2(32, 32),
-                          loop: true,
-                        ),
-                      ),
-                    ),
-                    BlinkText('Connected',
-                        style: GoogleFonts.pixelifySans(
-                          textStyle: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        beginColor: player1Color,
-                        endColor: Colors.transparent,
-                        times: 3600,
-                        duration: const Duration(seconds: 2)),
-                    const SizedBox(height: 40),
-                    const Divider(
-                      thickness: 2,
-                      color: Colors.black38,
-                      indent: 10,
-                      endIndent: 10,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    currentConfig.characterPlayer2 == null
-                        ? const WaitingSettings()
-                        : Center(
-                      child: Column(
-                        children: [
-                          Text(
-                            'Player 2',
-                            style: GoogleFonts.pixelifySans(
-                              textStyle: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: player2Color,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: SpriteAnimationWidget.asset(
-                              path: "Main Characters/${currentConfig.characterPlayer2}/Idle (32x32).png",
-                              //player 1's character
-                              data: SpriteAnimationData.sequenced(
-                                amount: 11,
-                                stepTime: 0.05,
-                                textureSize: Vector2(32, 32),
-                                loop: true,
-                              ),
-                            ),
-                          ),
-                          BlinkText('Connected',
-                              style: GoogleFonts.pixelifySans(
-                                textStyle: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              beginColor: player2Color,
-                              endColor: Colors.transparent,
-                              times: 3600,
-                              duration: const Duration(seconds: 2)),
-                          Text(
-                            widget.macAddress,
-                            style: GoogleFonts.pixelifySans(
-                              textStyle: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: color,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+            ],
+          ),
+        ));
+  }
+}
+
+class MyCharacter extends StatelessWidget {
+  final String characterName;
+  final Color playerColor;
+
+  const MyCharacter(
+      {super.key, required this.characterName, required this.playerColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 400,
+      height: 400,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black38,
+          width: 2,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'My Character',
+              style: GoogleFonts.pixelifySans(
+                textStyle: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: playerColor,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Container(
-                width: 600,
-                height: 600,
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Settings',
-                      style: GoogleFonts.pixelifySans(
-                        textStyle: TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.normal,
-                          color: color,
-                        ),
-                      ),
-                    ),//Language dropdown
-                  ],
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: SpriteAnimationWidget.asset(
+                path: "Main Characters/$characterName/Idle (32x32).png",
+                data: SpriteAnimationData.sequenced(
+                  amount: 11,
+                  stepTime: 0.05,
+                  textureSize: Vector2(32, 32),
+                  loop: true,
                 ),
               ),
             ),
+            BlinkText('Connected',
+                style: GoogleFonts.pixelifySans(
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                beginColor: playerColor,
+                endColor: Colors.transparent,
+                times: 3600,
+                duration: const Duration(seconds: 2)),
           ],
         ),
-      ),
     );
   }
 }
