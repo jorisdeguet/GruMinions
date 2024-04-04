@@ -21,8 +21,6 @@ class _ControllerSettingsState extends State<ControllerSettings> {
   Color player2Color = const Color(0xffcc3048);
   Color color = Colors.black;
 
-  var config = Config();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

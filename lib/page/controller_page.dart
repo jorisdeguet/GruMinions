@@ -30,7 +30,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
       _receive(element);
     });
     _currentOption = HomeOption(sendToOthers: _send);
-
+    _currentOption.initController();
     super.initState();
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gru_minions/comm/message.dart';
 import 'package:gru_minions/options/home/controller_home.dart';
 
 import '../base/base-mode.dart';
@@ -8,11 +9,11 @@ class HomeOption extends ScreenControllerOption {
   HomeOption({required super.sendToOthers});
 
   @override
-  void initController() {
-  }
+  void initController() {}
 
   @override
-  void initScreen() {}
+  void initScreen() {
+  }
 
   @override
   Widget controllerWidget() {
@@ -25,10 +26,12 @@ class HomeOption extends ScreenControllerOption {
   }
 
   @override
-  void handleMessageAsGru(String s) {}
+  void handleMessageAsGru(String s) {
+  }
 
   @override
-  void handleMessageAsMinion(String s) {}
+  void handleMessageAsMinion(String s) {
+  }
 
   @override
   String name() => "home_option";

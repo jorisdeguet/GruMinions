@@ -6,7 +6,6 @@ part 'message.g.dart';
 
 Config currentConfig = Config();
 
-
 @JsonSerializable()
 class Config {
   // soit toute le monde soit l'adresse MAC de la tablette visée.
