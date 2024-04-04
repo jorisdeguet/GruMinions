@@ -10,15 +10,20 @@ import 'package:gru_minions/options/character/waiting.dart';
 class ScreenCharacter extends StatefulWidget {
   final ValueNotifier<String> characterPlayer1;
   final ValueNotifier<String> characterPlayer2;
+  final ValueNotifier<bool> isMultiplayer;
 
-  const ScreenCharacter({super.key, required this.characterPlayer1, required this.characterPlayer2});
+  const ScreenCharacter(
+      {super.key,
+      required this.characterPlayer1,
+      required this.characterPlayer2,
+      required this.isMultiplayer});
 
   @override
   State<ScreenCharacter> createState() => _ScreenCharacterState();
 }
 
 class _ScreenCharacterState extends State<ScreenCharacter> {
-  bool multiplayer = false;
+  //bool multiplayer = false;
 
   @override
   void initState() {
@@ -173,9 +178,14 @@ class _ScreenCharacterState extends State<ScreenCharacter> {
                 ],
               ),
               const SizedBox(height: 20),
-              !multiplayer
-              ? const Waiting()
-              : Connected(characterPlayer2: widget.characterPlayer2),
+              ValueListenableBuilder<String>(
+                valueListenable: widget.characterPlayer1,
+                builder: (context, score, child) {
+                  return !widget.isMultiplayer.value
+                      ? const Waiting()
+                      : Connected(characterPlayer2: widget.characterPlayer2);
+                },
+              ),
             ],
           ),
         );

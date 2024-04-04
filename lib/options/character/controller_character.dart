@@ -129,7 +129,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                   if (_current < 0) {
                     _current = 3;
                   }
-                  widget.send('View:${characters[_current].name}');
+                  widget.send('$id\'s current view:${characters[_current].name}');
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -149,8 +149,8 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               ),
               GestureDetector(
                 onTap: () async {
-                  currentConfig.characterPlayer1 = characters[_current].name; //player 1's character in this machine
-                  widget.send('$id has selected:${characters[_current].name}'); // send to stock it in the screen machine
+                  currentConfig.characterPlayer1 = characters[_current].name; //the local player is stocked
+                  widget.send('$id has selected:${characters[_current].name}'); // send to stock it in the device with the screen role
                   showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => SuccessfulSelect(
@@ -191,7 +191,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                   if (_current > 3) {
                     _current = 0;
                   }
-                  widget.send('View:${characters[_current].name}');
+                  widget.send('$id\'s current view:${characters[_current].name}');
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

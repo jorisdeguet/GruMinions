@@ -10,9 +10,13 @@ class CharacterOption extends ScreenControllerOption {
 
   final ValueNotifier<String> _character1 = ValueNotifier<String>('');
   final ValueNotifier<String> _character2 = ValueNotifier<String>('');
+  final ValueNotifier<bool> _isMultiplayer = ValueNotifier<bool>(false);
 
   @override
-  void initController() {}
+  void initController() {
+    if(id == 2) sendToOthers("Multiplayer is on");
+    debugPrint('$id Players : Multiplayer is on');
+  }
 
   @override
   void initScreen() {}
@@ -26,7 +30,7 @@ class CharacterOption extends ScreenControllerOption {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return ScreenCharacter(characterPlayer1: _character1, characterPlayer2: _character1);
+    return ScreenCharacter(characterPlayer1: _character1, characterPlayer2: _character1, isMultiplayer: _isMultiplayer);
   }
 
   @override
@@ -34,12 +38,21 @@ class CharacterOption extends ScreenControllerOption {
 
   @override
   void handleMessageAsMinion(String s) {
-    // receive the character name
+    // treat the message depending on the player's id
     if(s.startsWith("1 has selected")){
       currentConfig.characterPlayer1 = s.split(':').last;
     }
-    else if (s.startsWith("View")){
+    else if (s.startsWith("1\'s current view:")){
       _character1.value = s.split(':').last;
+    }
+    else if(s.startsWith("2 has selected")){
+      currentConfig.characterPlayer2 = s.split(':').last;
+    }
+    else if (s.startsWith("2\'s current view:")){
+      _character2.value = s.split(':').last;
+    }
+    else if(s.startsWith("Multiplayer is on")){
+      _isMultiplayer.value = true;
     }
   }
 

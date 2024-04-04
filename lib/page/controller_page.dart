@@ -155,6 +155,7 @@ class _MainBossPageState extends ControllerBaseWidgetState<ControllerPage> {
         _currentOption = mode;
       }
     }
+    _currentOption.initController();
     _send(option);
     setState(() {});
   }
