@@ -21,26 +21,41 @@ class BugCatcherMainMenuState extends State<BugCatcherMainMenuPage> {
         children: [
           Align(
             alignment: Alignment.center,
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Bug Catcher',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 50,
-                  ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Bug Catcher',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 50,
+                      ),
+                    ),
+
+                  ],
                 ),
-                MaterialButton(
-                    onPressed: (){
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) =>
-                              ScreenBugCatcherPage(gameA: widget.gameA),
-                        ),
-                      );
-                    },
-                    child: const Text('Start Game', style: TextStyle(color: Colors.white, fontSize: 20),),
+                const SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FilledButton(
+                      onPressed: (){
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                ScreenBugCatcherPage(gameA: widget.gameA),
+                          ),
+                        );
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                      ),
+                      child: const Text('Start Game', style: TextStyle(color: Colors.black, fontSize: 20),),
+                    ),
+                  ],
                 ),
               ],
             ),
