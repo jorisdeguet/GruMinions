@@ -22,7 +22,7 @@ class _ControllerHomeState extends State<ControllerHome> {
     // Show dialog only on the first launch when the widget initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!firstLaunch) {
-        firstLaunch = true; //the local value for firstLaunch is set to true
+        firstLaunch = false; //the local value for firstLaunch is set to true
         showDialog(
           barrierDismissible: false,
           // Set to false to prevent closing on tap outside

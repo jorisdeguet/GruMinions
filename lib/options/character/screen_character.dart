@@ -4,8 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gru_minions/options/character/connected.dart';
-import 'package:gru_minions/options/character/waiting.dart';
+import 'package:gru_minions/options/character/waiting_character.dart';
 
 class ScreenCharacter extends StatefulWidget {
   final ValueNotifier<String> characterPlayer1;
@@ -178,7 +177,7 @@ class _ScreenCharacterState extends State<ScreenCharacter> {
                 valueListenable: widget.characterPlayer2,
                 builder: (context, score, child) {
                   return widget.characterPlayer2.value.isEmpty
-                      ? const Waiting()
+                      ? const WaitingCharacter()
                       : Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

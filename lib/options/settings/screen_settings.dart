@@ -3,6 +3,7 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gru_minions/options/settings/waiting_settings.dart';
 
 import '../../comm/message.dart';
 
@@ -82,16 +83,6 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                         endColor: Colors.transparent,
                         times: 3600,
                         duration: const Duration(seconds: 2)),
-                    Text(
-                      widget.macAddress,
-                      style: GoogleFonts.pixelifySans(
-                        textStyle: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: color,
-                        ),
-                      ),
-                    ),
                     const SizedBox(height: 40),
                     const Divider(
                       thickness: 2,
@@ -102,37 +93,49 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                     const SizedBox(
                       height: 40,
                     ),
-                    Text(
-                      'Player 2',
-                      style: GoogleFonts.pixelifySans(
-                        textStyle: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: player2Color,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: 60,
-                        height: 60,
-                        child: CircularProgressIndicator(
-                          color: player2Color,
-                        ),
-                      ),
-                    ),
-                    BlinkText('Waiting...',
-                        style: GoogleFonts.pixelifySans(
-                          textStyle: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                    currentConfig.characterPlayer2 == null
+                    ? const WaitingSettings()
+                    : Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            'Player 2',
+                            style: GoogleFonts.pixelifySans(
+                              textStyle: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: player2Color,
+                              ),
+                            ),
                           ),
-                        ),
-                        beginColor: player2Color,
-                        endColor: Colors.transparent,
-                        times: 3600,
-                        duration: const Duration(seconds: 2)),
+                          SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: SpriteAnimationWidget.asset(
+                              path: "Main Characters/${currentConfig.characterPlayer2}/Idle (32x32).png",
+                              //player 1's character
+                              data: SpriteAnimationData.sequenced(
+                                amount: 11,
+                                stepTime: 0.05,
+                                textureSize: Vector2(32, 32),
+                                loop: true,
+                              ),
+                            ),
+                          ),
+                          BlinkText('Connected',
+                              style: GoogleFonts.pixelifySans(
+                                textStyle: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              beginColor: player2Color,
+                              endColor: Colors.transparent,
+                              times: 3600,
+                              duration: const Duration(seconds: 2)),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),

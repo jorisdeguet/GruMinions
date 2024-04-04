@@ -2,14 +2,14 @@ import 'package:blinking_text/blinking_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Waiting extends StatefulWidget {
-  const Waiting({super.key});
+class WaitingCharacter extends StatefulWidget {
+  const WaitingCharacter({super.key});
 
   @override
-  State<Waiting> createState() => _WaitingState();
+  State<WaitingCharacter> createState() => _WaitingCharacterState();
 }
 
-class _WaitingState extends State<Waiting> {
+class _WaitingCharacterState extends State<WaitingCharacter> {
   @override
   Widget build(BuildContext context) {
     return Center(
