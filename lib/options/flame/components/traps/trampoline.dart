@@ -36,7 +36,7 @@ class Trampoline extends SpriteAnimationGroupComponent with HasGameRef<PixelAdve
   @override
   FutureOr<void> onLoad() {
     priority = -1;
-    player = gameRef.player;
+    player = gameRef.player1;
     add(RectangleHitbox(
       position: Vector2(14, 0),
       size: Vector2(28, 14),

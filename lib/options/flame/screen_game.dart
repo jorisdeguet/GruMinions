@@ -39,7 +39,7 @@ class _ScreenGameState extends State<ScreenGame> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    LifeBar(life: widget.game.player.life, game: widget.game),
+                    LifeBar(life: widget.game.player1.life, game: widget.game),
                     Padding(
                       padding: const EdgeInsets.only(right: 20.0),
                       //remove for game release

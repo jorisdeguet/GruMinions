@@ -48,7 +48,7 @@ class Plant extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
-    player = game.player;
+    player = game.player1;
 
     if (isFacingRight) {
       flipHorizontallyAroundCenter();

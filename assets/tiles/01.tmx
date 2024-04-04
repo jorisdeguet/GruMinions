@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="160" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="286">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="160" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="287">
  <tileset firstgid="1" source="GameWithY.tsx"/>
  <layer id="1" name="Background" width="160" height="40">
   <properties>
@@ -49,7 +49,8 @@
 </data>
  </layer>
  <objectgroup id="3" name="StartingPoints">
-  <object id="5" name="Player" type="Player" x="175.984" y="439.958" width="32" height="32"/>
+  <object id="5" name="Player1" type="Player1" x="175.984" y="439.958" width="32" height="32"/>
+  <object id="286" name="Player2" type="Player2" x="223.733" y="447.866" width="32" height="32"/>
   <object id="43" name="Trampoline" type="Trampoline" x="1203.93" y="394.06" width="28" height="28"/>
   <object id="44" name="Trampoline" type="Trampoline" x="1092.02" y="458.014" width="28" height="28"/>
   <object id="46" name="Trampoline" type="Trampoline" x="1711.92" y="505.438" width="28" height="28"/>

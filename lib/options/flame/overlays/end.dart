@@ -68,7 +68,7 @@ class End extends StatelessWidget {
                 width: 120,
                 height: 120,
                 child: SpriteAnimationWidget.asset(
-                  path: "/Main Characters/${game.character}/Idle (32x32).png",
+                  path: "/Main Characters/${game.characterPlayer1}/Idle (32x32).png",
                   data: SpriteAnimationData.sequenced(
                     amount: 11,
                     stepTime: 0.05,
@@ -103,7 +103,7 @@ class End extends StatelessWidget {
                         ),
                       ),
                       StrokeText(
-                        text: (game.player.life.value.toInt()).toString(),
+                        text: (game.player1.life.value.toInt()).toString(),
                         strokeColor: Colors.black,
                         strokeWidth: 4,
                         textStyle: GoogleFonts.pixelifySans(

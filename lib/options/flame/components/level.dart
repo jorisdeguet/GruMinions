@@ -27,10 +27,11 @@ import 'items/coin.dart';
 import 'items/fruit.dart';
 
 class Level extends World with HasGameRef<PixelAdventure> {
-  Level({required this.levelName, required this.player});
+  Level({required this.levelName, required this.player1, required this.player2});
 
   final String levelName;
-  final Player player;
+  final Player player1;
+  final Player player2;
   List<CollisionBlock> collisionBlocks = [];
 
   late TiledComponent level;
@@ -69,13 +70,21 @@ class Level extends World with HasGameRef<PixelAdventure> {
     if (startPointLayer != null) {
       for (final spawnPoint in startPointLayer.objects) {
         switch (spawnPoint.class_) {
-          case 'Player':
-            player.position = Vector2(
+          case 'Player1':
+            player1.position = Vector2(
                 spawnPoint.x, spawnPoint.y); //set player starting position
-            player.revivePosition = Vector2(
+            player1.revivePosition = Vector2(
                 spawnPoint.x, spawnPoint.y); //set player revive position
-            player.scale.x = 1;
-            add(player);
+            player1.scale.x = 1;
+            add(player1);
+            break;
+          case 'Player2':
+            player2!.position = Vector2(
+                spawnPoint.x, spawnPoint.y); //set player starting position
+            player2!.revivePosition = Vector2(
+                spawnPoint.x, spawnPoint.y); //set player revive position
+            player2!.scale.x = 1;
+            add(player2!);
             break;
           case 'Start':
             final start = Start(
@@ -105,7 +114,7 @@ class Level extends World with HasGameRef<PixelAdventure> {
             );
             add(fruit);
             break;
-            case 'Coin':
+          case 'Coin':
             final coin = Coin(
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: Vector2(spawnPoint.width, spawnPoint.height),
@@ -251,7 +260,7 @@ class Level extends World with HasGameRef<PixelAdventure> {
         }
       }
     }
-    player.collisions = collisionBlocks;
+    player1.collisions = collisionBlocks;
   }
 
   void _setupCamera() {

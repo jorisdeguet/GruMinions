@@ -46,7 +46,7 @@ class Radish extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
-    player = game.player;
+    player = game.player1;
 
     add(RectangleHitbox(
       position: Vector2(4, 8),
