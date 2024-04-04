@@ -32,6 +32,7 @@ class ControllerABoxSmasherState extends State<ControllerABoxSmasherPage> {
                       child:
                       AButton(onAButtonChanged: (isPressed) {
                         widget.send('ControllerA,ButtonA,${isPressed ? true : false}');
+                        widget.send('ControllerA,ButtonA,VerifyScore');
                       }),
                     ),
                     Padding(

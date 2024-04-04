@@ -9,6 +9,8 @@ import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_ground.
 import 'components/world/boxsmasher_movingbox.dart';
 import 'components/world/boxsmasher_player.dart';
 import 'components/world/boxsmasher_box.dart';
+import 'overlays/lose.dart';
+import 'overlays/win.dart';
 
 class BoxSmasherGame extends FlameGame with HasCollisionDetection {
   @override
@@ -143,6 +145,9 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
   @override
   void update(double dt) {
     super.update(dt);
+    if(score >= 100){
+
+    }
   }
 
   void onAButtonPressed(bool pressed) {
@@ -151,5 +156,13 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
     }
     _player.onPressed = pressed;
     _boxMoving.onPressed = pressed;
+  }
+
+  void winning(){
+    overlays.add(Win.iD);
+  }
+
+  void losing(){
+    overlays.add(Lose.iD);
   }
 }

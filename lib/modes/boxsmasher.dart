@@ -53,6 +53,13 @@ class BoxSmasherMode extends GruMinionMode {
             if(_gameA.overlays.activeOverlays.isEmpty){
               _gameA.onAButtonPressed(Pressed);
             }
+            if(parts[2] == 'VerifyScore'){
+              //Verify the score
+              if(_gameA.score >= 100){
+                _gameA.winning();
+                _gameB.losing();
+              }
+            }
 
           } else if (parts[1] == 'ButtonB') {
             if(_gameA.overlays.activeOverlays.isEmpty){
@@ -124,7 +131,7 @@ class BoxSmasherMode extends GruMinionMode {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return ScreenBoxSmasherPage(gameA: _gameA, gameB: _gameB);
+    return ScreenBoxSmasherPage(gameA: _gameA, gameB: _gameB, send: sendToOthers);
   }
 
   @override

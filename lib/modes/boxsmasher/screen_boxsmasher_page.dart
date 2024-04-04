@@ -2,12 +2,15 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 import 'boxsmasher_game.dart';
+import 'overlays/lose.dart';
+import 'overlays/win.dart';
 
 class ScreenBoxSmasherPage extends StatefulWidget {
   final BoxSmasherGame gameA;
+  final Function send;
   final BoxSmasherGame gameB;
 
-  const ScreenBoxSmasherPage({super.key, required this.gameA, required this.gameB});
+  const ScreenBoxSmasherPage({super.key, required this.gameA, required this.gameB, required this.send});
 
   @override
   ScreenBoxSmasherState createState() => ScreenBoxSmasherState();
@@ -23,14 +26,20 @@ class ScreenBoxSmasherState extends State<ScreenBoxSmasherPage> {
       children: [
         Align(
           alignment: Alignment.center,
-          child:GameWidget(game: game),
+          child:GameWidget(
+            game: game,
+            overlayBuilderMap: {
+              Win.iD: (BuildContext context, BoxSmasherGame game) => Win(game: game),
+              Lose.iD: (BuildContext context, BoxSmasherGame game) => Lose(game: game),
+            }
+          ),
         ),
         Align(
           alignment: Alignment.topCenter,
           child: Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Text(
-              'Score: ${game.score}',
+              game.score >= 100 ? 'Winner!' : 'Score: ${game.score}',
               style: const TextStyle(
                 color: Colors.white,
                 shadows: [
