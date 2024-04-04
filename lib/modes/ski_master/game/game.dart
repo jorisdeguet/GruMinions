@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart' hide Route, OverlayRoute;
 import 'package:get/get.dart';
 
@@ -14,6 +15,13 @@ import 'routes/retry_menu.dart';
 import 'routes/settings.dart';
 
 class SkiMasterGame extends FlameGame with HasCollisionDetection {
+  static const snowmanSfx = 'skimaster/Snowman.wav';
+  static const hurtSfx = 'skimaster/Hurt.wav';
+  static const boostSfx = 'skimaster/boost.wav';
+  static const timerSfx = 'skimaster/321.wav';
+  static const goSfx = 'skimaster/Go!.wav';
+  static const deathSfx = 'skimaster/Death.wav';
+  static const gameBgm = 'skimaster/8BitDNALoop.wav';
 
   final musicValueNotifier = ValueNotifier(false);
   final sfxValueNotifier = ValueNotifier(false);
@@ -81,6 +89,17 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
 
   @override
   Future<void> onLoad() async {
+    await FlameAudio.audioCache.loadAll(
+      [
+        hurtSfx,
+        boostSfx,
+        snowmanSfx,
+        deathSfx,
+        gameBgm,
+        timerSfx,
+        goSfx,
+      ],
+    );
     await add(_router);
   }
 

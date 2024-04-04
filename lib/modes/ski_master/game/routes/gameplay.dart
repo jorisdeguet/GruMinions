@@ -4,6 +4,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/sprite.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/widgets.dart';
@@ -107,14 +108,7 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
   @override
   void update(double dt) {
     if (hud.intervalCountdown.isRunning()) {
-      _cameraShake.pause();
-      hud.intervalCountdown.onTick = () {
-        hud.elapsedSecs--;
-        if (hud.elapsedSecs <= 0) {
-          hud.intervalCountdown.stop();
-          hud.goDisplayTimer.start();
-        }
-      };
+      _countdown();
     }
     hud.goDisplayTimer.update(dt);
     if (!hud.intervalCountdown.isRunning()) {
@@ -338,6 +332,9 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
   }
 
   void resetPlayer() {
+    if (game.sfxValueNotifier.value) {
+      FlameAudio.play(SkiMasterGame.deathSfx);
+    }
     _cameraShake.pause();
     _fader.add(OpacityEffect.fadeIn(LinearEffectController(0)));
     --_nLives;
@@ -352,6 +349,27 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
       _fader.add(OpacityEffect.fadeIn(LinearEffectController(1.5)));
       onGameOver.call();
     }
+  }
+
+  void _countdown() {
+    _cameraShake.pause();
+    hud.intervalCountdown.onTick = () {
+      if (hud.elapsedSecs > 0) {
+        // Play the countdown sound effect for 3, 2, 1
+        if (game.sfxValueNotifier.value) {
+          FlameAudio.play(SkiMasterGame.timerSfx);
+        }
+      }
+      hud.elapsedSecs--;
+      if (hud.elapsedSecs <= 0) {
+        // Play the "GO!" sound effect
+        if (game.sfxValueNotifier.value) {
+          FlameAudio.play(SkiMasterGame.goSfx);
+        }
+        hud.intervalCountdown.stop();
+        hud.goDisplayTimer.start(); // Start the "GO!" display timer
+      }
+    };
   }
 
   void _hudCounterStart() {

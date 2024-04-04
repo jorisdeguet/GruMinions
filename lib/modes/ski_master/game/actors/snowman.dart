@@ -6,6 +6,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/particles.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import 'package:gru_minions/modes/ski_master/game/actors/player.dart';
 
@@ -57,6 +58,9 @@ class Snowman extends PositionComponent
   //Opacity can only be appllied component that expose a paint object and have visual element
   //Snowman is just a visual element without any paint so we need to target the body
   void _collect() {
+    if (game.sfxValueNotifier.value) {
+      FlameAudio.play(SkiMasterGame.snowmanSfx);
+    }
     addAll([
       OpacityEffect.fadeOut(
         LinearEffectController(0.4),

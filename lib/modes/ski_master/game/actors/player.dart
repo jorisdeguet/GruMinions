@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/widgets.dart';
 import '../../helpers/skimaster_direction.dart';
 import '../game.dart';
@@ -100,6 +101,9 @@ class Player extends PositionComponent
   }
 
   double jump() {
+    if (game.sfxValueNotifier.value) {
+      FlameAudio.play(SkiMasterGame.boostSfx);
+    }
     final jumpFactor = speed / _maxSpeed;
     speed = lerpDouble(speed, _maxSpeed * 1.2, 2)!;
     final jumpScale = lerpDouble(1, 1.2, jumpFactor)!;
