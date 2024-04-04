@@ -5,6 +5,7 @@ part 'message.g.dart';
 //flutter packages pub run build_runner build --delete-conflicting-outputs
 
 Config currentConfig = Config();
+int id = 0;
 
 @JsonSerializable()
 class Config {

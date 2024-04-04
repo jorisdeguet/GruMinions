@@ -1,4 +1,3 @@
-
 import 'package:blinking_text/blinking_text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
@@ -6,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gru_minions/comm/message.dart';
 import 'package:stroke_text/stroke_text.dart';
-
-int id = 0;
 
 class ControllerHome extends StatefulWidget {
   const ControllerHome({
@@ -19,6 +16,84 @@ class ControllerHome extends StatefulWidget {
 }
 
 class _ControllerHomeState extends State<ControllerHome> {
+  @override
+  void initState() {
+    // Show dialog when the widget initializes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showDialog(
+        barrierDismissible: false,
+        // Set to false to prevent closing on tap outside
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text(
+              'Welcome to Pixel Adventure',
+              style: GoogleFonts.pixelifySans(
+                textStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            content: Text(
+              'Select your player',
+              style: GoogleFonts.pixelifySans(
+                textStyle: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        id = 1; //the local value for id is set to 1
+                        Navigator.pop(context);
+                        debugPrint('Player 1 : $id');
+                      },
+                      child: Text(
+                        "Player 1",
+                        style: GoogleFonts.pixelifySans(
+                          textStyle: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      )),
+                  const SizedBox(width: 15),
+                  ElevatedButton(
+                      onPressed: () {
+                        id = 2; //the local value for id is set to 2
+                        Navigator.pop(context);
+                        debugPrint('Player 2 : $id');
+                      },
+                      child: Text(
+                        "Player 2",
+                        style: GoogleFonts.pixelifySans(
+                          textStyle: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      )),
+                ],
+              ),
+            ],
+          );
+        },
+      );
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

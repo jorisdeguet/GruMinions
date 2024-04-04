@@ -35,7 +35,7 @@ class CharacterOption extends ScreenControllerOption {
   @override
   void handleMessageAsMinion(String s) {
     // receive the character name
-    if(s.startsWith("Selected")){
+    if(s.startsWith("1 has selected")){
       currentConfig.characterPlayer1 = s.split(':').last;
     }
     else if (s.startsWith("View")){

@@ -150,7 +150,7 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
               GestureDetector(
                 onTap: () async {
                   currentConfig.characterPlayer1 = characters[_current].name; //player 1's character in this machine
-                  widget.send('Selected:${characters[_current].name}'); // send to stock it in the screen machine
+                  widget.send('$id has selected:${characters[_current].name}'); // send to stock it in the screen machine
                   showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => SuccessfulSelect(
