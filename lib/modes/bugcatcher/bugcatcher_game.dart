@@ -92,6 +92,9 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
   //#endregion
 
   Future<void> resetGame() async {
+    if(count == numberOfBugsToFind){
+      await randomBugAdd(_map);
+    }
     count = 0;
     elapsedSeconds = 15;
     overlays.add(Instructions.iD);
@@ -171,11 +174,21 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
       }
     }
     //#endregion
+    await randomBugAdd(map);
 
+  }
+
+  Future<void> randomBugAdd(TiledComponent<FlameGame<World>> map) async {
     //#region RandomBugSetup
     for (int i = 0; i < 10; i++) {
-      var randomX = Random().nextInt(map.tileMap.map.width);
-      var randomY = Random().nextInt(map.tileMap.map.height);
+      var randomX = Random().nextInt(map.tileMap.map.width - 5);
+      var randomY = Random().nextInt(map.tileMap.map.height - 5);
+      if(randomX < 3){
+        randomX = 3;
+      }
+      if(randomY < 3){
+        randomY = 3;
+      }
       var bugPosition = Vector2(randomX * 16.0, randomY * 16.0);
       var randomTypeNumber = Random().nextInt(15);
       String name = BugTypes.values[randomTypeNumber].toString();

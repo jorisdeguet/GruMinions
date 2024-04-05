@@ -185,7 +185,11 @@ class BugCatcherBug extends SpriteAnimationComponent with CollisionCallbacks, Ha
   }
 
   void randomTimer(){
-    Future.delayed(Duration(seconds: 3), () {
+    int randomTime = Random().nextInt(5);
+    if(randomTime == 0){
+      randomTime = 1;
+    }
+    Future.delayed(Duration(seconds: randomTime), () {
       randomDirection();
     });
   }
