@@ -14,6 +14,12 @@ class Win extends StatelessWidget {
 
   Widget win(BuildContext context){
     game.pauseEngine();
+    Future.delayed(const Duration(seconds: 3), () {
+      game.score = 0;
+      game.overlays.remove(Win.iD);
+      game.resumeEngine();
+      Navigator.of(context).pop();
+    });
     return Center(
       child: Container(
         padding: const EdgeInsets.all(10),

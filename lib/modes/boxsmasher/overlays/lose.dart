@@ -14,6 +14,11 @@ class Lose extends StatelessWidget{
 
   Widget lose(BuildContext context){
     game.pauseEngine();
+    Future.delayed(const Duration(seconds: 3), () {
+      game.score = 0;
+      game.overlays.remove(Lose.iD);
+      game.resumeEngine();
+    });
     return Center(
       child: Container(
         padding: const EdgeInsets.all(10),
