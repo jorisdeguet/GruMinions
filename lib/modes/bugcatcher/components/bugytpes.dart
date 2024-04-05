@@ -1,4 +1,4 @@
-enum BugTypes{
+enum BugTypes {
   SwoopingBat,
   PlagueBat,
   TunnelingMole,

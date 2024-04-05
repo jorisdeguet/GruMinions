@@ -171,5 +171,22 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
       }
     }
     //#endregion
+
+    //#region RandomBugSetup
+    for (int i = 0; i < 10; i++) {
+      var randomX = Random().nextInt(map.tileMap.map.width);
+      var randomY = Random().nextInt(map.tileMap.map.height);
+      var bugPosition = Vector2(randomX * 16.0, randomY * 16.0);
+      var randomTypeNumber = Random().nextInt(15);
+      String name = BugTypes.values[randomTypeNumber].toString();
+      if(randomTypeNumber == numberTypeBugToFind){
+        numberOfBugsToFind++;
+      }
+      var bugComponent = BugCatcherBug(position: bugPosition, bugType: name, map: map);
+      bugComponent.priority = 2;
+      await add(bugComponent);
+      world.add(bugComponent);
+    }
+    //#endregion
   }
 }
