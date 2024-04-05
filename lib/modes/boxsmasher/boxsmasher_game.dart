@@ -1,8 +1,10 @@
 import 'package:flame/cache.dart';
 import 'package:flame/camera.dart';
 import 'package:flame/experimental.dart';
+import 'package:flame/extensions.dart';
 import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_background.dart';
 import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_door.dart';
 import 'package:gru_minions/modes/boxsmasher/components/world/boxsmasher_ground.dart';
@@ -17,7 +19,17 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
   final images = Images(prefix: 'assets/boxsmasher/flame/');
   final BoxSmasherPlayer _player = BoxSmasherPlayer(Vector2(85, 193));
   late MovingBox _boxMoving;
+  late CameraComponent _camera;
   int score = 0;
+  final TextPaint textPaint = TextPaint(
+    style: const TextStyle(color: Colors.white, fontSize: 42, shadows: [
+      Shadow(
+        blurRadius: 15,
+        color: Color(0xff000000),
+        offset: Offset(0, 0),
+      ),
+    ]),
+  );
 
   BoxSmasherGame();
 
@@ -69,6 +81,7 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
     //Follow the player
     camera.moveTo(Vector2(105, 130));
     //Add the camera to the game
+    _camera = camera;
     await add(camera);
     //#endregion
 
@@ -164,5 +177,15 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
 
   void losing(){
     overlays.add(Lose.iD);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    textPaint.render(
+      canvas,
+      'Score: $score',
+      Vector2(_camera.viewport.size.x / 3, 10),
+    );
   }
 }

@@ -37,7 +37,6 @@ class BoxSmasherMode extends GruMinionMode {
         Direction direction = Direction.values.firstWhere((e) =>
             parts[1].contains(e.name));
         if (controllerId == 'ControllerA') {
-          // In Case of Joystick
           // _gameA.onJoyPad1DirectionChanged(direction);
         }
       } else {
@@ -62,7 +61,6 @@ class BoxSmasherMode extends GruMinionMode {
             }
           } else if (parts[1] == 'ButtonB') {
             if (_gameA.overlays.activeOverlays.isEmpty) {
-              //In Case of Button B
               // _gameA.onBButtonPressed(Pressed);
             }
           }
@@ -79,8 +77,7 @@ class BoxSmasherMode extends GruMinionMode {
               }
             } else if (parts[1] == 'ButtonB') {
               if (_gameB.overlays.activeOverlays.isEmpty) {
-                //In Case of Button B
-                // _gameB.onBButtonPressed(Pressed);
+                //_gameB.onBButtonPressed(Pressed);
               }
             }
           }

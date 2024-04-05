@@ -31,14 +31,16 @@ class ControllerBBoxSmasherState extends State<ControllerBBoxSmasherPage> {
                       padding: const EdgeInsets.all(50.0),
                       child:
                       AButton(onAButtonChanged: (isPressed) {
-                        widget.send('ControllerA,ButtonA,${isPressed ? true : false}');
-                      }),
+                        widget.send('ControllerB,ButtonA,VerifyScore');
+                        widget.send('ControllerB,ButtonA,${isPressed ? true : false}');
+                        }
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(50.0),
                       child:
                       BButton(onBButtonChanged: (isPressed) {
-                        widget.send('ControllerA,ButtonB,${isPressed ? true : false}');
+                        widget.send('ControllerB,ButtonB,${isPressed ? true : false}');
                       }),
                     ),
                   ],
@@ -51,7 +53,7 @@ class ControllerBBoxSmasherState extends State<ControllerBBoxSmasherPage> {
                 padding: const EdgeInsets.all(75.0),
                 child: Joypad(
                   onDirectionChanged: (direction) {
-                    widget.send('ControllerA,$direction');
+                    widget.send('ControllerB,$direction');
                   },
                 ),
               ),

@@ -54,8 +54,7 @@ class MovingBox extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxS
         MoveEffect.by(Vector2(10, 0), EffectController(
           alternate: false,
           infinite: false,
-          curve: Curves.ease,
-          duration: 0.5,
+          duration: 0.2,
         )),
       );
     }

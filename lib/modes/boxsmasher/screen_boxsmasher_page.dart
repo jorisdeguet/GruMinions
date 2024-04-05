@@ -34,26 +34,6 @@ class ScreenBoxSmasherState extends State<ScreenBoxSmasherPage> {
             }
           ),
         ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Text(
-              game.score >= 100 ? 'Winner!' : 'Score: ${game.score}',
-              style: const TextStyle(
-                color: Colors.white,
-                shadows: [
-                  Shadow(
-                    blurRadius: 20.0,
-                    color: Colors.black,
-                    offset: Offset(0.0, 0.0),
-                  ),
-                ],
-                fontSize: 20,
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }
