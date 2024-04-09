@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'helpers/joypad.dart';
+import '../../comm/message.dart';
 
 class Controller extends StatefulWidget {
   final Function send;
@@ -23,7 +24,8 @@ class ControllerState extends State<Controller> {
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: JoyPad(onDirectionChanged: (direction) {
-                  widget.send(direction.toString());
+                  debugPrint('$id:${direction.toString()}');
+                  widget.send('$id:${direction.toString()}');
                 }),
               ),
             )

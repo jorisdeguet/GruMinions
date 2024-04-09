@@ -14,7 +14,7 @@ class FlameMode extends ScreenControllerOption {
 
   late final PixelAdventure _game = PixelAdventure(
       playerName: currentConfig.playerName,
-      friendName: currentConfig.playerName,
+      friendName: currentConfig.friendName,
       level: currentConfig.level.split('').last);
 
   @override
@@ -42,15 +42,19 @@ class FlameMode extends ScreenControllerOption {
 
   @override
   void handleMessageAsMinion(String s) {
-    if (kDebugMode) {
-      print(s);
+    List<String> split = s.split(':');
+
+    if(split[0] == '1') {
+      Direction d = Direction.values.firstWhere((e) => split[1].contains(e.name));
+      debugPrint("Controller 1 : $d");
+      _game.onController1DirectionChanged(d);
     }
 
-    Direction d = Direction.values.firstWhere((e) => s.contains(e.name));
-    if (kDebugMode) {
-      print("Good  $d");
+    if(split[0] == '2') {
+      Direction d = Direction.values.firstWhere((e) => split[1].contains(e.name));
+      debugPrint("Controller 2 : $d");
+      _game.onController2DirectionChanged(d);
     }
-    _game.onController1DirectionChanged(d);
   }
 
   @override

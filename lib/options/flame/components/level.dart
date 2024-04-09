@@ -67,6 +67,7 @@ class Level extends World with KeyboardHandler, HasGameRef<PixelAdventure> {
     super.update(dt);
   }
 
+  @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     //Player 1 is never null, so no need to check
     player.directionX = 0;
@@ -284,22 +285,6 @@ class Level extends World with KeyboardHandler, HasGameRef<PixelAdventure> {
       right,
       bottom,
     ));
-  }
-
-  void _gameOver() {
-    game.cam.stop();
-    game.interval.stop();
-
-    const duration = Duration(milliseconds: 350);
-    Future.delayed(duration, () {
-      game.player.reachedCheckpoint = false;
-      game.friend!.reachedCheckpoint = false;
-      game.player.isDead = false;
-      game.friend!.isDead = false;
-
-      const waitToChangeDuration = Duration(seconds: 2);
-      Future.delayed(waitToChangeDuration, () => {game.overlays.add('End')});
-    });
   }
 
   Vector2 get size => Vector2(

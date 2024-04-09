@@ -168,7 +168,6 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
     currentLevel = _levels[indexCurrentLevel];
 
     Future.delayed(const Duration(seconds: 1), () {
-      debugPrint('Player 2 is here ${friend!.character}');
 
       worldMap = Level(
           levelName: '$currentLevel.tmx',
