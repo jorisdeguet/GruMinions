@@ -28,6 +28,10 @@ class MinionService extends BaseNetworkService {
 
   List<String> logs = [];
 
+  // Bidules pour UDP
+  var udpSocket;
+  var DESTINATION_ADDRESS;
+
   MinionService() {
     _init();
   }
@@ -108,23 +112,30 @@ class MinionService extends BaseNetworkService {
       String broadcast =
           "${ipAd.split(".")[0]}.${ipAd.split(".")[1]}.${ipAd.split(".")[2]}.255";
       _log("IP address for boradcast  $broadcast");
-      var DESTINATION_ADDRESS = InternetAddress(broadcast);
+      var DESTINATION_ADDRESS = InternetAddress(broadcast); // TODO make it a field in the service
       RawDatagramSocket.bind(InternetAddress.anyIPv4, 8888)
-          .then((RawDatagramSocket udpSocket) {
+          .then((RawDatagramSocket udpSock) {
+        // TODO make udpSocket a field in the service
+        udpSocket = udpSock;
         udpSocket.broadcastEnabled = true;
-        _log("Binded on  ${udpSocket.address}");
+        _log("UDP Binded on  ${udpSocket.address}");
         udpSocket.listen((e) {
-          _log("receiving ${e}");
+          _log("UDP receiving ${e}");
           Datagram? dg = udpSocket.receive();
           if (dg != null) {
-            _log("received ${dg.data}");
+            _log("UDP received ${dg.data}");
           }
         });
-        List<int> data = utf8.encode('TEST $ipAd');
-        _log(" sending data on UDP  $broadcast");
-        udpSocket.send(data, DESTINATION_ADDRESS, 8888);
+        String message = 'TEST $ipAd';
+        sendUdp( message ); //broadcast, udpSocket, DESTINATION_ADDRESS);
       });
     }
+  }
+
+  void sendUdp(String message) {
+    List<int> data = utf8.encode(message);
+    _log(" sending data on UDP ");
+    udpSocket.send(data, DESTINATION_ADDRESS, 8888);
   }
 
   Future connectToSocket(WifiP2PInfo info) async {
