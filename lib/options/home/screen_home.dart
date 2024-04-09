@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:stroke_text/stroke_text.dart';
 
 class ScreenHome extends StatefulWidget {
+  final String macAddress;
   const ScreenHome({
-    super.key,
+    super.key, required this.macAddress,
   });
 
   @override
@@ -88,6 +89,17 @@ class _ScreenHomeState extends State<ScreenHome> {
                 style: GoogleFonts.pixelifySans(
                   textStyle: const TextStyle(
                     fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                beginColor: Colors.black,
+                endColor: Colors.transparent,
+                times: 3600,
+                duration: const Duration(seconds: 2)),
+            BlinkText(widget.macAddress,
+                style: GoogleFonts.pixelifySans(
+                  textStyle: const TextStyle(
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

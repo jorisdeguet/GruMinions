@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gru_minions/comm/message.dart';
 import 'package:gru_minions/service/screen_service.dart';
 import 'package:gru_minions/widget/screen_base_widget.dart';
 

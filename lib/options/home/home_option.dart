@@ -12,8 +12,7 @@ class HomeOption extends ScreenControllerOption {
   void initController() {}
 
   @override
-  void initScreen() {
-  }
+  void initScreen() {}
 
   @override
   Widget controllerWidget() {
@@ -22,7 +21,7 @@ class HomeOption extends ScreenControllerOption {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return const ScreenHome();
+    return ScreenHome(macAddress: macAddress());
   }
 
   @override
