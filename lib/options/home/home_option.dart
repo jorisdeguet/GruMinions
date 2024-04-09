@@ -16,7 +16,7 @@ class HomeOption extends ScreenControllerOption {
 
   @override
   Widget controllerWidget() {
-    return const ControllerHome();
+    return ControllerHome(send: sendToOthers);
   }
 
   @override
@@ -30,6 +30,9 @@ class HomeOption extends ScreenControllerOption {
 
   @override
   void handleMessageAsMinion(String s) {
+    //now the screen know that player 2 is playing
+    //stock default character in the currentConfig
+    currentConfig.friendName = s;
   }
 
   @override

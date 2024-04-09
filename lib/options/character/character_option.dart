@@ -26,7 +26,7 @@ class CharacterOption extends ScreenControllerOption {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return ScreenCharacter(characterPlayer1: _character1, characterPlayer2: _character2);
+    return ScreenCharacter(playerName: _character1, friendName: _character2);
   }
 
   @override

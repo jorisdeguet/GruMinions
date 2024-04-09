@@ -7,8 +7,9 @@ import 'package:gru_minions/comm/message.dart';
 import 'package:stroke_text/stroke_text.dart';
 
 class ControllerHome extends StatefulWidget {
+  final Function send;
   const ControllerHome({
-    super.key,
+    super.key, required this.send,
   });
 
   @override
@@ -57,7 +58,7 @@ class _ControllerHomeState extends State<ControllerHome> {
                   children: [
                     ElevatedButton(
                         onPressed: () {
-                          id = 1; //the local value for id is set to 1
+                          id = 1; //id for player 1
                           Navigator.pop(context);
                           debugPrint('Player\'s ID : $id');
                         },
@@ -74,11 +75,11 @@ class _ControllerHomeState extends State<ControllerHome> {
                     const SizedBox(width: 15),
                     ElevatedButton(
                         onPressed: () {
-                          id = 2; //the local value for id is set to 2
-                          //player 2 exist so we define a default character
-                          currentConfig.friendName = 'Mask Dude';
+                          id = 2; //id for player 2
+                          //player 2 is playing so we define a default character
+                          widget.send('Mask Dude'); //default character is sent to the screen
+                          currentConfig.friendName = 'Mask Dude'; //default character is stocked in the currentConfig
                           Navigator.pop(context);
-                          debugPrint('Player\'s ID : $id');
                         },
                         child: Text(
                           'Player 2',
