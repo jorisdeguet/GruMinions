@@ -36,13 +36,13 @@ class CharacterOption extends ScreenControllerOption {
   void handleMessageAsMinion(String s) {
     // treat the message depending on the player's id
     if(s.startsWith("1 has selected")){
-      currentConfig.characterPlayer1 = s.split(':').last;
+      currentConfig.playerName = s.split(':').last;
     }
     else if (s.startsWith("1\'s current view:")){
       _character1.value = s.split(':').last;
     }
     else if(s.startsWith("2 has selected")){
-      currentConfig.characterPlayer2 = s.split(':').last;
+      currentConfig.friendName = s.split(':').last;
     }
     else if (s.startsWith("2\'s current view:")){
       _character2.value = s.split(':').last;

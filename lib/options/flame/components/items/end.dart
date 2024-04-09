@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import '../../game/pixel_adventure.dart';
+import '../friend.dart';
 import '../player.dart';
 
 class End extends SpriteAnimationComponent with HasGameRef<PixelAdventure>, CollisionCallbacks {
@@ -36,8 +37,10 @@ class End extends SpriteAnimationComponent with HasGameRef<PixelAdventure>, Coll
   }
 
   @override
-  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if(other is Player && !reachedEnd) _reachedEnd();
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is Player && !reachedEnd) _reachedEnd();
+    if (other is Friend && !reachedEnd) _reachedEnd();
     super.onCollisionStart(intersectionPoints, other);
   }
 

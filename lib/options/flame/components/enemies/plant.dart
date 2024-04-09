@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 import '../bullets/plant_bullet.dart';
+import '../friend.dart';
 import '../player.dart';
 import '../../game/pixel_adventure.dart';
 
@@ -14,10 +15,10 @@ class Plant extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure>, CollisionCallbacks {
   Plant(
       {this.offNeg = 0,
-      this.offPos = 0,
-      this.isFacingRight = false,
-      super.position,
-      super.size});
+        this.offPos = 0,
+        this.isFacingRight = false,
+        super.position,
+        super.size});
 
   //Final variables
   final double offNeg;
@@ -38,9 +39,11 @@ class Plant extends SpriteAnimationGroupComponent
 
   //Late variables
   late Player player;
+  late Friend? friend;
   late double _rangeNeg;
   late double _rangePos;
   late double _playerOffset;
+  late double _friendOffset;
   late Timer interval;
 
   //Defined variables
@@ -48,7 +51,8 @@ class Plant extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
-    player = game.player1;
+    player = game.player;
+    friend = game.friend != null ? game.friend : null;
 
     if (isFacingRight) {
       flipHorizontallyAroundCenter();
@@ -113,11 +117,11 @@ class Plant extends SpriteAnimationGroupComponent
   }
 
   Future<void> _updateState(dt) async {
-    if (playerInRange()) {
+    if (playerInRange() || friendInRange()) {
       current = PlantState.attack;
       await animationTicker?.completed.then((value) => interval.update(dt));
       animationTicker?.reset();
-    } else if (!playerInRange()) {
+    } else if (!playerInRange() || !friendInRange()) {
       current = PlantState.idle;
     }
   }
@@ -126,12 +130,27 @@ class Plant extends SpriteAnimationGroupComponent
     _playerOffset = (player.scale.x > 0) ? 0 : -player.width;
 
     return
-        //true if player is in the left range
-        player.x + _playerOffset >= _rangeNeg &&
-            //true if player is in the right range
-            player.x + _playerOffset <= _rangePos &&
-            //true if the bottom of player is below the plant's top
-            player.y < position.y + height;
+      //true if player is in the left range
+      player.x + _playerOffset >= _rangeNeg &&
+          //true if player is in the right range
+          player.x + _playerOffset <= _rangePos &&
+          //true if the bottom of player is below the plant's top
+          player.y < position.y + height;
+  }
+
+  bool friendInRange() {
+    if (friend == null) return false;
+
+    _friendOffset = (friend!.scale.x > 0) ? 0 : -friend!.width;
+    return
+      //true if player is in the left range
+      friend!.x + _friendOffset >= _rangeNeg &&
+          //true if player is in the right range
+          friend!.x + _friendOffset <= _rangePos &&
+          //true if the top of player is above the chicken's bottom
+          friend!.y + friend!.height > position.y &&
+          //true if the bottom of player is below the chicken's top
+          friend!.y < position.y + height;
   }
 
   void _shoot() {
@@ -156,6 +175,22 @@ class Plant extends SpriteAnimationGroupComponent
       game.score.value += 14;
     } else {
       player.collideWithEnemy();
+    }
+  }
+
+  void collideWithFriend() async {
+    if (friend == null) return;
+
+    if (friend!.velocity.y > 0 && friend!.y + friend!.height > position.y) {
+      if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
+      _gotHit = true;
+      current = PlantState.hit;
+      friend!.velocity.y = -bounceHeight;
+      await animationTicker?.completed;
+      removeFromParent();
+      game.score.value += 5;
+    } else {
+      friend!.collideWithEnemy();
     }
   }
 }

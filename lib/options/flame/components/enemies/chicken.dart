@@ -5,6 +5,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 
+import '../friend.dart';
 import '../player.dart';
 import '../../game/pixel_adventure.dart';
 
@@ -32,21 +33,24 @@ class Chicken extends SpriteAnimationGroupComponent
 
   //Late variables
   late Player player;
+  late Friend? friend;
   late double _rangeNeg;
   late double _rangePos;
   late double _playerOffset;
+  late double _friendOffset;
   late double _chickenOffset;
 
   //Defined variables
   //Default : 1 if enemy is facing right and -1 for if enemy is facing left
   double _facingDirection = -1;
   double _targetDirection = 0;
-  final Vector2 _velocity = Vector2.zero();
+  Vector2 _velocity = Vector2.zero();
   bool _gotHit = false;
 
   @override
   FutureOr<void> onLoad() {
-    player = game.player1;
+    player = game.player;
+    friend = game.friend != null ? game.friend : null;
     add(RectangleHitbox(
       position: Vector2(4, 6),
       size: Vector2(24, 26),
@@ -105,10 +109,19 @@ class Chicken extends SpriteAnimationGroupComponent
     //of the scaleX is gonna be different, to prevent that we do this :
     _playerOffset = (player.scale.x > 0) ? 0 : -player.width;
     _chickenOffset = (scale.x > 0) ? 0 : -width;
-    //
+
+    //If the friend is not null, we do the same thing as above
+    if (friend != null) {
+      _friendOffset = (friend!.scale.x > 0) ? 0 : -friend!.width;
+    }
+
     if (playerInRange()) {
       _targetDirection =
-          (player.x + _playerOffset < position.x + _chickenOffset) ? -1 : 1;
+      (player.x + _playerOffset < position.x + _chickenOffset) ? -1 : 1;
+      _velocity.x = _targetDirection * moveSpeed;
+    } else if (friendInRange()) {
+      _targetDirection =
+      (friend!.x + _friendOffset < position.x + _chickenOffset) ? -1 : 1;
       _velocity.x = _targetDirection * moveSpeed;
     }
     _facingDirection = lerpDouble(_facingDirection, _targetDirection, 0.1) ?? 1;
@@ -119,14 +132,29 @@ class Chicken extends SpriteAnimationGroupComponent
     _playerOffset = (player.scale.x > 0) ? 0 : -player.width;
 
     return
-        //true if player is in the left range
-        player.x + _playerOffset >= _rangeNeg &&
-            //true if player is in the right range
-            player.x + _playerOffset <= _rangePos &&
-            //true if the top of player is above the chicken's bottom
-            player.y + player.height > position.y &&
-            //true if the bottom of player is below the chicken's top
-            player.y < position.y + height;
+      //true if player is in the left range
+      player.x + _playerOffset >= _rangeNeg &&
+          //true if player is in the right range
+          player.x + _playerOffset <= _rangePos &&
+          //true if the top of player is above the chicken's bottom
+          player.y + player.height > position.y &&
+          //true if the bottom of player is below the chicken's top
+          player.y < position.y + height;
+  }
+
+  bool friendInRange() {
+    if (friend == null) return false;
+
+    _friendOffset = (friend!.scale.x > 0) ? 0 : -friend!.width;
+    return
+      //true if player is in the left range
+      friend!.x + _friendOffset >= _rangeNeg &&
+          //true if player is in the right range
+          friend!.x + _friendOffset <= _rangePos &&
+          //true if the top of player is above the chicken's bottom
+          friend!.y + friend!.height > position.y &&
+          //true if the bottom of player is below the chicken's top
+          friend!.y < position.y + height;
   }
 
   void updateState() {
@@ -149,6 +177,22 @@ class Chicken extends SpriteAnimationGroupComponent
       game.score.value += 5;
     } else {
       player.collideWithEnemy();
+    }
+  }
+
+  void collideWithFriend() async {
+    if (friend == null) return;
+
+    if (friend!.velocity.y > 0 && friend!.y + friend!.height > position.y) {
+      if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
+      _gotHit = true;
+      current = ChickenState.hit;
+      friend!.velocity.y = -bounceHeight;
+      await animationTicker?.completed;
+      removeFromParent();
+      game.score.value += 5;
+    } else {
+      friend!.collideWithEnemy();
     }
   }
 }

@@ -76,7 +76,7 @@ class _ControllerHomeState extends State<ControllerHome> {
                         onPressed: () {
                           id = 2; //the local value for id is set to 2
                           //player 2 exist so we define a default character
-                          currentConfig.characterPlayer2 = 'Mask Dude';
+                          currentConfig.friendName = 'Mask Dude';
                           Navigator.pop(context);
                           debugPrint('Player\'s ID : $id');
                         },

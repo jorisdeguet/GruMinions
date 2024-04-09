@@ -30,10 +30,10 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
     // will set the current index depending on the character's name
     // check if the id is 1 or 2 to find the correct character
     if(id == 1) {
-      _currentIndex = characters.indexWhere((element) => element.name == currentConfig.characterPlayer1);
+      _currentIndex = characters.indexWhere((element) => element.name == currentConfig.playerName);
       debugPrint('Index found: $_currentIndex');
     } else if(id == 2) {
-      _currentIndex = characters.indexWhere((element) => element.name == currentConfig.characterPlayer2);
+      _currentIndex = characters.indexWhere((element) => element.name == currentConfig.friendName);
       debugPrint('Index found: $_currentIndex');
     }
     super.initState();
@@ -165,9 +165,9 @@ class _ControllerCharacterState extends State<ControllerCharacter> {
                 onTap: () async {
                   //the local player is stocked
                   if(id == 1) {
-                    currentConfig.characterPlayer1 = characters[_currentIndex].name;
+                    currentConfig.playerName = characters[_currentIndex].name;
                   } else if(id == 2) {
-                    currentConfig.characterPlayer2 = characters[_currentIndex].name;
+                    currentConfig.friendName = characters[_currentIndex].name;
                   }
                   widget.send('$id has selected:${characters[_currentIndex].name}'); // send to stock it in the device with the screen role
                   showDialog<String>(

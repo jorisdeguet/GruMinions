@@ -3,30 +3,29 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../components/traps/fire.dart';
+
+import '../game/pixel_adventure.dart';
 import '../helpers/custom_hitbox.dart';
-import '../components/enemies/mushroom.dart';
-import '../components/enemies/slime.dart';
-import '../components/items/end.dart';
-import '../components/traps/saw.dart';
-import '../components/traps/spikes.dart';
-import '../components/traps/trampoline.dart';
 import '../helpers/direction.dart';
 import '../helpers/utils.dart';
-import '../game/pixel_adventure.dart';
-
-import 'enemies/plant.dart';
+import '../overlays/end.dart';
 import 'bullets/plant_bullet.dart';
-import 'friend.dart';
+import 'enemies/chicken.dart';
+import 'enemies/mushroom.dart';
+import 'enemies/plant.dart';
+import 'enemies/slime.dart';
 import 'items/checkpoint.dart';
 import '../helpers/collisions_block.dart';
-import 'enemies/chicken.dart';
 import 'items/fruit.dart';
+import 'player.dart';
+import 'traps/fire.dart';
+import 'traps/saw.dart';
+import 'traps/spikes.dart';
+import 'traps/trampoline.dart';
 
-enum PlayerState {
+enum FriendState {
   idle,
   running,
   jumping,
@@ -38,9 +37,9 @@ enum PlayerState {
   disappearing
 }
 
-class Player extends SpriteAnimationGroupComponent
+class Friend extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure>, CollisionCallbacks {
-  Player({super.position, this.character = 'Ninja Frog'});
+  Friend({super.position, this.character = 'Pink Man'});
 
   //Animations
   late final SpriteAnimation idleAnimation;
@@ -84,17 +83,16 @@ class Player extends SpriteAnimationGroupComponent
   bool reachedCheckpoint = false;
   bool reachedEnd = false;
   Vector2 velocity = Vector2.zero();
-  Vector2 revivePosition = Vector2.zero();
   List<CollisionBlock> collisions = [];
   CustomHitBox hitBox =
-  CustomHitBox(offsetX: 10, offsetY: 4, width: 14, height: 28);
+      CustomHitBox(offsetX: 10, offsetY: 4, width: 14, height: 28);
 
   //late variables
-  late Friend? friend;
+  late Player player;
 
   @override
   FutureOr<void> onLoad() {
-    friend = game.friend != null ? game.friend : null;
+    player = game.player;
     _loadAllAnimations();
 
     add(RectangleHitbox(
@@ -103,7 +101,7 @@ class Player extends SpriteAnimationGroupComponent
     ));
     add(
       TextComponent(
-        text: 'Player 1',
+        text: 'Player 2',
         textRenderer: style,
         anchor: Anchor.topLeft,
         position: Vector2(size.x + 8, size.y - 5),
@@ -118,8 +116,8 @@ class Player extends SpriteAnimationGroupComponent
     accumulatedTime += dt;
     while (accumulatedTime >= fixedDeltaTime) {
       if (!gotHit && !reachedEnd && !isDead) {
-        _updatePlayerState();
-        _updatePlayerMovement(fixedDeltaTime);
+        _updateFriendState();
+        _updateFriendMovement(fixedDeltaTime);
         _checkHorizontalCollisions();
         _applyGravity(fixedDeltaTime);
         _checkVerticalCollisions();
@@ -136,15 +134,15 @@ class Player extends SpriteAnimationGroupComponent
       if (other is Fruit) other.collidedWithPlayer();
       if (other is Checkpoint) _reachedCheckpoint();
       if (other is End) _reachedEnd();
+      if (other is Trampoline) other.collideWithFriend();
       if (other is Saw) _revive();
       if (other is Spikes) _revive();
       if (other is Fire) _revive();
-      if (other is Trampoline) other.collideWithPlayer();
-      if (other is Chicken) other.collideWithPlayer();
-      if (other is Mushroom) other.collideWithPlayer();
-      if (other is Slime) other.collideWithPlayer();
-      if (other is Plant) other.collideWithPlayer();
-      if (other is PlantBullet) other.collideWithPlayer();
+      if (other is Mushroom) other.collideWithFriend();
+      if (other is Slime) other.collideWithFriend();
+      if (other is Chicken) other.collideWithFriend();
+      if (other is Plant) other.collideWithFriend();
+      if (other is PlantBullet) other.collideWithFriend();
     }
     super.onCollisionStart(intersectionPoints, other);
   }
@@ -162,15 +160,15 @@ class Player extends SpriteAnimationGroupComponent
 
     //List of all animations
     animations = {
-      PlayerState.idle: idleAnimation,
-      PlayerState.running: runningAnimation,
-      PlayerState.jumping: jumpingAnimation,
-      PlayerState.doubleJumping: doubleJumpingAnimation,
-      PlayerState.wallJumping: wallJumpingAnimation,
-      PlayerState.falling: fallingAnimation,
-      PlayerState.hit: hitAnimation,
-      PlayerState.appearing: appearingAnimation,
-      PlayerState.disappearing: disappearingAnimation,
+      FriendState.idle: idleAnimation,
+      FriendState.running: runningAnimation,
+      FriendState.jumping: jumpingAnimation,
+      FriendState.doubleJumping: doubleJumpingAnimation,
+      FriendState.wallJumping: wallJumpingAnimation,
+      FriendState.falling: fallingAnimation,
+      FriendState.hit: hitAnimation,
+      FriendState.appearing: appearingAnimation,
+      FriendState.disappearing: disappearingAnimation,
     };
   }
 
@@ -197,7 +195,7 @@ class Player extends SpriteAnimationGroupComponent
     );
   }
 
-  void _updatePlayerMovement(double dt) {
+  void _updateFriendMovement(double dt) {
     switch (direction) {
       case Direction.up:
         isJumping = true;
@@ -216,40 +214,40 @@ class Player extends SpriteAnimationGroupComponent
         break;
     }
 
-    if (isJumping && isOnGround) _playerJump(dt);
-    if (isJumping && !isOnGround && canDoubleJump) _playerDoubleJump(dt);
+    if (isJumping && isOnGround) _friendJump(dt);
+    if (isJumping && !isOnGround && canDoubleJump) _friendDoubleJump(dt);
 
     velocity.x = directionX * moveSpeed;
     position.x += velocity.x * dt;
   }
 
-  void _updatePlayerState() {
-    PlayerState playerState = PlayerState.idle;
+  void _updateFriendState() {
+    FriendState friendState = FriendState.idle;
 
     //check facing direction
     if (velocity.x > 0 && scale.x < 0) {
       flipHorizontallyAroundCenter();
-    }
-    if (velocity.x < 0 && scale.x > 0) {
+    } else if (velocity.x < 0 && scale.x > 0) {
       flipHorizontallyAroundCenter();
     }
 
     //check if running, set running
-    if (velocity.x > 0 || velocity.x < 0) playerState = PlayerState.running;
+    if (velocity.x > 0 || velocity.x < 0) friendState = FriendState.running;
 
     //check if falling, set falling
-    if (velocity.y > 0) playerState = PlayerState.falling;
+    if (velocity.y > 0) friendState = FriendState.falling;
 
     //check if jumping, set jumping
-    if (velocity.y < 0) playerState = PlayerState.jumping;
+    if (velocity.y < 0) friendState = FriendState.jumping;
 
     //check is double jumping, set double jumping
-    if (velocity.y < 0 && !canDoubleJump) playerState = PlayerState.doubleJumping;
+    if (velocity.y < 0 && !canDoubleJump)
+      friendState = FriendState.doubleJumping;
 
-    current = playerState;
+    current = friendState;
   }
 
-  void _playerJump(double dt) {
+  void _friendJump(double dt) {
     if (game.playSounds) FlameAudio.play('jump.wav', volume: game.soundVolume);
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
@@ -258,7 +256,7 @@ class Player extends SpriteAnimationGroupComponent
     canDoubleJump = true;
   }
 
-  void _playerDoubleJump(double dt) {
+  void _friendDoubleJump(double dt) {
     if (game.playSounds) FlameAudio.play('jump.wav', volume: game.soundVolume);
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
@@ -267,8 +265,8 @@ class Player extends SpriteAnimationGroupComponent
     canDoubleJump = false;
   }
 
-  void _playerWallJump() {
-    current = PlayerState.wallJumping;
+  void _friendWallJump() {
+    current = FriendState.wallJumping;
     velocity.y = 20;
     canDoubleJump = true;
   }
@@ -278,12 +276,12 @@ class Player extends SpriteAnimationGroupComponent
       if (!block.isPlatform) {
         if (checkCollision(this, block)) {
           if (velocity.x > 0) {
-            if (!isOnGround) _playerWallJump();
+            if (!isOnGround) _friendWallJump();
             velocity.x = 0;
             position.x = block.x - hitBox.offsetX - hitBox.width;
             break;
           } else if (velocity.x < 0) {
-            if (!isOnGround) _playerWallJump();
+            if (!isOnGround) _friendWallJump();
             velocity.x = 0;
             position.x = block.x + block.width + hitBox.offsetX + hitBox.width;
             break;
@@ -331,100 +329,77 @@ class Player extends SpriteAnimationGroupComponent
     if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
     gotHit = true;
     life.value -= 1;
-    current = PlayerState.hit;
+    current = FriendState.hit;
 
     await animationTicker?.completed;
     animationTicker?.reset();
 
-    if (friend != null) {
-      if(friend!.isDead && gotHit){
-        debugPrint('Player got hit while friend was dead');
-        isDead = true;
-        game.interval.stop();
-        game.cam.stop();
+    if (player.isDead && gotHit) {
+      debugPrint('Friend got hit while player was dead');
+      isDead = true;
+      game.interval.stop();
+      game.cam.stop();
 
-        const duration = Duration(milliseconds: 350);
-        Future.delayed(duration, () {
-          reachedCheckpoint = false;
-          gotHit = false;
-          isDead = false;
-          friend!.isDead = false;
+      const duration = Duration(milliseconds: 350);
+      Future.delayed(duration, () {
+        reachedCheckpoint = false;
+        gotHit = false;
+        isDead = false;
+        player.isDead = false;
 
-          const waitToChangeDuration = Duration(seconds: 2);
-          Future.delayed(waitToChangeDuration, () => {game.overlays.add('End')});
-        });
-      }
-
-      if (life.value > 0 && !friend!.isDead) {
-        debugPrint('Player is reappearing...');
-        debugPrint('Life: ${life.value}');
-        scale.x = 1;
-        position = friend!.position - Vector2(64, 32);
-        current = PlayerState.appearing;
-
-        await animationTicker?.completed;
-        animationTicker?.reset();
-
-        velocity = Vector2.zero();
-        position = friend!.position - Vector2(32, 0);
-        _updatePlayerState();
-        Future.delayed(const Duration(milliseconds: 400), () => gotHit = false);
-      } else {
-        debugPrint('Player is dead!');
-        isDead = true;
-        position = Vector2.all(-640);
-        if(!friend!.isDead) game.cam.follow(friend!);
-      }
+        const waitToChangeDuration = Duration(seconds: 2);
+        Future.delayed(waitToChangeDuration, () => {game.overlays.add('End')});
+      });
     }
-    else {
-      if (life.value > 0) {
-        scale.x = 1;
-        position = revivePosition - Vector2.all(32);
-        current = PlayerState.appearing;
 
-        await animationTicker?.completed;
-        animationTicker?.reset();
+    if (life.value > 0 && !player.isDead) {
+      debugPrint('Friend is reappearing...');
+      debugPrint('Life: ${life.value}');
+      scale.x = 1;
+      position = player.position - Vector2(64, 32);
+      current = FriendState.appearing;
 
-        velocity = Vector2.zero();
-        position = revivePosition;
-        _updatePlayerState();
-        Future.delayed(const Duration(milliseconds: 400), () => gotHit = false);
-      } else {
-        _gameOver();
-      }
+      await animationTicker?.completed;
+      animationTicker?.reset();
+
+      velocity = Vector2.zero();
+      position = player.position - Vector2(32, 0);
+      _updateFriendState();
+      Future.delayed(const Duration(milliseconds: 400), () => gotHit = false);
+    } else {
+      debugPrint('Friend is dead');
+      isDead = true;
+      position = Vector2.all(-640);
+      if (!player.isDead) game.cam.follow(player);
     }
   }
 
-  Future<void> reviveByFriend() async {
+  Future<void> reviveByPlayer() async {
     debugPrint('Revived by player');
     life.value = 1;
     isDead = false;
 
     scale.x = 1;
-    position = friend!.position - Vector2(64, 32);
-    current = PlayerState.appearing;
+    position = player.position - Vector2(64, 32);
+    current = FriendState.appearing;
 
     await animationTicker?.completed;
     animationTicker?.reset();
 
     velocity = Vector2.zero();
-    position = friend!.position - Vector2(32, 0);
-    _updatePlayerState();
+    position = player.position - Vector2(32, 0);
+    _updateFriendState();
     Future.delayed(const Duration(milliseconds: 400), () => gotHit = false);
   }
 
   Future<void> _reachedCheckpoint() async {
+    //Can only reach checkpoint once
     if (!reachedCheckpoint) {
-      if (game.playSounds) FlameAudio.play('disappear.wav', volume: game.soundVolume);
+      if (game.playSounds)
+        FlameAudio.play('disappear.wav', volume: game.soundVolume);
       reachedCheckpoint = true;
-
-      if (friend != null && friend!.isDead) {
-        friend!.reviveByPlayer();
-        game.score.value += 100;
-      } else {
-        revivePosition = Vector2(position.x, position.y);
-        game.score.value += 100;
-      }
+      player.reviveByFriend();
+      game.score.value += 100;
     }
   }
 
@@ -433,13 +408,14 @@ class Player extends SpriteAnimationGroupComponent
     game.cam.stop();
     game.interval.stop();
 
-    if (game.playSounds) FlameAudio.play('disappear.wav', volume: game.soundVolume);
+    if (game.playSounds)
+      FlameAudio.play('disappear.wav', volume: game.soundVolume);
     if (scale.x > 0) {
       position = position - Vector2.all(32);
     } else if (scale.x < 0) {
       position = position + Vector2(32, -32);
     }
-    current = PlayerState.disappearing;
+    current = FriendState.disappearing;
     game.score.value += 200;
 
     await animationTicker?.completed;
@@ -453,24 +429,6 @@ class Player extends SpriteAnimationGroupComponent
 
       const waitToChangeDuration = Duration(seconds: 6);
       Future.delayed(waitToChangeDuration, () => game.overlays.add('End'));
-    });
-  }
-
-  Future<void> _gameOver() async {
-    isDead = true;
-    position = Vector2.all(-640);
-    game.interval.stop();
-    game.cam.stop();
-
-    const duration = Duration(milliseconds: 350);
-    Future.delayed(duration, () {
-      reachedCheckpoint = false;
-      gotHit = false;
-      isDead = false;
-      position = Vector2.all(-640);
-
-      const waitToChangeDuration = Duration(seconds: 2);
-      Future.delayed(waitToChangeDuration, () => {game.overlays.add('End')});
     });
   }
 

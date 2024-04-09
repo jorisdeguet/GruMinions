@@ -4,9 +4,11 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
 import '../../game/pixel_adventure.dart';
+import '../friend.dart';
 import '../player.dart';
 
 enum FireState { off, on }
+
 class Fire extends SpriteAnimationGroupComponent with HasGameRef<PixelAdventure>, CollisionCallbacks {
   Fire({this.offNeg = 0, this.offPos = 0,  this.isFacingUp = false, super.position, super.size});
 
@@ -25,13 +27,17 @@ class Fire extends SpriteAnimationGroupComponent with HasGameRef<PixelAdventure>
 
   //Late variables
   late Player player;
+  late Friend? friend;
   late double _playerOffset;
+  late double _friendOffset;
   late double _rangeNeg;
   late double _rangePos;
 
   @override
   FutureOr<void> onLoad() {
-    player = game.player1;
+    player = game.player;
+    friend = game.friend != null ? game.friend : null;
+
     priority = -1;
     add(RectangleHitbox(
       position: Vector2(8, 0),
@@ -95,11 +101,24 @@ class Fire extends SpriteAnimationGroupComponent with HasGameRef<PixelAdventure>
           //true if player is in the right range
           player.x + _playerOffset <= _rangePos &&
           //true if the bottom of player is below the fire's top
-           player.y < position.y + height;
+          player.y < position.y + height;
+  }
+
+  bool friendInRange() {
+    if (friend == null) return false;
+
+    _friendOffset = (friend!.scale.x > 0) ? 0 : -friend!.width;
+    return
+      //true if player is in the left range
+      friend!.x + _friendOffset >= _rangeNeg &&
+          //true if player is in the right range
+          friend!.x + _friendOffset <= _rangePos &&
+          //true if the bottom of player is below the fire's top
+          friend!.y < position.y + height;
   }
 
   void _updateState(double dt) {
-    if (playerInRange()) {
+    if (playerInRange() || friendInRange()) {
       current = FireState.on;
     }
     else {

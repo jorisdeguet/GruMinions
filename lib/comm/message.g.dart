@@ -7,13 +7,13 @@ part of 'message.dart';
 // **************************************************************************
 
 Config _$ConfigFromJson(Map<String, dynamic> json) => Config(
-      characterPlayer1: json['characterPlayer1'] as String? ?? "Mask Dude",
+      playerName: json['characterPlayer1'] as String? ?? "Mask Dude",
       level: json['level'] as String? ?? "Level 01",
-      characterPlayer2: json['characterPlayer2'] as String?,
+      friendName: json['characterPlayer2'] as String?,
     );
 
 Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
-      'characterPlayer1': instance.characterPlayer1,
+      'characterPlayer1': instance.playerName,
       'level': instance.level,
-      'characterPlayer2': instance.characterPlayer2,
+      'characterPlayer2': instance.friendName,
     };

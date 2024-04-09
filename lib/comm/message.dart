@@ -13,11 +13,11 @@ class Config {
   // soit toute le monde soit l'adresse MAC de la tablette visée.
   //String target = "all";
 
-  late String characterPlayer1;
+  late String playerName;
   late String level;
-  late String? characterPlayer2;
+  late String? friendName;
 
-  Config({this.characterPlayer1 = "Mask Dude", this.level = "Level 01", this.characterPlayer2});
+  Config({this.playerName = "Mask Dude", this.level = "Level 01", this.friendName});
 
   factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
 

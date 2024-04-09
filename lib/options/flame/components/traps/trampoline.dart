@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 import '../../game/pixel_adventure.dart';
+import '../friend.dart';
 import '../player.dart';
 
 enum TrampolineState { idle, jump }
@@ -27,6 +28,7 @@ class Trampoline extends SpriteAnimationGroupComponent with HasGameRef<PixelAdve
 
   //Late variables
   late Player player;
+  late Friend? friend;
   late double rangeNeg;
   late double rangePos;
 
@@ -36,7 +38,9 @@ class Trampoline extends SpriteAnimationGroupComponent with HasGameRef<PixelAdve
   @override
   FutureOr<void> onLoad() {
     priority = -1;
-    player = gameRef.player1;
+    player = gameRef.player;
+    friend = game.friend != null ? game.friend : null;
+
     add(RectangleHitbox(
       position: Vector2(14, 0),
       size: Vector2(28, 14),
@@ -85,5 +89,20 @@ class Trampoline extends SpriteAnimationGroupComponent with HasGameRef<PixelAdve
     await animationTicker?.completed;
     animationTicker?.reset();
     current = TrampolineState.idle;
+  }
+
+  Future<void> collideWithFriend() async {
+    final friend = this.friend;
+    if(friend != null) {
+      if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
+      current = TrampolineState.jump;
+      friend.velocity.y = -900;
+      friend.isOnGround = false;
+      friend.isJumping = false;
+      friend.canDoubleJump = true;
+      await animationTicker?.completed;
+      animationTicker?.reset();
+      current = TrampolineState.idle;
+    }
   }
 }

@@ -13,8 +13,8 @@ class FlameMode extends ScreenControllerOption {
   FlameMode({required super.sendToOthers});
 
   late final PixelAdventure _game = PixelAdventure(
-      characterPlayer1: currentConfig.characterPlayer1,
-      characterPlayer2: currentConfig.characterPlayer1,
+      playerName: currentConfig.playerName,
+      friendName: currentConfig.playerName,
       level: currentConfig.level.split('').last);
 
   @override
@@ -50,7 +50,7 @@ class FlameMode extends ScreenControllerOption {
     if (kDebugMode) {
       print("Good  $d");
     }
-    _game.onJoyPad1DirectionChanged(d);
+    _game.onController1DirectionChanged(d);
   }
 
   @override

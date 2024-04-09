@@ -25,17 +25,17 @@ class _ScreenCharacterState extends State<ScreenCharacter> {
   void initState() {
     //will set the current character for the players
     //normally player 1 is always set, no need to verify
-    widget.characterPlayer1.value = currentConfig.characterPlayer1;
+    widget.characterPlayer1.value = currentConfig.playerName;
 
-    debugPrint('Player 2: ${currentConfig.characterPlayer2}');
+    debugPrint('Player 2: ${currentConfig.friendName}');
 
     //check if player 2 is null
-    if (currentConfig.characterPlayer2 == null) {
+    if (currentConfig.friendName == null) {
       //if it is null, set the value to an empty string
       widget.characterPlayer2.value = '';
     } else {
       //else, set the value to the current character
-      widget.characterPlayer2.value = currentConfig.characterPlayer2!;
+      widget.characterPlayer2.value = currentConfig.friendName!;
     }
     super.initState();
   }

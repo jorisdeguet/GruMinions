@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="160" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="274">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="160" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="326">
  <tileset firstgid="1" source="GameWithY.tsx"/>
  <layer id="1" name="Background" width="160" height="40">
   <properties>
@@ -109,10 +109,10 @@
   <object id="70" x="0" y="0" width="48" height="256"/>
   <object id="71" x="48.1646" y="223.907" width="176" height="32"/>
   <object id="72" x="224.056" y="240.014" width="16" height="16"/>
-  <object id="165" x="95.856" y="439.899" width="48" height="8"/>
  </objectgroup>
  <objectgroup id="3" name="StartingPoints">
-  <object id="20" name="Player1" type="Player1" x="111.937" y="407.776" width="32" height="32"/>
+  <object id="20" name="Player2" type="Player2" x="79.932" y="415.892" width="32" height="32"/>
+  <object id="273" name="Player1" type="Player1" x="127.974" y="415.892" width="32" height="32"/>
   <object id="60" name="Trampoline" type="Trampoline" x="2291.92" y="363.239" width="28" height="28"/>
   <object id="61" name="End" type="End" x="2448.1" y="479.98" width="64" height="64"/>
   <object id="73" name="Spikes" type="Spikes" x="320.112" y="479.972" width="16" height="16">
@@ -421,14 +421,14 @@
     <property name="offPos" type="float" value="0"/>
    </properties>
   </object>
-  <object id="88" name="Trunk" type="Trunk" x="1222.78" y="271.816" width="64" height="32">
+  <object id="88" name="Plant" type="Plant" x="1235.92" y="261.531" width="44" height="42">
    <properties>
     <property name="isFacingRight" type="bool" value="false"/>
     <property name="offNeg" type="float" value="32"/>
     <property name="offPos" type="float" value="0"/>
    </properties>
   </object>
-  <object id="163" name="Trunk" type="Trunk" x="2383.73" y="111.446" width="64" height="32">
+  <object id="163" name="Plant" type="Plant" x="2388.07" y="101.515" width="44" height="42">
    <properties>
     <property name="isFacingRight" type="bool" value="false"/>
     <property name="offNeg" type="float" value="26"/>
@@ -447,13 +447,13 @@
     <property name="offPos" type="float" value="3"/>
    </properties>
   </object>
-  <object id="141" name="Chicken" type="Chicken" x="1328.09" y="255.991" width="32" height="32">
+  <object id="141" name="Chicken" type="Chicken" x="1328.09" y="253.732" width="32" height="34">
    <properties>
     <property name="offNeg" type="float" value="0"/>
     <property name="offPos" type="float" value="14"/>
    </properties>
   </object>
-  <object id="162" name="Radish" type="Radish" x="2255.57" y="345.866" width="30" height="38">
+  <object id="162" name="Mushroom" type="Mushroom" x="2255.57" y="351.763" width="32" height="32">
    <properties>
     <property name="offNeg" type="float" value="8"/>
     <property name="offPos" type="float" value="0"/>
@@ -560,93 +560,77 @@
     <property name="isFacingUp" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="164" name="Start" type="Start" x="79.8969" y="383.957" width="64" height="64"/>
-  <object id="188" name="Trunk" type="Trunk" x="847.92" y="95.8512" width="64" height="32">
+  <object id="188" name="Plant" type="Plant" x="851.282" y="85.3435" width="44" height="42">
    <properties>
     <property name="isFacingRight" type="bool" value="true"/>
     <property name="offNeg" type="float" value="0"/>
     <property name="offPos" type="float" value="28"/>
    </properties>
   </object>
-  <object id="192" name="Radish" type="Radish" x="1167.89" y="425.505" width="30" height="38">
+  <object id="192" name="Mushroom" type="Mushroom" x="1167.97" y="431.763" width="32" height="32">
    <properties>
     <property name="offNeg" type="float" value="0"/>
     <property name="offPos" type="float" value="0"/>
    </properties>
   </object>
-  <object id="193" name="Radish" type="Radish" x="1248.04" y="473.679" width="30" height="38">
+  <object id="193" name="Mushroom" type="Mushroom" x="1247.83" y="479.9" width="32" height="32">
    <properties>
     <property name="offNeg" type="float" value="0"/>
     <property name="offPos" type="float" value="0"/>
    </properties>
   </object>
-  <object id="204" name="Coin" type="Coin" x="400.127" y="352.117" width="16" height="16"/>
-  <object id="218" name="Coin" type="Coin" x="511.758" y="271.994" width="16" height="16"/>
-  <object id="219" name="Coin" type="Coin" x="623.69" y="240.186" width="16" height="16"/>
-  <object id="220" name="Coin" type="Coin" x="735.921" y="223.681" width="16" height="16"/>
-  <object id="221" name="Coin" type="Coin" x="864.057" y="271.694" width="16" height="16"/>
-  <object id="222" name="Coin" type="Coin" x="960.384" y="271.694" width="16" height="16"/>
-  <object id="223" name="Coin" type="Coin" x="1055.81" y="271.994" width="16" height="16"/>
-  <object id="225" name="Coin" type="Coin" x="1008.1" y="351.817" width="16" height="16"/>
-  <object id="226" name="Coin" type="Coin" x="1087.92" y="383.926" width="16" height="16"/>
-  <object id="227" name="Coin" type="Coin" x="1487.9" y="448.055" width="16" height="16"/>
-  <object id="228" name="Coin" type="Coin" x="1568.08" y="399.971" width="16" height="16"/>
-  <object id="229" name="Coin" type="Coin" x="1648.06" y="352.232" width="16" height="16"/>
-  <object id="230" name="Coin" type="Coin" x="1648.06" y="303.943" width="16" height="16"/>
-  <object id="231" name="Coin" type="Coin" x="1648.06" y="255.655" width="16" height="16"/>
-  <object id="248" name="Coin" type="Coin" x="2224.05" y="111.822" width="16" height="16"/>
-  <object id="251" name="Coin" type="Coin" x="2160.16" y="159.902" width="16" height="16"/>
-  <object id="252" name="Coin" type="Coin" x="2176.13" y="176.038" width="16" height="16"/>
-  <object id="253" name="Coin" type="Coin" x="2160" y="192.01" width="16" height="16"/>
-  <object id="254" name="Coin" type="Coin" x="2176.13" y="207.82" width="16" height="16"/>
-  <object id="255" name="Coin" type="Coin" x="2160" y="223.955" width="16" height="16"/>
-  <object id="256" name="Coin" type="Coin" x="2175.97" y="240.09" width="16" height="16"/>
-  <object id="257" name="Coin" type="Coin" x="2160.16" y="256.063" width="16" height="16"/>
-  <object id="258" name="Coin" type="Coin" x="2175.97" y="272.198" width="16" height="16"/>
-  <object id="259" name="Coin" type="Coin" x="2160.16" y="288.007" width="16" height="16"/>
-  <object id="260" name="Coin" type="Coin" x="2175.97" y="304.143" width="16" height="16"/>
-  <object id="261" name="Coin" type="Coin" x="2160.16" y="320.115" width="16" height="16"/>
-  <object id="262" name="Coin" type="Coin" x="2176.13" y="336.087" width="16" height="16"/>
-  <object id="263" name="Coin" type="Coin" x="2296.25" y="239.764" width="16" height="16"/>
-  <object id="264" name="Coin" type="Coin" x="2296.09" y="175.875" width="16" height="16"/>
-  <object id="265" name="Coin" type="Coin" x="2296.25" y="111.822" width="16" height="16"/>
-  <object id="266" name="Coin" type="Coin" x="2416.12" y="79.6007" width="16" height="16"/>
-  <object id="267" name="Coin" type="Coin" x="2463.81" y="207.914" width="16" height="16"/>
-  <object id="268" name="Coin" type="Coin" x="2479.93" y="223.944" width="16" height="16"/>
-  <object id="270" name="Coin" type="Coin" x="2480.03" y="255.906" width="16" height="16"/>
-  <object id="271" name="Coin" type="Coin" x="2464" y="271.935" width="16" height="16"/>
-  <object id="272" name="Coin" type="Coin" x="2479.84" y="287.867" width="16" height="16"/>
-  <object id="269" name="Coin" type="Coin" x="2464" y="240.072" width="16" height="16"/>
-  <object id="249" name="Coin" type="Coin" x="2224.05" y="79.8777" width="16" height="16"/>
-  <object id="250" name="Coin" type="Coin" x="2223.89" y="47.933" width="16" height="16"/>
-  <object id="232" name="Coin" type="Coin" x="1567.66" y="207.842" width="16" height="16"/>
-  <object id="233" name="Coin" type="Coin" x="1519.84" y="160.029" width="16" height="16"/>
-  <object id="234" name="Coin" type="Coin" x="1472.03" y="111.741" width="16" height="16"/>
-  <object id="245" name="Coin" type="Coin" x="1408.16" y="255.955" width="16" height="16"/>
-  <object id="247" name="Coin" type="Coin" x="1472.11" y="223.782" width="16" height="16"/>
-  <object id="246" name="Coin" type="Coin" x="1359.83" y="207.897" width="16" height="16"/>
-  <object id="235" name="Coin" type="Coin" x="1391.87" y="79.8657" width="16" height="16"/>
-  <object id="236" name="Coin" type="Coin" x="1296.01" y="95.9564" width="16" height="16"/>
-  <object id="237" name="Coin" type="Coin" x="1151.96" y="63.9455" width="16" height="16"/>
-  <object id="240" name="Coin" type="Coin" x="1104.03" y="96.0416" width="16" height="16"/>
-  <object id="241" name="Coin" type="Coin" x="1055.87" y="95.8934" width="16" height="16"/>
-  <object id="242" name="Coin" type="Coin" x="1007.84" y="95.8934" width="16" height="16"/>
-  <object id="243" name="Coin" type="Coin" x="960.094" y="96.0018" width="16" height="16"/>
-  <object id="244" name="Coin" type="Coin" x="864.011" y="64.0445" width="16" height="16"/>
-  <object id="238" name="Coin" type="Coin" x="1247.99" y="96.0414" width="16" height="16"/>
-  <object id="239" name="Coin" type="Coin" x="1199.8" y="95.9565" width="16" height="16"/>
-  <object id="224" name="Coin" type="Coin" x="1151.84" y="271.694" width="16" height="16"/>
-  <object id="216" name="Coin" type="Coin" x="320.019" y="271.826" width="16" height="16"/>
-  <object id="206" name="Coin" type="Coin" x="79.8941" y="159.877" width="16" height="16"/>
-  <object id="207" name="Coin" type="Coin" x="96.0229" y="191.903" width="16" height="16"/>
-  <object id="208" name="Coin" type="Coin" x="112.035" y="160.001" width="16" height="16"/>
-  <object id="209" name="Coin" type="Coin" x="127.924" y="191.779" width="16" height="16"/>
-  <object id="210" name="Coin" type="Coin" x="143.936" y="160.001" width="16" height="16"/>
-  <object id="211" name="Coin" type="Coin" x="159.949" y="192.026" width="16" height="16"/>
-  <object id="212" name="Coin" type="Coin" x="175.961" y="159.878" width="16" height="16"/>
-  <object id="213" name="Coin" type="Coin" x="159.825" y="127.977" width="16" height="16"/>
-  <object id="214" name="Coin" type="Coin" x="127.801" y="127.854" width="16" height="16"/>
-  <object id="215" name="Coin" type="Coin" x="95.8997" y="127.854" width="16" height="16"/>
-  <object id="273" name="Player2" type="Player2" x="159.925" y="415.884" width="32" height="32"/>
+  <object id="216" name="Apple" type="Fruit" x="320.019" y="271.826" width="32" height="32"/>
+  <object id="275" name="Apple" type="Fruit" x="63.7704" y="191.86" width="32" height="32"/>
+  <object id="278" name="Apple" type="Fruit" x="80.1023" y="143.728" width="32" height="32"/>
+  <object id="279" name="Apple" type="Fruit" x="143.701" y="143.69" width="32" height="32"/>
+  <object id="276" name="Apple" type="Fruit" x="111.932" y="191.814" width="32" height="32"/>
+  <object id="277" name="Apple" type="Fruit" x="159.944" y="191.814" width="32" height="32"/>
+  <object id="274" name="Apple" type="Fruit" x="399.528" y="366.783" width="32" height="32"/>
+  <object id="280" name="Apple" type="Fruit" x="512.12" y="271.664" width="32" height="32"/>
+  <object id="281" name="Apple" type="Fruit" x="608.311" y="239.736" width="32" height="32"/>
+  <object id="282" name="Apple" type="Fruit" x="719.522" y="208.053" width="32" height="32"/>
+  <object id="283" name="Orange" type="Fruit" x="855.443" y="256.052" width="32" height="32"/>
+  <object id="284" name="Orange" type="Fruit" x="951.71" y="255.949" width="32" height="32"/>
+  <object id="287" name="Pineapple" type="Fruit" x="999.372" y="351.821" width="32" height="32"/>
+  <object id="288" name="Pineapple" type="Fruit" x="1079.68" y="383.726" width="32" height="32"/>
+  <object id="285" name="Orange" type="Fruit" x="1047.55" y="255.949" width="32" height="32"/>
+  <object id="286" name="Orange" type="Fruit" x="1143.1" y="255.88" width="32" height="32"/>
+  <object id="289" name="Orange" type="Fruit" x="1479.69" y="447.892" width="32" height="32"/>
+  <object id="290" name="Orange" type="Fruit" x="1559.97" y="399.525" width="32" height="32"/>
+  <object id="291" name="Orange" type="Fruit" x="1640.5" y="351.763" width="32" height="32"/>
+  <object id="292" name="Orange" type="Fruit" x="1639.84" y="303.655" width="32" height="32"/>
+  <object id="293" name="Orange" type="Fruit" x="1639.4" y="255.766" width="32" height="32"/>
+  <object id="294" name="Orange" type="Fruit" x="1559.44" y="207.657" width="32" height="32"/>
+  <object id="295" name="Orange" type="Fruit" x="1511.55" y="159.549" width="32" height="32"/>
+  <object id="296" name="Orange" type="Fruit" x="1463.88" y="111.44" width="32" height="32"/>
+  <object id="297" name="Orange" type="Fruit" x="1383.9" y="79.3487" width="32" height="32"/>
+  <object id="298" name="Cherries" type="Fruit" x="1343.18" y="207.235" width="32" height="32"/>
+  <object id="301" name="Cherries" type="Fruit" x="1279.95" y="95.6338" width="32" height="32"/>
+  <object id="302" name="Cherries" type="Fruit" x="1232.06" y="95.9176" width="32" height="32"/>
+  <object id="303" name="Cherries" type="Fruit" x="1183.69" y="95.6338" width="32" height="32"/>
+  <object id="304" name="Cherries" type="Fruit" x="1055.49" y="47.2982" width="32" height="32"/>
+  <object id="305" name="Cherries" type="Fruit" x="880.222" y="47.7185" width="32" height="32"/>
+  <object id="299" name="Cherries" type="Fruit" x="1407.84" y="255.611" width="32" height="32"/>
+  <object id="300" name="Cherries" type="Fruit" x="1455.74" y="208.192" width="32" height="32"/>
+  <object id="306" name="Kiwi" type="Fruit" x="2159.46" y="111.455" width="32" height="32"/>
+  <object id="323" name="Apple" type="Fruit" x="2215.66" y="111.455" width="32" height="32"/>
+  <object id="324" name="Apple" type="Fruit" x="2215.66" y="47.6998" width="32" height="32"/>
+  <object id="325" name="Pineapple" type="Fruit" x="2215.66" y="79.8568" width="32" height="32"/>
+  <object id="309" name="Kiwi" type="Fruit" x="2159.77" y="207.975" width="32" height="32"/>
+  <object id="311" name="Kiwi" type="Fruit" x="2159.77" y="303.565" width="32" height="32"/>
+  <object id="307" name="Kiwi" type="Fruit" x="2159.77" y="159.87" width="32" height="32"/>
+  <object id="308" name="Kiwi" type="Fruit" x="2160.08" y="256.391" width="32" height="32"/>
+  <object id="312" name="Bananas" type="Fruit" x="2287.94" y="239.322" width="32" height="32"/>
+  <object id="313" name="Bananas" type="Fruit" x="2287.63" y="175.698" width="32" height="32"/>
+  <object id="314" name="Bananas" type="Fruit" x="2287.63" y="112.075" width="32" height="32"/>
+  <object id="315" name="Bananas" type="Fruit" x="2399.67" y="63.6597" width="32" height="32"/>
+  <object id="316" name="Bananas" type="Fruit" x="2464.23" y="111.765" width="32" height="32"/>
+  <object id="319" name="Bananas" type="Fruit" x="2463.92" y="208.286" width="32" height="32"/>
+  <object id="321" name="Bananas" type="Fruit" x="2463.92" y="303.876" width="32" height="32"/>
+  <object id="322" name="Bananas" type="Fruit" x="2463.92" y="399.776" width="32" height="32"/>
+  <object id="317" name="Orange" type="Fruit" x="2463.92" y="159.87" width="32" height="32"/>
+  <object id="318" name="Orange" type="Fruit" x="2463.61" y="256.391" width="32" height="32"/>
+  <object id="320" name="Orange" type="Fruit" x="2463.61" y="351.981" width="32" height="32"/>
+  <object id="310" name="Kiwi" type="Fruit" x="2160.08" y="351.981" width="32" height="32"/>
  </objectgroup>
 </map>

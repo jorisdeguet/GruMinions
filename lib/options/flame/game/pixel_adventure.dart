@@ -7,6 +7,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import '../components/friend.dart';
 import '../helpers/direction.dart';
 import '../helpers/jump_button.dart';
 import '../components/player.dart';
@@ -15,11 +16,11 @@ import '../components/level.dart';
 
 
 class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection, TapCallbacks{
-  final String characterPlayer1;
-  final String? characterPlayer2;
+  final String playerName;
+  final String? friendName;
   final String level;
   
-  PixelAdventure({required this.characterPlayer1, this.characterPlayer2, required this.level});
+  PixelAdventure({required this.playerName, this.friendName, required this.level});
 
   //Final variables
   final ValueNotifier<int> score = ValueNotifier(0);
@@ -29,8 +30,8 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
   //Late variables
   late JoystickComponent joystick;
   late CameraComponent cam;
-  late Player player1 = Player(character: characterPlayer1);
-  late Player? player2 = Player(character: characterPlayer2!);
+  late Player player = Player(character: playerName);
+  late Friend? friend = friendName != null ? Friend(character: friendName!) : null;
   late Level worldMap;
   late Timer interval;
   late int indexCurrentLevel;
@@ -73,8 +74,12 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
     super.update(dt);
   }
 
-  void onJoyPad1DirectionChanged(Direction direction) {
-    player1.direction = direction;
+  void onController1DirectionChanged(Direction direction) {
+    player.direction = direction;
+  }
+
+  void onController2DirectionChanged(Direction direction) {
+    friend!.direction = direction;
   }
 
   void addJoyStick() {
@@ -100,15 +105,15 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
       case JoystickDirection.left:
       case JoystickDirection.upLeft:
       case JoystickDirection.downLeft:
-        player1.directionX = -1;
+        player.directionX = -1;
         break;
       case JoystickDirection.right:
       case JoystickDirection.upRight:
       case JoystickDirection.downRight:
-        player1.directionX = 1;
+        player.directionX = 1;
         break;
       default:
-        player1.directionX = 0;
+        player.directionX = 0;
         break;
     }
   }
@@ -152,7 +157,9 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
   void _loadLevel() {
     score.value = 0;
     time.value = 0;
-    player1.life.value = 100;
+    player.life.value = 3;
+    friend?.life.value = 3;
+
     interval = Timer(
       1,
       onTick: () => time.value += 1,
@@ -161,12 +168,12 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
     currentLevel = _levels[indexCurrentLevel];
 
     Future.delayed(const Duration(seconds: 1), () {
-      debugPrint('Player 2 is here ${player2!.character}');
+      debugPrint('Player 2 is here ${friend!.character}');
 
       worldMap = Level(
           levelName: '$currentLevel.tmx',
-          player1: player1,
-          player2: player1,
+          player: player,
+          friend: friend,
       );
 
       cam = CameraComponent.withFixedResolution(
@@ -176,7 +183,7 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
       );
       cam.viewfinder.anchor = Anchor.center;
       addAll([cam, worldMap]);
-      cam.follow(player1);
+      cam.follow(player);
     });
   }
 }

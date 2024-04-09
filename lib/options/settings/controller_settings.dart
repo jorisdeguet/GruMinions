@@ -22,10 +22,10 @@ class _ControllerSettingsState extends State<ControllerSettings> {
   @override
   void initState() {
     if (id == 1) {
-      myCharacter = currentConfig.characterPlayer1;
+      myCharacter = currentConfig.playerName;
       playerColor = const Color(0xff30acd9);
     } else if (id == 2) {
-      myCharacter = currentConfig.characterPlayer2!;
+      myCharacter = currentConfig.friendName!;
       playerColor = const Color(0xffcc3048);
     }
     super.initState();

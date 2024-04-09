@@ -62,7 +62,7 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                       width: 100,
                       height: 100,
                       child: SpriteAnimationWidget.asset(
-                        path: "Main Characters/${currentConfig.characterPlayer1}/Idle (32x32).png",
+                        path: "Main Characters/${currentConfig.playerName}/Idle (32x32).png",
                         //player 1's character
                         data: SpriteAnimationData.sequenced(
                           amount: 11,
@@ -93,7 +93,7 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                     const SizedBox(
                       height: 40,
                     ),
-                    currentConfig.characterPlayer2 == null
+                    currentConfig.friendName == null
                     ? const WaitingSettings()
                     : Center(
                       child: Column(
@@ -112,7 +112,7 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                             width: 100,
                             height: 100,
                             child: SpriteAnimationWidget.asset(
-                              path: "Main Characters/${currentConfig.characterPlayer2}/Idle (32x32).png",
+                              path: "Main Characters/${currentConfig.friendName}/Idle (32x32).png",
                               //player 1's character
                               data: SpriteAnimationData.sequenced(
                                 amount: 11,

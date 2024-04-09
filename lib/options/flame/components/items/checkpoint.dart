@@ -4,6 +4,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
 import '../../game/pixel_adventure.dart';
+import '../friend.dart';
 import '../player.dart';
 
 class Checkpoint extends SpriteAnimationComponent with HasGameRef<PixelAdventure>, CollisionCallbacks {
@@ -32,8 +33,10 @@ class Checkpoint extends SpriteAnimationComponent with HasGameRef<PixelAdventure
   }
 
   @override
-  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if(other is Player && !reachedCheckpoint) _reachedCheckpoint();
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is Player && !reachedCheckpoint) _reachedCheckpoint();
+    if (other is Friend && !reachedCheckpoint) _reachedCheckpoint();
     super.onCollisionStart(intersectionPoints, other);
   }
 

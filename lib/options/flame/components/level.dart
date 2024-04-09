@@ -3,37 +3,37 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/services.dart';
 import '../components/enemies/plant.dart';
 import '../components/traps/fire.dart';
 import '../helpers/background_tile.dart';
 import '../components/enemies/mushroom.dart';
-import '../components/enemies/rino.dart';
 import '../components/enemies/slime.dart';
 import '../components/items/end.dart';
-import '../components/items/start.dart';
 import '../components/player.dart';
 import '../components/traps/saw.dart';
 import '../components/traps/spikes.dart';
 import '../components/traps/trampoline.dart';
 import '../game/pixel_adventure.dart';
 
-import 'enemies/angryPig.dart';
-import 'enemies/radish.dart';
-import 'enemies/trunk.dart';
+import 'friend.dart';
 import 'items/checkpoint.dart';
 import '../helpers/collisions_block.dart';
 import 'enemies/chicken.dart';
-import 'items/coin.dart';
 import 'items/fruit.dart';
 
-class Level extends World with HasGameRef<PixelAdventure> {
-  Level({required this.levelName, required this.player1, required this.player2});
-
+class Level extends World with KeyboardHandler, HasGameRef<PixelAdventure> {
   final String levelName;
-  final Player player1;
-  final Player player2;
-  List<CollisionBlock> collisionBlocks = [];
+  final Player player;
+  final Friend? friend;
 
+  Level({
+    required this.levelName,
+    required this.player,
+    this.friend,
+  });
+
+  List<CollisionBlock> collisionBlocks = [];
   late TiledComponent level;
 
   @override
@@ -46,7 +46,53 @@ class Level extends World with HasGameRef<PixelAdventure> {
     _addCollisions();
     _setupCamera();
 
+    //player 2 can be null, so we need to check
+    //if player 2 is not null we set the friend position
+    if (friend != null) _setFriendPosition();
+
     return super.onLoad();
+  }
+
+  @override
+  void update(double dt) {
+    //update camera position
+    //depending on the number of players
+    if (friend != null) {
+      if (player.position.x > friend!.position.x) {
+        game.cam.follow(player);
+      } else if (player.position.x < friend!.position.x) {
+        game.cam.follow(friend!);
+      }
+    }
+    super.update(dt);
+  }
+
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    //Player 1 is never null, so no need to check
+    player.directionX = 0;
+
+    final isKeyLeftPressed = keysPressed.contains(LogicalKeyboardKey.arrowLeft);
+    final isKeyRightPressed =
+    keysPressed.contains(LogicalKeyboardKey.arrowRight);
+
+    player.directionX = isKeyLeftPressed ? -1 : 0;
+    player.directionX += isKeyRightPressed ? 1 : 0;
+    player.isJumping = keysPressed.contains(LogicalKeyboardKey.arrowUp);
+
+    //Player 2 can be null, so we need to check
+    //if it is not null, we set the direction
+    if (friend != null) {
+      friend!.directionX = 0;
+
+      final isKeyLeftPressed2 = keysPressed.contains(LogicalKeyboardKey.keyA);
+      final isKeyRightPressed2 = keysPressed.contains(LogicalKeyboardKey.keyD);
+
+      friend!.directionX = isKeyLeftPressed2 ? -1 : 0;
+      friend!.directionX += isKeyRightPressed2 ? 1 : 0;
+      friend!.isJumping = keysPressed.contains(LogicalKeyboardKey.keyW);
+    }
+
+    return super.onKeyEvent(event, keysPressed);
   }
 
   void _scrollBackground() {
@@ -54,7 +100,7 @@ class Level extends World with HasGameRef<PixelAdventure> {
 
     if (backgroundLayer != null) {
       final backgroundColor =
-          backgroundLayer.properties.getValue('BackgroundColor');
+      backgroundLayer.properties.getValue('BackgroundColor');
       final backgroundTile = BackgroundTile(
         color: backgroundColor ?? 'Gray',
         position: Vector2(0, 0),
@@ -64,34 +110,19 @@ class Level extends World with HasGameRef<PixelAdventure> {
   }
 
   void _setObjectsPosition() {
-    final startPointLayer =
-        level.tileMap.getLayer<ObjectGroup>('StartingPoints');
+    final startingPoints =
+    level.tileMap.getLayer<ObjectGroup>('StartingPoints');
 
-    if (startPointLayer != null) {
-      for (final spawnPoint in startPointLayer.objects) {
+    if (startingPoints != null) {
+      for (final spawnPoint in startingPoints.objects) {
         switch (spawnPoint.class_) {
           case 'Player1':
-            player1.position = Vector2(
+            player.position = Vector2(
                 spawnPoint.x, spawnPoint.y); //set player starting position
-            player1.revivePosition = Vector2(
+            player.revivePosition = Vector2(
                 spawnPoint.x, spawnPoint.y); //set player revive position
-            player1.scale.x = 1;
-            add(player1);
-            break;
-          case 'Player2':
-            player2!.position = Vector2(
-                spawnPoint.x, spawnPoint.y); //set player starting position
-            player2!.revivePosition = Vector2(
-                spawnPoint.x, spawnPoint.y); //set player revive position
-            player2!.scale.x = 1;
-            add(player2!);
-            break;
-          case 'Start':
-            final start = Start(
-              position: Vector2(spawnPoint.x, spawnPoint.y),
-              size: Vector2(spawnPoint.width, spawnPoint.height),
-            );
-            add(start);
+            player.scale.x = 1;
+            add(player);
             break;
           case 'Checkpoint':
             final checkpoint = Checkpoint(
@@ -113,13 +144,6 @@ class Level extends World with HasGameRef<PixelAdventure> {
               size: Vector2(spawnPoint.width, spawnPoint.height),
             );
             add(fruit);
-            break;
-          case 'Coin':
-            final coin = Coin(
-              position: Vector2(spawnPoint.x, spawnPoint.y),
-              size: Vector2(spawnPoint.width, spawnPoint.height),
-            );
-            add(coin);
             break;
           case 'Saw':
             final saw = Saw(
@@ -174,24 +198,6 @@ class Level extends World with HasGameRef<PixelAdventure> {
             );
             add(mushroom);
             break;
-          case 'Radish':
-            final radish = Radish(
-              position: Vector2(spawnPoint.x, spawnPoint.y),
-              size: Vector2(spawnPoint.width, spawnPoint.height),
-              offNeg: spawnPoint.properties.getValue('offNeg'),
-              offPos: spawnPoint.properties.getValue('offPos'),
-            );
-            add(radish);
-            break;
-          case 'Rino':
-            final rino = Rino(
-              position: Vector2(spawnPoint.x, spawnPoint.y),
-              size: Vector2(spawnPoint.width, spawnPoint.height),
-              offNeg: spawnPoint.properties.getValue('offNeg'),
-              offPos: spawnPoint.properties.getValue('offPos'),
-            );
-            add(rino);
-            break;
           case 'Slime':
             final slime = Slime(
               position: Vector2(spawnPoint.x, spawnPoint.y),
@@ -200,15 +206,6 @@ class Level extends World with HasGameRef<PixelAdventure> {
               offPos: spawnPoint.properties.getValue('offPos'),
             );
             add(slime);
-            break;
-          case 'AngryPig':
-            final angryPig = AngryPig(
-              position: Vector2(spawnPoint.x, spawnPoint.y),
-              size: Vector2(spawnPoint.width, spawnPoint.height),
-              offNeg: spawnPoint.properties.getValue('offNeg'),
-              offPos: spawnPoint.properties.getValue('offPos'),
-            );
-            add(angryPig);
             break;
           case 'Plant':
             final plant = Plant(
@@ -220,15 +217,24 @@ class Level extends World with HasGameRef<PixelAdventure> {
             );
             add(plant);
             break;
-          case 'Trunk':
-            final trunk = Trunk(
-              position: Vector2(spawnPoint.x, spawnPoint.y),
-              size: Vector2(spawnPoint.width, spawnPoint.height),
-              offNeg: spawnPoint.properties.getValue('offNeg'),
-              offPos: spawnPoint.properties.getValue('offPos'),
-              isFacingRight: spawnPoint.properties.getValue('isFacingRight'),
-            );
-            add(trunk);
+          default:
+        }
+      }
+    }
+  }
+
+  void _setFriendPosition() {
+    final startingPoints =
+    level.tileMap.getLayer<ObjectGroup>('StartingPoints');
+
+    if (startingPoints != null) {
+      for (final spawnPoint in startingPoints.objects) {
+        switch (spawnPoint.class_) {
+          case 'Player2':
+            friend!.position = Vector2(
+                spawnPoint.x, spawnPoint.y); //set player starting position
+            friend!.scale.x = 1;
+            add(friend!);
             break;
           default:
         }
@@ -260,7 +266,10 @@ class Level extends World with HasGameRef<PixelAdventure> {
         }
       }
     }
-    player1.collisions = collisionBlocks;
+    player.collisions = collisionBlocks;
+
+    //Player 2 can be null, so we need to check
+    if (friend != null) friend!.collisions = collisionBlocks;
   }
 
   void _setupCamera() {
@@ -275,6 +284,22 @@ class Level extends World with HasGameRef<PixelAdventure> {
       right,
       bottom,
     ));
+  }
+
+  void _gameOver() {
+    game.cam.stop();
+    game.interval.stop();
+
+    const duration = Duration(milliseconds: 350);
+    Future.delayed(duration, () {
+      game.player.reachedCheckpoint = false;
+      game.friend!.reachedCheckpoint = false;
+      game.player.isDead = false;
+      game.friend!.isDead = false;
+
+      const waitToChangeDuration = Duration(seconds: 2);
+      Future.delayed(waitToChangeDuration, () => {game.overlays.add('End')});
+    });
   }
 
   Vector2 get size => Vector2(

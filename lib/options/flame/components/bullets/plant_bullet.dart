@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import '../../game/pixel_adventure.dart';
+import '../friend.dart';
 import '../player.dart';
 
 enum PlantBulletState { bullet, bulletPieces }
@@ -12,10 +14,10 @@ class PlantBullet extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure>, CollisionCallbacks {
   PlantBullet(
       {this.offNeg = 0,
-      this.offPos = 0,
-      this.isFacingRight = false,
-      super.position,
-      super.size});
+        this.offPos = 0,
+        this.isFacingRight = false,
+        super.position,
+        super.size});
 
   //Final variables
   final double offNeg;
@@ -36,10 +38,12 @@ class PlantBullet extends SpriteAnimationGroupComponent
 
   //Late variables
   late Player player;
+  late Friend? friend;
 
   @override
   FutureOr<void> onLoad() {
-    player = game.player1;
+    player = game.player;
+    friend = game.friend != null ? game.friend : null;
     _direction = isFacingRight ? 1 : -1;
     add(CircleHitbox(
       radius: 6,
@@ -93,6 +97,7 @@ class PlantBullet extends SpriteAnimationGroupComponent
 
   void collideWithPlayer() async {
     if (player.velocity.y > 0 && player.y + player.height > position.y) {
+      if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
       current = PlantBulletState.bulletPieces;
       player.velocity.y = -bounceHeight;
       await animationTicker?.completed;
@@ -103,4 +108,21 @@ class PlantBullet extends SpriteAnimationGroupComponent
       removeFromParent();
     }
   }
+
+  void collideWithFriend() async {
+    if (friend == null) return;
+
+    if (friend!.velocity.y > 0 && friend!.y + friend!.height > position.y) {
+      if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
+      current = PlantBulletState.bulletPieces;
+      friend!.velocity.y = -bounceHeight;
+      await animationTicker?.completed;
+      removeFromParent();
+      game.score.value += 2;
+    } else {
+      friend!.collideWithEnemy();
+      removeFromParent();
+    }
+  }
+
 }
