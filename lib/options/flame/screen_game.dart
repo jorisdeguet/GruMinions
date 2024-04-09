@@ -12,10 +12,8 @@ import 'game/pixel_adventure.dart';
 class ScreenGame extends StatefulWidget {
   @override
   State<ScreenGame> createState() => _ScreenGameState();
-
-  const ScreenGame({super.key, required this.game});
-
   final PixelAdventure game;
+  const ScreenGame({super.key, required this.game});
 }
 
 class _ScreenGameState extends State<ScreenGame> {
@@ -39,7 +37,7 @@ class _ScreenGameState extends State<ScreenGame> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    LifeBar(life: widget.game.player.life, game: widget.game),
+                    LifeBar(game: widget.game),
                     Padding(
                       padding: const EdgeInsets.only(right: 20.0),
                       //remove for game release

@@ -58,7 +58,7 @@ class Friend extends SpriteAnimationGroupComponent
   final double _jumpForce = 320;
   final double _terminalVelocity = 300;
   final double stepTime = 0.05;
-  final ValueNotifier<double> life = ValueNotifier(100.0);
+  final ValueNotifier<double> life = ValueNotifier(3.0);
   final style = TextPaint(
     style: GoogleFonts.pixelifySans(
       textStyle: const TextStyle(

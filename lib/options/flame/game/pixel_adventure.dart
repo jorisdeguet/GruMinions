@@ -25,7 +25,6 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
   //Final variables
   final ValueNotifier<int> score = ValueNotifier(0);
   final ValueNotifier<int> time = ValueNotifier(0);
-  final ValueNotifier<double> life = ValueNotifier(0);
 
   //Late variables
   late JoystickComponent joystick;

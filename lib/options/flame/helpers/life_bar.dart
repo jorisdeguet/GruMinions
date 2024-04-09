@@ -1,23 +1,33 @@
+import 'package:flame/components.dart';
+import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gru_minions/comm/message.dart';
 
 import '../game/pixel_adventure.dart';
 
 class LifeBar extends StatelessWidget {
+  final PixelAdventure game;
+
   const LifeBar({
     super.key,
-    required this.life,
     required this.game,
   });
 
-  //Final variables
-  final ValueNotifier<double> life;
-  final PixelAdventure game;
-
-  Color getLifeBarColor() {
-    if (life.value >= 60) {
+  Color getPlayerLifeColor() {
+    if (game.player.life.value >= 60) {
       return Colors.green;
-    } else if (life.value >= 40) {
+    } else if (game.player.life.value >= 40) {
+      return Colors.yellow;
+    } else {
+      return Colors.red;
+    }
+  }
+
+  Color getFriendLifeColor() {
+    if (game.friend!.life.value >= 60) {
+      return Colors.green;
+    } else if (game.friend!.life.value >= 40) {
       return Colors.yellow;
     } else {
       return Colors.red;
@@ -27,65 +37,104 @@ class LifeBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<double>(
-      valueListenable: life,
-      builder: (context, score, child) {
-        return Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: InkWell(
+        valueListenable: game.player.life,
+        builder: (context, score, child) {
+          return Row(
+            children: [
+              InkWell(
                 onTap: () {
                   game.pauseEngine();
                   game.overlays.add('Menu');
                 },
                 child: Container(
-                    width: 40,
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: SpriteAnimationWidget.asset(
+                    path: 'Menu/Buttons/Settings.png',
+                    //running
+                    data: SpriteAnimationData.sequenced(
+                      amount: 1,
+                      stepTime: 1,
+                      textureSize: Vector2(21, 22),
+                      loop: true,
                     ),
-                    child: const Icon(
-                      Icons.menu,
-                      color: Color(0xFF211F30),
-                    )),
+                  ),
+                ),
               ),
-            ),
-            Container(
-              width: 400.0,
-              height: 40.0,
-              decoration: BoxDecoration(
-                color: Colors.grey[800],
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Stack(
+              Row(
                 children: [
-                  FractionallySizedBox(
-                    widthFactor: life.value / 100,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: getLifeBarColor(),
-                        borderRadius: BorderRadius.circular(10.0),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: SpriteAnimationWidget.asset(
+                      path:
+                          'Main Characters/${currentConfig.playerName}/Idle (32x32).png',
+                      //running
+                      data: SpriteAnimationData.sequenced(
+                        amount: 11,
+                        stepTime: 0.05,
+                        textureSize: Vector2(32, 32),
+                        loop: true,
                       ),
                     ),
                   ),
-                  Center(
-                    child: Text(
-                      '${(life.value).toInt()}%',
-                      style: GoogleFonts.pixelifySans(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w200,
-                        fontStyle: FontStyle.normal,
-                      ),
+                  Text(
+                    'X ${game.player.life.value.toInt()}',
+                    style: GoogleFonts.pixelifySans(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w200,
+                      fontStyle: FontStyle.normal,
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        );
-      },
-    );
+              game.friend != null
+                  ? ValueListenableBuilder<double>(
+                      valueListenable: game.friend!.life,
+                      builder: (context, score, child) {
+                        return Row(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: SpriteAnimationWidget.asset(
+                                path:
+                                    'Main Characters/${currentConfig.friendName}/Idle (32x32).png',
+                                //running
+                                data: SpriteAnimationData.sequenced(
+                                  amount: 11,
+                                  stepTime: 0.05,
+                                  textureSize: Vector2(32, 32),
+                                  loop: true,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'X ${game.friend!.life.value.toInt()}',
+                              style: GoogleFonts.pixelifySans(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w200,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    )
+                  : Container(),
+            ],
+          );
+        });
   }
 }
