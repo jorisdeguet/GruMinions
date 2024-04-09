@@ -51,9 +51,6 @@ class BoxSmasherMode extends GruMinionMode {
           if (parts[1] == 'ButtonA') {
             if (_gameA.overlays.activeOverlays.isEmpty) {
               _gameA.onAButtonPressed(Pressed);
-            }
-            if (parts[2] == 'VerifyScore') {
-              //Verify the score
               if (_gameA.score >= 100) {
                 _gameA.winning();
                 _gameB.losing();
@@ -68,9 +65,6 @@ class BoxSmasherMode extends GruMinionMode {
           if (parts[1] == 'ButtonA') {
             if (_gameB.overlays.activeOverlays.isEmpty) {
               _gameB.onAButtonPressed(Pressed);
-            }
-            if (parts[2] == 'VerifyScore') {
-              //Verify the score
               if (_gameB.score >= 100) {
                 _gameB.winning();
                 _gameA.losing();

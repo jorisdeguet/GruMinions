@@ -13,7 +13,7 @@ class BugCatcherBug extends SpriteAnimationComponent with CollisionCallbacks, Ha
   // Animation speed
   final double _animationSpeed = 0.1;
   // Bug speed
-  final double _bugSpeed = 0.5;
+  final double _bugSpeed = 1.0;
   // Map
   late final TiledComponent<FlameGame<World>> _map;
   // Bug type
@@ -48,8 +48,8 @@ class BugCatcherBug extends SpriteAnimationComponent with CollisionCallbacks, Ha
 
     // Set the bounds at the end of map on X Axis
     maxX = position.x.toInt() + 150;
-    if(maxX > (_map.tileMap.map.width * 16) - 10){
-      while(maxX > (_map.tileMap.map.width * 16) - 10){
+    if(maxX > (_map.tileMap.map.width * 16) - 20){
+      while(maxX > (_map.tileMap.map.width * 16) - 20){
         maxX--;
       }
     }
@@ -64,8 +64,8 @@ class BugCatcherBug extends SpriteAnimationComponent with CollisionCallbacks, Ha
 
     //Set the bounds at the start of map on X Axis
     minX = position.x.toInt() - 150;
-    if(minX < 0 + 10){
-      while(minX < 0 + 10){
+    if(minX < 0 + 20){
+      while(minX < 0 + 20){
         minX++;
       }
     }

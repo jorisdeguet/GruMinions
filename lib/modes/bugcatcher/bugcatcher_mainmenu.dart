@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/bugcatcher/bugcatcher_game.dart';
 import 'package:gru_minions/modes/bugcatcher/bugcatcher_screen_page.dart';
 
+import 'overlays/instructions.dart';
+
 class BugCatcherMainMenuPage extends StatefulWidget {
   final Function send;
   late BugCatcherGame gameA;

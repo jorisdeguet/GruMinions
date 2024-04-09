@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/base-mode.dart';
 import 'package:gru_minions/modes/bugcatcher/bugcatcher_mainmenu.dart';
+import 'package:gru_minions/modes/bugcatcher/overlays/instructions.dart';
 
 import 'bugcatcher/bugcatcher_game.dart';
 import 'bugcatcher/bugcatcher_gru_game_page.dart';
@@ -52,6 +53,10 @@ class BugCatcherMode extends GruMinionMode {
           if (parts[1] == 'ButtonA') {
             if(gameA.overlays.activeOverlays.isEmpty){
               gameA.onAButtonPressed(Pressed);
+            } else if (gameA.overlays.activeOverlays.contains(Instructions.iD)){
+              gameA.overlays.remove(Instructions.iD);
+              gameA.interval.start();
+              gameA.resumeEngine();
             }
 
           } else if (parts[1] == 'ButtonB') {

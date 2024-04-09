@@ -158,9 +158,6 @@ class BoxSmasherGame extends FlameGame with HasCollisionDetection {
   @override
   void update(double dt) {
     super.update(dt);
-    if(score >= 100){
-
-    }
   }
 
   void onAButtonPressed(bool pressed) {

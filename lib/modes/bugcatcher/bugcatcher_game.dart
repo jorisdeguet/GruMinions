@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flame/cache.dart';
 import 'package:flame/camera.dart';
+import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/timer.dart';
@@ -17,7 +18,7 @@ import 'helpers/bugcatcher_direction.dart';
 import 'overlays/game_over.dart';
 import 'overlays/instructions.dart';
 
-class BugCatcherGame extends FlameGame with HasCollisionDetection{
+class BugCatcherGame extends FlameGame with HasCollisionDetection, HasGameRef<FlameGame<World>>{
   @override
   set images(Images images) {
 
@@ -56,9 +57,7 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
     super.onLoad();
     resumeEngine();
     overlays.add(Instructions.iD);
-
-    final mapNumber = Random().nextInt(2) + 1;
-    final map = await TiledComponent.load('BugCatcherScenario_${mapNumber}_1.tmx', Vector2.all(16));
+    final map = await TiledComponent.load('BugCatcherScenario_1_1.tmx', Vector2.all(16));
     await loadObjects(map);
   }
 
@@ -92,15 +91,11 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
   //#endregion
 
   Future<void> resetGame() async {
-    if(count == numberOfBugsToFind){
-      await randomBugAdd(_map);
-    }
     count = 0;
     elapsedSeconds = 15;
     overlays.add(Instructions.iD);
-    interval.start();
-    resumeEngine();
-    update(0);
+    await resetObjects(_map);
+    await randomBugAdd(_map);
   }
 
   @override
@@ -118,15 +113,32 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
     );
   }
 
-  Future<void> loadObjects(TiledComponent<FlameGame<World>> map) async {
+  Future<void> resetObjects(TiledComponent<FlameGame<World>> map) async {
     //#region MapSetup
 
     // Get the custom properties from the map
-    numberOfBugsToFind = map.tileMap.map.properties.byName['NumberOfBugsToFind']!.value as int;
-    numberTypeBugToFind = map.tileMap.map.properties.byName['NumberTypeBugToFind']!.value as int;
+    numberOfBugsToFind = 0;
+    numberTypeBugToFind = Random().nextInt(15);
     map.topLeftPosition = Vector2(0, 0);
     map.priority = 1;
-    await add(map);
+
+    world.children.toList().forEach((element) {
+      if(element is BugCatcherBug){
+        element.removeFromParent();
+      }
+    });
+  }
+
+  Future<void> loadObjects(TiledComponent<FlameGame<World>> map) async {
+    resumeEngine();
+    //#region MapSetup
+
+    // Get the custom properties from the map
+    numberOfBugsToFind = 0;
+    numberTypeBugToFind = Random().nextInt(15);
+    map.topLeftPosition = Vector2(0, 0);
+    map.priority = 1;
+    //await add(map);
 
     //#endregion
 
@@ -143,7 +155,7 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
     _cameraEntity = Entity(size: Vector2(16, 16), position: Vector2(mapWidth, mapHeight) / 2, map: map);
     _cameraEntity.priority = 11;
     _camera = camera;
-    await add(_cameraEntity);
+    //await add(_cameraEntity);
     world.add(_cameraEntity);
 
     final halfViewportSize = camera.viewport.size / 2;
@@ -157,30 +169,13 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
     camera.follow(_cameraEntity);
     await add(camera);
     //#endregion
-
-    //#region BugSetup
-    var allBugs = map.tileMap.getLayer<ObjectGroup>('Bugs')?.objects;
-
-    if (allBugs != null) {
-      for (var bug in allBugs) {
-
-        BugTypes name =  BugTypes.values[int.parse(bug.name)];
-        var bugPosition = Vector2(bug.x, bug.y - bug.height);
-        var bugComponent = BugCatcherBug(position: bugPosition, bugType: name.toString(), map: map);
-
-        bugComponent.priority = 2;
-        await add(bugComponent);
-        world.add(bugComponent);
-      }
-    }
-    //#endregion
     await randomBugAdd(map);
 
   }
 
   Future<void> randomBugAdd(TiledComponent<FlameGame<World>> map) async {
     //#region RandomBugSetup
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i <= 20; i++) {
       var randomX = Random().nextInt(map.tileMap.map.width - 5);
       var randomY = Random().nextInt(map.tileMap.map.height - 5);
       if(randomX < 3){
@@ -197,7 +192,6 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection{
       }
       var bugComponent = BugCatcherBug(position: bugPosition, bugType: name, map: map);
       bugComponent.priority = 2;
-      await add(bugComponent);
       world.add(bugComponent);
     }
     //#endregion

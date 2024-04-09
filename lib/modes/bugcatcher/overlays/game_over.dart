@@ -86,8 +86,8 @@ class GameOver extends StatelessWidget {
     game.pauseEngine();
 
     Future.delayed(const Duration(seconds: 5), () async {
-      game.resetGame();
       game.overlays.remove(GameOver.iD);
+      game.resetGame();
       Navigator.of(context).pop();
     });
 

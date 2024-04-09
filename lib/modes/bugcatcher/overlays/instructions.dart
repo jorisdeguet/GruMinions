@@ -17,17 +17,13 @@ Widget theInstructions(BugCatcherGame game){
   const blackTextColor = Color.fromRGBO(0, 0, 0, 1);
   const whiteTextColor = Color.fromRGBO(255, 255, 255, 1);
   game.pauseEngine();
-  Future.delayed(const Duration(seconds: 5), () {
-    game.overlays.remove(Instructions.iD);
-    game.resumeEngine();
-  });
 
   return Material(
     color: Colors.transparent,
     child: Center(
       child: Container(
         padding: const EdgeInsets.all(10),
-        height: 250,
+        height: 350,
         width: 350,
         decoration: const BoxDecoration(
           color: blackTextColor,
@@ -52,6 +48,15 @@ Widget theInstructions(BugCatcherGame game){
               ),
             ),
             Image.asset('assets/bugcatcher/flame/${game.numberTypeBugToFind}.png', width: 50, scale: 0.1,),
+            const SizedBox(height: 40),
+            const Text(
+              'Press A to start!',
+              style: TextStyle(
+                color: whiteTextColor,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
       ),
