@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gru_minions/comm/message.dart';
 import 'package:gru_minions/options/flame/game/pixel_adventure.dart';
 import 'package:gru_minions/options/flame/screen_game.dart';
 
-import '../base/base-mode.dart';
+import '../base/base_mode.dart';
 import 'controller.dart';
 import 'helpers/direction.dart';
 

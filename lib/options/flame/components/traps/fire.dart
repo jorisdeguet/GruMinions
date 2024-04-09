@@ -36,7 +36,7 @@ class Fire extends SpriteAnimationGroupComponent with HasGameRef<PixelAdventure>
   @override
   FutureOr<void> onLoad() {
     player = game.player;
-    friend = game.friend != null ? game.friend : null;
+    friend = game.friend;
 
     priority = -1;
     add(RectangleHitbox(

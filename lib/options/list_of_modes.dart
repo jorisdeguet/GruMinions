@@ -1,6 +1,6 @@
 import 'package:gru_minions/options/home/home_option.dart';
 
-import 'base/base-mode.dart';
+import 'base/base_mode.dart';
 import 'character/character_option.dart';
 import 'flame/flame.dart';
 import 'level/level_option.dart';

@@ -43,7 +43,7 @@ class PlantBullet extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() {
     player = game.player;
-    friend = game.friend != null ? game.friend : null;
+    friend = game.friend;
     _direction = isFacingRight ? 1 : -1;
     add(CircleHitbox(
       radius: 6,

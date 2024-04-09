@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gru_minions/comm/message.dart';
 import 'package:gru_minions/options/home/controller_home.dart';
 
-import '../base/base-mode.dart';
+import '../base/base_mode.dart';
 import 'screen_home.dart';
 
 class HomeOption extends ScreenControllerOption {

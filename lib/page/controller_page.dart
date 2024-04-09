@@ -6,7 +6,7 @@ import 'package:gru_minions/service/controller_service.dart';
 import 'package:gru_minions/widget/controller_base_widget.dart';
 import 'package:sidebarx/sidebarx.dart';
 
-import '../options/base/base-mode.dart';
+import '../options/base/base_mode.dart';
 import '../options/list_of_modes.dart';
 
 class ControllerPage extends StatefulWidget {

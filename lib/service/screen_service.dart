@@ -66,7 +66,7 @@ class ScreenService extends BaseNetworkService {
       maxConcurrentDownloads: 64,
       deleteOnError: true,
       onConnect: (String name, String address) {
-        print("$name connected to socket with address: $address");
+        debugPrint("$name connected to socket with address: $address");
       },
       transferUpdate: (transfer) {
         if (transfer.completed) {
@@ -84,7 +84,7 @@ class ScreenService extends BaseNetworkService {
       },
       // handle string transfer from server
       receiveString: (dynamic message) async {
-        print("Gru got message $message");
+        debugPrint("Gru got message $message");
         // onReceive.value = message;
         onReceive.trigger(message);
         // onReceive.call(message);

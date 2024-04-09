@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gru_minions/comm/message.dart';
-import '../base/base-mode.dart';
+import '../base/base_mode.dart';
 import 'controller_character.dart';
 import 'screen_character.dart';
 
@@ -38,13 +38,13 @@ class CharacterOption extends ScreenControllerOption {
     if(s.startsWith("1 has selected")){
       currentConfig.playerName = s.split(':').last;
     }
-    else if (s.startsWith("1\'s current view:")){
+    else if (s.startsWith("1's current view:")){
       _character1.value = s.split(':').last;
     }
     else if(s.startsWith("2 has selected")){
       currentConfig.friendName = s.split(':').last;
     }
-    else if (s.startsWith("2\'s current view:")){
+    else if (s.startsWith("2's current view:")){
       _character2.value = s.split(':').last;
     }
   }

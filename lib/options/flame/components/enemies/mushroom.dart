@@ -19,6 +19,7 @@ class Mushroom extends SpriteAnimationGroupComponent
   final double offNeg;
   final double offPos;
   final _textureSize = Vector2(32, 32);
+  final Vector2 _velocity = Vector2.zero();
 
   //Animations
   late final SpriteAnimation _idleAnimation;
@@ -44,13 +45,12 @@ class Mushroom extends SpriteAnimationGroupComponent
   //Default : 1 if enemy is facing right and -1 for if enemy is facing left
   double _facingDirection = -1;
   double _targetDirection = 0;
-  Vector2 _velocity = Vector2.zero();
   bool _gotHit = false;
 
   @override
   FutureOr<void> onLoad() {
     player = game.player;
-    friend = game.friend != null ? game.friend : null;
+    friend = game.friend;
     add(RectangleHitbox(
       position: Vector2(4, 8),
       size: Vector2(24, 24),

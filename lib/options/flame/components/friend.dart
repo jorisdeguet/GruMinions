@@ -241,8 +241,9 @@ class Friend extends SpriteAnimationGroupComponent
     if (velocity.y < 0) friendState = FriendState.jumping;
 
     //check is double jumping, set double jumping
-    if (velocity.y < 0 && !canDoubleJump)
+    if (velocity.y < 0 && !canDoubleJump) {
       friendState = FriendState.doubleJumping;
+    }
 
     current = friendState;
   }
@@ -395,8 +396,9 @@ class Friend extends SpriteAnimationGroupComponent
   Future<void> _reachedCheckpoint() async {
     //Can only reach checkpoint once
     if (!reachedCheckpoint) {
-      if (game.playSounds)
+      if (game.playSounds) {
         FlameAudio.play('disappear.wav', volume: game.soundVolume);
+      }
       reachedCheckpoint = true;
       player.reviveByFriend();
       game.score.value += 100;
@@ -408,8 +410,9 @@ class Friend extends SpriteAnimationGroupComponent
     game.cam.stop();
     game.interval.stop();
 
-    if (game.playSounds)
+    if (game.playSounds) {
       FlameAudio.play('disappear.wav', volume: game.soundVolume);
+    }
     if (scale.x > 0) {
       position = position - Vector2.all(32);
     } else if (scale.x < 0) {
