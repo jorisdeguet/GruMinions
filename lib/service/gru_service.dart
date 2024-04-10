@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
@@ -17,6 +19,11 @@ class GruService extends BaseNetworkService {
   StreamSubscription<WifiP2PInfo>? _wifiP2PInfoStream;
 
   WifiP2PInfo? info;
+
+  // Bidules pour UDP
+  Completer<void> udpSetupCompleter = Completer();
+  late RawDatagramSocket udpSocket;
+  late InternetAddress DESTINATION_ADDRESS;
 
   GruService() {
     init();
@@ -40,6 +47,7 @@ class GruService extends BaseNetworkService {
         _groupCreated = true;
         _creatingGroup = false;
         _startBossSocket(event);
+
         List<String> foundClients =
             event.clients.map((Client e) => e.deviceName).toList();
         debugPrint('GruService - Group created');
@@ -49,6 +57,7 @@ class GruService extends BaseNetworkService {
         bossStatus.value = BossStatus.creatingGroup;
         _creatingGroup = true;
         p2p.createGroup();
+        _startUDPChannel();//SocketsUDP
       }
     });
   }
@@ -79,13 +88,53 @@ class GruService extends BaseNetworkService {
       },
       // handle string transfer from server
       receiveString: (dynamic message) async {
-        print("Gru got message $message");
+        print("Gru got TCP message $message");
         // onReceive.value = message;
         onReceive.trigger(message);
         // onReceive.call(message);
       },
     );
     bossStatus.value = BossStatus.active;
+  }
+
+  Future<void> _startUDPChannel() async {
+    debugPrint('Gru Service Starting UDP ');
+    String? ipAd = await p2p.getIPAddress();
+    debugPrint("GRU IP address for  $ipAd @ ");
+    if (ipAd != null) {
+      String broadcast =
+          "${ipAd.split(".")[0]}.${ipAd.split(".")[1]}.${ipAd.split(".")[2]}.255";
+      debugPrint("GRU IP address for boradcast  $broadcast");
+      DESTINATION_ADDRESS = InternetAddress(broadcast); // TODO make it a field in the service
+      RawDatagramSocket.bind(InternetAddress.anyIPv4, 8888)
+          .then((RawDatagramSocket udpSock) {
+        // TODO make udpSocket a field in the service
+        udpSocket = udpSock;
+        udpSocket.broadcastEnabled = true;
+        debugPrint("GRU UDP Binded on  ${udpSocket.address}");
+        if (!udpSetupCompleter.isCompleted) {
+          udpSetupCompleter.complete(); // Mark UDP setup as complete
+        }
+        //Receive
+        udpSocket.listen((e) {
+          debugPrint("GRU UDP receiving ${e}");
+          Datagram? dg = udpSocket.receive();
+          if (dg != null) {
+            debugPrint("GRU UDP received ${dg.data}");
+            String message = new String.fromCharCodes(dg.data);
+
+          }
+        });
+        String message = 'TEST $ipAd';
+        sendUdp( message ); //broadcast, udpSocket, DESTINATION_ADDRESS);
+      });
+    }
+  }
+
+  void sendUdp(String message) {
+    List<int> data = utf8.encode(message);
+    debugPrint(" sending data on UDP ");
+    udpSocket.send(data, DESTINATION_ADDRESS, 8888);
   }
 
   @override

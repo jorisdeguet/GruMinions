@@ -10,9 +10,10 @@ import 'package:mac_address/mac_address.dart';
 // Maybe use https://pub.dev/packages/event_bus to easily send and receive message
 
 abstract class BaseMode extends StatefulWidget {
-  final Function sendToOthers;
+  final Function sendTCP;
+  final Function sendUDP;
 
-  const BaseMode({super.key, required this.sendToOthers});
+  const BaseMode({super.key, required this.sendTCP, required this.sendUDP});
 }
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
@@ -23,11 +24,12 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
 
 // This is the base interface to interact with a mode
 abstract class GruMinionMode {
-  final Function sendToOthers;
+  final Function sendOthersTCP;
+  final Function sendOthersUDP;
 
   String _macAddress = "no mac";
 
-  GruMinionMode({required this.sendToOthers}) {
+  GruMinionMode({required this.sendOthersTCP, required this.sendOthersUDP}) {
     _initMac();
   }
 

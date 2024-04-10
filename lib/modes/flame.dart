@@ -10,7 +10,7 @@ import 'flame/screen_game_page.dart';
 
 // taken from https://github.com/flame-games/player_move
 class FlameMode extends GruMinionMode {
-  FlameMode({required super.sendToOthers});
+  FlameMode({required super.sendOthersTCP,required super.sendOthersUDP});
 
   final MainGame _game = MainGame();
 
@@ -19,7 +19,7 @@ class FlameMode extends GruMinionMode {
   @override
   Widget gruWidget() {
     return GruGamePage(
-      send: sendToOthers,
+      send: sendOthersTCP,
     );
   }
 
@@ -72,7 +72,7 @@ class FlameMode extends GruMinionMode {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => ControllerAGamePage(send: sendToOthers),
+                  builder: (_) => ControllerAGamePage(send: sendOthersTCP),
                 ),
               );
             },
@@ -82,7 +82,7 @@ class FlameMode extends GruMinionMode {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => ControllerBGamePage(send: sendToOthers),
+                  builder: (_) => ControllerBGamePage(send: sendOthersTCP),
                 ),
               );
             },

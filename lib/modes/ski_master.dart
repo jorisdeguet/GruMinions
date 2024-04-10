@@ -8,14 +8,15 @@ import 'ski_master/gru_game_page.dart';
 import 'ski_master/screen_skimaster_page.dart';
 
 class SkiMaster extends GruMinionMode {
-  SkiMaster({required super.sendToOthers});
+  SkiMaster({required super.sendOthersTCP,required super.sendOthersUDP});
 
   final SkiMasterGame _game = SkiMasterGame();
 
   @override
   Widget gruWidget() {
     return GruSkiMasterPage(
-      send: sendToOthers,
+      sendTCP: sendOthersTCP,
+      sendUDP: sendOthersUDP,
     );
   }
 
@@ -64,22 +65,12 @@ class SkiMaster extends GruMinionMode {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ControllerAGamePage(send: sendToOthers),
+                    builder: (_) => ControllerAGamePage(sendUDP: sendOthersUDP),
                   ),
                 );
               },
               child: const Text('Controller A'),
             ),
-            //ElevatedButton(
-            //  onPressed: () {
-            //    Navigator.of(context).push(
-            //      MaterialPageRoute(
-            //        builder: (_) => ControllerBGamePage(send: sendToOthers),
-            //      ),
-            //    );
-            //  },
-            //  child: const Text('Controller B'),
-            //),
           ],
         ),
       ),

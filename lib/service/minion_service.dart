@@ -29,8 +29,9 @@ class MinionService extends BaseNetworkService {
   List<String> logs = [];
 
   // Bidules pour UDP
-  var udpSocket;
-  var DESTINATION_ADDRESS;
+  Completer<void> udpSetupCompleter = Completer();
+  late RawDatagramSocket udpSocket;
+  late InternetAddress DESTINATION_ADDRESS;
 
   MinionService() {
     _init();
@@ -89,8 +90,8 @@ class MinionService extends BaseNetworkService {
           event.groupOwnerAddress != "") {
         _log('Minion Service connection to socket initiated');
         _connectingToBossSocket = true;
-        connectToSocket(event);
-        _startUDPChannel();
+        connectToSocket(event); //SocketsTCP
+        _startUDPChannel(); //SocketsUDP
       }
     });
   }
@@ -109,18 +110,21 @@ class MinionService extends BaseNetworkService {
     String? ipAd = await p2p.getIPAddress();
     _log("IP address for  $ipAd @ ");
     if (ipAd != null) {
-      String broadcast =
-          "${ipAd.split(".")[0]}.${ipAd.split(".")[1]}.${ipAd.split(".")[2]}.255";
+      String broadcast = "${ipAd.split(".")[0]}.${ipAd.split(".")[1]}.${ipAd.split(".")[2]}.255";
       _log("IP address for boradcast  $broadcast");
-      var DESTINATION_ADDRESS = InternetAddress(broadcast); // TODO make it a field in the service
+       DESTINATION_ADDRESS = InternetAddress(broadcast); // TODO make it a field in the service
       RawDatagramSocket.bind(InternetAddress.anyIPv4, 8888)
           .then((RawDatagramSocket udpSock) {
         // TODO make udpSocket a field in the service
         udpSocket = udpSock;
         udpSocket.broadcastEnabled = true;
         _log("UDP Binded on  ${udpSocket.address}");
+        if (!udpSetupCompleter.isCompleted) {
+          udpSetupCompleter.complete(); // Mark UDP setup as complete
+        }
+        //Receive
         udpSocket.listen((e) {
-          _log("UDP receiving ${e}");
+          _log("UDP receiving $e");
           Datagram? dg = udpSocket.receive();
           if (dg != null) {
             _log("UDP received ${dg.data}");
@@ -161,15 +165,6 @@ class MinionService extends BaseNetworkService {
             debugPrint(
                 "Minion Service completed: ${transfer.filename}, PATH: ${transfer.path}");
           }
-          // debugPrint(
-          //     "ID: ${transfer.id}, "
-          //         "FILENAME: ${transfer.filename}, "
-          //         "PATH: ${transfer.path}, "
-          //         "COUNT: ${transfer.count}, "
-          //         "TOTAL: ${transfer.total}, "
-          //         "COMPLETED: ${transfer.completed}, "
-          //         "FAILED: ${transfer.failed}, "
-          //         "RECEIVING: ${transfer.receiving}");
         },
         receiveString: (message) async {
           //print('Minion got message  ' + message.toString());
