@@ -95,20 +95,83 @@ class BugCatcherMode extends GruMinionMode {
         appBar: AppBar(
           title: const Text('Select Option'),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          ControllerABugCatcherPage(send: sendToOthers),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.black, Colors.green, Colors.white],
+            ),
+          ),
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  Image.asset(
+                    'assets/bugcatcher/images/BugCatcherMap.png',
+                    scale: 0.6,
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Container(
+                      color: Colors.black,
+                      child: const SizedBox(
+                        width: 450,
+                        height: 300,
+                        child: Text(
+                          'In this game you need to count the number of bugs that are of a certain type.\n\n '
+                              'The Joy pad is used to move the camera. While the A and B buttons control the counter.\n\n '
+                              'Good luck! Select your controllers to start the game.',
+                          maxLines: 15,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
-                  );
-                },
-                child: const Text('Controller A'),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 15.0, bottom: 15.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(150, 50),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                ControllerABugCatcherPage(send: sendToOthers),
+                          ),
+                        );
+                      },
+                      child: const Text('Player A', style: TextStyle(color: Colors.black)),
+                    ),
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(bottom: 65.0, right: 15.0),
+                  //   child: ElevatedButton(
+                  //     style: ElevatedButton.styleFrom(
+                  //       fixedSize: const Size(150, 50),
+                  //     ),
+                  //     onPressed: () {
+                  //       Navigator.of(context).push(
+                  //         MaterialPageRoute(
+                  //           builder: (_) =>
+                  //               ControllerBBugCatcherPage(send: sendToOthers),
+                  //         ),
+                  //       );
+                  //     },
+                  //     child: const Text('Controller B' , style: TextStyle(color: Colors.black)),
+                  //   ),
+                  // ),
+                ],
               ),
             ],
           ),

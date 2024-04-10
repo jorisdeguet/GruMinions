@@ -34,8 +34,8 @@ class BoxSmasherMode extends GruMinionMode {
     if (parts.length >= 2) {
       bool Pressed = false;
       if (parts[1].contains('Direction')) {
-        Direction direction = Direction.values.firstWhere((e) =>
-            parts[1].contains(e.name));
+        Direction direction =
+            Direction.values.firstWhere((e) => parts[1].contains(e.name));
         if (controllerId == 'ControllerA') {
           // _gameA.onJoyPad1DirectionChanged(direction);
         }
@@ -80,60 +80,110 @@ class BoxSmasherMode extends GruMinionMode {
     }
   }
 
-    @override
-    void handleMessageAsScreen(String s) {}
+  @override
+  void handleMessageAsScreen(String s) {}
 
-    @override
-    void initGru() {}
+  @override
+  void initGru() {}
 
-    @override
-    void initMinion() {}
+  @override
+  void initMinion() {}
 
-    @override
-    Widget minionWidget(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Select Option'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                  'In this game you need to press the A button as fast as you can to win.'),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          ControllerABoxSmasherPage(send: sendToOthers),
-                    ),
-                  );
-                },
-                child: Text('Controller A'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          ControllerBBoxSmasherPage(send: sendToOthers),
-                    ),
-                  );
-                },
-                child: Text('Controller b'),
-              ),
-            ],
+  @override
+  Widget minionWidget(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Select Option'),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.green, Colors.blue],
           ),
         ),
-      );
-    }
+        child: Row(
+          children: [
+            Column(
+              children: [
+                Image.asset(
+                  'assets/boxsmasher/images/BoxSmasherMap.png',
+                  scale: 0.5,
+                ),
+              ],
+            ),
+            const Spacer(),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                    color: Colors.black,
+                    child: const SizedBox(
+                      width: 450,
+                      height: 300,
+                      child: Text(
+                        'In this game you need to push 100 boxes into your new house to win.\n\n '
+                            'You can push the boxes by pressing the A button.\n\n '
+                            'Good luck! Select your controllers to start the game.',
+                        maxLines: 15,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15.0, bottom: 15.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(150, 50),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              ControllerABoxSmasherPage(send: sendToOthers),
+                        ),
+                      );
+                    },
+                    child: const Text('Player A', style: TextStyle(color: Colors.black)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 65.0, right: 15.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(150, 50),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              ControllerBBoxSmasherPage(send: sendToOthers),
+                        ),
+                      );
+                    },
+                    child: const Text('Player B' , style: TextStyle(color: Colors.black)),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-    @override
-    Widget screenWidget(BuildContext context) {
-      return BoxSmasherMainMenu(send: sendToOthers, gameA: _gameA, gameB: _gameB);
-    }
+  @override
+  Widget screenWidget(BuildContext context) {
+    return BoxSmasherMainMenu(send: sendToOthers, gameA: _gameA, gameB: _gameB);
+  }
 
-    @override
-    String name() => "BoxSmasher";
+  @override
+  String name() => "BoxSmasher";
 }

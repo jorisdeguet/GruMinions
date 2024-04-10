@@ -21,6 +21,18 @@ class ControllerABoxSmasherState extends State<ControllerABoxSmasherPage> {
         body: Stack(
           children: [
             Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 25.0),
+                child: FilledButton(
+                  child: const Text('Explanations'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ),
+            Align(
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
