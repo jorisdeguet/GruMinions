@@ -2,7 +2,6 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gru_minions/comm/message.dart';
 
 import '../game/pixel_adventure.dart';
 
@@ -74,7 +73,7 @@ class LifeBar extends StatelessWidget {
                     ),
                     child: SpriteAnimationWidget.asset(
                       path:
-                          'Main Characters/${currentConfig.playerName}/Idle (32x32).png',
+                          'Main Characters/${game.playerName}/Idle (32x32).png',
                       //running
                       data: SpriteAnimationData.sequenced(
                         amount: 11,
@@ -95,7 +94,7 @@ class LifeBar extends StatelessWidget {
                   ),
                 ],
               ),
-              game.friend != null
+              game.friendName != null
                   ? ValueListenableBuilder<double>(
                       valueListenable: game.friend!.life,
                       builder: (context, score, child) {
@@ -109,7 +108,7 @@ class LifeBar extends StatelessWidget {
                               ),
                               child: SpriteAnimationWidget.asset(
                                 path:
-                                    'Main Characters/${currentConfig.friendName}/Idle (32x32).png',
+                                    'Main Characters/${game.friendName}/Idle (32x32).png',
                                 //running
                                 data: SpriteAnimationData.sequenced(
                                   amount: 11,

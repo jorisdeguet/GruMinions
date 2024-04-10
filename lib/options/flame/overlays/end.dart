@@ -29,8 +29,8 @@ class End extends StatelessWidget {
       child: Center(
         child: Container(
           padding: const EdgeInsets.all(10.0),
-          height: 500,
-          width: 700,
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.height * 0.7,
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
@@ -41,7 +41,7 @@ class End extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               StrokeText(
-                text: 'Congratulations!',
+                text: 'Congrats!',
                 strokeColor: Colors.black,
                 strokeWidth: 4,
                 textStyle: GoogleFonts.pixelifySans(
@@ -64,18 +64,40 @@ class End extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 120,
-                height: 120,
-                child: SpriteAnimationWidget.asset(
-                  path: "/Main Characters/${game.playerName}/Idle (32x32).png",
-                  data: SpriteAnimationData.sequenced(
-                    amount: 11,
-                    stepTime: 0.05,
-                    textureSize: Vector2.all(32),
-                    loop: true,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: SpriteAnimationWidget.asset(
+                      path:
+                          "Main Characters/${game.playerName}/Idle (32x32).png",
+                      data: SpriteAnimationData.sequenced(
+                        amount: 11,
+                        stepTime: 0.05,
+                        textureSize: Vector2.all(32),
+                        loop: true,
+                      ),
+                    ),
                   ),
-                ),
+                  game.friendName != null
+                      ? SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: SpriteAnimationWidget.asset(
+                            path:
+                                "Main Characters/${game.friendName}/Idle (32x32).png",
+                            data: SpriteAnimationData.sequenced(
+                              amount: 11,
+                              stepTime: 0.05,
+                              textureSize: Vector2.all(32),
+                              loop: true,
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
               ),
               const Divider(
                 height: 20,
@@ -88,34 +110,6 @@ class End extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    children: [
-                      StrokeText(
-                        text: 'Life :',
-                        strokeColor: Colors.black,
-                        strokeWidth: 4,
-                        textStyle: GoogleFonts.pixelifySans(
-                          textStyle: const TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      StrokeText(
-                        text: (game.player.life.value.toInt()).toString(),
-                        strokeColor: Colors.black,
-                        strokeWidth: 4,
-                        textStyle: GoogleFonts.pixelifySans(
-                          textStyle: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   Column(
                     children: [
                       StrokeText(
@@ -184,8 +178,8 @@ class End extends StatelessWidget {
                       game.previousLevel();
                     },
                     label: const Text(''),
-                    path: '/Menu/Buttons/Previous.png',
-                    pressedPath: '/Menu/Buttons/Previous.png',
+                    path: 'Menu/Buttons/Previous.png',
+                    pressedPath: 'Menu/Buttons/Previous.png',
                     width: 50,
                     height: 50,
                   ),
@@ -195,8 +189,8 @@ class End extends StatelessWidget {
                       game.restartLevel();
                     },
                     label: const Text(''),
-                    path: '/Menu/Buttons/Restart.png',
-                    pressedPath: '/Menu/Buttons/Restart.png',
+                    path: 'Menu/Buttons/Restart.png',
+                    pressedPath: 'Menu/Buttons/Restart.png',
                     width: 50,
                     height: 50,
                   ),
@@ -206,8 +200,8 @@ class End extends StatelessWidget {
                       game.nextLevel();
                     },
                     label: const Text(''),
-                    path: '/Menu/Buttons/Next.png',
-                    pressedPath: '/Menu/Buttons/Next.png',
+                    path: 'Menu/Buttons/Next.png',
+                    pressedPath: 'Menu/Buttons/Next.png',
                     width: 50,
                     height: 50,
                   ),

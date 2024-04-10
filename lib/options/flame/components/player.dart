@@ -350,7 +350,7 @@ class Player extends SpriteAnimationGroupComponent
           friend!.isDead = false;
 
           const waitToChangeDuration = Duration(seconds: 2);
-          Future.delayed(waitToChangeDuration, () => {game.overlays.add('End')});
+          Future.delayed(waitToChangeDuration, () => {game.overlays.add('GameOver')});
         });
       }
 
@@ -466,10 +466,12 @@ class Player extends SpriteAnimationGroupComponent
       reachedCheckpoint = false;
       gotHit = false;
       isDead = false;
+      friend!.gotHit = false;
+      friend!.isDead = false;
       position = Vector2.all(-640);
 
       const waitToChangeDuration = Duration(seconds: 2);
-      Future.delayed(waitToChangeDuration, () => {game.overlays.add('End')});
+      Future.delayed(waitToChangeDuration, () => {game.overlays.add('GameOver')});
     });
   }
 
