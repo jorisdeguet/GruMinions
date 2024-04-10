@@ -400,7 +400,8 @@ class Friend extends SpriteAnimationGroupComponent
         FlameAudio.play('disappear.wav', volume: game.soundVolume);
       }
       reachedCheckpoint = true;
-      player.reviveByFriend();
+      life.value += 1;
+      if(player.isDead) player.reviveByFriend();
       game.score.value += 100;
     }
   }
@@ -410,9 +411,7 @@ class Friend extends SpriteAnimationGroupComponent
     game.cam.stop();
     game.interval.stop();
 
-    if (game.playSounds) {
-      FlameAudio.play('disappear.wav', volume: game.soundVolume);
-    }
+    if (game.playSounds) FlameAudio.play('disappear.wav', volume: game.soundVolume);
     if (scale.x > 0) {
       position = position - Vector2.all(32);
     } else if (scale.x < 0) {

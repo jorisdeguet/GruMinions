@@ -14,20 +14,16 @@ class LifeBar extends StatelessWidget {
   });
 
   Color getPlayerLifeColor() {
-    if (game.player.life.value >= 60) {
-      return Colors.green;
-    } else if (game.player.life.value >= 40) {
-      return Colors.yellow;
-    } else {
+    if (game.player.life.value >= 2) {
+      return Colors.white;
+    }else {
       return Colors.red;
     }
   }
 
   Color getFriendLifeColor() {
-    if (game.friend!.life.value >= 60) {
-      return Colors.green;
-    } else if (game.friend!.life.value >= 40) {
-      return Colors.yellow;
+    if (game.friend!.life.value >= 2) {
+      return Colors.white;
     } else {
       return Colors.red;
     }
@@ -86,7 +82,7 @@ class LifeBar extends StatelessWidget {
                   Text(
                     'X ${game.player.life.value.toInt()}',
                     style: GoogleFonts.pixelifySans(
-                      color: Colors.white,
+                      color: getPlayerLifeColor(),
                       fontSize: 20,
                       fontWeight: FontWeight.w200,
                       fontStyle: FontStyle.normal,
@@ -121,7 +117,7 @@ class LifeBar extends StatelessWidget {
                             Text(
                               'X ${game.friend!.life.value.toInt()}',
                               style: GoogleFonts.pixelifySans(
-                                color: Colors.white,
+                                color: getFriendLifeColor(),
                                 fontSize: 20,
                                 fontWeight: FontWeight.w200,
                                 fontStyle: FontStyle.normal,

@@ -416,6 +416,7 @@ class Player extends SpriteAnimationGroupComponent
     if (!reachedCheckpoint) {
       if (game.playSounds) FlameAudio.play('disappear.wav', volume: game.soundVolume);
       reachedCheckpoint = true;
+      life.value += 1;
 
       if (friend != null && friend!.isDead) {
         friend!.reviveByPlayer();
