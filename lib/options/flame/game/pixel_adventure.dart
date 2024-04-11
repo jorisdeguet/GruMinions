@@ -121,13 +121,12 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
     overlays.clear();
     removeWhere((component) => component is Level);
 
-    if(indexCurrentLevel < 30){
+    if(indexCurrentLevel < 2){
       indexCurrentLevel++;
       _loadLevel();
     }
     else {
-      //handle game over
-      indexCurrentLevel = 1;
+      indexCurrentLevel = 0;
       _loadLevel();
     }
   }
@@ -147,8 +146,7 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
       _loadLevel();
     }
     else {
-      //handle game over
-      indexCurrentLevel = 1;
+      indexCurrentLevel = 2;
       _loadLevel();
     }
   }

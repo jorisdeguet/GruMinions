@@ -389,6 +389,7 @@ class Player extends SpriteAnimationGroupComponent
         _updatePlayerState();
         Future.delayed(const Duration(milliseconds: 400), () => gotHit = false);
       } else {
+        debugPrint('Game Over!');
         _gameOver();
       }
     }
@@ -467,8 +468,8 @@ class Player extends SpriteAnimationGroupComponent
       reachedCheckpoint = false;
       gotHit = false;
       isDead = false;
-      friend!.gotHit = false;
-      friend!.isDead = false;
+      // friend!.gotHit = false;
+      // friend!.isDead = false;
       position = Vector2.all(-640);
 
       const waitToChangeDuration = Duration(seconds: 2);

@@ -58,7 +58,7 @@ class GameOver extends StatelessWidget {
                 strokeWidth: 4,
                 textStyle: GoogleFonts.pixelifySans(
                   textStyle: const TextStyle(
-                    fontSize: 40,
+                    fontSize: 20,
                     fontWeight: FontWeight.normal,
                     color: Colors.white,
                   ),
@@ -106,7 +106,7 @@ class GameOver extends StatelessWidget {
                 endIndent: 20,
                 color: Colors.black,
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -169,7 +169,7 @@ class GameOver extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

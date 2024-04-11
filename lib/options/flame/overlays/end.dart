@@ -58,7 +58,7 @@ class End extends StatelessWidget {
                 strokeWidth: 4,
                 textStyle: GoogleFonts.pixelifySans(
                   textStyle: const TextStyle(
-                    fontSize: 40,
+                    fontSize: 20,
                     fontWeight: FontWeight.normal,
                     color: Colors.white,
                   ),
@@ -68,8 +68,8 @@ class End extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 100,
-                    height: 100,
+                    width: 80,
+                    height: 80,
                     child: SpriteAnimationWidget.asset(
                       path:
                           "Main Characters/${game.playerName}/Idle (32x32).png",
@@ -106,7 +106,7 @@ class End extends StatelessWidget {
                 endIndent: 20,
                 color: Colors.black,
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -169,7 +169,7 @@ class End extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
