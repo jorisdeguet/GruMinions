@@ -137,7 +137,7 @@ class Friend extends SpriteAnimationGroupComponent
       if (other is Trampoline) other.collideWithFriend();
       if (other is Saw) _revive(1);
       if (other is Spikes) _revive(0.5);
-      if (other is Fire) _revive(1);
+      if (other is Fire) _revive(0.5);
       if (other is Mushroom) other.collideWithFriend();
       if (other is Slime) other.collideWithFriend();
       if (other is Chicken) other.collideWithFriend();

@@ -137,7 +137,7 @@ class Player extends SpriteAnimationGroupComponent
       if (other is End) _reachedEnd();
       if (other is Saw) _revive(1);
       if (other is Spikes) _revive(0.5);
-      if (other is Fire) _revive(1);
+      if (other is Fire) _revive(0.5);
       if (other is Trampoline) other.collideWithPlayer();
       if (other is Chicken) other.collideWithPlayer();
       if (other is Mushroom) other.collideWithPlayer();
