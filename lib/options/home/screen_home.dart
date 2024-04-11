@@ -19,7 +19,7 @@ class _ScreenHomeState extends State<ScreenHome> {
   @override
   initState() {
     super.initState();
-    //initMac();
+    initMac();
   }
 
   initMac() async {
