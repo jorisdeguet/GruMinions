@@ -123,15 +123,18 @@ class BoxSmasherMode extends GruMinionMode {
                     child: const SizedBox(
                       width: 450,
                       height: 300,
-                      child: Text(
-                        'In this game you need to push 100 boxes into your new house to win.\n\n '
-                            'You can push the boxes by pressing the A button.\n\n '
-                            'Good luck! Select your controllers to start the game.',
-                        maxLines: 15,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'In this game you need to push 100 boxes into your new house to win.\n\n '
+                              'You can push the boxes by pressing the A button.\n\n '
+                              'Good luck! Select your controllers to start the game.',
+                          maxLines: 15,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ),

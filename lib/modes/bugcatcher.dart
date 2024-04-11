@@ -123,15 +123,18 @@ class BugCatcherMode extends GruMinionMode {
                       child: const SizedBox(
                         width: 450,
                         height: 300,
-                        child: Text(
-                          'In this game you need to count the number of bugs that are of a certain type.\n\n '
-                              'The Joy pad is used to move the camera. While the A and B buttons control the counter.\n\n '
-                              'Good luck! Select your controllers to start the game.',
-                          maxLines: 15,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'In this game you need to count the number of bugs that are of a certain type.\n\n '
+                                'The Joy pad is used to move the camera. While the A and B buttons control the counter.\n\n '
+                                'Good luck! Select your controllers to start the game.',
+                            maxLines: 15,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),

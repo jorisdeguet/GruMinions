@@ -1,4 +1,5 @@
 import 'package:flame/game.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'boxsmasher_game.dart';
@@ -42,15 +43,17 @@ class ScreenBoxSmasherState extends State<ScreenBoxSmasherPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
-        body: Row(
-          children: [
-            Expanded(
-              child: theGameWidget(controllerAGame),
-            ),
-            Expanded(
-              child: theGameWidget(controllerBGame),
-            ),
-          ],
+        body: Center(
+          child: Row(
+            children: [
+              Expanded(
+                child: theGameWidget(controllerAGame),
+              ),
+              Expanded(
+                child: theGameWidget(controllerBGame),
+              ),
+            ],
+          ),
         ));
   }
 }

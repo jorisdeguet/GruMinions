@@ -28,7 +28,7 @@ class MovingBox extends SpriteComponent with CollisionCallbacks, HasGameRef<BoxS
   void onCollision(intersectionPoints, other){
     super.onCollision(intersectionPoints, other);
     if(other is Door){
-      position = Vector2(110, 165);
+      position = Vector2(110, position.y);
     }
   }
 
