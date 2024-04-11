@@ -47,12 +47,14 @@ class FlameMode extends ScreenControllerOption {
       Direction d = Direction.values.firstWhere((e) => split[1].contains(e.name));
       debugPrint("Controller 1 : $d");
       _game.onController1DirectionChanged(d);
+      return;
     }
 
     if(split[0] == '2') {
       Direction d = Direction.values.firstWhere((e) => split[1].contains(e.name));
       debugPrint("Controller 2 : $d");
       _game.onController2DirectionChanged(d);
+      return;
     }
   }
 

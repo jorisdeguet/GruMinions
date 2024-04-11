@@ -70,7 +70,7 @@ class Player extends SpriteAnimationGroupComponent
   );
 
   //Defined variables
-  Direction direction = Direction.none;
+  Direction directionPlayer = Direction.none;
   double fixedDeltaTime = 1 / 60;
   double accumulatedTime = 100;
   double directionX = 0;
@@ -197,7 +197,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _updatePlayerMovement(double dt) {
-    switch (direction) {
+    switch (directionPlayer) {
       case Direction.up:
         isJumping = true;
         break;

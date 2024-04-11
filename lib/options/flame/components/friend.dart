@@ -70,7 +70,7 @@ class Friend extends SpriteAnimationGroupComponent
   );
 
   //Defined variables
-  Direction direction = Direction.none;
+  Direction directionFriend = Direction.none;
   double fixedDeltaTime = 1 / 60;
   double accumulatedTime = 100;
   double directionX = 0;
@@ -196,7 +196,7 @@ class Friend extends SpriteAnimationGroupComponent
   }
 
   void _updateFriendMovement(double dt) {
-    switch (direction) {
+    switch (directionFriend) {
       case Direction.up:
         isJumping = true;
         break;

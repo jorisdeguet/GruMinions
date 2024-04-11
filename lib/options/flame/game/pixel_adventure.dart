@@ -15,7 +15,7 @@ import '../components/level.dart';
 
 
 
-class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection, TapCallbacks{
+class PixelAdventure extends FlameGame with HasCollisionDetection {
   final String playerName;
   final String? friendName;
   final String level;
@@ -56,65 +56,15 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
 
     if(playSounds) FlameAudio.bgm.play('background.wav', volume: soundVolume);
 
-    if(showControls){
-      addJoyStick();
-      add(JumpButton());
-    }
-
     return super.onLoad();
   }
 
-  @override
-  void update(double dt) {
-    interval.update(dt);
-    if (showControls) {
-      updateJoystick();
-    }
-    super.update(dt);
-  }
-
   void onController1DirectionChanged(Direction direction) {
-    player.direction = direction;
+    player.directionPlayer = direction;
   }
 
   void onController2DirectionChanged(Direction direction) {
-    friend!.direction = direction;
-  }
-
-  void addJoyStick() {
-    joystick = JoystickComponent(
-      priority: 10,
-      knob: SpriteComponent(
-        sprite: Sprite(
-          images.fromCache('HUD/Knob.png'),
-        ),
-      ),
-      background: SpriteComponent(
-        sprite: Sprite(
-          images.fromCache('HUD/JoyStick.png'),
-        ),
-      ),
-      margin: const EdgeInsets.only(left: 32, bottom: 32),
-    );
-    add(joystick);
-  }
-
-  void updateJoystick() {
-    switch (joystick.direction) {
-      case JoystickDirection.left:
-      case JoystickDirection.upLeft:
-      case JoystickDirection.downLeft:
-        player.directionX = -1;
-        break;
-      case JoystickDirection.right:
-      case JoystickDirection.upRight:
-      case JoystickDirection.downRight:
-        player.directionX = 1;
-        break;
-      default:
-        player.directionX = 0;
-        break;
-    }
+    friend!.directionFriend = direction;
   }
 
   void nextLevel() {
@@ -162,6 +112,7 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
       onTick: () => time.value += 1,
       repeat: true,
     );
+
     currentLevel = _levels[indexCurrentLevel];
 
     Future.delayed(const Duration(seconds: 1), () {
