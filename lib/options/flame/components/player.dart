@@ -135,9 +135,9 @@ class Player extends SpriteAnimationGroupComponent
       if (other is Fruit) other.collidedWithPlayer();
       if (other is Checkpoint) _reachedCheckpoint();
       if (other is End) _reachedEnd();
-      if (other is Saw) _revive();
-      if (other is Spikes) _revive();
-      if (other is Fire) _revive();
+      if (other is Saw) _revive(1);
+      if (other is Spikes) _revive(0.5);
+      if (other is Fire) _revive(1);
       if (other is Trampoline) other.collideWithPlayer();
       if (other is Chicken) other.collideWithPlayer();
       if (other is Mushroom) other.collideWithPlayer();
@@ -326,10 +326,10 @@ class Player extends SpriteAnimationGroupComponent
     position.y += velocity.y * dt;
   }
 
-  Future<void> _revive() async {
+  Future<void> _revive(double lifePoints) async {
     if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
     gotHit = true;
-    life.value -= 1;
+    life.value -= lifePoints;
     current = PlayerState.hit;
 
     await animationTicker?.completed;
@@ -477,6 +477,6 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void collideWithEnemy() {
-    _revive();
+    _revive(1);
   }
 }

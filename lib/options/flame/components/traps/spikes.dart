@@ -19,7 +19,7 @@ class Spikes extends SpriteAnimationComponent with HasGameRef<PixelAdventure>, C
     priority = -1;
 
     add(RectangleHitbox(
-      position: Vector2(4, 6),
+      position: Vector2(0, 6),
       size: Vector2(16, 16),
     ));
 
