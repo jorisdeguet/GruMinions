@@ -31,15 +31,8 @@ class _MainMinionPageState extends MinionBaseWidgetState<MainMinionPage> {
       _receiveTCP(element);
     });
     service.udpSetupCompleter.future.then((_) {
-      service.udpSocket.asBroadcastStream().listen((event) {
-        if (event == RawSocketEvent.read) {
-          Datagram? dg = service.udpSocket.receive();
-          if (dg != null) {
-            String message = utf8.decode(dg.data);
-            print("Minion Page received UDP message $message");
-            _receiveUDP(message);
-          }
-        }
+      service.udpMessageController.stream.listen((String message) {
+        _receiveUDP(message);
       });
     });
   }

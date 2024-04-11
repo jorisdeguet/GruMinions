@@ -21,6 +21,7 @@ class GruService extends BaseNetworkService {
   WifiP2PInfo? info;
 
   // Bidules pour UDP
+  StreamController<String> udpMessageController = StreamController<String>.broadcast();
   Completer<void> udpSetupCompleter = Completer();
   late RawDatagramSocket udpSocket;
   late InternetAddress DESTINATION_ADDRESS;
@@ -112,19 +113,25 @@ class GruService extends BaseNetworkService {
         udpSocket = udpSock;
         udpSocket.broadcastEnabled = true;
         debugPrint("GRU UDP Binded on  ${udpSocket.address}");
+
+        // Convert to broadcast stream to allow multiple listeners
+        var broadcastStream = udpSocket.asBroadcastStream();
+        //Receive UDP messages
+        broadcastStream.listen((event) {
+          if (event == RawSocketEvent.read) {
+            Datagram? dg = udpSocket.receive();
+            if (dg != null) {
+              String message = utf8.decode(dg.data);
+              debugPrint("UDP received $message");
+              // Use the StreamController to add the message
+              udpMessageController.add(message);
+            }
+          }
+        });
         if (!udpSetupCompleter.isCompleted) {
           udpSetupCompleter.complete(); // Mark UDP setup as complete
         }
-        //Receive
-        udpSocket.listen((e) {
-          debugPrint("GRU UDP receiving ${e}");
-          Datagram? dg = udpSocket.receive();
-          if (dg != null) {
-            debugPrint("GRU UDP received ${dg.data}");
-            String message = new String.fromCharCodes(dg.data);
 
-          }
-        });
         String message = 'TEST $ipAd';
         sendUdp( message ); //broadcast, udpSocket, DESTINATION_ADDRESS);
       });
@@ -142,6 +149,7 @@ class GruService extends BaseNetworkService {
     if (_wifiP2PInfoStream != null) {
       _wifiP2PInfoStream!.cancel();
     }
+    udpMessageController.close();
     super.dispose();
   }
 }

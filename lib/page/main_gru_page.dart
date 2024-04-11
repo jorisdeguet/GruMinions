@@ -41,15 +41,8 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
       _receiveTCP(element);
     });
     service.udpSetupCompleter.future.then((_) {
-      service.udpSocket.asBroadcastStream().listen((event) {
-        if (event == RawSocketEvent.read) {
-          Datagram? dg = service.udpSocket.receive();
-          if (dg != null) {
-            String message = utf8.decode(dg.data);
-            print("Gru Page received UDP message $message");
-            _receiveUDP(message);
-          }
-        }
+      service.udpMessageController.stream.listen((String message) {
+        _receiveUDP(message);
       });
     });
     changeMode(_modes[0].name());
