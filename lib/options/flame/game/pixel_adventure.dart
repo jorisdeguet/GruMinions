@@ -158,10 +158,6 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
     time.value = 0;
     player.life.value = 3;
     friend?.life.value = 3;
-    player.gotHit = false;
-    player.isDead = false;
-    friend!.gotHit = false;
-    friend!.isDead = false;
 
     interval = Timer(
       1,

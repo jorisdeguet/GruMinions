@@ -1,12 +1,12 @@
 import 'package:blinking_text/blinking_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mac_address/mac_address.dart';
 import 'package:stroke_text/stroke_text.dart';
 
 class ScreenHome extends StatefulWidget {
-  final String macAddress;
   const ScreenHome({
-    super.key, required this.macAddress,
+    super.key,
   });
 
   @override
@@ -14,6 +14,19 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
+  late String _macAddress = 'no mac';
+
+  @override
+  initState() {
+    super.initState();
+    initMac();
+  }
+
+  initMac() async {
+    _macAddress = await GetMac.macAddress;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +109,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                 endColor: Colors.transparent,
                 times: 3600,
                 duration: const Duration(seconds: 2)),
-            BlinkText(widget.macAddress,
+            BlinkText(_macAddress,
                 style: GoogleFonts.pixelifySans(
                   textStyle: const TextStyle(
                     fontSize: 16,
