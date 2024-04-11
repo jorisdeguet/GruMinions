@@ -34,6 +34,7 @@ class Player extends SpriteAnimationComponent with HasGameRef {
   }
 
   void _movePlayer(double delta) {
+    //print("Flame Mode Player direction: $direction");
     switch (direction) {
       case Direction.up:
         animation = _runUpAnimation;

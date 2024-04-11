@@ -1,7 +1,11 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart' hide Route, OverlayRoute;
+import 'package:get/get.dart';
 
+import '../helpers/skimaster_direction.dart';
+import 'actors/player.dart';
 import 'routes/gameplay.dart';
 import 'routes/level_complete.dart';
 import 'routes/level_selection.dart';
@@ -11,8 +15,18 @@ import 'routes/retry_menu.dart';
 import 'routes/settings.dart';
 
 class SkiMasterGame extends FlameGame with HasCollisionDetection {
+  static const snowmanSfx = 'skimaster/Snowman.wav';
+  static const hurtSfx = 'skimaster/Hurt.wav';
+  static const boostSfx = 'skimaster/boost.wav';
+  static const timerSfx = 'skimaster/321.wav';
+  static const goSfx = 'skimaster/Go!.wav';
+  static const deathSfx = 'skimaster/Death.wav';
+  static const gameBgm = 'skimaster/8BitDNALoop.wav';
+
   final musicValueNotifier = ValueNotifier(false);
   final sfxValueNotifier = ValueNotifier(false);
+
+  ValueNotifier<bool> showJoypadNotifier = ValueNotifier(false);
 
   //Stores the mapping between strings and routes using a id as a key
   late final _routes = <String, Route>{
@@ -75,6 +89,17 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
 
   @override
   Future<void> onLoad() async {
+    await FlameAudio.audioCache.loadAll(
+      [
+        hurtSfx,
+        boostSfx,
+        snowmanSfx,
+        deathSfx,
+        gameBgm,
+        timerSfx,
+        goSfx,
+      ],
+    );
     await add(_router);
   }
 
@@ -146,5 +171,13 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
 
   void _showRetryMenu() {
     _router.pushNamed(RetryMenu.id);
+  }
+
+  void onJoyPad1DirectionChanged(Direction direction) {
+    final gameplay = findByKeyName<Gameplay>(Gameplay.id);
+    if (gameplay != null) {
+      print("Gameplay is not null $gameplay");
+      gameplay.player.direction = direction;
+    }
   }
 }

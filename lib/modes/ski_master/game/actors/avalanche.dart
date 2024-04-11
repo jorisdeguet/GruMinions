@@ -15,24 +15,32 @@ class Avalanche extends PositionComponent
         CollisionCallbacks {
   Avalanche({super.position, super.priority});
 
-  late final SpriteComponent _body;
+  late final SpriteAnimationComponent _body;
   final _moveDirection = Vector2(0, 1);
 
   static const _maxSpeed = 80;
 
   @override
   FutureOr<void> onLoad() async {
-    final sprite = await game.loadSprite('skimaster/avalanche.png');
-    _body = SpriteComponent(
-      sprite: sprite,
+    final animation = await game.loadSpriteAnimation(
+        'skimaster/BigAvalanch.png',
+        SpriteAnimationData.sequenced(
+          amount: 4,
+          stepTime: 0.2,
+          textureSize: Vector2(960, 128),
+        ));
+    _body = SpriteAnimationComponent(
+      animation: animation,
       anchor: Anchor.center,
     );
     await add(_body);
-    await add(RectangleHitbox(
-      size: _body.size,
-      collisionType: CollisionType.passive,
-      anchor: Anchor.center,
-    )..debugMode = true);
+    await add(
+      RectangleHitbox(
+        size: _body.size,
+        collisionType: CollisionType.passive,
+        anchor: Anchor.center,
+      ),
+    );
   }
 
   @override

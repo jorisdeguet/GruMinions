@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class GruSkiMasterPage extends StatefulWidget {
-  final Function send;
+  final Function sendTCP;
+  final Function sendUDP;
 
-  const GruSkiMasterPage({super.key, required this.send});
+  const GruSkiMasterPage({super.key, required this.sendTCP, required this.sendUDP});
 
   @override
   GruSkiMasterState createState() => GruSkiMasterState();

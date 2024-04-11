@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gru_minions/service/gru_service.dart';
@@ -18,14 +21,14 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
 
   final List<String> _messages = [];
 
-  late final List<GruMinionMode> _modes = listOfModes(_send);
+  late final List<GruMinionMode> _modes = listOfModes(_sendTCP, _sendUDP);
   late GruMinionMode _currentMode;
 
   void changeMode(String m) {
     for (GruMinionMode mode in _modes) {
       if (m == mode.name()) _currentMode = mode;
     }
-    _send(m);
+    _sendTCP(m);
     _currentMode.initGru();
     setState(() {});
   }
@@ -35,7 +38,12 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
     Get.put(GruService());
     GruService service = Get.find<GruService>();
     service.onReceive.listen((element) {
-      _receive(element);
+      _receiveTCP(element);
+    });
+    service.udpSetupCompleter.future.then((_) {
+      service.udpMessageController.stream.listen((String message) {
+        _receiveUDP(message);
+      });
     });
     changeMode(_modes[0].name());
     super.initState();
@@ -77,13 +85,29 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
     );
   }
 
-  void _send(String m) {
+  void _sendTCP(String m) {
     _messages.insert(0, "Gru - $m");
     Get.find<GruService>().p2p.sendStringToSocket(m);
     setState(() {});
   }
 
-  void _receive(String m) {
+  void _receiveTCP(String m) {
+    try {
+      _messages.insert(0, "Minion - $m");
+      _currentMode.handleMessageAsGru(m);
+    } catch (e) {
+      print("Minion got exception while handling message $m");
+      e.printError();
+    }
+    setState(() {});
+  }
+
+  void _sendUDP(String message) {
+    Get.find<GruService>().sendUdp(message);
+    setState(() {});
+  }
+
+  void _receiveUDP(String m) {
     try {
       _messages.insert(0, "Minion - $m");
       _currentMode.handleMessageAsGru(m);

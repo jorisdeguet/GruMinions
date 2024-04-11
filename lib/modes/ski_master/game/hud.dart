@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
@@ -8,21 +7,19 @@ import 'package:flame/effects.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart' hide Viewport;
 
-import 'input.dart';
+import 'actors/player.dart';
 
-//to make this remain static depending on the camera we will add in the viewport of the camera
-//to enforce this relation we also add the parentIsA with viewport as a mix in the class
-//this make sure that any obj of this class is only overriden by a obj of class Viewport
+
 class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
   Hud({
     required Sprite playerSprite,
     required Sprite snowmanSprite,
-    required this.input,
+    required this.player,
     this.onPausePressed,
   })  : _player = SpriteComponent(
-          sprite: playerSprite,
-          anchor: Anchor.center,
-        ),
+    sprite: playerSprite,
+    anchor: Anchor.center,
+  ),
         _snowman = SpriteComponent(
           sprite: snowmanSprite,
           anchor: Anchor.center,
@@ -53,19 +50,37 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
   final SpriteComponent _player;
   final SpriteComponent _snowman;
 
-  late final JoystickComponent? _joystick;
-  final Input input;
+  //late final JoystickComponent? _joystick;
+  final Player player;
   final VoidCallback? onPausePressed;
 
   late Timer intervalCountdown;
   int elapsedSecs = 3;
+  late Timer goDisplayTimer;
 
+
+  //TextPaint for the border (stroke)
+  final TextPaint strokeTextPaint = TextPaint(
+    style: TextStyle(
+      fontSize: 48.0,
+      foreground: Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 4
+        ..color = Colors.black,
+    ),
+  );
+
+//TextPaint for the main text
   final TextPaint textPaint = TextPaint(
-    style: const TextStyle(color: Colors.black, fontSize: 40),
+    style: const TextStyle(
+      fontSize: 48.0,
+      color: Colors.white,
+    ),
   );
 
   @override
   Future<void> onLoad() async {
+    goDisplayTimer = Timer(0.5, repeat: false);
     intervalCountdown = Timer(
       1,
       onTick: () => elapsedSecs--,
@@ -93,26 +108,7 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
     );
 
     //adding them as child of hud
-    await addAll([_player, _life, _snowman, _score]);
-
-    _joystick = JoystickComponent(
-      anchor: Anchor.center,
-      position: parent.virtualSize * 0.2,
-      knob: CircleComponent(
-        radius: 10,
-        paint: Paint()..color = Colors.green.withOpacity(0.08),
-      ),
-      background: CircleComponent(
-        radius: 20,
-        paint: Paint()
-          ..color = Colors.black.withOpacity(0.05)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 4,
-      ),
-    );
-
-    _joystick?.position.y = parent.virtualSize.y - _joystick!.knobRadius * 1.5;
-    await _joystick?.addToParent(this);
+    await addAll([_player, _life,]);
 
     final pauseButton = HudButtonComponent(
       button: SpriteComponent.fromImage(
@@ -129,13 +125,6 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
   @override
   void update(double dt) {
     intervalCountdown.update(dt);
-    if (input.active) {
-      input.joystickHaxis = lerpDouble(
-        input.joystickHaxis,
-        _joystick!.isDragged ? _joystick!.relativeDelta.x * input.maxHAxis : 0,
-        input.sensitivity * dt,
-      )!;
-    }
   }
 
   void updateSnowmanCount(int count) {
@@ -182,11 +171,31 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
 
   @override
   void render(Canvas canvas) {
-    if (intervalCountdown.isRunning()) {
+    if (intervalCountdown.isRunning() || goDisplayTimer.isRunning()) {
+      final String displayText =
+      elapsedSecs <= 0 ? 'GO!' : elapsedSecs.toString();
+
+      // Center Text
+      final textSpan = TextSpan(text: displayText, style: textPaint.style);
+      final textPainter =
+      TextPainter(text: textSpan, textDirection: TextDirection.ltr);
+      textPainter.layout();
+
+      final xPosition = (parent.virtualSize.x - textPainter.width) * 0.5;
+      final yPosition = (parent.virtualSize.y * 0.5 - textPainter.height * 0.5);
+
+      // Stroke
+      strokeTextPaint.render(
+        canvas,
+        displayText,
+        Vector2(xPosition, yPosition),
+      );
+
+      // Render
       textPaint.render(
         canvas,
-        elapsedSecs.toString(),
-        Vector2(parent.virtualSize.x * 0.5, parent.virtualSize.y * 0.5),
+        displayText,
+        Vector2(xPosition, yPosition),
       );
     }
   }

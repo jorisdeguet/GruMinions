@@ -5,9 +5,9 @@ import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/widgets.dart';
-
+import '../../helpers/skimaster_direction.dart';
 import '../game.dart';
 import '../routes/gameplay.dart';
 
@@ -26,10 +26,20 @@ class Player extends PositionComponent
   final SpriteComponent _body;
   //unit vector that represent the position in which the player is moving at any given point
   final _moveDirection = Vector2(0, 1);
+  double leftDirection = 0.0;
+  double rightDirection = 0.0;
 
   static const _maxSpeed = 80;
   static const _acceleration = 0.5;
-  var _speed = 0.0;
+  var speed = 0.0;
+
+  final maxHAxis = 1.5;
+  final sensitivity = 3;
+
+  var hAxis = 0.0;
+  bool active = false;
+
+  Direction direction = Direction.none;
 
   @override
   FutureOr<void> onLoad() async {
@@ -42,26 +52,63 @@ class Player extends PositionComponent
   @override
   void update(double dt) {
     if (!ancestor.hud.intervalCountdown.isRunning()) {
-      _moveDirection.x = ancestor.input.hAxis;
+      double targetLeft = 0.0, targetRight = 0.0;
+      // Set target speed based on direction
+      switch (direction) {
+        case Direction.left:
+          targetRight = 0;
+          targetLeft = maxHAxis;
+          break;
+        case Direction.right:
+          targetLeft = 0;
+          targetRight = maxHAxis;
+          break;
+        case Direction.none:
+          targetLeft = 0;
+          targetRight = 0;
+          break;
+        case Direction.up:
+          break;
+        case Direction.down:
+          break;
+      }
+
+      leftDirection = lerpDouble(
+        leftDirection,
+        targetLeft,
+        sensitivity * dt,
+      )!;
+      rightDirection = lerpDouble(
+        rightDirection,
+        targetRight,
+        sensitivity * dt,
+      )!;
+
+      hAxis = rightDirection - leftDirection;
+
+      _moveDirection.x = hAxis;
       _moveDirection.y = 1;
       _moveDirection.normalize();
-
-      _speed = lerpDouble(_speed, _maxSpeed, _acceleration * dt)!;
-
+      speed = lerpDouble(speed, _maxSpeed, _acceleration * dt)!;
       angle = _moveDirection.screenAngle() + pi;
-      position.addScaled(_moveDirection, _speed * dt);
+      position.addScaled(_moveDirection, speed * dt);
     }
   }
 
   void resetTo(Vector2 resetPosition) {
     position.setFrom(resetPosition);
-    _speed *= 0.5;
+    speed *= 0.5;
   }
 
   double jump() {
-    final jumpFactor = _speed / _maxSpeed;
+    if (game.sfxValueNotifier.value) {
+      FlameAudio.play(SkiMasterGame.boostSfx);
+    }
+    final jumpFactor = speed / _maxSpeed;
+    speed = lerpDouble(speed, _maxSpeed * 1.2, 2)!;
     final jumpScale = lerpDouble(1, 1.2, jumpFactor)!;
-    final jumpDuration = lerpDouble(0, 0.8, jumpFactor)!;
+    final jumpDuration = lerpDouble(0, 0.3, jumpFactor)!;
+
     _body.add(
       ScaleEffect.by(
         Vector2.all(jumpScale),

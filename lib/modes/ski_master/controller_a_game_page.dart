@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'helpers/joypad.dart';
+import 'helpers/skimaster_joypad.dart';
+
+
+
+
+
 
 class ControllerAGamePage extends StatefulWidget {
-  final Function send;
+  final Function sendUDP;
 
-  const ControllerAGamePage({required this.send});
+  const ControllerAGamePage({required this.sendUDP});
 
   @override
   ControllerAGameState createState() => ControllerAGameState();
@@ -19,12 +24,12 @@ class ControllerAGameState extends State<ControllerAGamePage> {
         body: Stack(
           children: [
             Align(
-              alignment: Alignment.bottomRight,
+              alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: const EdgeInsets.all(32.0),
+                padding: const EdgeInsets.all(75.0),
                 child: Joypad(
                   onDirectionChanged: (direction) {
-                    widget.send('ControllerA,' + direction.toString());
+                    widget.sendUDP('ControllerA,' + direction.toString());
                   },
                 ),
               ),
