@@ -109,17 +109,17 @@ class MinionService extends BaseNetworkService {
   Future<void> _startUDPChannel() async {
     _log('Minion Service Starting UDP ');
     String? ipAd = await p2p.getIPAddress();
-    _log("IP address for  $ipAd @ ");
+    _log("M UDP IP address for  $ipAd @ ");
     if (ipAd != null) {
       String broadcast = "${ipAd.split(".")[0]}.${ipAd.split(".")[1]}.${ipAd.split(".")[2]}.255";
-      _log("IP address for boradcast  $broadcast");
+      _log("M UDP IP address for boradcast  $broadcast");
        DESTINATION_ADDRESS = InternetAddress(broadcast); // TODO make it a field in the service
       RawDatagramSocket.bind(InternetAddress.anyIPv4, 8888)
           .then((RawDatagramSocket udpSock) {
         // TODO make udpSocket a field in the service
         udpSocket = udpSock;
         udpSocket.broadcastEnabled = true;
-        _log("UDP Binded on  ${udpSocket.address}");
+        _log("M UDP Binded on  ${udpSocket.address}");
 
         // Convert to broadcast stream to allow multiple listeners
         var broadcastStream = udpSocket.asBroadcastStream();
@@ -140,7 +140,7 @@ class MinionService extends BaseNetworkService {
           udpSetupCompleter.complete(); // Mark UDP setup as complete
         }
 
-        String message = 'TEST $ipAd';
+        String message = 'UDP TEST $ipAd';
         sendUdp( message ); //broadcast, udpSocket, DESTINATION_ADDRESS);
       });
     }
@@ -164,16 +164,16 @@ class MinionService extends BaseNetworkService {
         onConnect: (String address) {
           _connected = true;
           minionStatus.value = MinionStatus.active;
-          debugPrint("Minion Service  $info");
+          debugPrint("TCP Minion Service  $info");
           DiscoveredPeers boss =
               _peers.firstWhere((DiscoveredPeers peer) => peer.isGroupOwner);
-          _log('Minion Service connected to Gru');
+          _log('TCP Minion Service connected to Gru');
         },
         transferUpdate: (transfer) {
           if (transfer.completed) {
             onReceive.value = "FILEPATH@${transfer.path}";
             debugPrint(
-                "Minion Service completed: ${transfer.filename}, PATH: ${transfer.path}");
+                "TCP Minion Service completed: ${transfer.filename}, PATH: ${transfer.path}");
           }
         },
         receiveString: (message) async {

@@ -99,13 +99,13 @@ class GruService extends BaseNetworkService {
   }
 
   Future<void> _startUDPChannel() async {
-    debugPrint('Gru Service Starting UDP ');
+    debugPrint('GRU Service Starting UDP ');
     String? ipAd = await p2p.getIPAddress();
-    debugPrint("GRU IP address for  $ipAd @ ");
+    debugPrint("GRU UDP IP address for  $ipAd @ ");
     if (ipAd != null) {
       String broadcast =
           "${ipAd.split(".")[0]}.${ipAd.split(".")[1]}.${ipAd.split(".")[2]}.255";
-      debugPrint("GRU IP address for boradcast  $broadcast");
+      debugPrint("GRU UDP IP address for boradcast  $broadcast");
       DESTINATION_ADDRESS = InternetAddress(broadcast); // TODO make it a field in the service
       RawDatagramSocket.bind(InternetAddress.anyIPv4, 8888)
           .then((RawDatagramSocket udpSock) {
@@ -122,7 +122,7 @@ class GruService extends BaseNetworkService {
             Datagram? dg = udpSocket.receive();
             if (dg != null) {
               String message = utf8.decode(dg.data);
-              debugPrint("UDP received $message");
+              debugPrint("GRU UDP received $message");
               // Use the StreamController to add the message
               udpMessageController.add(message);
             }
@@ -132,7 +132,7 @@ class GruService extends BaseNetworkService {
           udpSetupCompleter.complete(); // Mark UDP setup as complete
         }
 
-        String message = 'TEST $ipAd';
+        String message = 'GRU UDP TEST $ipAd';
         sendUdp( message ); //broadcast, udpSocket, DESTINATION_ADDRESS);
       });
     }
@@ -140,7 +140,7 @@ class GruService extends BaseNetworkService {
 
   void sendUdp(String message) {
     List<int> data = utf8.encode(message);
-    debugPrint(" sending data on UDP ");
+    debugPrint("GRU sending data on UDP ");
     udpSocket.send(data, DESTINATION_ADDRESS, 8888);
   }
 
