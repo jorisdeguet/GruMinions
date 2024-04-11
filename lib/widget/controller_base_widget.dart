@@ -11,7 +11,6 @@ import 'custom_circle.dart';
 
 abstract class ControllerBaseWidgetState<T extends StatefulWidget>
     extends State<T> with SingleTickerProviderStateMixin {
-
   //late variables
   late ControllerService controllerService;
   late AnimationController _animationController;
@@ -37,14 +36,13 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget>
     _initMac();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     controllerService = Get.find();
-
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 6000), vsync: this);
-    _animationController.repeat(reverse: true);
     _animation = Tween(begin: 0.0, end: 6.28).animate(_animationController)
       ..addListener(() {
         setState(() {});
       });
+    _animationController.repeat(reverse: true);
   }
 
   @override
@@ -76,7 +74,8 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 20.0, bottom: 20.0),
+            padding: const EdgeInsets.only(
+                left: 8.0, right: 8.0, top: 20.0, bottom: 20.0),
             child: Container(
               width: MediaQuery.of(context).size.width / 2.2,
               height: MediaQuery.of(context).size.height,
@@ -187,8 +186,12 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget>
                                         onPressed: () {
                                           controllerService
                                               .initiateConnectionToGru(gru);
+                                          _animationController.dispose();
                                         },
-                                        icon: const Icon(Icons.wifi_find, color: Colors.black,),
+                                        icon: const Icon(
+                                          Icons.wifi_find,
+                                          color: Colors.black,
+                                        ),
                                         label: Text('Connect',
                                             style: GoogleFonts.pixelifySans(
                                               textStyle: const TextStyle(
@@ -198,9 +201,9 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget>
                                               ),
                                             )),
                                         style: ButtonStyle(
-                                          backgroundColor:
-                                                MaterialStateProperty.all<Color>(
-                                                    Colors.white),
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.white),
                                             shape: MaterialStateProperty.all<
                                                     RoundedRectangleBorder>(
                                                 const RoundedRectangleBorder(
@@ -208,7 +211,8 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget>
                                                         BorderRadius.all(
                                                             Radius.circular(4)),
                                                     side: BorderSide(
-                                                        color: Colors.black))))),
+                                                        color:
+                                                            Colors.black))))),
                                   ),
                                 ),
                               );

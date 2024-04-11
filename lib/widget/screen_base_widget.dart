@@ -7,7 +7,7 @@ import '../service/screen_service.dart';
 import 'custom_circle.dart';
 
 abstract class ScreenBaseWidgetState<T extends StatefulWidget> extends State<T>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late ScreenService viewService;
   late AnimationController _animationController;
   late Animation _animation;
@@ -19,14 +19,17 @@ abstract class ScreenBaseWidgetState<T extends StatefulWidget> extends State<T>
   void initState() {
     super.initState();
     viewService = Get.find();
-
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 6000), vsync: this);
     _animationController.repeat(reverse: true);
-    _animation = Tween(begin: 0.0, end: 6.28).animate(_animationController)
-      ..addListener(() {
-        setState(() {});
-      });
+    _animation = Tween(begin: 0.0, end: 6.28).animate(_animationController);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    debugPrint('ScreenBaseWidgetState: dispose');
+    super.dispose();
   }
 
   @override
