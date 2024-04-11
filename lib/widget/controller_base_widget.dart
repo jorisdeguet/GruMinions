@@ -1,14 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gru_minions/service/controller_service.dart';
 import 'package:gru_minions/service/controller_status.dart';
 import 'package:mac_address/mac_address.dart';
 
-abstract class ControllerBaseWidgetState<T extends StatefulWidget> extends State<T> {
-  late ControllerService controllerService;
+import 'custom_circle.dart';
 
+abstract class ControllerBaseWidgetState<T extends StatefulWidget>
+    extends State<T> with SingleTickerProviderStateMixin {
+  late ControllerService controllerService;
+  late AnimationController _animationController;
+  late Animation _animation;
+
+  final double size = 200.0;
   List<String> logs = [];
 
   Widget content(BuildContext context);
@@ -28,6 +36,14 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget> extends State
     _initMac();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     controllerService = Get.find();
+
+    _animationController = AnimationController(
+        duration: const Duration(milliseconds: 6000), vsync: this);
+    _animationController.repeat(reverse: true);
+    _animation = Tween(begin: 0.0, end: 6.28).animate(_animationController)
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
@@ -37,14 +53,13 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget> extends State
       body: Obx(() {
         switch (controllerService.minionStatus.value) {
           case ControllerStatus.initializing:
-            return _loading(subText: '${macAddress()} Initialisation...');
+            return _loading(subText: 'Initialisation...');
           case ControllerStatus.searchingBoss:
-            return _loading(subText: '${macAddress()} Recherche de Gru...');
+            return _loading(subText: 'Searching for screen...');
           case ControllerStatus.connectingBoss:
-            return _loading(subText: '${macAddress()} Connection à Gru...');
+            return _loading(subText: 'Connecting to the screen...');
           case ControllerStatus.connectingSocket:
-            return _loading(
-                subText: '${macAddress()} Connection au socket de Gru...');
+            return _loading(subText: 'Connecting to screen\'s socket...');
           case ControllerStatus.active:
             return content(context);
           default:
@@ -56,63 +71,150 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget> extends State
 
   Widget _loading({String? subText}) {
     return Center(
-      child: Column(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                      child: Column(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: SizedBox(
-                                height: 80,
-                                width: 80,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 10,
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(subText ?? 'Chargement...'),
-                          ),
-                        ],
-                      )),
-                  controllerService.grus.length < 2
-                      ? Container()
-                      : Expanded(
-                      child: ListView(
-                        children: controllerService.grus.map((gru) {
-                          return ListTile(
-                            title: Text(gru.deviceName),
-                            subtitle: Text(gru.deviceAddress),
-                            trailing: ElevatedButton.icon(
-                                onPressed: () {
-                                  controllerService.initiateConnectionToGru(gru);
-                                },
-                                icon: const Icon(Icons.wifi_find),
-                                label: const Text("connect")),
-                          );
-                        }).toList(),
-                      ))
-                ],
-              )),
-          Expanded(
-            flex: 2,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Container(
-              color: Colors.black,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView(
-                  children: controllerService.logs
-                      .map((e) => Text(
-                    e,
-                    style: const TextStyle(color: Colors.white60),
-                  ))
-                      .toList(),
+              width: MediaQuery.of(context).size.width / 2.2,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 2,
                 ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      CustomPaint(
+                        size: Size(size, size),
+                        painter: CustomCircle(const Color(0xffea71bd),
+                            1.1 + _animation.value, size, size),
+                      ),
+                      CustomPaint(
+                        size: Size(size, size),
+                        painter: CustomCircle(const Color(0xff6cd9f1),
+                            1.5 * _animation.value, size, size),
+                      ),
+                      CustomPaint(
+                        size: Size(size, size),
+                        painter: CustomCircle(const Color(0xffcc3048),
+                            2.0 * _animation.value, size, size),
+                      ),
+                      CustomPaint(
+                        size: Size(size, size),
+                        painter: CustomCircle(const Color(0xff288610),
+                            2.5 * _animation.value, size, size),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      subText ?? 'Loading...',
+                      style: GoogleFonts.pixelifySans(
+                        textStyle: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width / 2.2,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Réseaux détectés',
+                        style: GoogleFonts.pixelifySans(
+                          textStyle: const TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        )),
+                  ),
+                  controllerService.grus.length < 2
+                      ? const SizedBox()
+                      : Expanded(
+                          child: ListView(
+                            children: controllerService.grus.map((gru) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 16.0, left: 16.0, top: 8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: ListTile(
+                                    title: Text(gru.deviceName,
+                                        style: GoogleFonts.pixelifySans(
+                                          textStyle: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        )),
+                                    subtitle: Text(gru.deviceAddress,
+                                        style: GoogleFonts.pixelifySans(
+                                          textStyle: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        )),
+                                    trailing: ElevatedButton.icon(
+                                        onPressed: () {
+                                          controllerService
+                                              .initiateConnectionToGru(gru);
+                                        },
+                                        icon: const Icon(Icons.wifi_find, color: Colors.black,),
+                                        label: Text('Connect',
+                                            style: GoogleFonts.pixelifySans(
+                                              textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            )),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                                MaterialStateProperty.all<Color>(
+                                                    Colors.white),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                const RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(4)),
+                                                    side: BorderSide(
+                                                        color: Colors.black))))),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        )
+                ],
               ),
             ),
           ),
