@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gru_minions/service/screen_status.dart';
 
 import '../service/screen_service.dart';
+import 'custom_circle.dart';
 
-abstract class ScreenBaseWidgetState<T extends StatefulWidget>
-    extends State<T> {
+abstract class ScreenBaseWidgetState<T extends StatefulWidget> extends State<T>
+    with SingleTickerProviderStateMixin {
   late ScreenService viewService;
+  late AnimationController _animationController;
+  late Animation _animation;
+  final double size = 200.0;
+
   Widget content(BuildContext context);
 
   @override
   void initState() {
     super.initState();
     viewService = Get.find();
+
+    _animationController = AnimationController(
+        duration: const Duration(milliseconds: 6000), vsync: this);
+    _animationController.repeat(reverse: true);
+    _animation = Tween(begin: 0.0, end: 6.28).animate(_animationController)
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
@@ -21,11 +35,11 @@ abstract class ScreenBaseWidgetState<T extends StatefulWidget>
       body: Obx(() {
         switch (viewService.bossStatus.value) {
           case ViewStatus.initializing:
-            return _loading(subText: 'Initialisation...');
+            return _loading(subText: 'Initialization...');
           case ViewStatus.creatingGroup:
-            return _loading(subText: 'Création du groupe...');
+            return _loading(subText: 'Creating group...');
           case ViewStatus.openingSocket:
-            return _loading(subText: 'Ouverture du socket...');
+            return _loading(subText: 'Opening socket...');
           case ViewStatus.active:
             return content(context);
           default:
@@ -40,20 +54,45 @@ abstract class ScreenBaseWidgetState<T extends StatefulWidget>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(
-              height: 100,
-              width: 100,
-              child: CircularProgressIndicator(
-                strokeWidth: 10,
-              )),
+          Stack(
+            children: [
+              CustomPaint(
+                size: Size(size, size),
+                painter: CustomCircle(const Color(0xffea71bd),
+                    1.1 + _animation.value, size, size),
+              ),
+              CustomPaint(
+                size: Size(size, size),
+                painter: CustomCircle(const Color(0xff6cd9f1),
+                    1.5 * _animation.value, size, size),
+              ),
+              CustomPaint(
+                size: Size(size, size),
+                painter: CustomCircle(const Color(0xffcc3048),
+                    2.0 * _animation.value, size, size),
+              ),
+              CustomPaint(
+                size: Size(size, size),
+                painter: CustomCircle(const Color(0xff288610),
+                    2.5 * _animation.value, size, size),
+              ),
+            ],
+          ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(subText ?? 'Chargement...'),
+            child: Text(
+              subText ?? 'Loading...',
+              style: GoogleFonts.pixelifySans(
+                textStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
           )
         ],
       ),
     );
   }
-
-  
 }

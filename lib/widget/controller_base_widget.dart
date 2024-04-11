@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,12 +11,14 @@ import 'custom_circle.dart';
 
 abstract class ControllerBaseWidgetState<T extends StatefulWidget>
     extends State<T> with SingleTickerProviderStateMixin {
+
+  //late variables
   late ControllerService controllerService;
   late AnimationController _animationController;
   late Animation _animation;
 
+  //final variables
   final double size = 200.0;
-  List<String> logs = [];
 
   Widget content(BuildContext context);
 
@@ -53,7 +54,7 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget>
       body: Obx(() {
         switch (controllerService.minionStatus.value) {
           case ControllerStatus.initializing:
-            return _loading(subText: 'Initialisation...');
+            return _loading(subText: 'Initialization...');
           case ControllerStatus.searchingBoss:
             return _loading(subText: 'Searching for screen...');
           case ControllerStatus.connectingBoss:
@@ -75,7 +76,7 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 20.0, bottom: 20.0),
             child: Container(
               width: MediaQuery.of(context).size.width / 2.2,
               height: MediaQuery.of(context).size.height,
@@ -132,7 +133,7 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget>
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width / 2.2,
               height: MediaQuery.of(context).size.height,
               child: Column(
@@ -140,7 +141,7 @@ abstract class ControllerBaseWidgetState<T extends StatefulWidget>
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Réseaux détectés',
+                    child: Text('Networks detected',
                         style: GoogleFonts.pixelifySans(
                           textStyle: const TextStyle(
                             fontSize: 30,
