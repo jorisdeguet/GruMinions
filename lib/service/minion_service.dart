@@ -28,6 +28,12 @@ class MinionService extends BaseNetworkService {
 
   List<String> logs = [];
 
+  // Bidules pour UDP
+  StreamController<String> udpMessageController = StreamController<String>.broadcast();
+  Completer<void> udpSetupCompleter = Completer();
+  late RawDatagramSocket udpSocket;
+  late InternetAddress DESTINATION_ADDRESS;
+
   MinionService() {
     _init();
   }
@@ -85,8 +91,8 @@ class MinionService extends BaseNetworkService {
           event.groupOwnerAddress != "") {
         _log('Minion Service connection to socket initiated');
         _connectingToBossSocket = true;
-        connectToSocket(event);
-        _startUDPChannel();
+        connectToSocket(event); //SocketsTCP
+        _startUDPChannel(); //SocketsUDP
       }
     });
   }
@@ -103,28 +109,47 @@ class MinionService extends BaseNetworkService {
   Future<void> _startUDPChannel() async {
     _log('Minion Service Starting UDP ');
     String? ipAd = await p2p.getIPAddress();
-    _log("IP address for  $ipAd @ ");
+    _log("M UDP IP address for  $ipAd @ ");
     if (ipAd != null) {
-      String broadcast =
-          "${ipAd.split(".")[0]}.${ipAd.split(".")[1]}.${ipAd.split(".")[2]}.255";
-      _log("IP address for boradcast  $broadcast");
-      var DESTINATION_ADDRESS = InternetAddress(broadcast);
+      String broadcast = "${ipAd.split(".")[0]}.${ipAd.split(".")[1]}.${ipAd.split(".")[2]}.255";
+      _log("M UDP IP address for boradcast  $broadcast");
+       DESTINATION_ADDRESS = InternetAddress(broadcast); // TODO make it a field in the service
       RawDatagramSocket.bind(InternetAddress.anyIPv4, 8888)
-          .then((RawDatagramSocket udpSocket) {
+          .then((RawDatagramSocket udpSock) {
+        // TODO make udpSocket a field in the service
+        udpSocket = udpSock;
         udpSocket.broadcastEnabled = true;
-        _log("Binded on  ${udpSocket.address}");
-        udpSocket.listen((e) {
-          _log("receiving ${e}");
-          Datagram? dg = udpSocket.receive();
-          if (dg != null) {
-            _log("received ${dg.data}");
+        _log("M UDP Binded on  ${udpSocket.address}");
+
+        // Convert to broadcast stream to allow multiple listeners
+        var broadcastStream = udpSocket.asBroadcastStream();
+        //Receive UDP messages
+        broadcastStream.listen((event) {
+          if (event == RawSocketEvent.read) {
+            Datagram? dg = udpSocket.receive();
+            if (dg != null) {
+              String message = utf8.decode(dg.data);
+              _log("UDP received $message");
+              // Use the StreamController to add the message
+              udpMessageController.add(message);
+            }
           }
         });
-        List<int> data = utf8.encode('TEST $ipAd');
-        _log(" sending data on UDP  $broadcast");
-        udpSocket.send(data, DESTINATION_ADDRESS, 8888);
+
+        if (!udpSetupCompleter.isCompleted) {
+          udpSetupCompleter.complete(); // Mark UDP setup as complete
+        }
+
+        String message = 'UDP TEST $ipAd';
+        sendUdp( message ); //broadcast, udpSocket, DESTINATION_ADDRESS);
       });
     }
+  }
+
+  void sendUdp(String message) {
+    List<int> data = utf8.encode(message);
+    _log(" sending data on UDP ");
+    udpSocket.send(data, DESTINATION_ADDRESS, 8888);
   }
 
   Future connectToSocket(WifiP2PInfo info) async {
@@ -139,26 +164,17 @@ class MinionService extends BaseNetworkService {
         onConnect: (String address) {
           _connected = true;
           minionStatus.value = MinionStatus.active;
-          debugPrint("Minion Service  $info");
+          debugPrint("TCP Minion Service  $info");
           DiscoveredPeers boss =
               _peers.firstWhere((DiscoveredPeers peer) => peer.isGroupOwner);
-          _log('Minion Service connected to Gru');
+          _log('TCP Minion Service connected to Gru');
         },
         transferUpdate: (transfer) {
           if (transfer.completed) {
             onReceive.value = "FILEPATH@${transfer.path}";
             debugPrint(
-                "Minion Service completed: ${transfer.filename}, PATH: ${transfer.path}");
+                "TCP Minion Service completed: ${transfer.filename}, PATH: ${transfer.path}");
           }
-          // debugPrint(
-          //     "ID: ${transfer.id}, "
-          //         "FILENAME: ${transfer.filename}, "
-          //         "PATH: ${transfer.path}, "
-          //         "COUNT: ${transfer.count}, "
-          //         "TOTAL: ${transfer.total}, "
-          //         "COMPLETED: ${transfer.completed}, "
-          //         "FAILED: ${transfer.failed}, "
-          //         "RECEIVING: ${transfer.receiving}");
         },
         receiveString: (message) async {
           //print('Minion got message  ' + message.toString());
@@ -177,6 +193,7 @@ class MinionService extends BaseNetworkService {
     if (_wifiP2PInfoStream != null) {
       _wifiP2PInfoStream!.cancel();
     }
+    udpMessageController.close();
     super.dispose();
   }
 }

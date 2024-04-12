@@ -9,7 +9,7 @@ import 'boxsmasher/controller_b_game_page.dart';
 import 'boxsmasher/helpers/direction.dart';
 
 class BoxSmasherMode extends GruMinionMode {
-  BoxSmasherMode({required super.sendToOthers});
+  BoxSmasherMode({required super.sendOthersTCP,required super.sendOthersUDP});
 
   final BoxSmasherGame _gameA = BoxSmasherGame();
   final BoxSmasherGame _gameB = BoxSmasherGame();
@@ -17,7 +17,7 @@ class BoxSmasherMode extends GruMinionMode {
   @override
   Widget gruWidget() {
     return GruBoxSmasherPage(
-      send: sendToOthers,
+      send: sendOthersTCP,
     );
   }
 

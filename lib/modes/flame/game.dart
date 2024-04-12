@@ -35,7 +35,7 @@ class MainGame extends FlameGame with KeyboardEvents {
     _player2.direction = direction;
   }
 
-  void onAButtonPressed( bool isPressed) {
+  void onAButtonPressed(bool isPressed) {
     if (isPressed) {
       _player.direction = Direction.right;
     } else {
@@ -43,7 +43,7 @@ class MainGame extends FlameGame with KeyboardEvents {
     }
   }
 
-  void onBButtonPressed( bool isPressed) {
+  void onBButtonPressed(bool isPressed) {
     if (isPressed) {
       _player.direction = Direction.left;
     } else {
