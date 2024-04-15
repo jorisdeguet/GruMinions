@@ -150,7 +150,7 @@ class BoxSmasherMode extends GruMinionMode {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) =>
-                              ControllerABoxSmasherPage(send: sendToOthers),
+                              ControllerABoxSmasherPage(send: sendOthersTCP),
                         ),
                       );
                     },
@@ -167,7 +167,7 @@ class BoxSmasherMode extends GruMinionMode {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) =>
-                              ControllerBBoxSmasherPage(send: sendToOthers),
+                              ControllerBBoxSmasherPage(send: sendOthersTCP),
                         ),
                       );
                     },
@@ -184,7 +184,7 @@ class BoxSmasherMode extends GruMinionMode {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return BoxSmasherMainMenu(send: sendToOthers, gameA: _gameA, gameB: _gameB);
+    return BoxSmasherMainMenu(send: sendOthersTCP, gameA: _gameA, gameB: _gameB);
   }
 
   @override

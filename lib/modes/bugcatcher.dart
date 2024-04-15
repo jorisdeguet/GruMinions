@@ -11,7 +11,7 @@ import 'bugcatcher/bugcatcher_controller_a_page.dart';
 import 'bugcatcher/overlays/game_over.dart';
 
 class BugCatcherMode extends GruMinionMode {
-  BugCatcherMode({required super.sendToOthers});
+  BugCatcherMode({required super.sendOthersTCP, required super.sendOthersUDP});
 
   late BugCatcherGame gameA = BugCatcherGame();
   late BugCatcherGame gameB = BugCatcherGame();
@@ -19,7 +19,8 @@ class BugCatcherMode extends GruMinionMode {
   @override
   Widget gruWidget() {
     return GruBugCatcherPage(
-      send: sendToOthers,
+      sendTCP: sendOthersTCP,
+      sendUDP: sendOthersUDP,
     );
   }
 
@@ -150,7 +151,7 @@ class BugCatcherMode extends GruMinionMode {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) =>
-                                ControllerABugCatcherPage(send: sendToOthers),
+                                ControllerABugCatcherPage(send: sendOthersTCP),
                           ),
                         );
                       },
@@ -184,7 +185,7 @@ class BugCatcherMode extends GruMinionMode {
 
     @override
     Widget screenWidget(BuildContext context) {
-      return BugCatcherMainMenuPage(send: sendToOthers, gameA: gameA);
+      return BugCatcherMainMenuPage(send: sendOthersTCP, gameA: gameA);
     }
 
     @override

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class GruBugCatcherPage extends StatefulWidget {
-  final Function send;
+  final Function sendTCP;
+  final Function sendUDP;
 
-  const GruBugCatcherPage({super.key, required this.send});
+  const GruBugCatcherPage({super.key, required this.sendTCP, required this.sendUDP});
 
   @override
   GruBugCatcherState createState() => GruBugCatcherState();

@@ -10,6 +10,6 @@ List<GruMinionMode> listOfModes(Function sendTCP, Function sendUDP) {
     FlameMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
     BoxSmasherMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
     SkiMaster(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
-    BugCatcherMode(sendToOthers: send),
+    BugCatcherMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
   ];
 }
