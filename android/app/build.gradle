@@ -5,6 +5,7 @@ plugins {
 }
 
 def localProperties = new Properties()
+def localKeyProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
@@ -51,12 +52,31 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
+    signingConfigs {
+        release {
+            // Check if the key.properties file exists
+            File keyPropertiesFile = rootProject.file('key.properties')
+            if (keyPropertiesFile.exists()) {
+                // Load the key.properties file
+                Properties keyProperties = new Properties()
+                keyProperties.load(keyPropertiesFile.newDataInputStream())
 
+                // Set up the signing configuration using the loaded properties
+                keyAlias = keyProperties['keyAlias']
+                keyPassword = keyProperties['keyPassword']
+                storeFile = file(keyProperties['storeFile'])
+                storePassword = keyProperties['storePassword']
+            } else {
+                throw new GradleException("key.properties could not be found at ${keyPropertiesFile.absolutePath}")
+            }
+        }
+    }
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }

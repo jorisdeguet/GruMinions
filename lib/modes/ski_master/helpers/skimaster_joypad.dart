@@ -70,11 +70,11 @@ class JoypadState extends State<Joypad> {
   }
 
   Direction _getDirectionFromOffset(Offset offset) {
-    if (offset.dx > 19) {
+    if (offset.dx > 20) {
       return Direction.right;
-    } else if (offset.dx < -19) {
+    } else if (offset.dx < -20) {
       return Direction.left;
-    } else if (offset.dy > 19) {}
+    } else if (offset.dy > 20) {}
     return Direction.none;
   }
 

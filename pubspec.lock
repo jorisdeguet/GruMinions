@@ -321,11 +321,9 @@ packages:
   flutter_p2p_connection:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: c3921b09f9b912a4c64fb90404d8177a918ee28b
-      url: "https://github.com/jorisdeguet/flutter_p2p_connection.git"
-    source: git
+      path: "../flutter_p2p_connection"
+      relative: true
+    source: path
     version: "2.0.3"
   flutter_test:
     dependency: "direct dev"
