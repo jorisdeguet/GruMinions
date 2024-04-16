@@ -8,9 +8,9 @@ import 'helpers/skimaster_joypad.dart';
 
 
 class ControllerAGamePage extends StatefulWidget {
-  final Function sendUDP;
+  final Function sendTCP;
 
-  const ControllerAGamePage({required this.sendUDP});
+  const ControllerAGamePage({required this.sendTCP});
 
   @override
   ControllerAGameState createState() => ControllerAGameState();
@@ -29,7 +29,7 @@ class ControllerAGameState extends State<ControllerAGamePage> {
                 padding: const EdgeInsets.all(75.0),
                 child: Joypad(
                   onDirectionChanged: (direction) {
-                    widget.sendUDP('ControllerA,' + direction.toString());
+                    widget.sendTCP('ControllerA,' + direction.toString());
                   },
                 ),
               ),

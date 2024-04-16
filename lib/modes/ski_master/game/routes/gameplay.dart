@@ -7,6 +7,7 @@ import 'package:flame/sprite.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../actors/avalanche.dart';
@@ -98,7 +99,8 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
       onPausePressed: onPausePressed,
     );
 
-    await _camera.viewport.addAll([_fader, hud]);
+    await _camera.viewport.addAll([_fader, hud, FpsTextComponent(
+    textRenderer: TextPaint(style: const TextStyle(color: Colors.red)))]);
     await _camera.viewfinder.add(_cameraShake);
     _cameraShake.pause();
     hud.intervalCountdown.stop();
