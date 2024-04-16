@@ -44,7 +44,7 @@ class _ScreenGameState extends State<ScreenGame> {
                       child: Column(
                         children: [
                           ScoreBar(score: widget.game.score),
-                          TimerBar(game: widget.game, time: widget.game.time),
+                          TimerBar(game: widget.game),
                         ],
                       ),
                     ),

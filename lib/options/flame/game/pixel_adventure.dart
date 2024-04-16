@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../components/friend.dart';
 import '../helpers/direction.dart';
-import '../helpers/jump_button.dart';
 import '../components/player.dart';
 import '../components/level.dart';
 
@@ -57,6 +55,12 @@ class PixelAdventure extends FlameGame with HasCollisionDetection {
     if(playSounds) FlameAudio.bgm.play('background.wav', volume: soundVolume);
 
     return super.onLoad();
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    interval.update(dt);
   }
 
   void onController1DirectionChanged(Direction direction) {

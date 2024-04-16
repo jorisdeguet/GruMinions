@@ -68,8 +68,8 @@ class GameOver extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 100,
-                    height: 100,
+                    width: 80,
+                    height: 80,
                     child: SpriteAnimationWidget.asset(
                       path:
                           "Main Characters/${game.playerName}/Idle (32x32).png",

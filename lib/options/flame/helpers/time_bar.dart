@@ -6,14 +6,10 @@ import '../game/pixel_adventure.dart';
 class TimerBar extends StatelessWidget {
   const TimerBar({
     super.key,
-    required this.game,
-    required this.time,
+    required this.game
   });
 
   final PixelAdventure game;
-
-  //Final variables
-  final ValueNotifier<int> time;
 
   String _formatDuration(Duration duration) {
     String twoDigits(int n) {
@@ -29,10 +25,10 @@ class TimerBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<int>(
-        valueListenable: time,
+        valueListenable: game.time,
         builder: (context, score, child) {
           return Text(
-            'Time: ${_formatDuration(Duration(seconds: time.value))}',
+            'Time: ${_formatDuration(Duration(seconds: game.time.value))}',
             style: GoogleFonts.pixelifySans(
               color: Colors.white,
               fontSize: 20,

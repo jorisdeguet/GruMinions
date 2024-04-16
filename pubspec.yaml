@@ -18,10 +18,6 @@ dependencies:
       url: https://github.com/jorisdeguet/flutter_p2p_connection.git
       ref: main
   mac_address: ^1.0.0
-  # sound libraries
-  #volume_controller: ^2.0.7
-  #flutter_sound: ^9.2.13
-  #audioplayers: ^5.2.0
   intl: ^0.18.1
   assets_audio_player: ^3.1.1
   flame: ^1.17.0
@@ -39,6 +35,7 @@ dependencies:
   sidebarx: ^0.16.3
   blinking_text: ^1.0.2
   carousel_slider: ^4.2.1
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +44,24 @@ dev_dependencies:
   # potential use of complex messages inside a mode??
   json_serializable: ^6.7.1
   build_runner: ^2.4.9
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/Icon Launcher.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/icon/Icon Launcher.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/icons/Icon Launcher.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/icons/Icon Launcher.png"
 
 
 flutter:
