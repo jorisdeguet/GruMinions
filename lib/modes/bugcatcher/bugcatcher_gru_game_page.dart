@@ -19,7 +19,7 @@ class GruBugCatcherState extends State<GruBugCatcherPage> {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Text('BugCatcher Game Page', style: TextStyle(color: Colors.white, fontSize: 24)),
+              child: Text('Page de jeu de BugCatcher', style: TextStyle(color: Colors.white, fontSize: 24)),
             ),
           ],
         ));

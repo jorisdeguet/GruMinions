@@ -127,9 +127,9 @@ class BugCatcherMode extends GruMinionMode {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
-                            'In this game you need to count the number of bugs that are of a certain type.\n\n '
-                                'The Joy pad is used to move the camera. While the A and B buttons control the counter.\n\n '
-                                'Good luck! Select your controllers to start the game.',
+                            'Dans ce jeu vous devez compter le nombre de bugs qui sont d\'un certain type.\n\n '
+                                'Le Joy pad est utilisé pour déplacer la caméra. Tandis que les boutons A et B contrôlent le compteur.\n\n '
+                                'Bonne chance! Sélectionnez votre contrôleur pour démarrer le jeu.',
                             maxLines: 15,
                             style: TextStyle(
                                 color: Colors.white,

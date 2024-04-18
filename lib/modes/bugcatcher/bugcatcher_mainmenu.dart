@@ -55,7 +55,7 @@ class BugCatcherMainMenuState extends State<BugCatcherMainMenuPage> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                       ),
-                      child: const Text('Start Game', style: TextStyle(color: Colors.black, fontSize: 20),),
+                      child: const Text('Commencer Jeu', style: TextStyle(color: Colors.black, fontSize: 20),),
                     ),
                   ],
                 ),

@@ -34,17 +34,17 @@ class Win extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(top: 23.0),
-              child: Text('You Win!', style: TextStyle(color: Colors.white, fontSize: 24)),
+              child: Text('Vous avez gagné!', style: TextStyle(color: Colors.white, fontSize: 24)),
             ),
             SizedBox(height: 20),
             Padding(
               padding: EdgeInsets.only(top: 23.0),
-              child: Text('You have scored 100 points!', style: TextStyle(color: Colors.white, fontSize: 24)),
+              child: Text('Vous avez fait 100 points!', style: TextStyle(color: Colors.white, fontSize: 24)),
             ),
             SizedBox(height: 20),
             Padding(
               padding: EdgeInsets.only(top: 23.0),
-              child: Text('Congratulations!', style: TextStyle(color: Colors.white, fontSize: 24)),
+              child: Text('Félicitations!', style: TextStyle(color: Colors.white, fontSize: 24)),
             ),
           ],
         ),

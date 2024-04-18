@@ -126,9 +126,9 @@ class BoxSmasherMode extends GruMinionMode {
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          'In this game you need to push 100 boxes into your new house to win.\n\n '
-                              'You can push the boxes by pressing the A button.\n\n '
-                              'Good luck! Select your controllers to start the game.',
+                          'Dans ce jeu, vous devez pousser 100 boîtes dans votre nouvelle maison pour gagner.\n\n '
+                              'Vous pouvez pousser les boîtes en appuyant sur le bouton A.\n\n '
+                              'Bonne chance! Sélectionnez vos contrôleurs pour démarrer le jeu.',
                           maxLines: 15,
                           style: TextStyle(
                               color: Colors.white,

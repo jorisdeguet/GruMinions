@@ -53,7 +53,7 @@ class _BoxSmasherMenuState extends State<BoxSmasherMenu> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                       ),
-                      child: const Text('Start Game', style: TextStyle(color: Colors.black, fontSize: 20),),
+                      child: const Text('Lancer le Jeu', style: TextStyle(color: Colors.black, fontSize: 20),),
                     ),
                   ],
                 ),

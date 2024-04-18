@@ -30,7 +30,7 @@ class GameOver extends StatelessWidget {
   Widget howWellDidYouDoText(){
     return const Padding(
       padding: EdgeInsets.only(top: 23.0),
-      child: Text('How well did you do', style: TextStyle(color: Colors.white, fontSize: 24)),
+      child: Text('Combien avez-vous compté:', style: TextStyle(color: Colors.white, fontSize: 24)),
     );
   }
 
@@ -52,7 +52,7 @@ class GameOver extends StatelessWidget {
       children: [
         SizedBox(
           width: 250,
-          child: Text("${game.count} was your answer.", style: const TextStyle(color: Colors.white, fontSize: 24)),
+          child: Text("${game.count} était votre réponse.", style: const TextStyle(color: Colors.white, fontSize: 24)),
         ),
       ],
     );
@@ -63,14 +63,14 @@ class GameOver extends StatelessWidget {
       return const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('You are correct!', style: TextStyle(color: Colors.green, fontSize: 32)),
+          Text('Vous êtes Correct!', style: TextStyle(color: Colors.green, fontSize: 32)),
         ],
       );
     } else {
       return const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('You are incorrect!', style: TextStyle(color: Colors.red, fontSize: 32)),
+          Text('Vous êtes Incorrect!', style: TextStyle(color: Colors.red, fontSize: 32)),
         ],
       );
     }

@@ -12,7 +12,7 @@ import 'mainmenu/modes_maine_menu/skimaster_mainmenu_mode/skimaster_mainmenu.dar
 List<GruMinionMode> listOfModes(Function sendTCP, Function sendUDP) {
   return [
     MainMenuMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
-    FlameMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
+    //FlameMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
     BoxSmasherMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
     SkiMaster(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
     BugCatcherMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
