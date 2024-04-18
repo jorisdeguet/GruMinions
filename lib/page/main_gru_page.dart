@@ -21,7 +21,7 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
 
   final List<String> _messages = [];
 
-  late final List<GruMinionMode> _modes = listOfModes(_sendTCP, _sendUDP);
+  late final List<GruMinionMode> _modes = listOfModes(_sendTCP, _sendUDP).where((element) => !element.name().contains('MainMenu')).toList();
   late GruMinionMode _currentMode;
 
   void changeMode(String m) {
@@ -45,6 +45,7 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
         _receiveUDP(message);
       });
     });
+
     changeMode(_modes[0].name());
     super.initState();
   }
@@ -75,6 +76,7 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
   }
 
   Expanded _gestionDesModes() {
+
     return Expanded(
       child: GridView.count(
         crossAxisCount: 3,

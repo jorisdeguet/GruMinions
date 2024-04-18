@@ -184,7 +184,7 @@ class BoxSmasherMode extends GruMinionMode {
 
   @override
   Widget screenWidget(BuildContext context) {
-    return BoxSmasherMainMenu(send: sendOthersTCP, gameA: _gameA, gameB: _gameB);
+    return BoxSmasherMenu(send: sendOthersTCP, gameA: _gameA, gameB: _gameB);
   }
 
   @override

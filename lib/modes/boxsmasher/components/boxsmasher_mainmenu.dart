@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import '../boxsmasher_game.dart';
 import '../screen_boxsmasher_page.dart';
 
-class BoxSmasherMainMenu extends StatefulWidget {
+class BoxSmasherMenu extends StatefulWidget {
   final Function send;
   late BoxSmasherGame gameA;
   late BoxSmasherGame gameB;
-  BoxSmasherMainMenu({super.key, required this.send, required this.gameA, required this.gameB});
+  BoxSmasherMenu({super.key, required this.send, required this.gameA, required this.gameB});
 
   @override
-  _BoxSmasherMainMenuState createState() => _BoxSmasherMainMenuState();
+  _BoxSmasherMenuState createState() => _BoxSmasherMenuState();
 }
 
-class _BoxSmasherMainMenuState extends State<BoxSmasherMainMenu> {
+class _BoxSmasherMenuState extends State<BoxSmasherMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
