@@ -6,6 +6,8 @@ import 'package:gru_minions/modes/bugcatcher.dart';
 
 import 'boxsmasher.dart';
 import 'main_menu.dart';
+import 'mainmenu/modes_maine_menu/bugcatcher_mainmenu_mode/bugcatcher_mainmenu.dart';
+import 'mainmenu/modes_maine_menu/skimaster_mainmenu_mode/skimaster_mainmenu.dart';
 
 List<GruMinionMode> listOfModes(Function sendTCP, Function sendUDP) {
   return [
@@ -15,5 +17,7 @@ List<GruMinionMode> listOfModes(Function sendTCP, Function sendUDP) {
     SkiMaster(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
     BugCatcherMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
     BoxSmasherMainMenuMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
+    BugCatcherMainMenuMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
+    SkiMasterMainMenuMode(sendOthersTCP: sendTCP, sendOthersUDP: sendUDP),
   ];
 }

@@ -1,16 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:gru_minions/modes/base-mode.dart';
-import 'package:gru_minions/modes/boxsmasher/helpers/a_button.dart';
 
-import 'gru_boxsmasher_mainmenu_page.dart';
+import '../../../bugcatcher/helpers/bugcatcher_a_button.dart';
+import '../../../bugcatcher/helpers/bugcatcher_b_button.dart';
+import 'gru_bugcatcher_mainmenu_page.dart';
 
-class BoxSmasherMainMenuMode extends GruMinionMode {
-  BoxSmasherMainMenuMode(
+class BugCatcherMainMenuMode extends GruMinionMode {
+  BugCatcherMainMenuMode(
       {required super.sendOthersTCP, required super.sendOthersUDP});
 
   @override
   Widget gruWidget() {
-    return GruBoxSmasherMainMenuPage(
+    return GruBugCatcherMainMenuPage(
       sendOthersTCP: sendOthersTCP,
       sendOthersUDP: sendOthersUDP,
     );
@@ -35,7 +38,7 @@ class BoxSmasherMainMenuMode extends GruMinionMode {
   Widget minionWidget(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Box Smasher Main Menu'),
+        title: const Text('Bug Catcher Main Menu'),
       ),
       body: Center(
         child: Row(
@@ -48,7 +51,7 @@ class BoxSmasherMainMenuMode extends GruMinionMode {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                          'assets/boxsmasher/images/BoxSmasherMap.png'),
+                          'assets/bugcatcher/images/BugCatcherMap.png'),
                     ),
                   ),
                   child: ElevatedButton(
@@ -67,7 +70,7 @@ class BoxSmasherMainMenuMode extends GruMinionMode {
   }
 
   @override
-  String name() => 'BoxSmasherMainMenu';
+  String name() => 'BugCatcherMainMenu';
 
   @override
   Widget screenWidget(BuildContext context) {
@@ -105,12 +108,12 @@ class BoxSmasherMainMenuMode extends GruMinionMode {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, top: 10, bottom: 10),
       child: Container(
-        width: 600,
-        height: 400,
+        width: 525,
+        height: 425,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           image: DecorationImage(
-            image: AssetImage('assets/boxsmasher/images/BoxSmasherMap.png'),
+            image: AssetImage('assets/bugcatcher/images/BugCatcherMap.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -118,11 +121,11 @@ class BoxSmasherMainMenuMode extends GruMinionMode {
     );
   }
 
-  Widget zoneControls() {
+  Widget zoneControls(){
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
-        width: 330,
+        width: 400,
         height: 400,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.red, width: 2),
@@ -130,27 +133,18 @@ class BoxSmasherMainMenuMode extends GruMinionMode {
           gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.black, Colors.blue, Colors.green],
+            colors: [Colors.black, Colors.brown, Colors.yellow],
           ),
         ),
-        child: Column(
+        child: const Column(
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(10.0),
-              child: Text(
-                "Dans ce jeu il faut appuyer le bouton A pour mettre les boites dans la maison. "
-                "\n\n Le gagnant est le premier à rentrer les 100 boites dans la maison. Bonne Chance.",
+              child: Text("Dans ce jeu il faut compter les insectes qui font partie d'un certain type. "
+                  "\n On bouge le JoyPad pour bouger la caméra et on appuie sur le bouton A et pour compter les insectes le bouton B sert à enlever 1 au compteur."
+                  "\n\n On gagne en donnant le bon nombre d'insecte. Bonne Chance.",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 10, left: 10),
-              child: AButton(onAButtonChanged: (isPressed) {
-                if (isPressed == null) {
-                  sendOthersTCP(
-                      'BoxSmasherMainMenu,ButtonA,${isPressed ? true : false}');
-                }
-              }),
             ),
           ],
         ),
@@ -163,24 +157,25 @@ class BoxSmasherMainMenuMode extends GruMinionMode {
       padding: const EdgeInsets.all(10.0),
       child: Container(
         width: 935,
-        height: 155,
+        height: 135,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.red, width: 2),
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.blue, Colors.green, Colors.brown],
+            colors: [Colors.black, Colors.brown, Colors.yellow],
           ),
         ),
         child: const Padding(
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.only(bottom: 5.0),
           child: Text(
-              "Vous devez aider Foxer pour déménager les boîtes. L'objectif est de pousser 100 boîtes dans la maison. Donc le premier à réussir à entrer 100 boîtes gagne."
-              " \n\n Ceci est le premier mini-jeu développer dans ce jeu",
+              "Vous êtes un exterminateur cahrgé de compte le nombre d'insecte à exterminer. Donc pour réussir votre travail voous devez obtenir le nombre exact."
+                  " \n\n Ceci est le deuxième mini-jeu développer dans ce jeu",
               style: TextStyle(color: Colors.white, fontSize: 20)),
         ),
       ),
     );
   }
+
 }
