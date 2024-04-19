@@ -146,5 +146,48 @@ class MainMenuMode extends GruMinionMode{
   String name() => 'Main Menu';
 
   @override
-  Widget screenWidget(BuildContext context) {return Container();}
+  Widget screenWidget(BuildContext context) {
+    return Stack(
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 320,
+              height: 650,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/skimaster/SkiMasterMainMenu.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              width: 320,
+              height: 650,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/boxsmasher/images/BoxSmasherMap.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              width: 320,
+              height: 650,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/bugcatcher/images/BugCatcherMap.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Container(
+          alignment: Alignment.center,
+          child: Text("Flame Mini-Games", style: const TextStyle(fontSize: 52, fontWeight: FontWeight.bold, fontFamily: 'CUBE')),
+        ),
+      ],
+    );
+  }
 }
