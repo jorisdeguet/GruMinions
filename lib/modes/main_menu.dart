@@ -132,7 +132,7 @@ class MainMenuMode extends GruMinionMode{
             Column(
               children: [
                 MaterialButton(onPressed: () {
-                  sendOthersTCP('Main Menu');
+                  sendOthersTCP('TheMenu');
                 }, child: const Text('Go Back to Main Menu')),
               ],
             ),
@@ -143,7 +143,7 @@ class MainMenuMode extends GruMinionMode{
   }
 
   @override
-  String name() => 'Main Menu';
+  String name() => 'TheMenu';
 
   @override
   Widget screenWidget(BuildContext context) {

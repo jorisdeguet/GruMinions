@@ -121,18 +121,25 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
   }
 
   Widget _buttonForMode(GruMinionMode e) {
-    return MaterialButton(
-        color: Colors.greenAccent,
-        onPressed: () {
-          changeMode(e.name());
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0),
-          child: Text(
-            e.name(),
-            style: const TextStyle(fontSize: 15),
-          ),
-        ));
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/${e.name()}.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: TextButton(
+          onPressed: () {
+            changeMode(e.name());
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0),
+            child: Text(
+              e.name(),
+              style: const TextStyle(fontSize: 15),
+            ),
+          )),
+    );
   }
 
   Widget _messagesList() {
