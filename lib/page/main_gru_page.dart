@@ -134,9 +134,22 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 0),
-            child: Text(
-              e.name(),
-              style: const TextStyle(fontSize: 15, color: Colors.black, backgroundColor: Color.fromRGBO(255, 255, 255, 0.5)),
+            child: Stack(
+              children: [
+                Text(e.name(),
+                    style: TextStyle(
+                      fontSize: 15,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 5
+                        ..color = Colors.white,)
+                ),
+                Text(e.name(),
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,)
+                ),
+              ],
             ),
           )),
     );

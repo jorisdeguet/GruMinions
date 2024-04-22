@@ -58,6 +58,18 @@ class GameOver extends StatelessWidget {
     );
   }
 
+  Widget numberofBugs(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 250,
+          child: Text("${game.numberOfBugsToFind} était là réponse.", style: const TextStyle(color: Colors.white, fontSize: 24)),
+        ),
+      ],
+    );
+  }
+
   Widget areYouCorrect(){
     if(game.count == game.numberOfBugsToFind){
       return const Row(
@@ -96,8 +108,8 @@ class GameOver extends StatelessWidget {
       child: Center(
         child: Container(
           padding: const EdgeInsets.all(10),
-          height: 250,
-          width: 350,
+          height: 350,
+          width: 450,
           decoration: const BoxDecoration(
             color: blackTextColor,
             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -110,6 +122,7 @@ class GameOver extends StatelessWidget {
                 entireWellDidYouDo(),
                 spaceBetweenWidgets(),
                 numberInAnswer(),
+                numberofBugs(),
                 spaceBetweenWidgets(),
                 areYouCorrect(),
                 spaceBetweenWidgets(),

@@ -5,8 +5,8 @@ import 'package:gru_minions/modes/base-mode.dart';
 
 import 'mainmenu/gru_main_menu_page.dart';
 
-class MainMenuMode extends GruMinionMode{
-  MainMenuMode({required super.sendOthersTCP,required super.sendOthersUDP});
+class MainMenuMode extends GruMinionMode {
+  MainMenuMode({required super.sendOthersTCP, required super.sendOthersUDP});
 
   @override
   Widget gruWidget() {
@@ -59,7 +59,8 @@ class MainMenuMode extends GruMinionMode{
                   height: 200,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/bugcatcher/images/BugCatcherMap.png'),
+                      image: AssetImage(
+                          'assets/bugcatcher/images/BugCatcherMap.png'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -74,17 +75,34 @@ class MainMenuMode extends GruMinionMode{
                     onPressed: () {
                       sendOthersTCP('BugCatcherMainMenu');
                     },
-                    child: const Text('BugCatcher', style: TextStyle(color: Colors.black, backgroundColor: Color.fromRGBO(255,255,255,0.5), fontSize: 24, fontWeight: FontWeight.bold)),
+                    child: Stack(
+                      children: [
+                        Text('BugCatcher',
+                            style: TextStyle(
+                              fontSize: 24,
+                              foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 5
+                                ..color = Colors.white,)
+                        ),
+                        const Text('BugCatcher',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24,)
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Container(
                   width: 200,
                   height: 200,
                   decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/boxsmasher/images/BoxSmasherMap.png'),
-                        fit: BoxFit.cover,
-                      ),
+                    image: DecorationImage(
+                      image: AssetImage(
+                          'assets/boxsmasher/images/BoxSmasherMap.png'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   child: TextButton(
                     style: ButtonStyle(
@@ -97,7 +115,23 @@ class MainMenuMode extends GruMinionMode{
                     onPressed: () {
                       sendOthersTCP('BoxSmasherMainMenu');
                     },
-                    child: const Text('BoxSmasher', style: TextStyle(color: Colors.black, backgroundColor: Color.fromRGBO(255,255,255,0.5), fontSize: 24, fontWeight: FontWeight.bold)),
+                    child:Stack(
+                      children: [
+                        Text('BoxSmasher',
+                            style: TextStyle(
+                              fontSize: 24,
+                              foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 5
+                                ..color = Colors.white,)
+                        ),
+                        const Text('BoxSmasher',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24,)
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -109,7 +143,8 @@ class MainMenuMode extends GruMinionMode{
                   height: 200,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/skimaster/SkiMasterMainMenu.png'),
+                      image: AssetImage(
+                          'assets/images/skimaster/SkiMasterMainMenu.png'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -124,16 +159,34 @@ class MainMenuMode extends GruMinionMode{
                     onPressed: () {
                       sendOthersTCP('SkiMasterMainMenu');
                     },
-                    child: const Text('SkiMaster', style: TextStyle(color: Colors.black, backgroundColor: Color.fromRGBO(255,255,255,0.5), fontSize: 24, fontWeight: FontWeight.bold)),
+                    child: Stack(
+                      children: [
+                        Text('SkiMaster',
+                            style: TextStyle(
+                                fontSize: 24,
+                              foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 5
+                                ..color = Colors.white,)
+                        ),
+                        const Text('SkiMaster',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24,)
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
             Column(
               children: [
-                MaterialButton(onPressed: () {
-                  sendOthersTCP('Main Menu');
-                }, child: const Text('Go Back to Main Menu')),
+                MaterialButton(
+                    onPressed: () {
+                      sendOthersTCP('Main Menu');
+                    },
+                    child: const Text('Go Back to Main Menu')),
               ],
             ),
           ],
@@ -156,7 +209,8 @@ class MainMenuMode extends GruMinionMode{
               height: 650,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/skimaster/SkiMasterMainMenu.png'),
+                  image: AssetImage(
+                      'assets/images/skimaster/SkiMasterMainMenu.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -166,7 +220,8 @@ class MainMenuMode extends GruMinionMode{
               height: 650,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/boxsmasher/images/BoxSmasherMap.png'),
+                  image:
+                      AssetImage('assets/boxsmasher/images/BoxSmasherMap.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -176,7 +231,8 @@ class MainMenuMode extends GruMinionMode{
               height: 650,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/bugcatcher/images/BugCatcherMap.png'),
+                  image:
+                      AssetImage('assets/bugcatcher/images/BugCatcherMap.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -185,7 +241,29 @@ class MainMenuMode extends GruMinionMode{
         ),
         Container(
           alignment: Alignment.center,
-          child: Text("Flame Mini-Games", style: const TextStyle(fontSize: 52, fontWeight: FontWeight.bold, fontFamily: 'CUBE')),
+          child: Stack(
+            children: [
+              Text(
+                "Flame Mini-Games",
+                style: TextStyle(
+                  fontSize: 52,
+                  fontWeight: FontWeight.bold,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 5
+                    ..color = Colors.white,
+                ),
+              ),
+              const Text(
+                "Flame Mini-Games",
+                style: TextStyle(
+                  fontSize: 52,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

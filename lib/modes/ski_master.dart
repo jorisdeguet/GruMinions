@@ -62,7 +62,7 @@ class SkiMaster extends GruMinionMode {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.black, Colors.green, Colors.white],
+            colors: [Colors.blue, Colors.white, Colors.red],
           ),
         ),
         child: Row(
