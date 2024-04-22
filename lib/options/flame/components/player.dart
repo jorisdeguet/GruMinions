@@ -201,9 +201,6 @@ class Player extends SpriteAnimationGroupComponent
       case Direction.up:
         isJumping = true;
         break;
-      case Direction.down:
-        isJumping = false;
-        break;
       case Direction.left:
         directionX = -1;
         break;
@@ -212,6 +209,7 @@ class Player extends SpriteAnimationGroupComponent
         break;
       case Direction.none:
         directionX = 0;
+        isJumping = false;
         break;
     }
 

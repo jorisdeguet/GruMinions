@@ -88,7 +88,7 @@ class JoyPadState extends State<JoyPad> {
   }
 
   void _doesNotJump() {
-    direction = Direction.down;
+    direction = Direction.none;
     widget.onDirectionChanged!(direction);
     //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(direction.toString())));
   }

@@ -83,8 +83,8 @@ class Menu extends StatelessWidget {
                   ),
                   game.friendName != null
                       ? SizedBox(
-                          width: 100,
-                          height: 100,
+                          width: 80,
+                          height: 80,
                           child: SpriteAnimationWidget.asset(
                             path:
                                 "Main Characters/${game.friendName}/Idle (32x32).png",
