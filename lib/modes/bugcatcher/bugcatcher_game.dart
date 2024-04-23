@@ -55,7 +55,7 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection, HasGameRef<Fl
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    resumeEngine();
+    pauseEngine();
     overlays.add(Instructions.iD);
     final map = await TiledComponent.load('BugCatcherScenario_1_1.tmx', Vector2.all(16));
     await loadObjects(map);
@@ -96,6 +96,7 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection, HasGameRef<Fl
     overlays.add(Instructions.iD);
     await resetObjects(_map);
     await randomBugAdd(_map);
+    pauseEngine();
   }
 
   @override

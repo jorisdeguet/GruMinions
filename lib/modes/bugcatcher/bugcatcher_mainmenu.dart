@@ -45,6 +45,8 @@ class BugCatcherMainMenuState extends State<BugCatcherMainMenuPage> {
                   children: [
                     FilledButton(
                       onPressed: (){
+                        widget.gameA.resumeEngine();
+                        widget.gameA.count = 0;
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) =>

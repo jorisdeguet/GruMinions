@@ -158,23 +158,6 @@ class BugCatcherMode extends GruMinionMode {
                       child: const Text('Player A', style: TextStyle(color: Colors.black)),
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(bottom: 65.0, right: 15.0),
-                  //   child: ElevatedButton(
-                  //     style: ElevatedButton.styleFrom(
-                  //       fixedSize: const Size(150, 50),
-                  //     ),
-                  //     onPressed: () {
-                  //       Navigator.of(context).push(
-                  //         MaterialPageRoute(
-                  //           builder: (_) =>
-                  //               ControllerBBugCatcherPage(send: sendToOthers),
-                  //         ),
-                  //       );
-                  //     },
-                  //     child: const Text('Controller B' , style: TextStyle(color: Colors.black)),
-                  //   ),
-                  // ),
                 ],
               ),
             ],

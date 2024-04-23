@@ -64,7 +64,11 @@ class GameOver extends StatelessWidget {
       children: [
         SizedBox(
           width: 250,
-          child: Text("${game.numberOfBugsToFind} était là réponse.", style: const TextStyle(color: Colors.white, fontSize: 24)),
+          child:
+          game.numberOfBugsToFind == game.count ?
+          Text("\n${game.numberOfBugsToFind} était la réponse.", style: const TextStyle(color: Colors.green, fontSize: 24))
+          :
+          Text("\n${game.numberOfBugsToFind} était la réponse.", style: const TextStyle(color: Colors.red, fontSize: 24)),
         ),
       ],
     );
@@ -95,11 +99,12 @@ class GameOver extends StatelessWidget {
   Widget gameOver(BuildContext context){
     const blackTextColor = Color.fromRGBO(0, 0, 0, 1);
     const whiteTextColor = Color.fromRGBO(255, 255, 255, 1);
-    game.pauseEngine();
 
     Future.delayed(const Duration(seconds: 5), () async {
       game.overlays.remove(GameOver.iD);
       game.resetGame();
+      game.pauseWhenBackgrounded = true;
+      game.pauseEngine();
       Navigator.of(context).pop();
     });
 
