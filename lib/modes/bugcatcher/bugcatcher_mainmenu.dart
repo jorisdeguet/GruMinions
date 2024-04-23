@@ -1,3 +1,4 @@
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:gru_minions/modes/bugcatcher/bugcatcher_game.dart';
 import 'package:gru_minions/modes/bugcatcher/bugcatcher_screen_page.dart';
@@ -47,6 +48,7 @@ class BugCatcherMainMenuState extends State<BugCatcherMainMenuPage> {
                       onPressed: (){
                         widget.gameA.resumeEngine();
                         widget.gameA.count = 0;
+                        FlameAudio.bgm.isPlaying ? null : FlameAudio.bgm.play('bugcatcher/bugcatcher_bgm.mp3');
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) =>

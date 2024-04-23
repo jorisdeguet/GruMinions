@@ -1,3 +1,4 @@
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -105,6 +106,7 @@ class GameOver extends StatelessWidget {
       game.resetGame();
       game.pauseWhenBackgrounded = true;
       game.pauseEngine();
+      FlameAudio.bgm.stop();
       Navigator.of(context).pop();
     });
 
