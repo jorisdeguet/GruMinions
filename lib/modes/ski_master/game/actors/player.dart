@@ -11,20 +11,12 @@ import '../../helpers/skimaster_direction.dart';
 import '../game.dart';
 import '../routes/gameplay.dart';
 
-//PositionComponent derives from component class and represent game obj with transformation data
-//to get reference to the root game objects in any of the downstream components we can add the HasGameRef
-// this will expose the game. getter
-//HasAncestor is similar to hasgameref mix in but isntead of looking for instance of gameplay upstream
-//it looks for a component of given type and expose it as a getter called ancestor
-//but unlike hasgame reference this can only be safley accsessed when the component is mounted to the component tree
 class Player extends PositionComponent
     with HasGameReference<SkiMasterGame>, HasAncestor<Gameplay>, HasTimeScale {
   Player({super.position, super.priority, required Sprite sprite})
       : _body = SpriteComponent(sprite: sprite, anchor: Anchor.center);
 
-  // finalSpriteComponent Can render sprite or ennemies lib/game/player.dart
   final SpriteComponent _body;
-  //unit vector that represent the position in which the player is moving at any given point
   final _moveDirection = Vector2(0, 1);
   double leftDirection = 0.0;
   double rightDirection = 0.0;
@@ -38,6 +30,9 @@ class Player extends PositionComponent
 
   var hAxis = 0.0;
   bool active = false;
+
+  bool hasShield = false;
+  SpriteComponent? skillSprite;
 
   Direction direction = Direction.none;
 
@@ -95,9 +90,24 @@ class Player extends PositionComponent
     }
   }
 
+  void useSkill(String itemName) {
+    switch (itemName) {
+      case 'Shield':
+        activateShield();
+        break;
+      case 'Speed':
+        consumeSpeedBoost();
+        break;
+      case 'Bullet':
+        startShooting();
+        break;
+    }
+    ancestor.hud.consumeItem();
+  }
+
   void resetTo(Vector2 resetPosition) {
     position.setFrom(resetPosition);
-    speed *= 0.5;
+    speed = 0;
   }
 
   double jump() {
@@ -105,7 +115,9 @@ class Player extends PositionComponent
       FlameAudio.play(SkiMasterGame.boostSfx);
     }
     final jumpFactor = speed / _maxSpeed;
-    speed = lerpDouble(speed, _maxSpeed * 1.2, 2)!;
+    if (speed < _maxSpeed + 40) {
+      speed = lerpDouble(speed, _maxSpeed * 1.3, 2)!;
+    }
     final jumpScale = lerpDouble(1, 1.2, jumpFactor)!;
     final jumpDuration = lerpDouble(0, 0.3, jumpFactor)!;
 
@@ -120,5 +132,46 @@ class Player extends PositionComponent
       ),
     );
     return jumpFactor;
+  }
+
+  void activateShield() {
+    if (!hasShield) {
+      hasShield = true;
+      if (skillSprite == null) {
+        skillSprite = SpriteComponent(
+            sprite: ancestor.hud.itemSpriteCache['Shield'],
+            size: _body.size,
+            anchor: Anchor.center,
+            position: Vector2.zero());
+        add(skillSprite!);
+        if (game.sfxValueNotifier.value) {
+          FlameAudio.play(SkiMasterGame.shieldSfx);
+        }
+      }
+    }
+  }
+
+  void deactivateShield() {
+    hasShield = false;
+    if (skillSprite != null) {
+      skillSprite?.removeFromParent();
+      skillSprite = null;
+    }
+  }
+
+  void consumeSpeedBoost() {
+    if (game.sfxValueNotifier.value) {
+      FlameAudio.play(SkiMasterGame.speedSfx);
+    }
+    speed *= 1.5;
+  }
+
+  void startShooting() {
+    if (!ancestor.bulletSpawner.timer.isRunning()) {
+      ancestor.bulletSpawner.timer.start();
+      Future.delayed(const Duration(seconds: 5), () {
+        ancestor.bulletSpawner.timer.stop();
+      });
+    }
   }
 }
