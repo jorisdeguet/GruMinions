@@ -19,7 +19,7 @@ class GruBoxSmasherPageState extends State<GruBoxSmasherPage> {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Text('Box Smasher Game Page', style: TextStyle(color: Colors.white, fontSize: 24)),
+              child: Text('Page du Jeu Box Smasher', style: TextStyle(color: Colors.white, fontSize: 24)),
             ),
           ],
         ));

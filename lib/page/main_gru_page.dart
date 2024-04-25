@@ -21,7 +21,7 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
 
   final List<String> _messages = [];
 
-  late final List<GruMinionMode> _modes = listOfModes(_sendTCP, _sendUDP);
+  late final List<GruMinionMode> _modes = listOfModes(_sendTCP, _sendUDP).where((element) => !element.name().contains('MainMenu')).toList();
   late GruMinionMode _currentMode;
 
   void changeMode(String m) {
@@ -45,6 +45,7 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
         _receiveUDP(message);
       });
     });
+
     changeMode(_modes[0].name());
     super.initState();
   }
@@ -75,6 +76,7 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
   }
 
   Expanded _gestionDesModes() {
+
     return Expanded(
       child: GridView.count(
         crossAxisCount: 3,
@@ -119,18 +121,38 @@ class _MainBossPageState extends BossBaseWidgetState<MainGruPage> {
   }
 
   Widget _buttonForMode(GruMinionMode e) {
-    return MaterialButton(
-        color: Colors.greenAccent,
-        onPressed: () {
-          changeMode(e.name());
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0),
-          child: Text(
-            e.name(),
-            style: const TextStyle(fontSize: 15),
-          ),
-        ));
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/${e.name()}.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: TextButton(
+          onPressed: () {
+            changeMode(e.name());
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0),
+            child: Stack(
+              children: [
+                Text(e.name(),
+                    style: TextStyle(
+                      fontSize: 15,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 5
+                        ..color = Colors.white,)
+                ),
+                Text(e.name(),
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,)
+                ),
+              ],
+            ),
+          )),
+    );
   }
 
   Widget _messagesList() {

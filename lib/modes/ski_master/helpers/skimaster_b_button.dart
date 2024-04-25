@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class AButton extends StatefulWidget {
+class BButton extends StatefulWidget {
 
-  final ValueChanged<bool>? onAButtonChanged;
+  final ValueChanged<bool>? onBButtonChanged;
 
-  const AButton({super.key, this.onAButtonChanged});
+  const BButton({super.key, this.onBButtonChanged});
 
   @override
-  AButtonState createState() => AButtonState();
+  BButtonState createState() => BButtonState();
 }
 
-class AButtonState extends State<AButton> {
+class BButtonState extends State<BButton> {
   bool isPressed = false;
 
   @override
@@ -32,7 +32,7 @@ class AButtonState extends State<AButton> {
             ),
             child: Center(
               child: Text(
-                'A',
+                'B',
                 style: TextStyle(
                   fontSize: 64,
                   color: isPressed ? const Color(0x88ffffff) : const Color(0x44ffffff),
@@ -49,14 +49,14 @@ class AButtonState extends State<AButton> {
     setState(() {
       isPressed = true;
     });
-    widget.onAButtonChanged?.call(true);
+    widget.onBButtonChanged?.call(true);
   }
 
   void _onTapUp(TapUpDetails details) {
     setState(() {
       isPressed = false;
     });
-    widget.onAButtonChanged?.call(false);
+    widget.onBButtonChanged?.call(false);
   }
 
 }

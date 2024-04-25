@@ -7,6 +7,7 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/timer.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,6 +30,7 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection, HasGameRef<Fl
   late CameraComponent _camera;
   late TiledComponent<FlameGame<World>> _map;
   late Timer interval;
+  late AudioPool pool;
   @override
   late World world = World();
   final TextPaint textPaint = TextPaint(
@@ -55,10 +57,17 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection, HasGameRef<Fl
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    resumeEngine();
+    pauseEngine();
     overlays.add(Instructions.iD);
     final map = await TiledComponent.load('BugCatcherScenario_1_1.tmx', Vector2.all(16));
     await loadObjects(map);
+
+    startBgmMusic();
+  }
+
+  void startBgmMusic(){
+    FlameAudio.bgm.initialize();
+    FlameAudio.bgm.play('bugcatcher/bugcatcher_bgm.mp3');
   }
 
   @override
@@ -96,6 +105,7 @@ class BugCatcherGame extends FlameGame with HasCollisionDetection, HasGameRef<Fl
     overlays.add(Instructions.iD);
     await resetObjects(_map);
     await randomBugAdd(_map);
+    pauseEngine();
   }
 
   @override
