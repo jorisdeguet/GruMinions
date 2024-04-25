@@ -35,6 +35,9 @@ class Bullet extends SpriteAnimationComponent
     super.update(dt);
     if (ancestor.bulletSpawner.timer.isRunning()) {
       position.y += dt * 500;
+      if (position.y > ancestor.player.y + 150) {
+        removeFromParent();
+      }
     } else {
       removeFromParent();
     }
