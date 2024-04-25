@@ -29,18 +29,32 @@ class SkiMaster extends GruMinionMode {
 
     List<String> parts = s.split(',');
     String controllerId = parts[0];
+    bool bBtnspressed = false;
 
-    if(parts.length >= 2){
-      if(parts[1].contains('Direction')){
-        Direction direction = Direction.values.firstWhere((e) => parts[1].contains(e.name));
+    if (parts.length >= 2) {
+      if (parts[1].contains('Direction')) {
+        Direction direction = Direction.values.firstWhere((e) =>
+            parts[1].contains(e.name));
         print("Handle message as Minion: $controllerId, $direction");
         if (controllerId == 'ControllerA') {
           print("Minion received controllerA $direction");
           _game.onJoyPad1DirectionChanged(direction);
         }
       }
+      else {
+        if (parts[2] == 'true') {
+          bBtnspressed = true;
+        }
+        if (parts[2] == 'false') {
+          bBtnspressed = false;
+        }
+        if (parts[1] == 'ButtonB') {
+          _game.onBButtonPressed(bBtnspressed);
+        }
+      }
     }
-  }
+    }
+
 
   @override
   void handleMessageAsScreen(String s) {}
@@ -92,7 +106,7 @@ class SkiMaster extends GruMinionMode {
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           'Dans ce jeu vous devez faire du ski pour arrivé à la fin des niveaux.\n\n '
-                              'Le Joy pad est utilisé pour déplacer le personnage. Le bouton A contrôle les pouvoirs du joueur.\n\n '
+                              'Le Joy pad est utilisé pour déplacer le personnage. Le bouton B contrôle les pouvoirs du joueur.\n\n '
                               'Bonne chance! Sélectionnez votre contrôleur pour démarrer le jeu.',
                           maxLines: 15,
                           style: TextStyle(

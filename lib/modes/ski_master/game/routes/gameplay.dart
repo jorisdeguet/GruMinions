@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/collisions.dart';
@@ -11,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../actors/avalanche.dart';
+import '../actors/bullet.dart';
+import '../actors/item_box.dart';
 import '../actors/player.dart';
 import '../actors/snowman.dart';
 import '../game.dart';
@@ -19,7 +22,6 @@ import '../hud.dart';
 
 
 class Gameplay extends Component with HasGameReference<SkiMasterGame> {
-  // onPausePressed is a optional parameter
   Gameplay(
       this.currentLevel, {
         super.key,
@@ -29,6 +31,9 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
       });
   static const id = 'Gameplay';
   static const _timeScaleRate = 1;
+  static const _bgmFadeRate = 1;
+  static const _bgmMinVol = 0;
+  static const _bgmMaxVol = 0.3;
 
   final int currentLevel;
   final VoidCallback onPausePressed;
@@ -50,6 +55,7 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
   late final RectangleComponent _fader;
   late final Hud hud;
   late final SpriteSheet _spriteSheet;
+  late final List<String> itemKeys;
   Avalanche? _avalanche;
 
   int _nSnowmanCollected = 0;
@@ -66,10 +72,15 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
   bool _levelStarted = false;
   bool _gameOver = false;
 
+  AudioPlayer? _bgmPlayer;
+  late final SpawnComponent bulletSpawner;
+
   @override
   Future<void> onLoad() async {
-    //loading assets is heavy since it loads everything in sync to have less lag you can override as async
-    //the map is a 16 by 16
+    if (game.musicValueNotifier.value) {
+      _bgmPlayer =
+      await FlameAudio.loopLongAudio(SkiMasterGame.gameBgm, volume: 0);
+    }
     final map = await TiledComponent.load(
       'Level$currentLevel.tmx',
       Vector2.all(16),
@@ -99,12 +110,16 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
       onPausePressed: onPausePressed,
     );
 
-    await _camera.viewport.addAll([_fader, hud, FpsTextComponent(
-    textRenderer: TextPaint(style: const TextStyle(color: Colors.red)))]);
+    await _camera.viewport.addAll([_fader, hud]);
     await _camera.viewfinder.add(_cameraShake);
     _cameraShake.pause();
-    hud.intervalCountdown.stop();
+    itemKeys = hud.itemSpriteCache.keys.toList();
     _hudCounterStart();
+  }
+
+  @override
+  void onRemove() {
+    _bgmPlayer?.dispose();
   }
 
   @override
@@ -144,6 +159,35 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
         }
       }
     }
+
+    if (_bgmPlayer != null) {
+      if (_levelCompleted) {
+        _volumeFadeIn(dt);
+      } else {
+        _volumeFadeOut(dt);
+      }
+    }
+  }
+
+  void _countdown() {
+    _cameraShake.pause();
+    hud.intervalCountdown.onTick = () {
+      if (hud.elapsedSecs > 0) {
+        // Play the countdown Sfx
+        if (game.sfxValueNotifier.value) {
+          FlameAudio.play(SkiMasterGame.timerSfx);
+        }
+      }
+      hud.elapsedSecs--;
+      if (hud.elapsedSecs <= 0) {
+        // Play the "GO!" Sfx
+        if (game.sfxValueNotifier.value) {
+          FlameAudio.play(SkiMasterGame.goSfx);
+        }
+        hud.intervalCountdown.stop();
+        hud.goDisplayTimer.start();
+      }
+    };
   }
 
   Future<void> _setupWorldAndCamera(TiledComponent map) async {
@@ -163,7 +207,6 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
   Future<void> _handleSpawnPoints(TiledComponent map) async {
     //we should get it from the cache since if we can see the tile mapit means the image is already loaded by flame
     //the image get automatically cached in the global image cache we can save ressources this way
-
     final spawnPointLayer = map.tileMap.getLayer<ObjectGroup>('SpawnPoint');
     final objects = spawnPointLayer?.objects;
 
@@ -177,7 +220,19 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
               position: Vector2(object.x, object.y),
               sprite: _spriteSheet.getSprite(5, 10),
             );
+            bulletSpawner = SpawnComponent(
+              period: .3,
+              selfPositioning: true,
+              factory: (index) {
+                if (game.sfxValueNotifier.value) {
+                  FlameAudio.play(SkiMasterGame.bulletSfx);
+                }
+                return Bullet(position: player.position);
+              },
+              autoStart: false,
+            );
             await _world.add(player);
+            await _world.add(bulletSpawner);
             _camera.follow(player);
             _lastSafePosition = Vector2(object.x, object.y);
             break;
@@ -195,6 +250,13 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
               position: Vector2(object.x + object.width / 2, object.y),
             );
             await _world.add(_avalanche!);
+            break;
+          case 'ItemBox':
+            final itemBox = ItemBox(
+              position: Vector2(object.x, object.y),
+              onCollected: () => _onItemBoxCollected(),
+            );
+            await _world.add(itemBox);
             break;
         }
       }
@@ -227,8 +289,16 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
               isSolid: true,
             );
 
-            hitbox.onCollisionStartCallback = (_, __) => _onTrailEnter();
-            hitbox.onCollisionEndCallback = (_) => _onTrailExit();
+            hitbox.onCollisionStartCallback = (_, PositionComponent other) {
+              if (other.parent is Player) {
+                _onTrailEnter();
+              }
+            };
+            hitbox.onCollisionEndCallback = (PositionComponent other) {
+              if (other.parent is Player) {
+                _onTrailExit();
+              }
+            };
             await map.add(hitbox);
             break;
           case 'Checkpoint':
@@ -237,8 +307,11 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
               size: Vector2(object.width, object.height),
               collisionType: CollisionType.passive,
             );
-            checkpoint.onCollisionStartCallback =
-                (_, __) => _onCheckpoint(checkpoint);
+            checkpoint.onCollisionStartCallback = (_, PositionComponent other) {
+              if (other.parent is Player) {
+                _onCheckpoint(checkpoint);
+              }
+            };
 
             await map.add(checkpoint);
             break;
@@ -248,7 +321,11 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
               size: Vector2(object.width, object.height),
               collisionType: CollisionType.passive,
             );
-            ramp.onCollisionStartCallback = (_, __) => onRamp();
+            ramp.onCollisionStartCallback = (_, PositionComponent other) {
+              if (other.parent is Player) {
+                onRamp();
+              }
+            };
 
             await map.add(ramp);
             break;
@@ -258,7 +335,11 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
               size: Vector2(object.width, object.height),
               collisionType: CollisionType.passive,
             );
-            trailStart.onCollisionStartCallback = (_, __) => _onTrailStart();
+            trailStart.onCollisionStartCallback = (_, PositionComponent other) {
+              if (other.parent is Player) {
+                _onTrailStart();
+              }
+            };
 
             await map.add(trailStart);
             break;
@@ -268,7 +349,11 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
               size: Vector2(object.width, object.height),
               collisionType: CollisionType.passive,
             );
-            trailEnd.onCollisionStartCallback = (_, __) => _onTrailEnd();
+            trailEnd.onCollisionStartCallback = (_, PositionComponent other) {
+              if (other.parent is Player) {
+                _onTrailEnd();
+              }
+            };
 
             await map.add(trailEnd);
             break;
@@ -328,9 +413,17 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
 
   void _onSnowmanCollected() {
     _nSnowmanCollected++;
-    hud.updateSnowmanCount(_nSnowmanCollected);
-    //Set the player speed to 50% of the max and acceleration to 0 and make them lerp back to their initial value
-    player.speed *= 0.5;
+    if (!player.hasShield) {
+      player.speed *= 0.5;
+    } else {
+      player.deactivateShield();
+    }
+  }
+
+  void _onItemBoxCollected() {
+    int randomIndex = Random().nextInt(itemKeys.length);
+    String randomItem = itemKeys[randomIndex];
+    hud.addItemToSlot(randomItem);
   }
 
   void resetPlayer() {
@@ -353,29 +446,24 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
     }
   }
 
-  void _countdown() {
-    _cameraShake.pause();
-    hud.intervalCountdown.onTick = () {
-      if (hud.elapsedSecs > 0) {
-        // Play the countdown sound effect for 3, 2, 1
-        if (game.sfxValueNotifier.value) {
-          FlameAudio.play(SkiMasterGame.timerSfx);
-        }
-      }
-      hud.elapsedSecs--;
-      if (hud.elapsedSecs <= 0) {
-        // Play the "GO!" sound effect
-        if (game.sfxValueNotifier.value) {
-          FlameAudio.play(SkiMasterGame.goSfx);
-        }
-        hud.intervalCountdown.stop();
-        hud.goDisplayTimer.start(); // Start the "GO!" display timer
-      }
-    };
-  }
-
   void _hudCounterStart() {
     hud.elapsedSecs = 3;
     hud.intervalCountdown.start();
+  }
+
+  void _volumeFadeOut(double dt) {
+    if (_bgmPlayer!.volume < _bgmMaxVol) {
+      _bgmPlayer!.setVolume(
+        lerpDouble(_bgmPlayer!.volume, _bgmMaxVol, _bgmFadeRate * dt)!,
+      );
+    }
+  }
+
+  void _volumeFadeIn(double dt) {
+    if (_bgmPlayer!.volume > _bgmMinVol) {
+      _bgmPlayer!.setVolume(
+        lerpDouble(_bgmPlayer!.volume, _bgmMinVol, _bgmFadeRate * dt)!,
+      );
+    }
   }
 }
