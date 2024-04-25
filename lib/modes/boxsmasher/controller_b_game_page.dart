@@ -25,7 +25,7 @@ class ControllerBBoxSmasherState extends State<ControllerBBoxSmasherPage> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 25.0),
                 child: FilledButton(
-                  child: const Text('Explanations'),
+                  child: const Text('Explications'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },

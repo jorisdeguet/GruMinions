@@ -57,19 +57,72 @@ class SkiMaster extends GruMinionMode {
       appBar: AppBar(
         title: const Text('Select Option'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ControllerAGamePage(sendTCP: sendOthersTCP),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.blue, Colors.white, Colors.red],
+          ),
+        ),
+        child: Row(
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Image.asset(
+                    'assets/images/skimaster/SkiMasterMainMenu.png',
+                    width: 525,
                   ),
-                );
-              },
-              child: const Text('Controller A'),
+                ),
+              ],
+            ),
+            const Spacer(),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    color: Colors.black,
+                    child: const SizedBox(
+                      width: 390,
+                      height: 300,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'Dans ce jeu vous devez faire du ski pour arrivé à la fin des niveaux.\n\n '
+                              'Le Joy pad est utilisé pour déplacer le personnage. Le bouton A contrôle les pouvoirs du joueur.\n\n '
+                              'Bonne chance! Sélectionnez votre contrôleur pour démarrer le jeu.',
+                          maxLines: 15,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15.0, bottom: 75.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(150, 50),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              ControllerAGamePage(sendUDP: sendOthersUDP,),
+                        ),
+                      );
+                    },
+                    child: const Text('Player A', style: TextStyle(color: Colors.black)),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

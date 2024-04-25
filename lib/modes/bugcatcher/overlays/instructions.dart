@@ -41,7 +41,7 @@ Widget theInstructions(BugCatcherGame game){
             ),
             const SizedBox(height: 40),
             const Text(
-              'Count this bug!',
+              'Counter cet Insecte!',
               style: TextStyle(
                 color: whiteTextColor,
                 fontSize: 16,
@@ -50,7 +50,7 @@ Widget theInstructions(BugCatcherGame game){
             Image.asset('assets/bugcatcher/flame/${game.numberTypeBugToFind}.png', width: 50, scale: 0.1,),
             const SizedBox(height: 40),
             const Text(
-              'Press A to start!',
+              'Appuyer sur A pour commencer!',
               style: TextStyle(
                 color: whiteTextColor,
                 fontSize: 16,

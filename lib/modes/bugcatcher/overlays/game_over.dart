@@ -1,3 +1,4 @@
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,7 +31,7 @@ class GameOver extends StatelessWidget {
   Widget howWellDidYouDoText(){
     return const Padding(
       padding: EdgeInsets.only(top: 23.0),
-      child: Text('How well did you do', style: TextStyle(color: Colors.white, fontSize: 24)),
+      child: Text('Combien avez-vous compté:', style: TextStyle(color: Colors.white, fontSize: 24)),
     );
   }
 
@@ -52,7 +53,23 @@ class GameOver extends StatelessWidget {
       children: [
         SizedBox(
           width: 250,
-          child: Text("${game.count} was your answer.", style: const TextStyle(color: Colors.white, fontSize: 24)),
+          child: Text("${game.count} était votre réponse.", style: const TextStyle(color: Colors.white, fontSize: 24)),
+        ),
+      ],
+    );
+  }
+
+  Widget numberofBugs(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 250,
+          child:
+          game.numberOfBugsToFind == game.count ?
+          Text("\n${game.numberOfBugsToFind} était la réponse.", style: const TextStyle(color: Colors.green, fontSize: 24))
+          :
+          Text("\n${game.numberOfBugsToFind} était la réponse.", style: const TextStyle(color: Colors.red, fontSize: 24)),
         ),
       ],
     );
@@ -63,14 +80,14 @@ class GameOver extends StatelessWidget {
       return const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('You are correct!', style: TextStyle(color: Colors.green, fontSize: 32)),
+          Text('Vous êtes Correct!', style: TextStyle(color: Colors.green, fontSize: 32)),
         ],
       );
     } else {
       return const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('You are incorrect!', style: TextStyle(color: Colors.red, fontSize: 32)),
+          Text('Vous êtes Incorrect!', style: TextStyle(color: Colors.red, fontSize: 32)),
         ],
       );
     }
@@ -83,11 +100,13 @@ class GameOver extends StatelessWidget {
   Widget gameOver(BuildContext context){
     const blackTextColor = Color.fromRGBO(0, 0, 0, 1);
     const whiteTextColor = Color.fromRGBO(255, 255, 255, 1);
-    game.pauseEngine();
 
     Future.delayed(const Duration(seconds: 5), () async {
       game.overlays.remove(GameOver.iD);
       game.resetGame();
+      game.pauseWhenBackgrounded = true;
+      game.pauseEngine();
+      FlameAudio.bgm.stop();
       Navigator.of(context).pop();
     });
 
@@ -96,8 +115,8 @@ class GameOver extends StatelessWidget {
       child: Center(
         child: Container(
           padding: const EdgeInsets.all(10),
-          height: 250,
-          width: 350,
+          height: 350,
+          width: 450,
           decoration: const BoxDecoration(
             color: blackTextColor,
             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -110,6 +129,7 @@ class GameOver extends StatelessWidget {
                 entireWellDidYouDo(),
                 spaceBetweenWidgets(),
                 numberInAnswer(),
+                numberofBugs(),
                 spaceBetweenWidgets(),
                 areYouCorrect(),
                 spaceBetweenWidgets(),

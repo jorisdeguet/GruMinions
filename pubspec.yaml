@@ -56,6 +56,7 @@ flutter:
     #- assets/piano/
     #- assets/halloween/
     - assets/flame/
+    - assets/images/
     - assets/boxsmasher/flame/
     - assets/boxsmasher/images/
     - assets/tiles/

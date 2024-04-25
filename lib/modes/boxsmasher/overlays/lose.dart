@@ -33,17 +33,17 @@ class Lose extends StatelessWidget{
           children: [
             const Padding(
               padding: EdgeInsets.only(top: 23.0),
-              child: Text('You Lose!', style: TextStyle(color: Colors.white, fontSize: 24)),
+              child: Text('Vous avez perdu.', style: TextStyle(color: Colors.white, fontSize: 24)),
             ),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(top: 23.0),
-              child: Text('You have scored ${game.score} points!', style: const TextStyle(color: Colors.white, fontSize: 24)),
+              child: Text('Vous avez fait ${game.score} points!', style: const TextStyle(color: Colors.white, fontSize: 24)),
             ),
             const SizedBox(height: 20),
             const Padding(
               padding: EdgeInsets.only(top: 23.0),
-              child: Text('Better luck next time!', style: TextStyle(color: Colors.white, fontSize: 24)),
+              child: Text('Meilleur chance la prochaine fois!', style: TextStyle(color: Colors.white, fontSize: 24)),
             ),
           ],
         ),
