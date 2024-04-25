@@ -16,15 +16,14 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
     required Sprite snowmanSprite,
     required this.player,
     this.onPausePressed,
-  })  : _player = SpriteComponent(
+  }) : _playerHudSprite = SpriteComponent(
     sprite: playerSprite,
     anchor: Anchor.center,
-  ),
-        _snowman = SpriteComponent(
-          sprite: snowmanSprite,
-          anchor: Anchor.center,
-        );
+  );
 
+//HudInfo
+  final SpriteComponent _playerHudSprite;
+  late final PositionComponent itemSlotContainer;
   final _life = TextComponent(
     text: 'x3',
     anchor: Anchor.centerLeft,
@@ -36,27 +35,21 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
     ),
   );
 
-  final _score = TextComponent(
-    text: 'x0',
-    anchor: Anchor.centerLeft,
-    textRenderer: TextPaint(
-      style: const TextStyle(
-        color: Colors.black,
-        fontSize: 10,
-      ),
-    ),
-  );
-
-  final SpriteComponent _player;
-  final SpriteComponent _snowman;
-
-  //late final JoystickComponent? _joystick;
-  final Player player;
-  final VoidCallback? onPausePressed;
-
+  //Timer
   late Timer intervalCountdown;
   int elapsedSecs = 3;
   late Timer goDisplayTimer;
+
+  //Controlls
+  late final JoystickComponent? _joystick;
+  late final HudButtonComponent skillButton;
+  final VoidCallback? onPausePressed;
+
+  //Getters
+  final Player player;
+  Map<String, Sprite> itemSpriteCache = {};
+  SpriteComponent? currentSpriteComponent;
+  late String currentSkillName;
 
 
   //TextPaint for the border (stroke)
@@ -80,6 +73,7 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
 
   @override
   Future<void> onLoad() async {
+    //Setup for the Timer
     goDisplayTimer = Timer(0.5, repeat: false);
     intervalCountdown = Timer(
       1,
@@ -87,36 +81,96 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
       repeat: true,
     );
 
-    _player.position.setValues(
+    _playerHudSprite.position.setValues(
       16,
       15,
     );
 
     _life.position.setValues(
-      _player.position.x + 8,
-      _player.position.y,
-    );
-
-    _snowman.position.setValues(
-      parent.virtualSize.x - 35,
-      _player.y,
-    );
-
-    _score.position.setValues(
-      _snowman.position.x + 8,
-      _snowman.position.y,
+      _playerHudSprite.position.x + 8,
+      _playerHudSprite.position.y,
     );
 
     //adding them as child of hud
-    await addAll([_player, _life,]);
+    await addAll([
+      _playerHudSprite,
+      _life,
+    ]);
 
+    //Adding items to the item list
+    itemSpriteCache['Shield'] = await Sprite.load('skimaster/Shield.png');
+    itemSpriteCache['Speed'] = await Sprite.load('skimaster/Can.png');
+    itemSpriteCache['Bullet'] = await Sprite.load('skimaster/Bullet.png');
+
+    await _setupItemSlot();
+    await _setupControlls();
+    intervalCountdown.stop();
+  }
+
+  Future<void> _setupItemSlot() async {
+    // Create a container component to hold both the fill and stroke components
+    itemSlotContainer = PositionComponent(
+      size: Vector2(30, 30),
+      anchor: Anchor.topRight,
+      position: Vector2(parent.virtualSize.x - 10, 10),
+    );
+
+    final itemSlotFill = RectangleComponent(
+      size: Vector2(30, 30),
+      paint: Paint()
+        ..color = Colors.black
+        ..style = PaintingStyle.fill,
+      priority: 0,
+    );
+    itemSlotContainer.add(itemSlotFill);
+
+    final itemSlotBorder = RectangleComponent(
+      size: Vector2(30, 30),
+      paint: Paint()
+        ..color = Colors.white
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+      priority: 1,
+    );
+    itemSlotContainer.add(itemSlotBorder);
+
+    await add(itemSlotContainer);
+  }
+
+  void addItemToSlot(String itemName) {
+    if (itemSpriteCache.containsKey(itemName) &&
+        currentSpriteComponent == null) {
+      // Create and add the new sprite component
+      final sprite = itemSpriteCache[itemName];
+      currentSpriteComponent = SpriteComponent(
+        sprite: sprite,
+        size: Vector2.all(16),
+      );
+
+      // Position the new sprite in the center of the item slot
+      currentSpriteComponent?.position = itemSlotContainer.size / 2;
+      currentSpriteComponent?.anchor = Anchor.center;
+      currentSkillName = itemName;
+
+      itemSlotContainer.add(currentSpriteComponent!);
+    }
+  }
+
+  void consumeItem() {
+    // Remove the current sprite component if it exists
+    currentSpriteComponent?.removeFromParent();
+    currentSpriteComponent = null;
+    currentSkillName = '';
+  }
+
+  Future<void> _setupControlls() async {
     final pauseButton = HudButtonComponent(
+      anchor: Anchor.bottomLeft,
+      position: Vector2(0, parent.virtualSize.y),
       button: SpriteComponent.fromImage(
         await game.images.load('skimaster/pause.png'),
         size: Vector2.all(12),
       ),
-      anchor: Anchor.bottomRight,
-      position: parent.virtualSize,
       onPressed: onPausePressed,
     );
     await add(pauseButton);
@@ -127,31 +181,10 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
     intervalCountdown.update(dt);
   }
 
-  void updateSnowmanCount(int count) {
-    _score.text = 'x$count';
-
-    _snowman.add(
-      RotateEffect.by(
-        pi / 8,
-        RepeatedEffectController(ZigzagEffectController(period: 0.2), 2),
-      ),
-    );
-
-    _score.add(
-      ScaleEffect.by(
-        Vector2.all(1.5),
-        EffectController(
-          duration: 0.1,
-          alternate: true,
-        ),
-      ),
-    );
-  }
-
   void updateLifeCount(int count) {
     _life.text = 'x$count';
 
-    _player.add(
+    _playerHudSprite.add(
       RotateEffect.by(
         pi / 8,
         RepeatedEffectController(ZigzagEffectController(period: 0.2), 2),
@@ -169,30 +202,54 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
     );
   }
 
+  //Count down
   @override
   void render(Canvas canvas) {
     if (intervalCountdown.isRunning() || goDisplayTimer.isRunning()) {
+      //TextPaint for the Timer border (stroke)
+      final TextPaint counterStrokeTextPaint = TextPaint(
+        style: TextStyle(
+          fontSize: 48.0,
+          foreground: Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 4
+            ..color = Colors.black,
+        ),
+      );
+
+      //TextPaint for the Timer main text
+      final TextPaint counterTextPaint = TextPaint(
+        style: const TextStyle(
+          fontSize: 48.0,
+          color: Colors.white,
+        ),
+      );
       final String displayText =
       elapsedSecs <= 0 ? 'GO!' : elapsedSecs.toString();
 
       // Center Text
-      final textSpan = TextSpan(text: displayText, style: textPaint.style);
-      final textPainter =
-      TextPainter(text: textSpan, textDirection: TextDirection.ltr);
+      final textSpan = TextSpan(
+        text: displayText,
+        style: counterTextPaint.style,
+      );
+      final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+      );
       textPainter.layout();
 
       final xPosition = (parent.virtualSize.x - textPainter.width) * 0.5;
       final yPosition = (parent.virtualSize.y * 0.5 - textPainter.height * 0.5);
 
-      // Stroke
-      strokeTextPaint.render(
+      // Render the stroke
+      counterStrokeTextPaint.render(
         canvas,
         displayText,
         Vector2(xPosition, yPosition),
       );
 
-      // Render
-      textPaint.render(
+      //Render the main text
+      counterTextPaint.render(
         canvas,
         displayText,
         Vector2(xPosition, yPosition),

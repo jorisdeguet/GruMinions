@@ -23,7 +23,7 @@ class LevelSelection extends StatelessWidget {
             Flexible(
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                  crossAxisCount: 2,
                   mainAxisExtent: 50,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
@@ -34,7 +34,7 @@ class LevelSelection extends StatelessWidget {
                     child: Text('Level ${index + 1}'),
                   );
                 },
-                itemCount: 6,
+                itemCount: 4,
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(horizontal: 100),
               ),

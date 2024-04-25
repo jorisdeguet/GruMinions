@@ -22,9 +22,13 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
   static const goSfx = 'skimaster/Go!.wav';
   static const deathSfx = 'skimaster/Death.wav';
   static const gameBgm = 'skimaster/8BitDNALoop.wav';
+  static const itemBox = 'skimaster/itemBox.wav';
+  static const shieldSfx = 'skimaster/Shield.wav';
+  static const speedSfx = 'skimaster/Speed.wav';
+  static const bulletSfx = 'skimaster/Bullet.wav';
 
-  final musicValueNotifier = ValueNotifier(false);
-  final sfxValueNotifier = ValueNotifier(false);
+  final musicValueNotifier = ValueNotifier(true);
+  final sfxValueNotifier = ValueNotifier(true);
 
   ValueNotifier<bool> showJoypadNotifier = ValueNotifier(false);
 
@@ -98,6 +102,10 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
         gameBgm,
         timerSfx,
         goSfx,
+        itemBox,
+        shieldSfx,
+        boostSfx,
+        bulletSfx,
       ],
     );
     await add(_router);
@@ -180,4 +188,14 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
       gameplay.player.direction = direction;
     }
   }
+
+  void onBButtonPressed(bool skillPressed){
+    final gameplay = findByKeyName<Gameplay>(Gameplay.id);
+    if (gameplay != null) {
+      if(skillPressed){
+        gameplay.player.useSkill(gameplay.hud.currentSkillName);
+      }
+    }
+  }
+
 }

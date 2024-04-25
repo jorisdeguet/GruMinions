@@ -8,7 +8,7 @@
  <tileset firstgid="1" name="tilemap_packed" tilewidth="16" tileheight="16" tilecount="132" columns="12" objectalignment="center">
   <image source="../images/skimaster/tilemap_packed.png" width="192" height="176"/>
  </tileset>
- <tileset firstgid="133" source="boost_ramp.tsx"/>
+ <tileset firstgid="133" source="../images/skimaster/boost_ramp.tsx"/>
  <tileset firstgid="135" name="avalanche" tilewidth="3840" tileheight="128" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
@@ -472,7 +472,7 @@
 </data>
  </layer>
  <objectgroup id="3" name="SpawnPoint">
-  <object id="1" name="Player Start" type="Player" x="240" y="448">
+  <object id="1" name="Player Start" type="Player" x="240" y="464">
    <point/>
   </object>
   <object id="100" type="Snowman" gid="70" x="296" y="744" width="16" height="16"/>

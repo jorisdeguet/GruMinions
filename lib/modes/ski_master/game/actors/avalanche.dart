@@ -62,6 +62,11 @@ class Avalanche extends PositionComponent
   }
 
   void _kill() {
-    ancestor.resetPlayer();
+    if (ancestor.player.hasShield) {
+      ancestor.player.deactivateShield();
+      ancestor.player.speed *= 5;
+    } else {
+      ancestor.resetPlayer();
+    }
   }
 }
