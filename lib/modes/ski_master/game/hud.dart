@@ -168,7 +168,7 @@ class Hud extends PositionComponent with ParentIsA<Viewport>, HasGameReference {
       anchor: Anchor.bottomLeft,
       position: Vector2(0, parent.virtualSize.y),
       button: SpriteComponent.fromImage(
-        await game.images.load('pause.png'),
+        await game.images.load('skimaster/pause.png'),
         size: Vector2.all(12),
       ),
       onPressed: onPausePressed,

@@ -27,8 +27,8 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
   static const speedSfx = 'skimaster/Speed.wav';
   static const bulletSfx = 'skimaster/Bullet.wav';
 
-  final musicValueNotifier = ValueNotifier(false);
-  final sfxValueNotifier = ValueNotifier(false);
+  final musicValueNotifier = ValueNotifier(true);
+  final sfxValueNotifier = ValueNotifier(true);
 
   ValueNotifier<bool> showJoypadNotifier = ValueNotifier(false);
 
@@ -186,6 +186,15 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
     if (gameplay != null) {
       print("Gameplay is not null $gameplay");
       gameplay.player.direction = direction;
+    }
+  }
+
+  void onBButtonPressed(bool skillPressed){
+    final gameplay = findByKeyName<Gameplay>(Gameplay.id);
+    if (gameplay != null) {
+      if(skillPressed){
+        gameplay.player.useSkill(gameplay.hud.currentSkillName);
+      }
     }
   }
 

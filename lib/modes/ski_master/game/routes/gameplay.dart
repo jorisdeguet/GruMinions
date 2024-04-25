@@ -113,6 +113,7 @@ class Gameplay extends Component with HasGameReference<SkiMasterGame> {
     await _camera.viewport.addAll([_fader, hud]);
     await _camera.viewfinder.add(_cameraShake);
     _cameraShake.pause();
+    itemKeys = hud.itemSpriteCache.keys.toList();
     _hudCounterStart();
   }
 

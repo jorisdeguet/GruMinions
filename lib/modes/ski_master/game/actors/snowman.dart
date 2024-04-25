@@ -11,6 +11,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:gru_minions/modes/ski_master/game/actors/player.dart';
 
 import '../game.dart';
+import 'bullet.dart';
 
 // ignore: camel_case_types
 class Snowman extends PositionComponent
@@ -51,6 +52,10 @@ class Snowman extends PositionComponent
     super.onCollisionStart(intersectionPoints, other);
 
     if (other is Player) {
+      _collect();
+      onCollected?.call();
+    }
+    if (other is Bullet) {
       _collect();
     }
   }
@@ -94,6 +99,5 @@ class Snowman extends PositionComponent
         ),
       ),
     );
-    onCollected?.call();
   }
 }

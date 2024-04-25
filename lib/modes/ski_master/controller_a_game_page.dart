@@ -59,14 +59,14 @@ class ControllerAGameState extends State<ControllerAGamePage> {
                       padding: const EdgeInsets.only(right: 0.0, top: 50.0, bottom: 50.0, left: 50.0),
                       child:
                       AButton(onAButtonChanged: (isPressed) {
-                        widget.sendUDP('ControllerA,ButtonA,${isPressed ? true : false}');
+                        widget.sendTCP('ControllerA,ButtonA,${isPressed ? true : false}');
                       }),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(50.0),
                       child:
                       BButton(onBButtonChanged: (isPressed) {
-                        widget.sendUDP('ControllerA,ButtonB,${isPressed ? true : false}');
+                        widget.sendTCP('ControllerA,ButtonB,${isPressed ? true : false}');
                       }),
                     ),
                   ],
