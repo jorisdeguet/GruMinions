@@ -115,7 +115,7 @@ class SkiMaster extends GruMinionMode {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) =>
-                              ControllerAGamePage(sendUDP: sendOthersUDP,),
+                              ControllerAGamePage(sendTCP: sendOthersTCP,),
                         ),
                       );
                     },
