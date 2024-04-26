@@ -153,7 +153,11 @@ class SkiMasterGame extends FlameGame with HasCollisionDetection {
   void _startNextLevel() {
     final gameplay = findByKeyName<Gameplay>(Gameplay.id);
     if (gameplay != null) {
-      _startLevel(gameplay.currentLevel + 1);
+      if (gameplay.currentLevel == 4) {
+        _exitToMainMenu();
+      } else {
+        _startLevel(gameplay.currentLevel + 1);
+      }
     }
   }
 
